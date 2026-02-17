@@ -1,0 +1,99 @@
+# TrigMem Examples - Démonstrations Travaillées
+
+> **Invocable par** : `/trigmem-examples`
+> **Type** : Working Examples
+> **Déclenchement** : Automatique (quand pertinent)
+
+---
+
+## 🎯 OBJECTIF
+
+Ce skill démontre comment TrigMem s'applique en pratique avec des exemples concrets du système actuel.
+
+---
+
+## 📋 EXEMPLE 1 : IDENTITÉ PROJET
+
+**Scénario** : Vous créez un nouveau projet e-commerce
+
+**Avant TrigMem** :
+```
+# Pas de critères claires
+# CLAUDE.md mélange tout
+# Règles sporadiques
+```
+
+**Après TrigMem** :
+```
+# CLAUDE.md structuré
+# Skill `/trigmem-categories` identifie automatiquement :
+  - Catégorie 1 : Identité Projet ✅
+  - Stocke dans `.claude/rules/project-specific/identity.md`
+```
+
+---
+
+## 📋 EXEMPLE 2 : STRUCTURE CODEBASE
+
+**Scénario** : Vous déplacez les composants
+
+**Avant TrigMem** :
+- Règles éparses, pas cohérentes
+
+**Après TrigMem** :
+```
+# Skill `/trigmem-categories` détecte :
+  - Catégorie 2 : Structure Codebase ✅
+  - Crée `rules/project-specific/codebase/structure.md`
+  - Stocke : src/app/, src/components/, src/lib/
+```
+
+---
+
+## 📋 EXEMPLE 3 : WORKFLOWS OPÉRATIONNELS
+
+**Scénario** : Scripts de déploiement
+
+**Avant TrigMem** :
+- Scripts éparés, pas documentés
+
+**Après TrigMem** :
+```
+# Skill `/trigmem-categories` détecte :
+  - Catégorie 3 : Commandes Opérationnelles ✅
+  - Crée `commands/deploy-staging.command`
+  - Stocke : scripts détaillés étape par étape
+```
+
+---
+
+## 🎯 RÉSUMÉ
+
+Ces exemples démontrent :
+1. **Auto-classification** du contenu
+2. **Structuration** automatique des règles
+3. **Séparation** universel/projet
+4. **Documentation** améliorée
+
+---
+
+## 🔧 UTILISATION
+
+Pour tester ces améliorations :
+
+1. Posez une question sur votre projet
+2. Vérifiez que le skill `/trigmem-categories` s'active
+3. Vérifiez que la règle correspondante est créée
+
+Exemple :
+```
+Vous: "J'ai créé un nouveau composant"
+Skill détecte: Catégorie 4 (Patterns Réutilisables)
+Crée: `.claude/rules/project-specific/components/`
+```
+
+---
+
+## 🎯 PROCHAIN
+
+Continuez avec `/trigmem-storage` pour une maîtrise complète !

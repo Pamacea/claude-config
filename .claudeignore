@@ -1,0 +1,41 @@
+# Exclure node_modules du contexte Claude Code
+**/node_modules/**
+**/node_modules/**/*.md
+**/node_modules/**/*.json
+
+# Exclure les fichiers de lock
+**/package-lock.json
+**/yarn.lock
+**/bun.lock
+**/pnpm-lock.yaml
+
+# Exclure les build outputs
+**/dist/**
+**/build/**
+**/.next/**
+**/out/**
+**/target/**  # Rust
+**/bin/**
+**/obj/**    # C#
+
+# Exclure les logs
+**/logs/**
+**/*.log
+
+# Exclure les fichiers temporaires
+**/.temp/**
+**/tmp/**
+**/.cache/**
+
+# Exclure les coverage reports
+**/coverage/**
+**/*.lcov
+
+# Exclure .git
+.git/**
+
+# Exclure les IDE
+.vscode/**
+.idea/**
+*.swp
+*.swo
