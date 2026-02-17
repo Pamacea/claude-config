@@ -1,0 +1,577 @@
+# Rust + Axum Patterns & Best Practices
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "Axum handler", "sqlx query", "Tower middleware", "rust extractor"
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# New project
+cargo new my-api --name my_api
+cd my-api
+
+# Add dependencies
+cargo add axum tokio tokio-util
+cargo add serde --features derive
+cargo add tower --features full
+cargo add tower-http --features cors,fs
+
+# Run
+cargo run
+```
+
+### Cargo.toml Base
+
+```toml
+[package]
+name = "my-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.8"
+tokio = { version = "1.40", features = ["full"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "fs", "trace"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres"] }
+anyhow = "1.0"
+thiserror = "2.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+```
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── main.rs                 # Entry point, router setup
+├── lib.rs                  # Library exports
+│
+├── api/                    # HTTP layer
+│   ├── mod.rs
+│   ├── routes.rs           # Route definitions
+│   ├── handlers/           # Request handlers
+│   │   ├── mod.rs
+│   │   ├── posts.rs
+│   │   └── users.rs
+│   ├── middleware/         # Custom middleware
+│   │   ├── mod.rs
+│   │   └── auth.rs
+│   └── dto/                # Data Transfer Objects
+│       ├── mod.rs
+│       └── posts.rs
+│
+├── domain/                 # Business logic
+│   ├── mod.rs
+│   ├── entities/           # Domain entities
+│   │   ├── mod.rs
+│   │   ├── post.rs
+│   │   └── user.rs
+│   ├── services/           # Business logic
+│   │   ├── mod.rs
+│   │   └── post_service.rs
+│   └── repositories/       # Repository traits
+│       ├── mod.rs
+│       └── post_repository.rs
+│
+├── infrastructure/         # External concerns
+│   ├── mod.rs
+│   ├── database/           # DB implementation
+│   │   ├── mod.rs
+│   │   ├── connection.rs
+│   │   └── repositories/   # Repository implementations
+│   │       └── post_repository.rs
+│   └── config/             # Configuration
+│       ├── mod.rs
+│       └── settings.rs
+│
+└── error.rs                # Error types
+```
+
+---
+
+## 🎯 Main Entry Point
+
+```rust
+// src/main.rs
+use axum::{Router, routing::get};
+use tower_http::cors::CorsLayer;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
+mod api;
+mod domain;
+mod infrastructure;
+mod error;
+
+use api::routes::create_router;
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    // Initialize tracing
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env()
+                .unwrap_or_else(|_| "my_api=debug,tower_http=debug,axum=trace".into()),
+        )
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
+    // Build our application with routes
+    let app = create_router().layer(CorsLayer::permissive());
+
+    // Run it
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
+    tracing::info!("Listening on {}", listener.local_addr()?);
+    axum::serve(listener, app).await?;
+
+    Ok(())
+}
+```
+
+---
+
+## 🛣️ Router Setup
+
+```rust
+// src/api/routes.rs
+use axum::{Router, routing::{get, post, put, delete}};
+use crate::api::handlers::{posts, users};
+
+pub fn create_router() -> Router {
+    Router::new()
+        .route("/health", get(health_check))
+        .nest("/api/posts", posts_routes())
+        .nest("/api/users", users_routes())
+}
+
+fn posts_routes() -> Router {
+    Router::new()
+        .route("/", get(posts::list).post(posts::create))
+        .route("/:id", get(posts::get).put(posts::update).delete(posts::delete))
+}
+
+fn users_routes() -> Router {
+    Router::new()
+        .route("/me", get(users::me))
+        .route("/login", post(users::login))
+}
+
+async fn health_check() -> &'static str {
+    "OK"
+}
+```
+
+---
+
+## 📦 Handlers & Extractors
+
+### Path & Query Parameters
+
+```rust
+use axum::{
+    extract::{Path, Query, State},
+    Json,
+};
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize)]
+struct ListQuery {
+    page: Option<u32>,
+    limit: Option<u32>,
+}
+
+#[derive(Serialize)]
+struct PostResponse {
+    id: i32,
+    title: String,
+}
+
+pub async fn list(
+    Query(query): Query<ListQuery>,
+    State(db): State<PgPool>,
+) -> Result<Json<Vec<PostResponse>>, AppError> {
+    let page = query.page.unwrap_or(1);
+    let limit = query.limit.unwrap_or(10);
+
+    let posts = sqlx::query_as!(
+        PostResponse,
+        "SELECT id, title FROM posts ORDER BY id LIMIT $1 OFFSET $2",
+        limit,
+        (page - 1) * limit
+    )
+    .fetch_all(&db)
+    .await?;
+
+    Ok(Json(posts))
+}
+
+pub async fn get(
+    Path(id): Path<i32>,
+    State(db): State<PgPool>,
+) -> Result<Json<PostResponse>, AppError> {
+    let post = sqlx::query_as!(
+        PostResponse,
+        "SELECT id, title FROM posts WHERE id = $1",
+        id
+    )
+    .fetch_optional(&db)
+    .await?
+    .ok_or_else(|| AppError::NotFound)?;
+
+    Ok(Json(post))
+}
+```
+
+### JSON Body
+
+```rust
+#[derive(Deserialize)]
+struct CreatePost {
+    title: String,
+    content: String,
+}
+
+pub async fn create(
+    State(db): State<PgPool>,
+    Json(input): Json<CreatePost>,
+) -> Result<Json<PostResponse>, AppError> {
+    let post = sqlx::query_as!(
+        PostResponse,
+        "INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING id, title",
+        input.title,
+        input.content
+    )
+    .fetch_one(&db)
+    .await?;
+
+    Ok(Json(post))
+}
+```
+
+---
+
+## 🔐 Authentication Patterns
+
+### JWT Middleware
+
+```rust
+// src/api/middleware/auth.rs
+use axum::{
+    extract::{Request, State},
+    http::HeaderMap,
+    middleware::Next,
+    TypedHeader,
+};
+use headers::{authorization::Bearer, Authorization};
+use jsonwebtoken::{decode, Validation, DecodingKey};
+
+#[derive(Clone)]
+pub struct AuthContext {
+    pub user_id: i32,
+}
+
+pub async fn auth_middleware(
+    TypedHeader(auth): TypedHeader<Authorization<Bearer>>,
+    mut request: Request,
+    next: Next,
+) -> Result<impl axum::response::IntoResponse, AppError> {
+    let token = auth.token();
+
+    let claims = decode::<Claims>(
+        token,
+        &DecodingKey::from_secret(std::env::var("JWT_SECRET")?.as_ref()),
+        &Validation::default()
+    )?;
+
+    request.extensions_mut().insert(AuthContext {
+        user_id: claims.sub.parse()?,
+    });
+
+    Ok(next.run(request).await)
+}
+
+// Extract user_id in handler
+use axum::extract::Extension;
+
+pub async fn me(
+    Extension(auth): Extension<AuthContext>,
+) -> Result<Json<UserResponse>, AppError> {
+    let user = get_user(auth.user_id).await?;
+    Ok(Json(user))
+}
+```
+
+---
+
+## 🗄️ Database with SQLx
+
+### Connection Pool
+
+```rust
+// src/infrastructure/database/connection.rs
+use sqlx::{PgPool, postgres::PgPoolOptions};
+use anyhow::Result;
+
+pub async fn create_pool() -> Result<PgPool> {
+    let database_url = std::env::var("DATABASE_URL")?;
+
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&database_url)
+        .await?;
+
+    Ok(pool)
+}
+
+// Run migrations
+pub async fn run_migrations(pool: &PgPool) -> Result<()> {
+    sqlx::migrate!("./migrations").run(pool).await?;
+    Ok(())
+}
+```
+
+### Repository Pattern
+
+```rust
+// src/domain/repositories/post_repository.rs
+use async_trait::async_trait;
+use crate::domain::entities::Post;
+use anyhow::Result;
+
+#[async_trait]
+pub trait PostRepository: Send + Sync {
+    async fn find_all(&self) -> Result<Vec<Post>>;
+    async fn find_by_id(&self, id: i32) -> Result<Option<Post>>;
+    async fn create(&self, post: &Post) -> Result<Post>;
+    async fn update(&self, post: &Post) -> Result<Post>;
+    async fn delete(&self, id: i32) -> Result<()>;
+}
+
+// src/infrastructure/database/repositories/post_repository.rs
+use sqlx::PgPool;
+use crate::domain::repositories::PostRepository;
+use crate::domain::entities::Post;
+
+pub struct SqlPostRepository {
+    pool: PgPool,
+}
+
+impl SqlPostRepository {
+    pub fn new(pool: PgPool) -> Self {
+        Self { pool }
+    }
+}
+
+#[async_trait]
+impl PostRepository for SqlPostRepository {
+    async fn find_all(&self) -> Result<Vec<Post>> {
+        let posts = sqlx::query_as!(
+            Post,
+            "SELECT id, title, content, created_at FROM posts ORDER BY id"
+        )
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(posts)
+    }
+
+    async fn find_by_id(&self, id: i32) -> Result<Option<Post>> {
+        let post = sqlx::query_as!(
+            Post,
+            "SELECT id, title, content, created_at FROM posts WHERE id = $1",
+            id
+        )
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(post)
+    }
+
+    async fn create(&self, post: &Post) -> Result<Post> {
+        let post = sqlx::query_as!(
+            Post,
+            "INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING *",
+            post.title,
+            post.content
+        )
+        .fetch_one(&self.pool)
+        .await?;
+        Ok(post)
+    }
+
+    async fn update(&self, post: &Post) -> Result<Post> {
+        let post = sqlx::query_as!(
+            Post,
+            "UPDATE posts SET title = $1, content = $2 WHERE id = $3 RETURNING *",
+            post.title,
+            post.content,
+            post.id
+        )
+        .fetch_one(&self.pool)
+        .await?;
+        Ok(post)
+    }
+
+    async fn delete(&self, id: i32) -> Result<()> {
+        sqlx::query!("DELETE FROM posts WHERE id = $1", id)
+            .execute(&self.pool)
+            .await?;
+        Ok(())
+    }
+}
+```
+
+---
+
+## ❌ Error Handling
+
+### Custom Error Type
+
+```rust
+// src/error.rs
+use axum::{
+    http::StatusCode,
+    response::{IntoResponse, Response},
+    Json,
+};
+use serde_json::json;
+
+#[derive(Debug)]
+pub enum AppError {
+    NotFound,
+    Unauthorized,
+    ValidationError(String),
+    Internal(anyhow::Error),
+}
+
+impl IntoResponse for AppError {
+    fn into_response(self) -> Response {
+        let (status, message) = match self {
+            AppError::NotFound => (StatusCode::NOT_FOUND, "Resource not found"),
+            AppError::Unauthorized => (StatusCode::UNAUTHORIZED, "Unauthorized"),
+            AppError::ValidationError(msg) => (StatusCode::BAD_REQUEST, msg.as_str()),
+            AppError::Internal(err) => {
+                tracing::error!("Internal error: {:?}", err);
+                (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error")
+            }
+        };
+
+        let body = json!({ "error": message });
+        (status, Json(body)).into_response()
+    }
+}
+
+impl From<anyhow::Error> for AppError {
+    fn from(err: anyhow::Error) -> Self {
+        AppError::Internal(err)
+    }
+}
+
+impl From<sqlx::Error> for AppError {
+    fn from(err: sqlx::Error) -> Self {
+        AppError::Internal(err.into())
+    }
+}
+```
+
+---
+
+## 🚀 WebSockets with axum
+
+```rust
+use axum::{
+    extract::{
+        ws::{WebSocket, WebSocketUpgrade},
+        State,
+    },
+    response::IntoResponse,
+};
+
+pub async fn websocket_handler(
+    ws: WebSocketUpgrade,
+    State(state): State<AppState>,
+) -> impl IntoResponse {
+    ws.on_upgrade(|socket| handle_socket(socket, state))
+}
+
+async fn handle_socket(mut socket: WebSocket, state: AppState) {
+    while let Some(msg) = socket.recv().await {
+        match msg {
+            Ok(axum::extract::ws::Message::Text(text)) => {
+                // Handle message
+                socket.send(axum::extract::ws::Message::Text(text)).await;
+            }
+            Ok(axum::extract::ws::Message::Close(_)) => break,
+            Err(e) => {
+                tracing::error!("WebSocket error: {:?}", e);
+                break;
+            }
+            _ => {}
+        }
+    }
+}
+```
+
+---
+
+## 🎯 Best Practices Checklist
+
+- [ ] Use `sqlx::query_as!` for compile-time checked queries
+- [ ] Use anyhow for errors, thiserror for library errors
+- [ ] Use tracing for logging (not println!)
+- [ ] Use Tower middleware for cross-cutting concerns
+- [ ] Use async trait with `#[async_trait]`
+- [ ] Use `?` operator for error propagation
+- [ ] Use `Arc<T>` for shared state
+- [ ] Use `#[derive(Debug)]` for types used in errors
+- [ ] Use `tokio::spawn!` for concurrent tasks
+- [ ] Use `tokio::select!` for multiple async operations
+
+---
+
+## 📚 Common Patterns
+
+### Concurrent Requests
+
+```rust
+use tokio::try_join;
+
+pub async fn get_dashboard_data(user_id: i32) -> Result<DashboardData> {
+    let (posts, comments, user) = try_join!(
+        get_posts(user_id),
+        get_comments(user_id),
+        get_user(user_id)
+    )?;
+
+    Ok(DashboardData { posts, comments, user })
+}
+```
+
+### Background Task
+
+```rust
+pub async fn create_post_with_notification(
+    State(db): State<PgPool>,
+    State(notifier): State<Notifier>,
+    Json(input): Json<CreatePost>,
+) -> Result<Json<PostResponse>, AppError> {
+    let post = create_post_internal(&db, input).await?;
+
+    // Spawn background task
+    tokio::spawn(async move {
+        if let Err(e) = notifier.send_post_created(&post).await {
+            tracing::error!("Failed to send notification: {:?}", e);
+        }
+    });
+
+    Ok(Json(post))
+}
+```
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4*

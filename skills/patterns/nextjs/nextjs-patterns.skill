@@ -1,0 +1,573 @@
+# Next.js 16 Patterns & Best Practices
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "Server Action", "App Router", "RSC", "revalidateTag", "use cache"
+
+---
+
+## 🚀 Quick Start
+
+```bash
+npx create-next-app@latest my-app --typescript --tailwind --eslint
+cd my-app
+npm run dev
+```
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                      # App Router (routing only)
+│   ├── (auth)/              # Route groups (no URL segment)
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   ├── (dashboard)/
+│   ├── api/                 # API routes (webhooks only)
+│   │   └── webhooks/
+│   │       └── stripe/
+│   │           └── route.ts
+│   ├── layout.tsx           # Root layout
+│   ├── page.tsx             # Home page
+│   ├── loading.tsx          # Global loading
+│   └── error.tsx            # Global error
+│
+├── features/                # Business logic
+│   └── [feature]/
+│       ├── components/
+│       ├── hooks/
+│       ├── actions/         # Server actions
+│       └── types.ts
+│
+└── ui/                      # Presentational components
+    └── atoms/
+```
+
+---
+
+## 🎯 Server vs Client Components
+
+### Default: Server Component
+
+```typescript
+// ✅ GOOD - Server Component (default)
+import { db } from '@/lib/db'
+
+export default async function PostsPage() {
+  const posts = await db.post.findMany()
+  return <PostList posts={posts} />
+}
+```
+
+**Use for:**
+- ✅ Data fetching
+- ✅ Direct database access
+- ✅ Keeping secrets safe
+- ✅ Reducing client JS
+
+### Client Component with 'use client'
+
+```typescript
+// ✅ GOOD - Client Component
+'use client'
+
+import { useState } from 'react'
+
+export function Counter() {
+  const [count, setCount] = useState(0)
+  return <button onClick={() => setCount(c => c + 1)}>{count}</button>
+}
+```
+
+**Use for:**
+- ✅ Hooks (useState, useEffect, etc.)
+- ✅ Event handlers
+- ✅ Browser APIs
+- ✅ Interactive UI
+
+### Pattern: Server Parent, Client Child
+
+```typescript
+// Server Component
+import { Counter } from '@/ui/atoms/counter'
+
+export default async function Page() {
+  const initialCount = await getInitialCount()
+  return <Counter initialCount={initialCount} />
+}
+
+// Client Component
+'use client'
+export function Counter({ initialCount }: { initialCount: number }) {
+  const [count, setCount] = useState(initialCount)
+  // ...
+}
+```
+
+---
+
+## 🔥 Server Actions (Next.js 16)
+
+### Basic Server Action
+
+```typescript
+// features/posts/actions/create-post.ts
+'use server'
+
+import { z } from 'zod'
+import { db } from '@/lib/db'
+import { revalidateTag } from 'next/cache'
+
+const schema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(1),
+})
+
+export async function createPost(formData: FormData) {
+  const data = schema.parse({
+    title: formData.get('title'),
+    content: formData.get('content'),
+  })
+
+  const post = await db.post.create({ data })
+
+  // Revalidate cache
+  revalidateTag('posts')
+  // OR revalidate path
+  // revalidatePath('/posts')
+
+  return post
+}
+```
+
+### Server Action with TypeScript
+
+```typescript
+'use server'
+
+import { revalidateTag } from 'next/cache'
+
+type CreatePostInput = {
+  title: string
+  content: string
+}
+
+export async function createPost(input: CreatePostInput) {
+  const post = await db.post.create({ data: input })
+  revalidateTag('posts')
+  return post
+}
+```
+
+### Using Server Actions in Forms
+
+```typescript
+'use client'
+
+import { createPost } from '@/features/posts/actions/create'
+
+export function CreatePostForm() {
+  async function handleSubmit(formData: FormData) {
+    await createPost(formData)
+  }
+
+  return (
+    <form action={handleSubmit}>
+      <input name="title" />
+      <textarea name="content" />
+      <button type="submit">Create</button>
+    </form>
+  )
+}
+```
+
+### Server Action with useActionState
+
+```typescript
+'use client'
+
+import { useActionState } from 'react'
+import { createPost } from '@/features/posts/actions/create'
+
+export function CreatePostForm() {
+  const [state, formAction, isPending] = useActionState(createPost, null)
+
+  return (
+    <form action={formAction}>
+      <input name="title" disabled={isPending} />
+      <button type="submit" disabled={isPending}>
+        {isPending ? 'Creating...' : 'Create'}
+      </button>
+      {state?.error && <p>{state.error}</p>}
+    </form>
+  )
+}
+```
+
+---
+
+## 🏷️ Cache Components (Next.js 16)
+
+### Basic Cache Component
+
+```typescript
+// features/posts/queries/get-posts.ts
+async function getPosts() {
+  'use cache'
+  cacheTag('posts')
+
+  return db.post.findMany()
+}
+```
+
+### Cache with Tags
+
+```typescript
+import { unstable_cacheTag as cacheTag } from 'next/cache'
+
+async function getPost(id: string) {
+  'use cache'
+  cacheTag('posts', `post-${id}`)
+
+  return db.post.findUnique({ where: { id } })
+}
+```
+
+### Invalidate Cache
+
+```typescript
+'use server'
+
+import { revalidateTag } from 'next/cache'
+import { db } from '@/lib/db'
+
+export async function updatePost(id: string, data: any) {
+  await db.post.update({ where: { id }, data })
+  revalidateTag('posts')        // Invalidate all posts
+  revalidateTag(`post-${id}`)  // Invalidate specific post
+}
+```
+
+---
+
+## 📡 Data Fetching Patterns
+
+### Server Component Data Fetching
+
+```typescript
+// app/posts/page.tsx
+import { getPosts } from '@/features/posts/queries/get-posts'
+
+export default async function PostsPage() {
+  const posts = await getPosts()
+  return <PostList posts={posts} />
+}
+```
+
+### TanStack Query in Client Components
+
+```typescript
+// features/posts/hooks/use-posts.ts
+'use client'
+
+import { useQuery } from '@tanstack/react-query'
+
+export function usePosts() {
+  return useQuery({
+    queryKey: ['posts'],
+    queryFn: async () => {
+      const res = await fetch('/api/posts')
+      return res.json()
+    },
+  })
+}
+```
+
+### Hybrid: Server Component + TanStack Query
+
+```typescript
+// Server Component provides initial data
+export default async function PostsPage() {
+  const posts = await getPosts()
+  return <PostsClient initialData={posts} />
+}
+
+// Client Component hydrates with TanStack Query
+'use client'
+import { useQuery } from '@tanstack/react-query'
+
+export function PostsClient({ initialData }: { initialData: Post[] }) {
+  const { data } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getPosts,
+    initialData,
+  })
+  // ...
+}
+```
+
+---
+
+## 🔗 Route Handlers (API Routes)
+
+**Use ONLY for:**
+- ✅ Webhooks (Stripe, GitHub, etc.)
+- ✅ Third-party integrations
+- ✅ Non-web applications
+
+**NOT for:**
+- ❌ Regular data fetching → Use Server Components/Actions
+
+### Webhook Handler
+
+```typescript
+// app/api/webhooks/stripe/route.ts
+import { headers } from 'next/headers'
+import Stripe from 'stripe'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+
+export async function POST(req: Request) {
+  const body = await req.text()
+  const signature = headers().get('stripe-signature')!
+
+  const event = stripe.webhooks.constructEvent(
+    body,
+    signature,
+    process.env.STRIPE_WEBHOOK_SECRET!
+  )
+
+  if (event.type === 'checkout.session.completed') {
+    // Handle checkout completion
+  }
+
+  return Response.json({ received: true })
+}
+```
+
+---
+
+## 🎨 Layouts & Templates
+
+### Root Layout
+
+```typescript
+// app/layout.tsx
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'My App',
+  description: 'Built with Next.js',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
+    </html>
+  )
+}
+```
+
+### Route Groups
+
+```
+app/
+├── (auth)/              # No URL segment
+│   ├── login/
+│   └── register/
+├── (dashboard)/         # No URL segment
+│   ├── layout.tsx       # Shared layout
+│   └── page.tsx
+└── (marketing)/         # No URL segment
+    ├── about/
+    └── pricing/
+```
+
+---
+
+## ⚡ Performance Patterns
+
+### Dynamic Imports
+
+```typescript
+import dynamic from 'next/dynamic'
+
+const HeavyComponent = dynamic(
+  () => import('@/components/HeavyComponent'),
+  { loading: () => <p>Loading...</p> }
+)
+
+export default function Page() {
+  return <HeavyComponent />
+}
+```
+
+### Image Optimization
+
+```typescript
+import Image from 'next/image'
+
+export function Avatar({ src }: { src: string }) {
+  return (
+    <Image
+      src={src}
+      alt="Avatar"
+      width={40}
+      height={40}
+      className="rounded-full"
+    />
+  )
+}
+```
+
+### Font Optimization
+
+```typescript
+import { Inter } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
+```
+
+---
+
+## 🔒 Security Best Practices
+
+### Environment Variables
+
+```typescript
+// .env.local
+DATABASE_URL="postgresql://..."
+API_SECRET="..."
+
+// Server-only
+const dbUrl = process.env.DATABASE_URL
+
+// Client-accessible (must start with NEXT_PUBLIC_)
+const apiUrl = process.env.NEXT_PUBLIC_API_URL
+```
+
+### Input Validation with Zod
+
+```typescript
+import { z } from 'zod'
+
+const postSchema = z.object({
+  title: z.string().min(1).max(100),
+  content: z.string().min(1),
+})
+
+export async function createPost(formData: FormData) {
+  const data = postSchema.parse({
+    title: formData.get('title'),
+    content: formData.get('content'),
+  })
+  // Safe to use `data`
+}
+```
+
+---
+
+## 🧪 Testing Patterns
+
+### Server Action Test
+
+```typescript
+import { describe, it, expect } from 'vitest'
+import { createPost } from './create-post'
+
+describe('createPost', () => {
+  it('should create a post', async () => {
+    const formData = new FormData()
+    formData.set('title', 'Test')
+    formData.set('content', 'Content')
+
+    const result = await createPost(formData)
+
+    expect(result).toHaveProperty('id')
+  })
+})
+```
+
+---
+
+## 📚 Common Patterns
+
+### Parallel Data Fetching
+
+```typescript
+async function getData() {
+  const [posts, users, comments] = await Promise.all([
+    getPosts(),
+    getUsers(),
+    getComments(),
+  ])
+
+  return { posts, users, comments }
+}
+```
+
+### Error Handling
+
+```typescript
+// app/error.tsx (client)
+'use client'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error
+  reset: () => void
+}) {
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button onClick={reset}>Try again</button>
+    </div>
+  )
+}
+
+// app/posts/error.tsx (scoped)
+```
+
+### Loading States
+
+```typescript
+// app/posts/loading.tsx
+export default function Loading() {
+  return <Skeleton className="h-4 w-full" />
+}
+```
+
+---
+
+## 🎯 Best Practices Checklist
+
+- [ ] Use Server Components by default
+- [ ] Use Server Actions for mutations
+- [ ] Use TanStack Query for client data
+- [ ] Use cacheTag/revalidateTag for caching
+- [ ] Validate inputs with Zod
+- [ ] Keep secrets server-side only
+- [ ] Use dynamic imports for heavy components
+- [ ] Optimize images with next/image
+- [ ] Use route groups for shared layouts
+- [ ] Test server actions with vitest
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4*

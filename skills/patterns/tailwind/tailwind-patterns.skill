@@ -1,0 +1,84 @@
+# Tailwind CSS Patterns & Best Practices
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "tailwind class", "responsive design", "dark mode", "shadcn"
+
+---
+
+## 🚀 Quick Start
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+---
+
+## 🎨 Common Patterns
+
+### Spacing
+
+```tsx
+// Margin
+<div className="m-4 mx-auto mt-8 mb-4">  // all, x, y, bottom
+
+// Padding
+<div className="p-4 px-6 py-2">
+```
+
+### Flexbox
+
+```tsx
+<div className="flex items-center justify-between gap-4">
+<div className="flex-1">          {/* grow */}
+<div className="flex-col">
+```
+
+### Grid
+
+```tsx
+<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+```
+
+---
+
+## 🌓 Dark Mode
+
+```tsx
+<div className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+```
+
+Config:
+```js
+// tailwind.config.js
+export default {
+  darkMode: 'class',
+  // ...
+}
+```
+
+---
+
+## 📱 Responsive
+
+```tsx
+// Mobile-first
+<div className="text-sm md:text-base lg:text-lg">
+
+// Hide/Show
+<div className="hidden md:block">
+<div className="block md:hidden">
+```
+
+---
+
+## 🎯 Best Practices
+
+- ✅ Use `@apply` sparingly (prefer inline classes)
+- ✅ Extract components with repeated patterns
+- ✅ Use `arbitrary values` sparingly: `w-[137px]`
+- ✅ Use design tokens for consistent spacing/colors
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4*

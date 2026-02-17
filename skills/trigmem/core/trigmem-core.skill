@@ -1,0 +1,131 @@
+# TrigMem Core - Compétence de Base
+
+> **Invocable par** : `/trigmem-core`
+> **Type** : Core Knowledge
+
+Vous êtes actuellement en train d'apprendre la méthodologie TrigMem. Ce skill contient les concepts fondamentaux nécessaires pour comprendre comment organiser la mémoire de Claude Code.
+
+---
+
+## 🎯 CE QUE VOUS APPRENEZ
+
+### Les 3 Objectifs Concurrents
+
+TrigMem résout le triangle impossible des 3 objectifs :
+
+```
+            ÉCONOMIE DE TOKENS
+                 /\
+              /  \
+             /    \   \
+          /       \     \
+       /           PRÉCISION    \
+    /                        \
+   /                           RÉUTILISABILITÉ
+```
+
+**1. ÉCONOMIE DE CONTEXTE (Economy)**
+- Minimiser les tokens utilisés
+- CLAUDE.md = toujours chargé (paye mais efficace)
+- Skills = chargés à la demande (économique)
+
+**2. PRÉCISION (Precision)**
+- Instructions spécifiques et actionnables
+- Rules = contextuelles et automatiques
+- Skills = détaillées étape par étape
+
+**3. RÉUTILISABILITÉ (Reusability)**
+- Écrire une fois, utiliser partout
+- Skills = patterns universels (Next.js, React, Rust, etc.)
+- Rules = conventions projet (non portables)
+
+**Le secret** : TrigMem utilise **5 mécanismes différents** pour équilibrer ces objectifs.
+
+---
+
+## 🔧 LES 5 MÉCANISMES
+
+| Mécanisme | Chargement | Invocation | Isolation | Trade-off |
+|-----------|------------|-----------|----------|-----------|
+| **CLAUDE.md** | Toujours | Toujours actif | Principal | Économie ⬇⬇⬇ Rutilisabilité |
+| **Rules** | Pattern-match | Auto | Principal | Precision ⬆⬇⬇⬇� Reusabilité |
+| **Skills** | À la demande | Auto/Utilisateur | Principal | Precision ⬆⬇⬇ Reusabilité ✅ |
+| **Commands** | À la demande | Utilisateur seul | Principal | Precision ⬆⬇⬇� Reusabilité ✅ |
+| **Sub-agents** | Explicite | Explicite | Isolé | Precision ⬆⬇⬇� Reusabilité |
+
+**Légende :**
+- ✅ = Avantage principal
+- ⚡ = Inconvénient principal
+
+---
+
+## 📊 GUIDE DE DÉCISION RAPIDE
+
+### Q1 : Action déclenchée par utilisateur ?
+
+**Examples qui disent OUI :**
+- "Déploye en staging"
+- "Lance les tests complets"
+- "Génère un composant"
+
+**Examples qui disent NON :**
+- "Comment je déploye ?" (connaissance)
+- "Qu'est-ce que c'est l'architecture ?" (connaissance)
+- "Où sont les tests ?" (structure codebase)
+
+→ **OUI** = Command (workflow avec effets)
+→ **NON** = Skill (connaissance) ou Rule (correction)
+
+### Q2 : Connaissance universelle réutilisable ?
+
+**Examples qui disent OUI :**
+- "Architecture Hexagonale"
+- "Pattern Repository"
+- "React Hooks personnalisés"
+- "TDD workflow"
+
+→ **OUI** = Skill (pattern portable)
+
+### Q3 : Besoin d'isolation de contexte ?
+
+**OUI si :**
+- Tâche réfactorale complexe (pollution contexte principal)
+- Expérimentation risquée
+- Travail en parallèle indépendant
+
+→ **OUI** = Sub-agent
+
+### Q4 : Contexte toujours nécessaire ?
+
+**OUI si :**
+- Information critique projet toujours accessible
+- Rappels fréquents de sécurité
+- Conventions de coding essentielles
+
+→ **OUI** = CLAUDE.md ou Rule (pattern-match)
+
+---
+
+## 🎯 COMMENT UTILISER CE SKILL
+
+### 1. Dans CLAUDE.md
+
+```markdown
+## Mémoire : TrigMem
+
+Voir: [TrigMem complet](C:\Users\Yanis\Desktop\TrigMem.md)
+```
+
+### 2. Invocation directe
+
+```
+/trigmem-core
+```
+
+Ce skill charge automatiquement quand vous posez des questions sur l'organisation de mémoire.
+
+---
+
+## 📚 RETEN
+
+Continuez avec les autres skills TrigMem pour des décisions automatisées plus spécifiques.

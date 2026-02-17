@@ -1,0 +1,85 @@
+# Vite Patterns & Best Practices
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "vite config", "vite plugin", "build vite", "dev server"
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Create new project
+npm create vite@latest my-app --template react-ts
+cd my-app
+npm run dev
+```
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── main.tsx              # Entry point
+├── vite-env.d.ts        # Vite types
+├── assets/              # Static assets
+└── styles/              # Global styles
+```
+
+---
+
+## ⚙️ Configuration
+
+### vite.config.ts
+
+```typescript
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
+})
+```
+
+---
+
+## 🔌 Plugins Essentiels
+
+```typescript
+import react from '@vitejs/plugin-react'
+import dts from 'vite-plugin-dts'
+
+export default defineConfig({
+  plugins: [
+    react(),
+    dts(),
+  ],
+})
+```
+
+---
+
+## 🎯 Best Practices
+
+- ✅ Use `@` alias for imports
+- ✅ Enable sourcemap in dev
+- ✅ Use `environment` dir for .env files
+- ✅ Configure proper `lib` targets for browsers
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4*

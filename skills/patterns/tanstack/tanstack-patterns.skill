@@ -1,0 +1,97 @@
+# TanStack Patterns & Best Practices
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "useQuery", "useMutation", "router", "form", "tanstack"
+
+---
+
+## 📦 TanStack Query (React Query)
+
+### Basic Usage
+
+```typescript
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+
+function usePosts() {
+  return useQuery({
+    queryKey: ['posts'],
+    queryFn: async () => {
+      const res = await fetch('/api/posts')
+      return res.json()
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  })
+}
+```
+
+### Mutation
+
+```typescript
+function useCreatePost() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (data: CreatePostInput) => {
+      const res = await fetch('/api/posts', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      return res.json()
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+    },
+  })
+}
+```
+
+---
+
+## 🧭 TanStack Router
+
+### File-based Route
+
+```
+src/routes/posts.tsx
+src/routes/posts.$id.tsx
+```
+
+### Loader
+
+```typescript
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/posts/$id')({
+  loader: async ({ params }) => {
+    const post = await fetchPost(params.id)
+    return { post }
+  },
+  component: Post,
+})
+```
+
+---
+
+## 📝 TanStack Form
+
+```typescript
+import { useForm } from '@tanstack/react-form'
+
+function PostForm() {
+  const form = useForm({
+    defaultValues: {
+      title: '',
+      content: '',
+    },
+    onSubmit: async (values) => {
+      await createPost(values)
+    },
+  })
+
+  return <form {...form.getFormProps()} />
+}
+```
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4*

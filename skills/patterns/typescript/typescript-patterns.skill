@@ -1,0 +1,95 @@
+# TypeScript Patterns & Best Practices
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "typescript config", "type error", "generic", "utility type"
+
+---
+
+## 🚀 tsconfig.json Base
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true
+  }
+}
+```
+
+---
+
+## 🎯 Utility Types Essentiels
+
+```typescript
+// Partial - Tous les champs optionnels
+type PartialUser = Partial<User>
+
+// Required - Tous les champs requis
+type RequiredUser = Required<User>
+
+// Pick - Sélectionner certains champs
+type UserDTO = Pick<User, 'id' | 'name' | 'email'>
+
+// Omit - Exclure certains champs
+type CreateUserDTO = Omit<User, 'id' | 'createdAt'>
+
+// Record - Mapping clé/valeur
+type Dict<T> = Record<string, T>
+
+// Awaited - Type d'une Promise résolue
+type Response = Awaited<ReturnType<typeof fetch>>
+
+// Parameters - Types des paramètres d'une fonction
+type Params = Parameters<typeof myFunction>
+```
+
+---
+
+## 🛡️ Type Guards
+
+```typescript
+// isString guard
+function isString(value: unknown): value is string {
+  return typeof value === 'string'
+}
+
+// isObject guard
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+```
+
+---
+
+## 🎨 Generic Patterns
+
+```typescript
+// API Response wrapper
+type ApiResponse<T> = {
+  data: T
+  status: number
+  message: string
+}
+
+// Paginated response
+type Paginated<T> = {
+  items: T[]
+  total: number
+  page: number
+  pageSize: number
+}
+```
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4*
