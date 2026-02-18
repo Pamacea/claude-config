@@ -1,0 +1,527 @@
+# Documentation Writing Patterns
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "write docs", "README", "documentation", "changelog"
+
+---
+
+## 🎯 CORE PHILOSOPHY
+
+**Good documentation is:**
+1. **Findable** - Easy to locate
+2. **Scannable** - Quick to overview
+3. **Actionable** - Clear what to do
+4. **Maintainable** - Easy to keep current
+
+**Documentation hierarchy:**
+- **README.md** → 30-second hook
+- **GUIDE.md** → 5-minute narrative
+- **REFERENCE.md** → Cheat sheet
+
+---
+
+## 📄 README.md - The 30-Second Hook
+
+### Purpose
+
+Hook the reader in under 30 seconds. Answer: What? Why? How to start?
+
+### Template
+
+```markdown
+# Project Name
+
+One-liner description < 15 words.
+
+**Problem:** What problem does this solve?
+**Solution:** How does it solve it?
+
+## Quick Start
+
+```bash
+npm install project-name
+project-name init
+```
+
+## Status
+
+[![Status](https://img.shields.io/badge/status-stable-success)](https://github.com/user/repo)
+[![Version](https://img.shields.io/npm/v/project-name)](https://www.npmjs.com/package/project-name)
+
+## Key Features
+
+- ✅ Feature 1 - Brief description
+- ✅ Feature 2 - Brief description
+- ✅ Feature 3 - Brief description
+
+## Documentation
+
+- [Getting Started Guide](./GUIDE.md) - 5 minute read
+- [API Reference](./REFERENCE.md) - Cheat sheet
+- [Contributing](./CONTRIBUTING.md) - For contributors
+
+## License
+
+MIT
+```
+
+### README Rules
+
+| ❌ DON'T | ✅ DO |
+|----------|--------|
+| > 50 lines | Keep under 50 lines |
+| "Coming soon" sections | Ship what exists or don't mention |
+| Vague descriptions | Specific, actionable |
+| Buried lead | Start with Why |
+| Multiple install methods | One recommended way |
+
+---
+
+## 📖 GUIDE.md - The 5-Minute Narrative
+
+### Purpose
+
+Tell the story of the project. Help readers understand the "why" and "how".
+
+### Template
+
+```markdown
+# Project Name Guide
+
+## Story
+
+Once upon a time, there was a problem...
+[Why does this project exist? What motivated it?]
+
+## Philosophy
+
+Our approach is based on these principles:
+1. **Principle 1** - Explanation
+2. **Principle 2** - Explanation
+3. **Principle 3** - Explanation
+
+## Architecture
+
+[High-level overview with diagrams]
+
+```mermaid
+graph TD
+    A[Component A] --> B[Component B]
+    B --> C[Component C]
+```
+
+## Key Concepts
+
+### Concept 1
+
+[Explanation with examples]
+
+### Concept 2
+
+[Explanation with examples]
+
+## Common Workflows
+
+### Workflow 1: Use Case Name
+
+[Step-by-step guide]
+
+1. First step
+2. Second step
+3. Third step
+
+### Workflow 2: Another Use Case
+
+[Step-by-step guide]
+
+## Best Practices
+
+- ✅ Do this because...
+- ❌ Don't do this because...
+- 💡 Tip for situation X
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Error X | Fix Y |
+| Issue A | Solution B |
+
+## Next Steps
+
+- [API Reference](./REFERENCE.md) - Detailed API docs
+- [Examples](./examples/) - Code examples
+```
+
+### Guide Writing Tips
+
+```markdown
+- Use narrative flow (story → concepts → practice)
+- Include real examples
+- Show BEFORE/AFTER comparisons
+- Use diagrams for complex topics
+- Add troubleshooting section
+- Link to reference docs
+```
+
+---
+
+## 📋 REFERENCE.md - The Cheat Sheet
+
+### Purpose
+
+Quick lookup for API, configuration, options. No fluff.
+
+### Template
+
+```markdown
+# Project Name Reference
+
+Quick reference for API, configuration, and options.
+
+## API
+
+### `functionName(param1, param2)`
+
+Does X thing.
+
+**Parameters:**
+- `param1` (string) - Description
+- `param2` (number, optional) - Description
+
+**Returns:** Promise<Result>
+
+**Example:**
+```typescript
+const result = await functionName('value', 42)
+```
+
+---
+
+## Configuration
+
+### Option Name
+
+Type: string | boolean
+Default: 'default-value'
+
+Description of what this option does.
+
+**Valid values:**
+- `'value1'` - Description
+- `'value2'` - Description
+- `true` - Description
+
+---
+
+## CLI Commands
+
+### `command-name [options]`
+
+Description of command.
+
+**Options:**
+- `-o, --option` - Description
+- `-v, --verbose` - Description
+
+**Example:**
+```bash
+project-name command-name --option value
+```
+
+---
+
+## Event Types
+
+### `eventName`
+
+Fired when X happens.
+
+**Payload:**
+```typescript
+{
+  property1: string
+  property2: number
+}
+```
+
+**Example:**
+```typescript
+on('eventName', (payload) => {
+  console.log(payload.property1)
+})
+```
+
+---
+
+## Error Codes
+
+| Code | Message | Cause | Solution |
+|------|---------|-------|----------|
+| E001 | "Invalid input" | Bad parameter | Check format |
+| E002 | "Not found" | Missing resource | Create first |
+```
+
+### Reference Rules
+
+| ❌ DON'T | ✅ DO |
+|----------|--------|
+| Long explanations | Concise descriptions |
+| Narrative text | Structured tables |
+| Duplicate info | Single source of truth |
+| Outdated content | Keep in sync with code |
+
+---
+
+## 💻 CODE DOCUMENTATION
+
+### JSDoc / TSDoc Patterns
+
+```typescript
+/**
+ * Creates a new user account.
+ *
+ * @example
+ * ```typescript
+ * const user = await createUser({
+ *   email: 'user@example.com',
+ *   password: 'secure-password'
+ * })
+ * ```
+ *
+ * @throws {AuthError} If email already exists
+ * @throws {ValidationError} If password too weak
+ *
+ * @remarks
+ * This function sends a confirmation email to the user.
+ * The email contains a verification link valid for 24 hours.
+ *
+ * @see {@link verifyEmail} for verification
+ *
+ * @param input - User creation data
+ * @param input.email - User's email address (must be unique)
+ * @param input.password - Password (min 12 characters)
+ * @param input.name - Optional display name
+ *
+ * @returns Created user with ID (password excluded)
+ *
+ * @public
+ */
+export async function createUser(input: {
+  email: string
+  password: string
+  name?: string
+}): Promise<User> {
+  // Implementation
+}
+```
+
+### Doc Blocks for Components
+
+```typescript
+/**
+ * Primary button component with variants and sizes.
+ *
+ * @example
+ * ```tsx
+ * <Button variant="primary" size="lg">
+ *   Click me
+ * </Button>
+ * ```
+ *
+ * @remarks
+ * - Automatically focuses when rendered
+ * - Supports keyboard navigation (Enter, Space)
+ * - Shows loading state when disabled
+ *
+ * @see {@link SecondaryButton} for alternative style
+ *
+ * @param props - Button props
+ * @param props.variant - Visual style (primary, secondary, ghost)
+ * @param props.size - Size (sm, md, lg)
+ * @param props.loading - Show loading spinner
+ * @param props.disabled - Disable interaction
+ * @param props.children - Button label/content
+ *
+ * @public
+ */
+export function Button(props: ButtonProps) {
+  // Implementation
+}
+```
+
+---
+
+## 📝 CHANGELOG
+
+### Keep a Changelog Format
+
+```markdown
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- New feature description (issue #123)
+
+### Changed
+- Updated behavior description
+
+### Deprecated
+- Old feature deprecation notice
+
+### Removed
+- Removed feature description
+
+### Fixed
+- Bug fix description (issue #456)
+
+### Security
+- Security fix description
+
+## [2.0.0] - 2024-01-15
+
+### Added
+- Feature A
+- Feature B
+
+### Changed
+- Breaking change description
+- Another breaking change
+
+### Removed
+- Deprecated feature X
+
+## [1.5.0] - 2023-12-01
+
+### Added
+- Feature C
+
+### Fixed
+- Bug D fix
+
+## [1.0.0] - 2023-11-01
+
+### Added
+- Initial release
+```
+
+### Changelog Writing Rules
+
+```markdown
+✅ DO:
+- Write user-facing changes (not internals)
+- Link to relevant issues/PRs
+- Group by type (Added, Changed, Fixed, etc.)
+- Keep descriptions concise
+
+❌ DON'T:
+- Include "version 2.0.0 released" entries
+- Merge multiple versions into one
+- Write internal refactor notes
+- Use vague language
+```
+
+---
+
+## 📚 DOCUMENTATION STRUCTURE
+
+### Recommended File Layout
+
+```
+project/
+├── README.md              # 30-second hook
+├── GUIDE.md               # 5-minute narrative
+├── REFERENCE.md           # API cheat sheet
+├── CHANGELOG.md           # Version history
+├── CONTRIBUTING.md        # Contribution guide
+├── docs/
+│   ├── architecture.md    # Architecture diagrams
+│   ├── api/               # API documentation
+│   │   ├── users.md
+│   │   └── posts.md
+│   ├── guides/            # How-to guides
+│   │   ├── authentication.md
+│   │   └── deployment.md
+│   └── examples/          # Code examples
+│       ├── basic-usage.md
+│       └── advanced.md
+└── API.md                 # Alternative single-page API
+```
+
+---
+
+## ✅ DOCUMENTATION CHECKLIST
+
+Before releasing:
+
+```markdown
+README.md:
+☐ One-liner < 15 words
+☐ Problem/Solution clear
+☐ Quick Start ≤ 3 commands
+☐ < 50 lines total
+☐ No "coming soon"
+
+GUIDE.md:
+☐ Narrative flow (story → concepts → practice)
+☐ Real examples included
+☐ Diagrams for complex topics
+☐ Troubleshooting section
+
+REFERENCE.md:
+☐ API documented
+☐ Configuration documented
+☐ CLI commands documented
+☐ Error codes listed
+
+Code:
+☐ Public APIs have JSDoc/TSDoc
+☐ Examples in doc blocks
+☐ @see links to related code
+☐ @remarks for important notes
+
+CHANGELOG.md:
+☐ Follows Keep a Changelog
+☐ Links to issues/PRs
+☐ Unreleased section exists
+```
+
+---
+
+## 🎯 QUICK REFERENCE
+
+```
+Documentation Types:
+├─ README.md → 30-second hook (What? Why? Quick Start)
+├─ GUIDE.md → 5-minute narrative (Story, Concepts, Workflows)
+└─ REFERENCE.md → Cheat sheet (API, Config, Commands)
+
+Code Documentation:
+├─ JSDoc/TSDoc for all public APIs
+├─ @example blocks
+├─ @throws for errors
+├─ @remarks for important notes
+└─ @see for related code
+
+Changelog:
+├─ Keep a Changelog format
+├─ Group by type (Added, Changed, Fixed)
+├─ Link to issues/PRs
+└─ User-facing changes only
+
+Before Release:
+☐ README updated
+☐ New APIs documented
+☐ CHANGELOG updated
+☐ Examples tested
+```
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4 - Documentation Patterns*

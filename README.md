@@ -1,7 +1,7 @@
 # claude-config
 
-> **Configuration optimisée pour Claude Code** | Version 1.0.0
-> **Méthodologie:** TrigMem Enhanced - Gestion intelligente de la mémoire
+> **Configuration optimisée pour Claude Code** | Version 2.0.0
+> **Méthodologie:** TrigMem Enhanced + UX Design + MCP Integration
 
 ---
 
@@ -18,12 +18,40 @@ git clone https://github.com/Pamace/claude-config.git ~/.claude
 
 ---
 
+## ✨ Nouveautés v2.0
+
+### 🎨 UX Design Patterns
+- Philosophie **Atomic Design** (Atoms → Molecules → Organisms)
+- **Accessibilité d'abord** - ARIA, keyboard navigation, WCAG AA
+- **Animations performantes** - GPU only, prefers-reduced-motion
+- **Anti-patterns** - Ne pas copier les tendances aveuglément
+
+### 📖 Documentation Patterns
+- README.md - 30-second hook
+- GUIDE.md - Storytelling 5 minutes
+- REFERENCE.md - Cheat sheet
+- JSDoc/TSDoc pour le code
+
+### 🔧 MCP Mandatory
+- **claude-mem** - Mémoire persistante
+- **git-flow-master** - Commits versionnés
+- **chrome-devtools** - Debugging UI
+- **z-ai** - Analyse images/vidéos
+
+### 📏 Nouvelles Règles
+- **Delete First** - Supprimer avant de créer
+- **React Hooks Limits** - MAX 1 useEffect par composant
+- **Réutilisabilité** - Barrel exports, composition
+- **MCP Suggestions** - Suggestions fortes (pas bloquant)
+
+---
+
 ## ✨ Fonctionnalités
 
 ### 🚀 Économie de Tokens
 
 - **73% d'économie** par session grâce au chargement à la demande des patterns
-- Rules essentielles : ~8k tokens (au lieu de ~30k)
+- Rules essentielles : ~10k tokens (au lieu de ~30k)
 - Patterns techniques : chargés uniquement quand nécessaire
 
 ### 📊 Organisation TrigMem
@@ -54,6 +82,8 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 | **typescript** | "generic", "utility type" | `/skill patterns/typescript` |
 | **tanstack** | "useQuery", "router", "form" | `/skill patterns/tanstack` |
 | **tailwind** | "responsive", "dark mode" | `/skill patterns/tailwind` |
+| **ux-design** | "component design", "accessibility" | `/skill patterns/ux-design` |
+| **documentation** | "write docs", "README", "changelog" | `/skill patterns/documentation` |
 
 ---
 
@@ -67,21 +97,30 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 │   │   ├── categories/
 │   │   ├── decisions/
 │   │   ├── storage/
-│   │   └── examples/
-│   └── patterns/          # Patterns à la demande
-│       ├── tech-decisions/
-│       ├── nextjs/
-│       ├── rust/
-│       ├── nestjs/
-│       ├── wasm/
-│       ├── vite/
-│       ├── typescript/
-│       ├── tanstack/
-│       └── tailwind/
+│   │   ├── examples/
+│   │   └── verification/  # NOUVEAU - Analyse sessions
+│   ├── patterns/          # Patterns à la demande
+│   │   ├── tech-decisions/
+│   │   ├── nextjs/
+│   │   ├── rust/
+│   │   ├── nestjs/
+│   │   ├── wasm/
+│   │   ├── vite/
+│   │   ├── typescript/
+│   │   ├── tanstack/
+│   │   ├── tailwind/
+│   │   ├── ux-design/     # NOUVEAU - Atomic Design
+│   │   └── documentation/ # NOUVEAU - Doc patterns
+│   └── operations/        # NOUVEAU - MCP workflows
+│       └── mcp-mandatory/
 ├── rules/                  # Règles essentielles
 │   ├── 00-core.md
 │   ├── 01-nevers.md
 │   ├── 02-conventions.md
+│   ├── 03-delete-first.md       # NOUVEAU
+│   ├── 04-react-hooks-limits.md # NOUVEAU
+│   ├── 05-reusability.md        # NOUVEAU
+│   ├── 06-mcp-mandatory.md      # NOUVEAU
 │   └── README.md
 └── CLAUDE.md              # Identité du projet
 ```
@@ -102,9 +141,23 @@ Les skills sont automatiquement chargés par Claude Code. Pour accéder à un pa
 
 ```
 Dans Claude Code :
+
+# Patterns techniques
 /pattern nextjs     # Charge les patterns Next.js
 /skill patterns/tanstack
-/trigmem-examples    # Montre des exemples
+/pattern ux-design  # Charge les patterns UX/Design
+/pattern documentation  # Charge les patterns de doc
+
+# TrigMem
+/trigmem-core       # Concepts fondamentaux
+/trigmem-categories # Classification
+/trigmem-decision   # Guide de décision
+/trigmem-storage    # Options de stockage
+/trigmem-examples   # Exemples travaillés
+/trigmem-verification # Analyse sessions
+
+# Opérations MCP
+/mcp-mandatory      # Checklist pour utiliser les MCPs
 ```
 
 ---

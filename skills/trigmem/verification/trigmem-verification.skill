@@ -1,0 +1,271 @@
+# TrigMem Verification - Session Analysis
+
+> **Version:** 1.0.0 | **Category:** TrigMem Support
+> **Type:** Verification & Analysis
+>
+> **Purpose:** Analyze Claude Code sessions to verify TrigMem skills are being used
+
+---
+
+## 🎯 WHAT THIS SKILL DOES
+
+This skill helps verify that TrigMem skills are being invoked during sessions. It analyzes:
+
+1. **Session history** - Parse `history.jsonl` for skill invocations
+2. **Skill usage patterns** - Which skills are used, how often
+3. **Missed opportunities** - When skills SHOULD have been used but weren't
+4. **Compliance score** - Overall adherence to TrigMem methodology
+
+---
+
+## 📊 TRIGMEM SKILLS TO VERIFY
+
+| Skill | Invocation | Purpose |
+|-------|------------|---------|
+| `trigmem-core` | `/trigmem-core` | Core concepts, 5 mechanisms |
+| `trigmem-categories` | `/trigmem-categories` | 6 category types |
+| `trigmem-decision` | `/trigmem-decision` | 2-phase decision guide |
+| `trigmem-storage` | `/trigmem-storage` | Storage options |
+| `trigmem-examples` | `/trigmem-examples` | Worked examples |
+
+---
+
+## 🔍 ANALYSIS METHODS
+
+### Method 1: Session History Analysis
+
+**Parse `history.jsonl` to find:**
+
+```bash
+# In Claude Code session history
+~/.claude/history.jsonl
+
+# Look for patterns:
+- Skill invocations: "/trigmem-*"
+- Auto-suggestions: "trigmem" mentioned
+- Storage decisions: "CLAUDE.md", "rules", "skills"
+```
+
+**Analysis script (Bash):**
+
+```bash
+#!/bin/bash
+# analyze-trigmem.sh
+
+HISTORY="$HOME/.claude/history.jsonl"
+OUTPUT="trigmem-analysis-$(date +%Y%m%d).md"
+
+echo "# TrigMem Analysis - $(date)" > "$OUTPUT"
+echo "" >> "$OUTPUT"
+
+# Count skill invocations
+echo "## Skill Invocations" >> "$OUTPUT"
+echo "" >> "$OUTPUT"
+
+for skill in core categories decision storage examples; do
+  count=$(grep -c "trigmem-$skill" "$HISTORY" 2>/dev/null || echo 0)
+  echo "- \`trigmem-$skill\`: $count invocations" >> "$OUTPUT"
+done
+
+# Find storage decisions
+echo "" >> "$OUTPUT"
+echo "## Storage Decisions" >> "$OUTPUT"
+echo "" >> "$OUTPUT"
+echo "- CLAUDE.md updates: $(grep -c "CLAUDE.md" "$HISTORY" 2>/dev/null || echo 0)" >> "$OUTPUT"
+echo "- Rules updates: $(grep -c "rules/" "$HISTORY" 2>/dev/null || echo 0)" >> "$OUTPUT"
+echo "- Skills created: $(grep -c "skills/" "$HISTORY" 2>/dev/null || echo 0)" >> "$OUTPUT"
+
+cat "$OUTPUT"
+```
+
+### Method 2: Manual Session Review
+
+**Checklist for each session:**
+
+```markdown
+Session Analysis:
+☐ Was trigmem-core consulted for memory decisions?
+☐ Was trigmem-categories used to classify information?
+☐ Was trigmem-decision used for complex choices?
+☐ Was trigmem-storage consulted for storage decisions?
+☐ Were examples referenced from trigmem-examples?
+
+Score: ___/5
+```
+
+### Method 3: Simulation Test
+
+**Test scenarios to verify skills work:**
+
+```markdown
+Test Scenario 1: Classify information
+Prompt: "I want to store this component pattern..."
+Expected: trigmem-categories auto-invoked or suggested
+
+Test Scenario 2: Make complex decision
+Prompt: "Should this be a skill or a rule?"
+Expected: trigmem-decision invoked
+
+Test Scenario 3: Memory storage
+Prompt: "How should I store this project identity?"
+Expected: trigmem-storage consulted
+```
+
+---
+
+## 📈 COMPLIANCE SCORING
+
+### Score Calculation
+
+```
+Score = (Skills Invoked / Opportunities) × 100
+
+Categories:
+├─ 90-100%: Excellent - TrigMem fully integrated
+├─ 70-89%: Good - Mostly compliant
+├─ 50-69%: Fair - Room for improvement
+└─ <50%: Poor - Needs training
+```
+
+### Example Report
+
+```markdown
+# TrigMem Compliance Report
+
+**Date:** 2025-02-18
+**Sessions Analyzed:** 10
+**Overall Score:** 75% (Good)
+
+## Skill Usage
+
+| Skill | Invocations | % of Sessions |
+|-------|-------------|---------------|
+| trigmem-core | 3 | 30% |
+| trigmem-categories | 5 | 50% |
+| trigmem-decision | 2 | 20% |
+| trigmem-storage | 6 | 60% |
+| trigmem-examples | 1 | 10% |
+
+## Missed Opportunities
+
+1. **Session #7** - New pattern created without trigmem-categories
+   - Should have classified the pattern type first
+
+2. **Session #3** - Storage decision without trigmem-decision
+   - Should have used 2-phase decision guide
+
+3. **Session #9** - Complex information stored without consulting core
+   - Should have checked 5 mechanisms first
+
+## Recommendations
+
+- Increase trigmem-decision usage for complex choices
+- Reference trigmem-examples more often
+- Use trigmem-core when uncertain about methodology
+```
+
+---
+
+## 🔄 CONTINUOUS IMPROVEMENT
+
+### Weekly Review
+
+```markdown
+1. Run analysis script
+2. Review compliance score
+3. Identify patterns of non-compliance
+4. Update training/prompts as needed
+```
+
+### Retraining Triggers
+
+**Consider retraining when:**
+- Score drops below 70%
+- New team member joins
+- TrigMem skills updated
+- New patterns emerge
+
+---
+
+## 🎯 QUICK VERIFICATION
+
+### Fast Check (30 seconds)
+
+```bash
+# Count TrigMem invocations in recent sessions
+grep -c "trigmem" ~/.claude/history.jsonl
+
+# Should see consistent usage over time
+```
+
+### Deep Check (5 minutes)
+
+```bash
+# Run full analysis
+./analyze-trigmem.sh
+
+# Review report
+cat trigmem-analysis-*.md
+```
+
+---
+
+## 📋 VERIFICATION CHECKLIST
+
+Before closing a session:
+
+```markdown
+Self-Check:
+☐ Did I classify the information type? (trigmem-categories)
+☐ Did I choose the right storage? (trigmem-storage/decision)
+☐ Should this be saved for reuse? (save to memory)
+☐ Did I follow TrigMem methodology?
+
+If NO to any:
+☐ Explain why TrigMem wasn't applicable
+```
+
+---
+
+## 🔧 TROUBLESHOOTING
+
+### Problem: Skills Not Being Invoked
+
+**Possible causes:**
+1. Skills not installed
+2. Triggers not configured
+3. LLM not recognizing patterns
+
+**Solutions:**
+```bash
+# 1. Verify skills exist
+ls ~/.claude/skills/trigmem/
+
+# 2. Check skill content
+cat ~/.claude/skills/trigmem/core/trigmem-core.skill
+
+# 3. Test invocation
+# In Claude Code: "/trigmem-core"
+```
+
+### Problem: Low Compliance Score
+
+**Solutions:**
+1. Add explicit reminders in CLAUDE.md
+2. Create prompts that reference TrigMem
+3. Train with examples of proper usage
+4. Review sessions and provide feedback
+
+---
+
+## 📚 RELATED SKILLS
+
+- `/trigmem-core` - Understanding the methodology
+- `/trigmem-categories` - Classification system
+- `/trigmem-decision` - Decision guide
+- `/trigmem-storage` - Storage options
+- `/trigmem-examples` - Worked examples
+
+---
+
+*Version: 1.0.0 | TrigMem Verification*

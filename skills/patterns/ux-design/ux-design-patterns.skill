@@ -1,0 +1,448 @@
+# UX/UI Design Patterns - Atomic Approach
+
+> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
+> **Trigger:** "component design", "UI pattern", "accessibility", "animation"
+
+---
+
+## 🎯 CORE PHILOSOPHY
+
+### Atomic Design Principles
+
+**Design from small to large:**
+1. **Atoms** - Smallest building blocks (Button, Input, Icon)
+2. **Molecules** - Simple combinations (SearchBox, FormField)
+3. **Organisms** - Complex components (Navbar, CardGrid)
+4. **Templates** - Page layouts
+5. **Pages** - Specific instances
+
+**Key principle:** Compose, don't create. Build complex UIs from simple atoms.
+
+---
+
+## 🧩 ATOMIC HIERARCHY
+
+### Atoms (The Foundation)
+
+```typescript
+// ✅ GOOD - Simple, focused atoms
+export function Icon({ name, size = 24 }: IconProps) {
+  return <svg width={size} height={size}>{/* ... */}</svg>
+}
+
+export function Button({ children, variant, size }: ButtonProps) {
+  return (
+    <button className={cn(buttonVariants({ variant, size }))}>
+      {children}
+    </button>
+  )
+}
+
+export function Input({ label, error, ...props }: InputProps) {
+  return (
+    <div className="field">
+      {label && <label>{label}</label>}
+      <input {...props} aria-invalid={!!error} />
+      {error && <span className="error">{error}</span>}
+    </div>
+  )
+}
+```
+
+**Atom Rules:**
+- ✅ No internal state (or very simple)
+- ✅ Receive everything via props
+- ✅ Composable, not monolithic
+- ✅ Accessible by default
+
+### Molecules (Combinations)
+
+```typescript
+// ✅ GOOD - Composed from atoms
+export function SearchBox({ onSearch, placeholder }: SearchBoxProps) {
+  const [query, setQuery] = useState('')
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); onSearch(query) }}>
+      <Input
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder={placeholder}
+      />
+      <Button type="submit" variant="primary" size="sm">
+        <Icon name="search" />
+      </Button>
+    </form>
+  )
+}
+
+// ✅ GOOD - Form field molecule
+export function FormField({ label, error, children }: FormFieldProps) {
+  return (
+    <div className="form-field">
+      {label && <label className="label">{label}</label>}
+      {children}
+      {error && <span className="error" role="alert">{error}</span>}
+    </div>
+  )
+}
+```
+
+**Molecule Rules:**
+- ✅ Combine 2-3 atoms
+- ✅ Simple interactions only
+- ✅ Keep logic minimal
+
+### Organisms (Complex Components)
+
+```typescript
+// ✅ GOOD - Complex but composed
+export function Navbar({ brand, links, actions }: NavbarProps) {
+  return (
+    <nav className="navbar">
+      <div className="navbar-brand">
+        <Logo src={brand.logo} alt={brand.name} />
+      </div>
+      <ul className="navbar-links">
+        {links.map(link => (
+          <li key={link.href}>
+            <Link href={link.href}>{link.label}</Link>
+          </li>
+        ))}
+      </ul>
+      <div className="navbar-actions">
+        {actions.map(action => (
+          <Button key={action.id} variant="ghost" size="sm">
+            <Icon name={action.icon} />
+          </Button>
+        ))}
+      </div>
+    </nav>
+  )
+}
+```
+
+**Organism Rules:**
+- ✅ Combine molecules and atoms
+- ✅ Handle complex layouts
+- ✅ May have internal state
+
+---
+
+## ♿ ACCESSIBILITY FIRST
+
+### Non-Negotiable A11y Rules
+
+```markdown
+- [ ] Keyboard navigation works (Tab, Enter, Escape, Arrows)
+- [ ] ARIA labels on interactive elements
+- [ ] Focus indicators visible
+- [ ] Color contrast WCAG AA (4.5:1)
+- [ ] Screen reader announcements for dynamic content
+- [ ] Forms have proper labels and error messages
+```
+
+### Component A11y Checklist
+
+```typescript
+// ✅ GOOD - Accessible component
+export function Button({
+  children,
+  variant = 'primary',
+  size = 'md',
+  disabled,
+  loading,
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      className={cn(buttonVariants({ variant, size }))}
+      disabled={disabled || loading}
+      aria-busy={loading}
+      aria-disabled={disabled}
+      // Focus visible handled in CSS
+      {...props}
+    >
+      {loading && <Spinner aria-hidden="true" />}
+      <span className={loading ? 'sr-only' : undefined}>
+        {children}
+      </span>
+    </button>
+  )
+}
+```
+
+### A11y Patterns
+
+| Pattern | Implementation |
+|---------|----------------|
+| **Modal** | Focus trap, aria-modal, return focus |
+| **Dropdown** | aria-expanded, role="menu" |
+| **Tabs** | role="tablist", aria-selected |
+| **Form errors** | aria-invalid, aria-describedby, role="alert" |
+| **Live regions** | aria-live, aria-atomic |
+
+---
+
+## 🎨 ANIMATIONS & PERFORMANCE
+
+### Animation Principles
+
+```markdown
+1. Purpose over decoration - Animations must have meaning
+2. Respect prefers-reduced-motion - Always check media query
+3. GPU acceleration - Use transform/opacity, not layout properties
+4. Keep it short - 200-400ms for UI transitions
+```
+
+### Performant Animations
+
+```css
+/* ❌ BAD - Causes layout reflow */
+.bad-animation {
+  animation: slideIn 0.3s;
+}
+@keyframes slideIn {
+  from { left: -100px; width: 100%; }  /* left and width trigger layout */
+  to { left: 0; width: 100%; }
+}
+
+/* ✅ GOOD - GPU accelerated */
+.good-animation {
+  animation: slideIn 0.3s;
+  will-change: transform;
+}
+@keyframes slideIn {
+  from { transform: translateX(-100px); }  /* transform only */
+  to { transform: translateX(0); }
+}
+```
+
+### Reduced Motion Respect
+
+```typescript
+// ✅ GOOD - Respect user preferences
+export function AnimatedBox({ children }: { children: ReactNode }) {
+  const prefersReduced = useMediaQuery('(prefers-reduced-motion: reduce)')
+
+  const animation = prefersReduced
+    ? undefined
+    : 'fadeIn 0.3s ease-out'
+
+  return <div style={{ animation }}>{children}</div>
+}
+```
+
+### Animation DOs and DON'Ts
+
+| ❌ DON'T | ✅ DO |
+|----------|--------|
+| Animate width/height/left/top | Animate transform/opacity |
+| 1000ms+ transitions | 200-400ms UI transitions |
+| Layout thrashing animations | GPU-accelerated only |
+| Ignore reduced-motion | Always check prefers-reduced-motion |
+| JS animations (unless needed) | CSS transitions first |
+
+---
+
+## 🚫 ANTI-PATTERNS
+
+### Don't Copy Trends Blindly
+
+```typescript
+// ❌ BAD - Following trends without purpose
+// "Everyone has bento grids, let's make one"
+export function BentoGrid() {
+  return (
+    <div className="grid grid-cols-4 gap-4">
+      {/* Random boxes because it's trendy */}
+    </div>
+  )
+}
+
+// ✅ GOOD - Purposeful design
+// "Our dashboard needs hierarchical information display"
+export function DashboardGrid() {
+  return (
+    <div className="grid" role="region" aria-label="Dashboard">
+      <PriorityMetric />  {/* Most important */}
+      <SecondaryMetrics />  {/* Supporting data */}
+      <Actions />  {/* User actions */}
+    </div>
+  )
+}
+```
+
+### Common Anti-Patterns
+
+| Anti-Pattern | Why It's Bad | Better Approach |
+|--------------|--------------|-----------------|
+| **Copying without understanding** | Doesn't solve user problem | Start with user needs |
+| **Over-engineering** | Hard to maintain, slow | Simple, composed atoms |
+| **Trend-chasing** | Dated quickly, confusing | Timeless patterns |
+| **Animation overload** | Distracting, slow | Purposeful motion |
+| **Inconsistent spacing** | Messy, unprofessional | Design tokens |
+
+---
+
+## 🎯 DESIGN TOKENS
+
+### Define Once, Use Everywhere
+
+```typescript
+// ✅ GOOD - Design tokens
+// tokens.ts
+export const tokens = {
+  spacing: {
+    xs: '0.25rem',    // 4px
+    sm: '0.5rem',     // 8px
+    md: '1rem',       // 16px
+    lg: '1.5rem',     // 24px
+    xl: '2rem',       // 32px
+    '2xl': '3rem',    // 48px
+  },
+  colors: {
+    primary: {
+      50: '#f0f9ff',
+      500: '#0ea5e9',
+      900: '#0c4a6e',
+    },
+    semantic: {
+      success: '#22c55e',
+      warning: '#f59e0b',
+      error: '#ef4444',
+      info: '#3b82f6',
+    }
+  },
+  typography: {
+    fontSize: {
+      xs: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+    },
+    fontWeight: {
+      normal: 400,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+    }
+  },
+  radius: {
+    sm: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
+    full: '9999px',
+  },
+  shadow: {
+    sm: '0 1px 2px rgb(0 0 0 / 0.05)',
+    md: '0 4px 6px rgb(0 0 0 / 0.1)',
+    lg: '0 10px 15px rgb(0 0 0 / 0.1)',
+  }
+}
+```
+
+---
+
+## 🧪 COMPONENT TESTING
+
+### Visual Regression Tests
+
+```typescript
+// ✅ GOOD - Test component variants
+describe('Button', () => {
+  it('renders primary variant correctly', () => {
+    const { container } = render(<Button variant="primary">Click</Button>)
+    expect(container).toMatchSnapshot()
+  })
+
+  it('renders secondary variant correctly', () => {
+    const { container } = render(<Button variant="secondary">Click</Button>)
+    expect(container).toMatchSnapshot()
+  })
+
+  it('is accessible', async () => {
+    const { container } = render(<Button>Click</Button>)
+    const results = await axe(container)
+    expect(results).toHaveNoViolations()
+  })
+})
+```
+
+---
+
+## 📋 COMPONENT CHECKLIST
+
+Before creating a new component:
+
+```markdown
+Design:
+☐ Can I compose from existing atoms?
+☐ Is this a reusable pattern or one-off?
+☐ Does it follow atomic hierarchy?
+
+Accessibility:
+☐ Keyboard navigation works
+☐ ARIA labels present
+☐ Focus management handled
+☐ Screen reader tested
+☐ Color contrast OK
+
+Performance:
+☐ Animations use GPU
+☐ prefers-reduced-motion respected
+☐ No unnecessary re-renders
+
+Documentation:
+☐ Props documented
+☐ Variants shown
+☐ Accessibility notes
+☐ Usage examples
+```
+
+---
+
+## 🎯 QUICK REFERENCE
+
+```
+Atomic Design:
+├─ Atoms → Simple, no state, composable
+├─ Molecules → 2-3 atoms combined
+├─ Organisms → Complex components
+├─ Templates → Page layouts
+└─ Pages → Specific instances
+
+Accessibility:
+├─ Keyboard navigation (Tab, Enter, Escape)
+├─ ARIA labels on interactive elements
+├─ Focus indicators visible
+├─ WCAG AA contrast (4.5:1)
+└─ Screen reader announcements
+
+Animations:
+├─ Purpose over decoration
+├─ prefers-reduced-motion check
+├─ GPU only (transform/opacity)
+└─ 200-400ms for UI
+
+Anti-Patterns:
+├─ Don't copy trends blindly
+├─ Don't over-animate
+├─ Don't ignore a11y
+└─ Don't skip design tokens
+```
+
+---
+
+## 🔗 RELATED SKILLS
+
+- `/pattern nextjs` - Server Components integration
+- `/pattern react` - React patterns
+- `/pattern tailwind` - Styling approach
+- `/pattern accessibility` - Deep a11y patterns
+
+---
+
+*Version: 1.0.0 | TrigMem Cat 4 - Atomic UX/UI Design*
