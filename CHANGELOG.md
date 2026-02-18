@@ -2,6 +2,79 @@
 
 > **Historique des versions de claude-config**
 
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.1.0] - 2026-02-18
+
+### ✨ Nouveaux Skills Patterns
+
+#### UX Design Patterns
+- **Atomic Design** - Atomes → Molécules → Organismes
+- **Accessibilité d'abord** - ARIA, keyboard navigation, WCAG AA
+- **Animations performantes** - GPU only, prefers-reduced-motion
+- **Anti-patterns** - Ne pas copier les tendances aveuglément
+
+#### Documentation Patterns
+- **README.md** - 30-second hook template
+- **GUIDE.md** - Storytelling 5 minutes
+- **REFERENCE.md** - Cheat sheet format
+- **JSDoc/TSDoc** - Code documentation patterns
+- **Changelog** - Keep a Changelog format
+
+### 🔧 Nouveaux Skills Opérationnels
+
+#### MCP Mandatory
+- **Checklist pré-action** - Quand utiliser les MCPs
+- **claude-mem** - Mémoire persistante
+- **git-flow-master** - Commits versionnés
+- **chrome-devtools** - Debugging UI
+- **z-ai** - Analyse images/vidéos
+
+### 📏 Nouvelles Règles
+
+#### Delete First (rules/03-delete-first.md)
+- YAGNI - You Aren't Gonna Need It
+- Variants over duplicates
+- Composition > Création
+- Abstraction only after 3+ uses
+
+#### React Hooks Limits (rules/04-react-hooks-limits.md)
+- **MAX 1 useEffect** par composant
+- Data fetching → TanStack Query ou Server Components
+- useMemo → Calculs costauds seulement
+- useCallback → Children memoized seulement
+
+#### Reusability (rules/05-reusability.md)
+- Barrel exports (index.ts)
+- Composition over inheritance
+- Generic types for flexibility
+- DRY - Don't Repeat Yourself
+
+#### MCP Mandatory (rules/06-mcp-mandatory.md)
+- Strong suggestions (pas bloquant)
+- Pre-action checklist
+- MCP selection flowchart
+
+### 🛠️ Scripts
+
+#### analyze-trigmem.sh
+- Analyse history.jsonl pour vérifier l'utilisation des skills TrigMem
+- Rapport de compliance
+- Recommandations d'amélioration
+
+### 📊 Statistiques
+
+| Métrique | v1.0.0 | v1.1.0 |
+|----------|-------|-------|
+| **Fichiers rules** | 4 | 7 |
+| **Skills trigmem** | 5 | 6 |
+| **Skills patterns** | 9 | 11 |
+| **Skills operations** | 0 | 1 |
+| **Scripts** | 0 | 1 |
+
 ---
 
 ## [1.0.0] - 2026-02-17
