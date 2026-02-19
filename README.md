@@ -1,7 +1,7 @@
 # claude-config
 
-> **Configuration optimisée pour Claude Code** | Version 2.0.0
-> **Méthodologie:** TrigMem Enhanced + UX Design + MCP Integration
+> **Configuration optimisée pour Claude Code** | Version 1.1.5
+> **Méthodologie:** TrigMem Enhanced + UX Design + MCP Integration + Git Flow Master
 
 ---
 
@@ -15,6 +15,24 @@ git clone https://github.com/Pamace/claude-config.git ~/.claude
 
 # Les skills et rules sont automatiquement chargés par Claude Code
 ```
+
+---
+
+## ✨ Nouveautés v1.1.5
+
+### 🔧 Git Flow Master Enhanced
+- **Nouveau type WIP** - Pour les commits de refactoring
+- **Système de hooks** - Validation automatique des commits
+- **Suggestion intelligente** du type de commit
+
+### 🚀 TrigMem Skills v2
+- **Structure en dossiers** - Organisation modulaire
+- **6 compétences TrigMem** - core, categories, decision, storage, examples, verification
+- **Chargement ciblé** - Meilleure économie de tokens
+
+### 🔌 Pattern Autoloader
+- **Détection automatique** des patterns nécessaires
+- **Chargement intelligent** basé sur les triggers
 
 ---
 
@@ -92,13 +110,14 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 ```
 .claude/
 ├── skills/
-│   ├── trigmem/           # Système TrigMem
-│   │   ├── core/
-│   │   ├── categories/
-│   │   ├── decisions/
-│   │   ├── storage/
-│   │   ├── examples/
-│   │   └── verification/  # NOUVEAU - Analyse sessions
+│   ├── trigmem-*/         # Skills TrigMem v2 (structure en dossiers)
+│   │   ├── trigmem-core/
+│   │   ├── trigmem-categories/
+│   │   ├── trigmem-decision/
+│   │   ├── trigmem-storage/
+│   │   ├── trigmem-examples/
+│   │   └── trigmem-verification/
+│   ├── pattern-autoloader/  # NOUVEAU - Autoloading intelligent
 │   ├── patterns/          # Patterns à la demande
 │   │   ├── tech-decisions/
 │   │   ├── nextjs/
@@ -109,18 +128,20 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 │   │   ├── typescript/
 │   │   ├── tanstack/
 │   │   ├── tailwind/
-│   │   ├── ux-design/     # NOUVEAU - Atomic Design
-│   │   └── documentation/ # NOUVEAU - Doc patterns
-│   └── operations/        # NOUVEAU - MCP workflows
+│   │   ├── ux-design/
+│   │   └── documentation/
+│   └── operations/        # MCP workflows
 │       └── mcp-mandatory/
-├── rules/                  # Règles essentielles
+├── hooks/                 # NOUVEAU - Git Flow Master hooks
+├── settings.json          # NOUVEAU - Configuration Git Flow Master
+├── rules/                 # Règles essentielles
 │   ├── 00-core.md
 │   ├── 01-nevers.md
 │   ├── 02-conventions.md
-│   ├── 03-delete-first.md       # NOUVEAU
-│   ├── 04-react-hooks-limits.md # NOUVEAU
-│   ├── 05-reusability.md        # NOUVEAU
-│   ├── 06-mcp-mandatory.md      # NOUVEAU
+│   ├── 03-delete-first.md
+│   ├── 04-react-hooks-limits.md
+│   ├── 05-reusability.md
+│   ├── 06-mcp-mandatory.md
 │   └── README.md
 └── CLAUDE.md              # Identité du projet
 ```
@@ -168,4 +189,4 @@ Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou un
 
 ---
 
-**Licence:** MIT | **Auteur:** YanisDev
+**Licence:** MIT | **Auteur:** Oalacea | **Version:** 1.1.5

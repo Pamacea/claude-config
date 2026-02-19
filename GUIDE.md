@@ -1,6 +1,6 @@
 # GUIDE - Claude Config & TrigMem
 
-> **Version:** 1.0.0 | Guide complet d'utilisation
+> **Version:** 1.1.5 | Guide complet d'utilisation
 
 ---
 
@@ -97,11 +97,30 @@ cp CLAUDE.md ~/.claude/
 
 Les skills TrigMem sont automatiquement activés par Claude Code :
 
-- `trigmem-core` - Concepts fondamentaux
-- `trigmem-decision` - Guide de décision
-- `trigmem-categories` - Classification automatique
-- `trigmem-storage` - Configuration stockage
-- `trigmem-examples` - Exemples travaillés
+- `trigmem-core` - Concepts fondamentaux (structure en dossier)
+- `trigmem-decision` - Guide de décision (structure en dossier)
+- `trigmem-categories` - Classification automatique (structure en dossier)
+- `trigmem-storage` - Configuration stockage (structure en dossier)
+- `trigmem-examples` - Exemples travaillés (structure en dossier)
+- `trigmem-verification` - Analyse de sessions (structure en dossier)
+
+### Nouveau : Pattern Autoloader
+
+Le **pattern-autoloader** détecte automatiquement les patterns nécessaires :
+- Analyse votre question
+- Identifie les triggers pertinents
+- Charge les compétences correspondantes
+
+**Exemple :**
+```
+Vous: "Comment créer un Server Action ?"
+↓
+Autoloader détecte: "Server Action" → Next.js
+↓
+Charge: /skills/patterns/nextjs/
+↓
+Répond avec le pattern spécifique
+```
 
 ### Chargement à la Demande
 
@@ -228,4 +247,22 @@ Les règles essentielles sont dans `rules/` :
 
 ---
 
-*Version: 1.0.0 | Mis à jour: 2026-02-17*
+### Git Flow Master : Nouveau Type WIP
+
+Le type **WIP** (Work In Progress) a été ajouté pour les commits de refactoring :
+
+```
+WIP: PROJECT_NAME - vX.Y.Z
+
+- Refactor: Restructuring X
+- Work in progress: Y
+```
+
+**Usage :**
+- Refactoring en cours
+- Réorganisations majeures
+- Breaking changes potentiels
+
+---
+
+*Version: 1.1.5 | Mis à jour: 2026-02-19*

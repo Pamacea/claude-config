@@ -1,6 +1,6 @@
 # REFERENCE - Claude Config
 
-> **Version:** 1.0.0 | Référence rapide
+> **Version:** 1.1.5 | Référence rapide
 
 ---
 
@@ -65,6 +65,7 @@
 
 ### 02-conventions.md
 - Git Flow Master (TYPE: PROJECT - vX.Y.Z)
+- **Types de commits** : RELEASE, UPDATE, PATCH, **WIP**
 - Documentation convention
 - Project structure (app/, ui/, features/, lib/)
 - Import rules
@@ -83,4 +84,26 @@
 
 ---
 
-*Version: 1.0.0*
+## 🔧 Git Flow Master
+
+### Types de Commits
+
+| Type | SemVer | Usage |
+|------|--------|-------|
+| **RELEASE** | MAJOR | Breaking changes |
+| **UPDATE** | MINOR | Nouvelles fonctionnalités |
+| **PATCH** | PATCH | Bug fixes |
+| **WIP** | MAJOR | Refactoring en cours |
+
+### Format
+
+```
+TYPE: PROJECT_NAME - vX.Y.Z
+
+- Change 1
+- Change 2
+```
+
+---
+
+*Version: 1.1.5*

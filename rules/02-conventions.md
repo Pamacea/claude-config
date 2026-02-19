@@ -22,6 +22,7 @@ TYPE: PROJECT NAME - vX.Y.Z
 | **RELEASE** | MAJOR | Breaking changes |
 | **UPDATE** | MINOR | Nouvelles fonctionnalités |
 | **PATCH** | PATCH | Bug fixes |
+| **WIP** | MAJOR | Refactoring |
 
 ### Exemples
 

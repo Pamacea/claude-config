@@ -7,6 +7,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.5] - 2026-02-19
+
+### 🔧 Améliorations Git Flow Master
+
+#### Type de Commit WIP
+- **Nouveau type** : `WIP` (Work In Progress) pour les commits de refactoring
+- **SemVer** : Marqué comme MAJOR (breaking changes potentiels)
+- **Usage** : Pour les refactors en cours, réorganisations majeures
+
+### 🚀 Refonte Skills TrigMem
+
+#### Structure en Dossiers
+- **Ancien** : Fichiers `.skill` uniques (trigmem-core.skill, etc.)
+- **Nouveau** : Structure en dossiers avec compétences séparées
+- **Avantages** :
+  - Meilleure organisation des compétences
+  - Chargement plus ciblé
+  - Évolutivité accrue
+
+#### Skills TrigMem v2
+- `trigmem-core/` - Concepts fondamentaux et 5 mécanismes
+- `trigmem-categories/` - Classification des 6 catégories
+- `trigmem-decision/` - Guide de décision en 2 phases
+- `trigmem-storage/` - Options de stockage
+- `trigmem-examples/` - Exemples travaillés
+- `trigmem-verification/` - Analyse de sessions
+
+### 🪝 Nouveau Système de Hooks
+
+#### Hooks Git Flow Master
+- **Installation automatique** des hooks Git Flow Master
+- **Validation des messages** de commit (format Versioned Release)
+- **Suggestion automatique** du type de commit (RELEASE/UPDATE/PATCH/WIP)
+- **Génération de tags** et releases
+
+### 🔌 Pattern Autoloader
+
+#### Chargement Intelligent
+- **Détection automatique** des patterns nécessaires
+- **Autoloading** basé sur les triggers
+- **Économie de tokens** supplémentaire
+
+### 📊 Statistiques
+
+| Métrique | v1.1.0 | v1.1.5 |
+|----------|-------|-------|
+| **Skills trigmem** | 6 fichiers | 6 dossiers |
+| **Type de commits** | 3 | 4 (+WIP) |
+| **Système hooks** | Non | Oui |
+
+---
+
 ## [1.1.0] - 2026-02-18
 
 ### ✨ Nouveaux Skills Patterns
