@@ -1,7 +1,39 @@
 # TanStack Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "useQuery", "useMutation", "router", "form", "tanstack"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Intermediate
+> **Auto-Activation:** "tanstack", "react query", "useQuery", "useMutation", "tanstack router", "tanstack form", "tanstack table"
+> **Tags:** [tanstack, react-query, data-fetching, caching, state-management]
+> **Related:** nextjs-patterns, typescript-patterns, react-patterns
+> **Last Updated:** 2025-02-24
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Install TanStack Query
+npm install @tanstack/react-query
+
+# Install Router
+npm install @tanstack/react-router
+
+# Install Form
+npm install @tanstack/react-form
+
+# Install Table
+npm install @tanstack/react-table
+```
+
+---
+
+## 📊 Quick Reference
+
+| Tool | Purpose | When to Use |
+|------|---------|-------------|
+| **TanStack Query** | Server state management | Data fetching, caching, syncing |
+| **TanStack Router** | Type-safe routing | Full-stack apps with type safety |
+| **TanStack Form** | Form state management | Complex forms with validation |
+| **TanStack Table** | Data tables | Sorting, filtering, pagination |
 
 ---
 
@@ -94,4 +126,88 @@ function PostForm() {
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| useEffect for data fetching | useQuery | Automatic caching, loading states, error handling |
+| useState for server data | useQuery | Stale data handling, background refetch |
+| Manual caching | QueryClient with cacheTime | Built-in intelligent caching |
+| Ignoring query keys | Consistent, descriptive keys | Cache invalidation, refetching |
+| Not using TypeScript interfaces | Proper type safety | Type inference for data |
+| Fetching in useEffect without deps | useQuery with proper deps | Prevents infinite loops |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Infinite loop in useEffect"** | Missing deps or fetching in useEffect | Use useQuery instead |
+| **"Stale data showing"** | Not using staleTime properly | Set appropriate staleTime |
+| **"Query not refetching"** | Wrong queryKey format | Use consistent queryKey array |
+| **"Type errors with useQuery"** | Missing generic types | Add `<DataType, ErrorType>` to useQuery |
+| **"Form not validating"** | Missing validation adapter | Use validator adapter with Zod |
+| **"Table not re-rendering"** | Missing memo or reactMemo | Use proper React optimization |
+| **"Router params undefined"** | Wrong route setup | Check file-based routing structure |
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `typescript-patterns` - TanStack is built with TypeScript
+- **Related:** `nextjs-patterns` - TanStack Query pairs perfectly with Next.js
+- **Complementary:** `react-patterns` - React hooks and component patterns
+
+---
+
+## 📖 Further Reading
+
+- [Official TanStack Query Docs](https://tanstack.com/query/latest)
+- [TanStack Router Docs](https://tanstack.com/router/latest)
+- [TanStack Form Docs](https://tanstack.com/form/latest)
+- [TanStack Table Docs](https://tanstack.com/table/latest)
+
+---
+
+## 🎯 Success Criteria
+
+TanStack implementation is complete when:
+- [ ] Using useQuery for all data fetching (no useEffect)
+- [ ] Query keys are consistent and descriptive
+- [ ] Proper error handling with error boundaries
+- [ ] Using mutations for data updates
+- [ ] Cache invalidation configured correctly
+- [ ] TypeScript types properly defined
+- [ ] Forms using TanStack Form with validation
+- [ ] Tables using TanStack Table for complex data
+
+---
+
+## 💡 Key Insights
+
+### Why TanStack Works Well
+
+1. **Server State Management** - Separates server from client state
+2. **Automatic Caching** - Intelligent stale-while-revalidate
+3. **Background Refetching** - Keep data fresh automatically
+4. **Type Safety** - Full TypeScript support
+5. **Developer Experience** - Excellent DevTools
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Using useEffect for data fetching
+  → **Fix:** Always use useQuery for server state
+
+- ❌ **Pitfall:** Not handling loading/error states
+  → **Fix:** Destructure `{ isLoading, error, data }` from useQuery
+
+- ❌ **Pitfall:** Inconsistent query keys
+  → **Fix:** Use consistent key structure like `['posts', id]`
+
+- ❌ **Pitfall:** Not invalidating cache after mutations
+  → **Fix:** Use `queryClient.invalidateQueries()` in onSuccess
+
+---
+
+*Version: 2.0.0 | TanStack Patterns*

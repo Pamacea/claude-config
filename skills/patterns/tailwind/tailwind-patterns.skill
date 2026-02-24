@@ -1,7 +1,10 @@
 # Tailwind CSS Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "tailwind class", "responsive design", "dark mode", "shadcn"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Beginner
+> **Auto-Activation:** "tailwind", "css", "styling", "utility class", "responsive design", "dark mode"
+> **Tags:** [tailwind, css, styling, utility-first, responsive]
+> **Related:** nextjs-patterns, vite-patterns, ux-design-patterns
+> **Last Updated:** 2025-02-24
 
 ---
 
@@ -81,4 +84,83 @@ export default {
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| `@apply` everywhere | Inline utility classes | @apply increases CSS bundle size |
+| Arbitrary values like `w-[137px]` | Design tokens | Hard to maintain, inconsistent |
+| `!important` in utilities | Proper specificity order | Indicates specificity problem |
+| Not using responsive variants | Mobile-first approach | `md:`, `lg:` breakpoints |
+| Hardcoding colors | Theme colors | Consistent theming |
+| Inline styles | Tailwind classes | Defeats utility-first purpose |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Styles not applying"** | Missing Tailwind directives | Add `@tailwind` directives to CSS |
+| **"Dark mode not working"** | Missing `darkMode: 'class'` config | Add to tailwind.config.js |
+| **"Custom colors not working"** | Not extended in theme config | Extend theme in tailwind.config.js |
+| **"Purge not working"** | Wrong content paths | Update `content` array in config |
+| **"Styles removed in build"** | Not in content paths | Add file paths to content array |
+
+---
+
+## 🔗 Related Skills
+
+- **Used by:** `nextjs-patterns` - Next.js pairs perfectly with Tailwind
+- **Used by:** `vite-patterns` - Vite + Tailwind = fast dev experience
+- **Related:** `ux-design-patterns` - UI/UX design principles
+
+---
+
+## 📖 Further Reading
+
+- [Official Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [Tailwind UI Components](https://tailwindui.com/)
+- [Headless UI](https://headlessui.com/) - Unstyled accessible components
+- [shadcn/ui](https://ui.shadcn.com/) - Copy-paste components
+
+---
+
+## 🎯 Success Criteria
+
+Tailwind implementation is complete when:
+- [ ] Tailwind directives in main CSS file
+- [ ] Proper content paths in tailwind.config.js
+- [ ] Dark mode configured and working
+- [ ] Responsive breakpoints defined
+- [ ] Custom theme colors/scales defined
+- [ ] Components using utility classes
+- [ ] Minimal `@apply` usage
+- [ ] No arbitrary values in production code
+
+---
+
+## 💡 Key Insights
+
+### Why Tailwind Works Well
+
+1. **Utility-First** - Rapid UI development
+2. **Responsive** - Easy mobile-first design
+3. **Dark Mode** - Built-in dark mode support
+4. **Customizable** - Easy theming
+5. **Small Bundle** - Purge unused styles
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Overusing `@apply`
+  → **Fix:** Use inline utility classes instead
+
+- ❌ **Pitfall:** Arbitrary values everywhere
+  → **Fix:** Define design tokens in config
+
+- ❌ **Pitfall:** Not using responsive variants
+  → **Fix:** Always think mobile-first with `md:` and `lg:`
+
+---
+
+*Version: 2.0.0 | Tailwind CSS Patterns*

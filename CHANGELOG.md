@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] - 2026-02-24
+
+### Améliorations
+- **Nouveau type** : `WIP` (Work In Progress) pour les commits de refactoring
+- **SemVer** : Marqué comme MAJOR (breaking changes potentiels)
+- **Usage** : Pour les refactors en cours, réorganisations majeures
+- **Documentation** : Mise à jour des docs pour refléter les changements
+- **Skills** : Mise à jour des skills pour refléter les changements
+
 ## [1.1.5] - 2026-02-19
 
 ### 🔧 Améliorations Git Flow Master

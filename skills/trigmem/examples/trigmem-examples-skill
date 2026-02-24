@@ -1,0 +1,183 @@
+# TrigMem Examples - Démonstrations Travaillées
+
+> **Version:** 1.0.0 | **Invocable par:** `/trigmem-examples`
+> **Type:** Working Examples | **Déclenchement:** Automatique (quand pertinent)
+
+---
+
+## 🎯 OBJECTIF
+
+Ce skill démontre comment TrigMem s'applique en pratique et quand charger les patterns.
+
+---
+
+## 🎯 FLOW DE DÉCISION
+
+```
+User Question
+     ↓
+[trigmem-categories] Classification
+     ↓
+┌────┴────┐
+│         │
+Cat 1-3   Cat 4 (Patterns)
+│         │
+↓         ↓
+Rules/   Skills/ (à la demande)
+CLAUDE.md
+```
+
+---
+
+## 📋 CATÉGORIE 1 : Identité Projet
+
+**Trigger:** "Qu'est-ce que ce projet ?", "Quel stack ?", "C'est quoi ce repo ?"
+
+**Détection:** Demande d'identité ou de stack du projet
+
+**Stockage:** CLAUDE.md (toujours chargé)
+
+---
+
+## 📋 CATÉGORIE 2 : Structure Codebase
+
+**Trigger:** "Où sont les composants ?", "Structure du projet", "Où je mets X ?"
+
+**Détection:** Question sur la structure du code
+
+**Stockage:** CLAUDE.md + rules/02-conventions.md (toujours chargé)
+
+---
+
+## 📋 CATÉGORIE 3 : Commandes Opérationnelles
+
+**Trigger:** "Comment je déploie ?", "Comment build ?", "Scripts de dev"
+
+**Détection:** Demande de workflow opérationnel
+
+**Stockage:** CLAUDE.md ou README du projet
+
+---
+
+## 📋 CATÉGORIE 4 : Patterns Réutilisables ⭐
+
+**C'est la clé de l'économie de tokens !**
+
+Les patterns techniques sont dans `skills/patterns/*` et chargés **uniquement à la demande**.
+
+### Triggers de Chargement
+
+| Trigger | Skill à charger |
+|---------|-----------------|
+| "Server Action", "use server", "revalidateTag", "use cache" | `/skill patterns/nextjs` |
+| "App Router", "RSC", "Next.js 16" | `/skill patterns/nextjs` |
+| "Axum handler", "sqlx query", "Tower middleware", "rust extractor" | `/skill patterns/rust` |
+| "NestJS module", "DTO validation", "JWT guard", "TypeORM" | `/skill patterns/nestjs` |
+| "wasm-bindgen", "wasm-pack", "WASM Next.js", "js-sys" | `/skill patterns/wasm` |
+| "Quel stack", "quelle techno", "Next.js ou Vite" | `/skill patterns/tech-decisions` |
+
+### Exemple de Pattern
+
+```typescript
+'use server'
+
+import { revalidateTag } from 'next/cache'
+import { z } from 'zod'
+
+const schema = z.object({
+  title: z.string().min(1),
+})
+
+export async function createPost(formData: FormData) {
+  const data = schema.parse({
+    title: formData.get('title'),
+  })
+  // ...
+  revalidateTag('posts')
+}
+```
+
+---
+
+## 📋 CATÉGORIE 5 : Guides Architecturales
+
+**Trigger:** "Conventions Git", "Format commit", "Structure de dossier", "Nomination"
+
+**Détection:** Demande de guide/convention
+
+**Stockage:** rules/02-conventions.md (toujours chargé)
+
+---
+
+## 📋 CATÉGORIE 6 : Corrections Itératives
+
+**Trigger:** "Ne fais plus jamais X", "Toujours utiliser Y", "Éviter Z"
+
+**Détection:** Correction de comportement
+
+**Stockage:** rules/01-nevers.md (toujours chargé)
+
+---
+
+## 🎯 RÉSUMÉ DES CATÉGORIES
+
+| Catégorie | Contenu | Stockage | Chargement |
+|-----------|---------|----------|------------|
+| **Cat 1** | Identité projet | CLAUDE.md | Systématique |
+| **Cat 2** | Structure codebase | CLAUDE.md + rules | Systématique |
+| **Cat 3** | Workflows opérationnels | CLAUDE.md | Systématique |
+| **Cat 4** | Patterns réutilisables | **skills/patterns/*** | **À la demande** ⭐ |
+| **Cat 5** | Guides architecturales | rules/02-conventions.md | Systématique |
+| **Cat 6** | Corrections itératives | rules/01-nevers.md | Systématique |
+
+---
+
+## 🚀 BÉNÉFICES TRIGMEM v1.0.0
+
+### Économie de tokens
+- **Avant:** ~30k tokens/session (toutes les rules chargées)
+- **Après:** ~8k tokens/session + patterns à la demande
+- **Économie:** 73% sur les sessions sans besoin de patterns techniques
+
+### Organisation claire
+- **Systématique:** Identité, Structure, Guides, Corrections
+- **À la demande:** Patterns techniques par techno (chargé seulement si trigger détecté)
+
+### Conformité
+- Respect des 6 catégories TrigMem
+- Séparation Universel/Spécifique
+- Équilibre Économie/Précision/Réutilisabilité
+
+---
+
+## 🔧 UTILISATION DES SKILLS
+
+**Pour charger un pattern à la demande :**
+```
+/skill patterns/nextjs
+/pattern rust
+/skills/patterns/nestjs
+```
+
+**Pour vérifier les règles systématiques :**
+```
+/trigmem-core      # Principes fondamentaux
+/trigmem-categories # Classification automatique
+/trigmem-examples  # Ce fichier
+```
+
+---
+
+## 📚 PATTERNS DISPONIBLES
+
+| Skill | Contenu | Triggers |
+|-------|---------|----------|
+| `tech-decisions` | Choix de stack technique | "Quel stack", "quelle techno", "X ou Y" |
+| `nextjs` | Next.js 16 + React 19 patterns | "Server Action", "App Router", "RSC", "revalidateTag" |
+| `rust` | Rust + Axum patterns | "Axum handler", "sqlx query", "Tower middleware" |
+| `nestjs` | NestJS patterns | "NestJS module", "DTO validation", "JWT guard" |
+| `wasm` | WebAssembly patterns | "wasm-bindgen", "wasm-pack", "WASM Next.js" |
+
+---
+
+*Version: 1.0.0 | TrigMem Enhanced*

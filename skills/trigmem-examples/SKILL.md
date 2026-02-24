@@ -1,6 +1,10 @@
 # TrigMem Examples - Worked Demonstrations
 
-> **Version:** 1.0.0 | **Category:** Cat 0 (Meta-Memory)
+> **Version:** 2.0.0 | **Category:** Cat 0 (Meta-Memory) | **Difficulty:** Beginner
+> **Auto-Activation:** "examples", "show me", "like this", "how to apply", "demonstrate"
+> **Tags:** [examples, demonstration, learning, tutorial]
+> **Related:** trigmem-core, trigmem-categories, trigmem-decision
+> **Last Updated:** 2025-02-24
 
 ---
 

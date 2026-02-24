@@ -1,6 +1,10 @@
 # TrigMem Storage - Optimization Strategy
 
-> **Version:** 1.0.0 | **Category:** Cat 0 (Meta-Memory)
+> **Version:** 2.0.0 | **Category:** Cat 0 (Meta-Memory) | **Difficulty:** Intermediate
+> **Auto-Activation:** "where to store", "save this", "memory", "optimize tokens", "storage"
+> **Tags:** [storage, optimization, tokens, memory, configuration]
+> **Related:** trigmem-core, trigmem-categories, trigmem-decision
+> **Last Updated:** 2025-02-24
 
 ---
 

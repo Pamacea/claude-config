@@ -1,7 +1,10 @@
 # Rust + WebAssembly Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "wasm-bindgen", "wasm-pack", "WASM Next.js", "js-sys", "web-sys"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Advanced
+> **Auto-Activation:** "wasm", "webassembly", "rust wasm", "wasm-bindgen", "wasm-pack", "performance"
+> **Tags:** [wasm, webassembly, rust, performance, optimization]
+> **Related:** rust-axum, typescript-patterns, nextjs-patterns
+> **Last Updated:** 2025-02-24
 
 ---
 
@@ -531,4 +534,83 @@ pub fn safe_process(input: &str) -> Result<String, JsValue> {
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| Using `wasm-bindgen` for everything | `js-sys` or `web-sys` for browser APIs | Reduces bundle size |
+| Ignoring memory management | Proper `Vec`/String handling | Memory leaks |
+| Not optimizing WASM size | `wasm-opt` for optimization | Faster loading |
+| Synchronous WASM operations | Async with promises | Don't block main thread |
+| Not using `wasm-pack` | Proper packaging workflow | Standard tooling |
+| Ignoring browser compatibility | Feature detection first | Graceful degradation |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"WASM file too large"** | Not optimizing build | Run `wasm-opt` with optimizations |
+| **"Memory allocation error"** | Growing memory incorrectly | Use proper `Vec`/String handling |
+| **"Function not exported"** | Missing `#[wasm_bindgen]` | Add attribute to exported functions |
+| **"Type mismatch error"** | Wrong type conversion | Use proper type mappings |
+| **"Performance not improved"** | Wrong use case for WASM | Profile before using WASM |
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `rust-axum` - Rust fundamentals needed
+- **Related:** `nextjs-patterns` - Next.js WASM integration
+- **Complementary:** `typescript-patterns` - TS types for WASM
+
+---
+
+## 📖 Further Reading
+
+- [Rust WASM Book](https://rustwasm.github.io/docs/book/)
+- [wasm-bindgen Guide](https://rustwasm.github.io/wasm-bindgen/)
+- [wasm-pack Documentation](https://rustwasm.github.io/wasm-pack/)
+- [MDN WebAssembly Docs](https://developer.mozilla.org/en-US/docs/WebAssembly)
+
+---
+
+## 🎯 Success Criteria
+
+WASM implementation is complete when:
+- [ ] Proper `#[wasm_bindgen]` exports
+- [ ] Memory managed correctly (no leaks)
+- [ ] WASM size optimized (< 100KB gzipped)
+- [ ] Async operations for long tasks
+- [ ] TypeScript types generated
+- [ ] Error handling across TS/WASM boundary
+- [ ] Performance measured and improved
+- [ ] Browser compatibility tested
+
+---
+
+## 💡 Key Insights
+
+### Why WASM + Rust Works
+
+1. **Near-Native Performance** - Runs at 80-90% of native speed
+2. **Memory Safety** - Rust's guarantees prevent entire classes of bugs
+3. **Small Bundle** - Optimized WASM is tiny
+4. **Type Safety** - Compile-time guarantees
+5. **Reuse Existing Code** - Use Rust ecosystem
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Using WASM for everything
+  → **Fix:** Profile first, use only for performance-critical code
+
+- ❌ **Pitfall:** Ignoring memory overhead
+  → **Fix:** Be mindful of allocations and data transfer
+
+- ❌ **Pitfall:** Not optimizing WASM size
+  → **Fix:** Use `wasm-opt` and enable link-time optimization
+
+---
+
+*Version: 2.0.0 | Rust + WebAssembly Patterns*

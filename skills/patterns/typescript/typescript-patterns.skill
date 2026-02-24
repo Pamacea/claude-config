@@ -1,7 +1,37 @@
 # TypeScript Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "typescript config", "type error", "generic", "utility type"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Intermediate
+> **Auto-Activation:** "typescript", "ts", "type", "interface", "generic", "utility type", "type error"
+> **Tags:** [typescript, types, generics, utility-types, type-safety]
+> **Related:** nextjs-patterns, nestjs-patterns, tanstack-patterns
+> **Last Updated:** 2025-02-24
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Install TypeScript
+npm install -D typescript
+
+# Initialize
+npx tsc --init
+
+# Run
+npx tsc --watch
+```
+
+---
+
+## 📊 Quick Reference
+
+| Concept | Pattern | Use Case |
+|---------|---------|----------|
+| **Generics** | `<T>` | Reusable components/functions |
+| **Utility Types** | `Partial<T>`, `Pick<T>` | Transform types |
+| **Type Guards** | `value is Type` | Runtime type checking |
+| **Discriminated Unions** | `{ type: 'a' } \| { type: 'b' }` | Exhaustive checking |
+| **Inference** | `infer` | Advanced type manipulation |
 
 ---
 
@@ -92,4 +122,90 @@ type Paginated<T> = {
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| `any` type | `unknown` or proper type | Type safety is lost |
+| `as` casting without validation | Type guards or Zod | Runtime safety |
+| `@ts-ignore` | Fix the type error | Suppressing errors causes bugs |
+| Optional chaining everywhere | Proper null checks | `?.` hides real issues |
+| Duplicating type definitions | Utility types | DRY principle |
+| Using `Object` type | `Record<string, T>` | Too permissive |
+| Ignoring strict mode | Enable `strict: true` | Catch errors early |
+| Not using generics | Proper generic types | Reusability |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Type 'X' is not assignable to 'Y'"** | Mismatched types | Check type definitions, use proper interfaces |
+| **"Property 'X' does not exist on type 'Y'"** | Missing type or wrong type | Define interface or use type assertion |
+| **"Type 'unknown' is not assignable to..."** | Need type guard | Add type guard before usage |
+| **"Cannot find module"** | Missing @types package | Install `@types/package-name` |
+| **"TS7053: Element implicitly has 'any' type"** | Missing index signature | Add `Record<string, T>` or key signature |
+| **Generic type error** | Wrong generic constraint | Add proper constraint `<T extends SomeType>` |
+
+---
+
+## 🔗 Related Skills
+
+- **Used by:** `nextjs-patterns` - Next.js uses TypeScript extensively
+- **Used by:** `nestjs-patterns` - NestJS is built on TypeScript
+- **Used by:** `tanstack-patterns` - TanStack has excellent TS support
+- **Related:** `tech-decisions` - TypeScript adoption decisions
+
+---
+
+## 📖 Further Reading
+
+- [Official TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
+- [TypeScript Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+- [TypeScript Deep Dive](https://basarat.gitbook.io/typescript/)
+- [Total TypeScript](https://totaltypescript.com)
+
+---
+
+## 🎯 Success Criteria
+
+TypeScript implementation is complete when:
+- [ ] `strict: true` enabled in tsconfig.json
+- [ ] Zero `any` types (except specific cases)
+- [ ] Proper interfaces/types for all data structures
+- [ ] Generics used for reusable code
+- [ ] Type guards for runtime validation
+- [ ] Utility types leveraged (Partial, Pick, Omit, etc.)
+- [ ] No `@ts-ignore` comments
+- [ ] Zod or similar for runtime validation
+
+---
+
+## 💡 Key Insights
+
+### Why TypeScript Matters
+
+1. **Catch Errors Early** - Compile-time error detection
+2. **Better IDE Support** - Autocomplete, inline docs
+3. **Self-Documenting** - Types serve as documentation
+4. **Refactoring Safety** - Change with confidence
+5. **Team Collaboration** - Clear contracts between code
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Using `any` to fix type errors
+  → **Fix:** Use `unknown` and type guards
+
+- ❌ **Pitfall:** Type assertions (`as`) without validation
+  → **Fix:** Use Zod or runtime checks
+
+- ❌ **Pitfall:** Over-complicating types
+  → **Fix:** Keep types simple, let inference work
+
+- ❌ **Pitfall:** Not using strict mode
+  → **Fix:** Always enable `strict: true`
+
+---
+
+*Version: 2.0.0 | TypeScript Patterns*

@@ -1,7 +1,10 @@
 # UX/UI Design Patterns - Atomic Approach
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "component design", "UI pattern", "accessibility", "animation"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Intermediate
+> **Auto-Activation:** "ux", "ui", "design", "accessibility", "animation", "component design", "user experience"
+> **Tags:** [ux, ui, design, accessibility, a11y, animation]
+> **Related:** tailwind-patterns, nextjs-patterns, documentation-patterns
+> **Last Updated:** 2025-02-24
 
 ---
 
@@ -445,4 +448,84 @@ Anti-Patterns:
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4 - Atomic UX/UI Design*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| Low contrast text | WCAG AA contrast minimum (4.5:1) | Accessibility |
+| Tiny touch targets (< 44px) | Minimum 44x44px targets | Mobile usability |
+| Color-only indicators | Icons + colors | Color blindness accessibility |
+| Auto-playing media | User-controlled media | Accessibility, UX |
+| Unclear error messages | Specific, actionable errors | User guidance |
+| Infinite scroll without pagination | Load more button | Performance, control |
+| Not keyboard navigable | Full keyboard support | Accessibility |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Poor accessibility score"** | Missing ARIA labels, low contrast | Use Lighthouse, add ARIA, increase contrast |
+| **"Users can't find features"** | Poor information architecture | User testing, card sorting |
+| **"High drop-off rate"** | Confusing navigation, long forms | Simplify flow, progress indicators |
+| **"Mobile complaints"** | Not responsive, small touch targets | Test on real devices |
+| **"Slow perceived performance"** | No loading feedback | Add skeletons, spinners, progress bars |
+
+---
+
+## 🔗 Related Skills
+
+- **Related:** `tailwind-patterns` - Implementing design systems
+- **Related:** `nextjs-patterns` - UX in Next.js apps
+- **Related:** `documentation-patterns` - UX documentation
+
+---
+
+## 📖 Further Reading
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [Material Design Guidelines](https://material.io/design)
+- [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
+- [Laws of UX](https://lawsofux.com)
+
+---
+
+## 🎯 Success Criteria
+
+UX implementation is complete when:
+- [ ] WCAG AA compliance (contrast, labels, focus)
+- [ ] Touch targets ≥ 44x44px
+- [ ] Keyboard navigation works
+- [ ] Screen reader tested
+- [ ] Loading states for all async actions
+- [ ] Clear error messages with actions
+- [ ] Responsive on all target devices
+- [ ] User testing completed
+
+---
+
+## 💡 Key Insights
+
+### Why UX Matters
+
+1. **User Retention** - Good UX = returning users
+2. **Conversion** - Clear UX = more conversions
+3. **Accessibility** - Inclusive design = more users
+4. **Brand Perception** - UX quality reflects brand quality
+5. **Development Cost** - Good UX = fewer support requests
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Designing for yourself, not users
+  → **Fix:** User research, testing, feedback
+
+- ❌ **Pitfall:** Ignoring accessibility
+  → **Fix:** Test with screen readers, keyboard
+
+- ❌ **Pitfall:** Not getting user feedback
+  → **Fix:** Continuous user testing and iteration
+
+---
+
+*Version: 2.0.0 | Atomic UX/UI Design Patterns*

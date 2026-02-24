@@ -1,6 +1,10 @@
 # TrigMem Verification - Quality Gates
 
-> **Version:** 1.0.0 | **Category:** Cat 0 (Meta-Memory)
+> **Version:** 2.0.0 | **Category:** Cat 0 (Meta-Memory) | **Difficulty:** Intermediate
+> **Auto-Activation:** "verify", "check", "validate", "audit", "is this correct"
+> **Tags:** [verification, validation, quality, audit, checklist]
+> **Related:** trigmem-core, trigmem-categories, trigmem-storage
+> **Last Updated:** 2025-02-24
 
 ---
 

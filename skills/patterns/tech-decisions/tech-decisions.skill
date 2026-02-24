@@ -1,7 +1,10 @@
 # Tech Stack Decisions & Selection
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "Quel stack choisir ?", "Quelle techno pour X ?", "Next.js ou Vite ?"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Intermediate
+> **Auto-Activation:** "which tech", "tech stack", "choose", "framework", "library", "vs", "or", "quel stack"
+> **Tags:** [tech-decisions, stack, framework, choice, comparison]
+> **Related:** nextjs-patterns, nestjs-patterns, rust-axum
+> **Last Updated:** 2025-02-24
 
 ---
 
@@ -421,4 +424,83 @@ Load Testing      → k6 or Artillery
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| Choosing tech based on hype | Project requirements first | Hype fades, requirements remain |
+| Using 10+ libraries for simple tasks | Minimal dependencies | Complexity overhead |
+| Switching tech mid-project | Proper research upfront | Expensive context switch |
+| Ignoring team expertise | Team skills match | Learning curve delays |
+| Not considering long-term maintenance | Sustainability | Technical debt accumulates |
+| Analysis paralysis | Informed decisions with cutoff | Perfection is enemy of good |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Tech choice feels wrong"** | Insufficient research | Re-evaluate requirements vs tech capabilities |
+| **"Team can't learn tech"** | Too steep learning curve | Consider training or alternative |
+| **"Performance issues"** | Wrong tech for use case | Profile before choosing, benchmark after |
+| **"Integration nightmare"** | Incompatible choices | Verify ecosystem compatibility early |
+| **"Regretting choice later"** | Short-term thinking | Consider 6-12 month roadmap |
+
+---
+
+## 🔗 Related Skills
+
+- **Related:** All pattern skills - Detailed tech-specific patterns
+- **Related:** `nextjs-patterns` - When to choose Next.js
+- **Related:** `rust-axum` - When to choose Rust
+- **Related:** `nestjs-patterns` - When to choose NestJS
+
+---
+
+## 📖 Further Reading
+
+- [Technology Radar](https://www.thoughtworks.com/radar) - Tech assessment guide
+- [StackShare](https://stackshare.io) - Real tech stacks from companies
+- [Choose Boring Technology](https://mcfunley.com/2016/04/22/choose-boring-technology.html)
+
+---
+
+## 🎯 Success Criteria
+
+Tech decision process is complete when:
+- [ ] Requirements clearly defined
+- [ ] Options evaluated (2-3 alternatives)
+- [ ] Team expertise considered
+- [ ] Long-term viability assessed
+- [ ] Proof-of-concept tested if needed
+- [ ] Team agrees on decision
+- [ ] Migration plan documented (if applicable)
+- [ ] Success metrics defined
+
+---
+
+## 💡 Key Insights
+
+### Why Tech Decisions Matter
+
+1. **Long-term Impact** - Choices affect years of development
+2. **Team Productivity** - Right tools = happy, productive team
+3. **Maintenance Cost** - Good choices reduce technical debt
+4. **Scalability** - Tech must handle growth
+5. **Ecosystem** - Available libraries and community support
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Choosing based on trends
+  → **Fix:** Focus on requirements and team skills
+
+- ❌ **Pitfall:** Analysis paralysis
+  → **Fix:** Set decision deadline, move forward
+
+- ❌ **Pitfall:** Ignoring maintenance
+  → **Fix:** Consider long-term support and updates
+
+---
+
+*Version: 2.0.0 | Tech Stack Decisions*

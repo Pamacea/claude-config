@@ -6,6 +6,10 @@
 
 ## 🔄 Git Flow Master Convention
 
+### Règles
+- ✅ Vérifiez que le .env a les secrets cachés par les placeholders $SECRET_NAME. 
+- ✅ Verifiez que le .enc.env est crypté et pas ouvert.
+
 ### Format des Commits
 
 ```

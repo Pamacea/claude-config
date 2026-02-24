@@ -1,7 +1,10 @@
 # NestJS Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "NestJS module", "DTO validation", "JWT guard", "TypeORM repository"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Intermediate
+> **Auto-Activation:** "nestjs", "nest", "controller", "service", "module", "decorator", "dependency injection"
+> **Tags:** [nestjs, backend, api, typescript, decorators, modules]
+> **Related:** typescript-patterns, tech-decisions
+> **Last Updated:** 2025-02-24
 
 ---
 
@@ -576,4 +579,96 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| Logic in controllers | Use services | Controllers should only handle HTTP concerns |
+| Direct database access in controllers | Use repositories | Separation of concerns |
+| Manual validation without class-validator | Use ValidationPipe + DTOs | Automatic, consistent validation |
+| Hardcoded configuration | Use @nestjs/config | Environment-specific settings |
+| Business logic in guards | Use services | Guards should only authorize |
+| Using `any` type | Use proper TypeScript interfaces | Type safety |
+| Static modules for dynamic config | Use DynamicModule | Flexibility |
+| Not using dependency injection | Use constructor injection | Testability, decoupling |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Nest can't resolve dependencies"** | Circular dependency or missing import | Use `forwardRef()` for circular deps, check module imports |
+| **"ValidationPipe not working"** | Not globally registered or missing decorators | Add `app.useGlobalPipes(new ValidationPipe())` in main.ts |
+| **"JWT strategy not called"** | Wrong jwtFromRequest config or secret mismatch | Check ExtractJwt configuration and JWT_SECRET |
+| **"Module not found"** | Missing in imports array | Add module to `imports: []` in module file |
+| **"Cannot read property of undefined"** | Service not provided in module | Add service to `providers: []` in module |
+| **"CORS error"** | CORS not enabled | Call `app.enableCors()` in main.ts |
+| **"Database connection failed"** | Wrong connection string or TypeORM config | Check database credentials and config |
+| **"Decorator not working"** | Not using reflect-metadata | Import `reflect-metadata` at top of main.ts |
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `typescript-patterns` - NestJS is built on TypeScript
+- **Related:** `tech-decisions` - When to choose NestJS vs other frameworks
+- **Complementary:** `rust-axum` - Alternative backend framework for performance
+
+---
+
+## 📖 Further Reading
+
+- [Official NestJS Documentation](https://docs.nestjs.com)
+- [NestJS CLI Commands](https://docs.nestjs.com/cli/usages)
+- [TypeORM with NestJS](https://docs.nestjs.com/techniques/database)
+- [Validation with class-validator](https://github.com/typestack/class-validator)
+
+---
+
+## 🎯 Success Criteria
+
+NestJS implementation is complete when:
+- [ ] Module structure follows feature-based organization
+- [ ] All DTOs use class-validator decorators
+- [ ] Guards handle authentication/authorization
+- [ ] Services contain business logic (not controllers)
+- [ ] Global ValidationPipe configured
+- [ ] Environment variables use @nestjs/config
+- [ ] Custom decorators for common operations
+- [ ] Exception filters for consistent error responses
+- [ ] Interceptors for cross-cutting concerns
+- [ ] Tests for services and controllers
+
+---
+
+## 💡 Key Insights
+
+### Why NestJS Works Well
+
+1. **Dependency Injection** - Loose coupling, easy testing
+2. **Modular Architecture** - Clear separation of concerns
+3. **Decorator-Based** - Declarative, readable code
+4. **TypeScript First** - Type safety and better DX
+5. **Opinionated Structure** - Consistent patterns across teams
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Putting business logic in controllers
+  → **Fix:** Move to services, keep controllers thin
+
+- ❌ **Pitfall:** Not using modules properly
+  → **Fix:** One module per feature, import dependencies
+
+- ❌ **Pitfall:** Ignoring TypeScript types
+  → **Fix:** Use interfaces for DTOs and entities
+
+- ❌ **Pitfall:** Manual validation
+  → **Fix:** Use ValidationPipe with class-validator
+
+- ❌ **Pitfall:** Not testing services
+  → **Fix:** Services are easy to test, write unit tests
+
+---
+
+*Version: 2.0.0 | NestJS Patterns*

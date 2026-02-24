@@ -1,7 +1,10 @@
 # Documentation Writing Patterns
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "write docs", "README", "documentation", "changelog"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Beginner
+> **Auto-Activation:** "docs", "documentation", "readme", "changelog", "api docs", "guide"
+> **Tags:** [documentation, writing, readme, api-docs, guides]
+> **Related:** tech-decisions, ux-design-patterns, all-pattern-skills
+> **Last Updated:** 2025-02-24
 
 ---
 
@@ -524,4 +527,84 @@ Before Release:
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4 - Documentation Patterns*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| "Coming soon" placeholders | Complete documentation or TODO issues | Users need info now |
+| Outdated examples | Tested, working examples | Frustrating when code doesn't work |
+| Walls of text | Structured with headers, lists, code | Scannability |
+| Assuming knowledge | Context and prerequisites | Clearer onboarding |
+| Writing code without comments | Self-documenting code + key comments | Maintainability |
+| Not updating docs | Docs synced with code changes | Accuracy |
+| Jargon without explanation | Plain language + technical terms | Accessibility |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Users can't find info"** | Poor structure, missing search | Add table of contents, improve organization |
+| **"Docs are confusing"** | Unclear explanations, missing context | Add examples, prerequisites, diagrams |
+| **"Examples don't work"** | Outdated code, missing setup | Test all examples, keep them current |
+| **"Too much to read"** | Verbose documentation | Use progressive disclosure, quick start |
+| **"Not sure when to use"** | Missing use cases | Add "When to Use" sections |
+
+---
+
+## 🔗 Related Skills
+
+- **Related:** `tech-decisions` - Documenting architectural decisions
+- **Related:** `ux-design-patterns` - Documentation UX
+- **Used by:** All skills - Each skill should be well documented
+
+---
+
+## 📖 Further Reading
+
+- [Google Developer Documentation Style Guide](https://developers.google.com/tech-writing/one)
+- [Write the Docs](https://www.writethedocs.org/)
+- [Documentation Style Guide](https://documentation-style-guide.org/)
+- [Diataxis Framework](https://diataxis.fr/) - Documentation patterns
+
+---
+
+## 🎯 Success Criteria
+
+Documentation is complete when:
+- [ ] README < 50 lines with quick start
+- [ ] Quick start ≤ 3 commands
+- [ ] All examples tested and working
+- [ ] Clear prerequisites and context
+- [ ] Structured with headings and lists
+- [ ] Searchable (table of contents)
+- [ ] Kept current with code changes
+- [ ] User feedback incorporated
+
+---
+
+## 💡 Key Insights
+
+### Why Documentation Matters
+
+1. **Onboarding** - New users get started faster
+2. **Support Reduction** - Fewer questions, issues
+3. **Knowledge Sharing** - Team knowledge preserved
+4. **Project Quality** - Well-documented = well-maintained
+5. **Community Building** - Good docs attract contributors
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Writing documentation last
+  → **Fix:** Document as you build
+
+- ❌ **Pitfall:** Writing for yourself
+  → **Fix:** Write for your users
+
+- ❌ **Pitfall:** Never updating docs
+  → **Fix:** Review and update with each release
+
+---
+
+*Version: 2.0.0 | Documentation Patterns*

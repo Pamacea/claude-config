@@ -1,6 +1,10 @@
-# TrigMem Decision - 2-Phase Routing Framework
+# TrigMem Decision - 2-Phase Decision Guide
 
-> **Version:** 1.0.0 | **Category:** Cat 0 (Meta-Memory)
+> **Version:** 2.0.0 | **Category:** Cat 0 (Meta-Memory) | **Difficulty:** Beginner
+> **Auto-Activation:** "which approach", "how to decide", "should I use", "choose between", "how should I"
+> **Tags:** [decision, methodology, triage, planning, routing]
+> **Related:** trigmem-core, trigmem-categories, trigmem-storage
+> **Last Updated:** 2025-02-24
 
 ---
 

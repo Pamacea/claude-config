@@ -1,7 +1,10 @@
 # Vite Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "vite config", "vite plugin", "build vite", "dev server"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Beginner
+> **Auto-Activation:** "vite", "build tool", "bundler", "dev server", "hmr", "fast refresh"
+> **Tags:** [vite, build-tool, bundler, dev-server, hmr]
+> **Related:** nextjs-patterns, typescript-patterns, tailwind-patterns
+> **Last Updated:** 2025-02-24
 
 ---
 
@@ -82,4 +85,84 @@ export default defineConfig({
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| Using `import.meta.env` directly | `VITE_` prefixed env vars | Vite only exposes vars with `VITE_` prefix |
+| Not using alias imports | `@/` alias for clean imports | Cleaner import paths |
+| Ignoring build optimization | Proper build config | Faster, smaller bundles |
+| Not configuring proxy | Proxy API calls during dev | Avoid CORS issues |
+| Manual bundling | Let Vite handle bundling | Vite is optimized by default |
+| Ignoring HMR issues | Proper HMR configuration | Fast development experience |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"Environment variable undefined"** | Missing `VITE_` prefix | Rename to `VITE_Your_Var` |
+| **"Module not found"** | Wrong alias configuration | Check `resolve.alias` in vite.config |
+| **"HMR not working"** | Missing or wrong HMR config | Ensure HMR enabled in server config |
+| **"Build too slow"** | Not optimizing dependencies | Use `optimizeDeps.include` |
+| **"Port already in use"** | Server port conflict | Change `server.port` in config |
+| **"Assets not loading"** | Wrong public directory | Put assets in `public/` folder |
+
+---
+
+## 🔗 Related Skills
+
+- **Related:** `nextjs-patterns` - Next.js has built-in bundling (vs Vite)
+- **Related:** `tailwind-patterns` - Tailwind pairs perfectly with Vite
+- **Related:** `typescript-patterns` - Vite + TypeScript = excellent DX
+
+---
+
+## 📖 Further Reading
+
+- [Official Vite Documentation](https://vitejs.dev/)
+- [Vite Plugins](https://vitejs.dev/plugins/)
+- [Vite Configuration](https://vitejs.dev/config/)
+- [Why Vite](https://vitejs.dev/guide/why.html)
+
+---
+
+## 🎯 Success Criteria
+
+Vite implementation is complete when:
+- [ ] Vite properly configured for framework
+- [ ] Path aliases working (`@/` imports)
+- [ ] Environment variables using `VITE_` prefix
+- [ ] HMR working smoothly
+- [ ] Build optimized for production
+- [ ] Proxy configured for API calls
+- [ ] Source maps enabled in dev
+- [ ] Fast development experience
+
+---
+
+## 💡 Key Insights
+
+### Why Vite Works Well
+
+1. **Instant Start** - No bundling during dev
+2. **Lightning Fast HMR** - Updates in milliseconds
+3. **Optimized Build** - Rollup for production
+4. **Framework Agnostic** - Works with React, Vue, Svelte, etc.
+5. **Native ESM** - Uses browser native modules
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Forgetting `VITE_` prefix for env vars
+  → **Fix:** Always prefix environment variables with `VITE_`
+
+- ❌ **Pitfall:** Not using path aliases
+  → **Fix:** Configure `@` alias for cleaner imports
+
+- ❌ **Pitfall:** Ignoring dependency optimization
+  → **Fix:** Pre-bundle dependencies for faster dev
+
+---
+
+*Version: 2.0.0 | Vite Patterns*
