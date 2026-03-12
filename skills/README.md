@@ -10,11 +10,12 @@
 ### Current Inventory
 
 ```
-Total Skills: 21
-├── Meta Skills: 7 (TrigMem System)
+Total Skills: 20
+├── Meta Skills: 6 (TrigMem System - unified in trigmem/)
 ├── Pattern Skills: 11 (Technical Patterns)
 ├── Operation Skills: 1 (MCP Tools)
-└── Foundation Files: 2 (TEMPLATE, INDEX)
+├── Auto-loader: 1 (pattern-autoloader)
+└── Foundation Files: 3 (TEMPLATE, INDEX, README)
 ```
 
 ### Structure
@@ -26,12 +27,13 @@ Total Skills: 21
 ├── README.md                # This file (NEW)
 ├── validate-skills.md       # Validation system (NEW)
 │
-├── trigmem-core/            # EPCT methodology ✅
-├── trigmem-categories/      # 6-category system ✅
-├── trigmem-decision/        # Decision guide ✅ (v2.0)
-├── trigmem-storage/         # Storage strategy ✅ (v2.0)
-├── trigmem-examples/        # Worked examples ✅ (v2.0)
-├── trigmem-verification/    # Quality gates ✅ (v2.0)
+├── trigmem/                 # TrigMem System ✅ (NEW unified structure)
+│   ├── core/               # EPCT methodology (trigmem-core.skill)
+│   ├── categories/         # 6-category system (trigmem-categories.skill)
+│   ├── decisions/          # Decision guide (trigmem-decision.skill) ✅ (v2.0)
+│   ├── storage/            # Storage strategy (trigmem-storage.skill) ✅ (v2.0)
+│   └── verification/       # Quality gates (trigmem-verification.skill) ✅ (v2.0)
+│
 ├── pattern-autoloader/      # Auto-detection ✅
 │
 ├── patterns/

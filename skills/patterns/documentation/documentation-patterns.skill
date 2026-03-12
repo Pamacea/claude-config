@@ -8,6 +8,33 @@
 
 ---
 
+## 🚀 Quick Start
+
+```bash
+# Create README.md
+echo "# Project Name
+
+One-liner description < 15 words.
+
+## Quick Start
+npm install project-name
+" > README.md
+
+# Create GUIDE.md
+echo "# Project Guide
+
+## Story
+..." > GUIDE.md
+
+# Create REFERENCE.md
+echo "# API Reference
+
+## API
+..." > REFERENCE.md
+```
+
+---
+
 ## 🎯 CORE PHILOSOPHY
 
 **Good documentation is:**

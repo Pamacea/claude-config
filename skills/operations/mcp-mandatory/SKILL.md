@@ -1,13 +1,40 @@
 # MCP Mandatory - Strong Suggestions for Tool Usage
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 3 (Commandes Opérationnelles)
-> **Type:** Operational Support
->
-> **Available MCPs:** claude-mem, git-flow-master, chrome-devtools, z-ai, web-reader, web-search-prime
+> **Version:** 2.0.0 | **Category:** Cat 3 (Commandes Opérationnelles) | **Difficulty:** Beginner
+> **Auto-Activation:** "commit", "git", "debug UI", "screenshot", "analyze image", "docs", "search latest"
+> **Tags:** [mcp, tools, git, debugging, memory, documentation]
+> **Related:** All pattern skills - For implementation details
+> **Last Updated:** 2025-03-12
 
 ---
 
-## 🎯 CORE PRINCIPLE
+## 🎯 Auto-Activation
+
+**This skill auto-activates when:**
+- User mentions "commit", "git", "version", "release"
+- Working with git changes or versioning
+- Need to debug/test UI in browser
+- Analyzing images, screenshots, or videos
+- Need to fetch/read documentation
+- Searching for latest information online
+
+**Note:** This is an operational skill (Cat 3) - provides tool usage guidance.
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Before any action, ask:
+1. Check memory?  → claude-mem
+2. Committing?    → git-flow-master
+3. UI debugging?  → chrome-devtools
+4. Visual?        → z-ai
+```
+
+---
+
+## 🎯 Core Principle
 
 **Before ANY significant action, check:**
 1. Should I use memory? → claude-mem
@@ -390,4 +417,82 @@ Visual Analysis:
 
 ---
 
-*Version: 1.0.0 | MCP Mandatory - Strong Suggestions*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| Committing without lint/typecheck | Run quality gates first | Prevent broken code in repo |
+| Guessing at solutions | Search claude-mem first | Reuse existing patterns |
+| Manual commit messages | Use git-flow-master | Consistent versioning |
+| Not verifying UI after changes | Use chrome-devtools | Catch visual regressions |
+| Ignoring screenshots from users | Use z-ai for analysis | Faster debugging |
+| Implementing without latest docs | Use web-search-prime | Avoid breaking changes |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| **"MCP tool not found"** | MCP not installed/configured | Check Claude settings for MCP server |
+| **"Git commit fails"** | Hook failed or lint error | Run lint/typecheck manually first |
+| **"Chrome page not found"** | Browser not open or wrong page | Use list_pages to check available pages |
+| **"Memory search empty"** | Nothing saved yet | Save patterns as you solve problems |
+| **"Web search fails"** | Network issue or API limit | Try again or use web-reader directly |
+
+---
+
+## 🔗 Related Skills
+
+- **Used by:** All pattern skills - For implementation guidance
+- **Related:** `trigmem-categories` - For categorizing decisions
+- **Related:** `documentation-patterns` - For documenting decisions
+
+---
+
+## 📖 Further Reading
+
+- [Claude MCP Documentation](https://github.com/modelcontextprotocol/servers)
+- [Git Flow Master Repository](https://github.com/aureus-linux/git-flow-master)
+- [Chrome DevTools Protocol](https://chromedevtools.github.io/devtools-protocol/)
+
+---
+
+## 🎯 Success Criteria
+
+MCP usage is effective when:
+- [ ] Searching claude-mem before implementing
+- [ ] Using git-flow-master for all commits
+- [ ] Using chrome-devtools for UI debugging
+- [ ] Using z-ai for visual analysis
+- [ ] Verifying latest docs with web-search-prime
+- [ ] Saving successful patterns to memory
+- [ ] Consistent commit messages across project
+- [ ] Fewer repeated questions/issues
+
+---
+
+## 💡 Key Insights
+
+### Why MCP System Matters
+
+1. **Consistency** - Standardized workflows across projects
+2. **Memory** - Reuse solutions instead of relearning
+3. **Quality** - Automated checks before commits
+4. **Speed** - Faster debugging with proper tools
+5. **Knowledge** - Latest documentation at fingertips
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Forgetting to search memory first
+  → **Fix:** Make claude-mem search the first step
+
+- ❌ **Pitfall:** Manual commit messages
+  → **Fix:** Always use git-flow-master for versioning
+
+- ❌ **Pitfall:** Not using available MCPs
+  → **Fix:** Check MCP reference before any action
+
+---
+
+*Version: 2.0.0 | MCP Mandatory - Strong Suggestions*

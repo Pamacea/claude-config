@@ -1,7 +1,26 @@
 # Next.js 16 Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "Server Action", "App Router", "RSC", "revalidateTag", "use cache"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Intermediate
+> **Auto-Activation:** "nextjs", "next.js", "server action", "app router", "rsc", "revalidatetag", "use cache", "server component"
+> **Tags:** [nextjs, react, server-components, app-router, ssr, ssr]
+> **Related:** tanstack-patterns, typescript-patterns, tailwind-patterns
+> **Last Updated:** 2025-03-12
+
+---
+
+## 🎯 Auto-Activation
+
+**This skill auto-activates when:**
+- "nextjs", "next js", "next.js"
+- "server component", "server action", "rsc"
+- "app router", "ssr", "ssg", "isr"
+- "use cache", "revalidateTag"
+- "app directory", "route handler"
+
+**Progressive Disclosure:**
+1. **Metadata** → Quick reference tables
+2. **Instructions** → Full patterns with code examples
+3. **Resources** → Architecture diagrams and links
 
 ---
 
@@ -12,6 +31,33 @@ npx create-next-app@latest my-app --typescript --tailwind --eslint
 cd my-app
 npm run dev
 ```
+
+---
+
+## 📊 Quick Reference
+
+### Overview Table
+
+| Concept | Pattern | Use Case |
+|---------|---------|----------|
+| **Server Component** | Default async component | Data fetching, DB access, SSR |
+| **Client Component** | `'use client'` directive | Hooks, event handlers, interactivity |
+| **Server Action** | `'use server'` directive | Mutations, form submissions |
+| **Cache Component** | `'use cache'` + `cacheTag()` | Data caching with invalidation |
+| **Route Handler** | `app/api/**/route.ts` | Webhooks, third-party integrations |
+| **Dynamic Import** | `dynamic(() => import())` | Code splitting, heavy components |
+
+### File Patterns
+
+| File | Purpose |
+|------|---------|
+| `app/page.tsx` | Home page |
+| `app/layout.tsx` | Root layout |
+| `app/loading.tsx` | Loading state |
+| `app/error.tsx` | Error boundary |
+| `app/(group)/` | Route group (no URL) |
+| `features/*/actions/*.ts` | Server actions |
+| `features/*/queries/*.ts` | Data queries |
 
 ---
 
@@ -570,4 +616,81 @@ export default function Loading() {
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| `useEffect` pour data fetching | Server Components ou Server Actions | Server-side = plus performant |
+| `useState` pour server data | TanStack Query ou Server Components | Évite synchro state |
+| API Routes pour data | Server Actions | Réduit couche HTTP |
+| `'use client'` par défaut | Server Components par défaut | Réduit JS client |
+| Fetch sans cache | `use cache` + `revalidateTag` | Performance |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| "Server Component can't use hook" | Hook dans Server Component | Ajouter `'use client'` ou déplacer |
+| "useCache is not a function" | Next.js < 15 | Upgrader vers Next.js 16 |
+| "revalidateTag not working" | Pas de cache tag utilisé | Utiliser `use cache` avec tags |
+| "FormData empty in Server Action" | `request.formData()` manquant | Extraire formData dans l'action |
+| "CORS error on route handler" | OPTIONS non géré | Ajouter gestion OPTIONS |
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `typescript-patterns` - Next.js utilise TypeScript
+- **Related:** `tailwind-patterns` - Styling Next.js avec Tailwind
+- **Related:** `tanstack-patterns` - Data fetching client-side
+- **Complementary:** `rust-axum` - Alternative backend haute performance
+
+---
+
+## 📖 Further Reading
+
+- [Official Next.js Documentation](https://nextjs.org/docs)
+- [Server Actions Guide](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)
+- [App Router Documentation](https://nextjs.org/docs/app)
+- [Next.js 16 Release Notes](https://nextjs.org/blog)
+- [React Server Components](https://react.dev/reference/react/use-server)
+
+---
+
+## 🎯 Success Criteria
+
+Next.js implementation is complete when:
+- [ ] Using Server Components by default
+- [ ] Server Actions for mutations with Zod validation
+- [ ] Cache components with `cacheTag()` for data
+- [ ] `revalidateTag()` after mutations
+- [ ] Route handlers only for webhooks
+- [ ] TanStack Query for client data fetching
+- [ ] Proper error.tsx and loading.tsx files
+- [ ] Environment variables properly secured
+- [ ] Images optimized with next/image
+- [ ] Type-safe with TypeScript strict mode
+
+---
+
+## 💡 Key Insights
+
+### Why Next.js 16 Matters
+
+1. **React Server Components** = Réduit JS client de ~40%
+2. **Cache Components** = Data fetching sans boilerplate
+3. **Turbopack** = Build 10x plus rapide en production
+4. **Partial Prerendering** = Best of SSR + SPA
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Tout mettre en `'use client'` → **Fix:** Server Components par défaut
+- ❌ **Pitfall:** Oublier `async` sur Server Components → **Fix:** Toujours utiliser `async` pour data fetching
+- ❌ **Pitfall:** API Routes pour tout → **Fix:** Server Actions pour mutations
+- ❌ **Pitfall:** Pas de stratégie de cache → **Fix:** `use cache` + `revalidateTag`
+
+---
+
+*Version: 2.0.0 | Next.js 16 Patterns*

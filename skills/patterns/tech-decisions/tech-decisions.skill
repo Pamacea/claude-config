@@ -8,6 +8,20 @@
 
 ---
 
+## 🚀 Quick Start
+
+```bash
+# Ask yourself these questions:
+1. What type of app? (SPA, SSR, API, Desktop, Mobile)
+2. What's the team's expertise? (JS, TypeScript, Rust, Go)
+3. What are the performance requirements? (Prototype, Production, High-scale)
+4. What's the deployment target? (Vercel, AWS, Self-hosted)
+
+# Then check the Decision Matrix below
+```
+
+---
+
 ## 🎯 Decision Matrix Quick Reference
 
 | Requirement | Stack | When to Use |

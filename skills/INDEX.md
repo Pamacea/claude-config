@@ -98,8 +98,8 @@ When a user asks a question:
 | `rust-axum` | - | High-performance APIs |
 | `nestjs-patterns` | `typescript-patterns` | Scalable backends |
 | `wasm-rust` | `rust-axum` | Performance optimization |
-| `trigmem-categories` | `trigmem-core` | Proper knowledge storage |
-| `pattern-autoloader` | `trigmem-categories` | Auto-skill loading |
+| `trigmem/categories` | `trigmem/core` | Proper knowledge storage |
+| `pattern-autoloader` | `trigmem/categories` | Auto-skill loading |
 
 ### Related Skills Grouping
 
@@ -116,10 +116,11 @@ When a user asks a question:
 - `wasm-rust` (Performance)
 
 **Meta System:**
-- `trigmem-core` (Methodology)
-- `trigmem-categories` (Classification)
-- `trigmem-decision` (Decision making)
-- `trigmem-storage` (Persistence)
+- `trigmem/core` (Methodology - trigmem-core.skill)
+- `trigmem/categories` (Classification - trigmem-categories.skill)
+- `trigmem/decisions` (Decision making - trigmem-decision.skill)
+- `trigmem/storage` (Persistence - trigmem-storage.skill)
+- `trigmem/verification` (Quality gates - trigmem-verification.skill)
 - `pattern-autoloader` (Auto-loading)
 
 ---
@@ -131,12 +132,13 @@ When a user asks a question:
 ├── TEMPLATE.md              # This template
 ├── INDEX.md                 # This file
 │
-├── trigmem-core/            # EPCT methodology
-├── trigmem-categories/      # 6-category classification
-├── trigmem-decision/        # Decision guide
-├── trigmem-storage/         # Storage configuration
-├── trigmem-examples/        # Worked examples
-├── trigmem-verification/    # Verification system
+├── trigmem/                 # TrigMem System (NEW structure)
+│   ├── core/               # EPCT methodology (trigmem-core.skill)
+│   ├── categories/         # 6-category classification (trigmem-categories.skill)
+│   ├── decisions/          # Decision guide (trigmem-decision.skill)
+│   ├── storage/            # Storage configuration (trigmem-storage.skill)
+│   └── verification/       # Verification system (trigmem-verification.skill)
+│
 ├── pattern-autoloader/      # Auto-detection
 │
 ├── patterns/
@@ -281,11 +283,12 @@ Resolution:
 
 ### Current Inventory
 
-- **Total Skills:** 21
-- **Meta Skills:** 7
+- **Total Skills:** 20
+- **Meta Skills:** 6 (TrigMem unified)
 - **Pattern Skills:** 11
 - **Operation Skills:** 1
-- **Template Coverage:** 6/21 (29%)
+- **Auto-loader:** 1 (pattern-autoloader)
+- **Template Coverage:** 6/20 (30%)
 
 ### Target Coverage
 

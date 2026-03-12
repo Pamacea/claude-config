@@ -1,7 +1,39 @@
 # Rust + Axum Patterns & Best Practices
 
-> **Version:** 1.0.0 | **Category:** TrigMem Cat 4 (Patterns Réutilisables)
-> **Trigger:** "Axum handler", "sqlx query", "Tower middleware", "rust extractor"
+> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Advanced
+> **Auto-Activation:** "rust", "axum", "sqlx", "tower middleware", "rust extractor", "rust api"
+> **Tags:** [rust, axum, async, web-framework, performance]
+> **Related:** wasm-rust, tech-decisions, typescript-patterns
+> **Last Updated:** 2025-03-12
+
+---
+
+## 🎯 Auto-Activation
+
+**This skill auto-activates when:**
+- User mentions "Rust", "Axum", "Rust web framework"
+- Working with SQLx for database queries
+- Implementing Tower middleware
+- Creating high-performance API services
+- Working with async Rust patterns
+
+**Progressive Disclosure:**
+1. **Metadata** → Quick reference tables
+2. **Instructions** → Full methodology/patterns
+3. **Resources** → Decision trees and examples
+
+---
+
+## 📊 Quick Reference
+
+| Concept | Pattern | When to Use |
+|---------|---------|-------------|
+| **Handler** | `async fn handler() -> impl IntoResponse` | Route handler |
+| **State** | `axum::Extension<Arc<AppState>>` | Shared state |
+| **Extractor** | `Path<(id,)>, Json<Data>, Query<Params>` | Request data |
+| **Error** | `Result<T, AppError>` + `IntoResponse` | Error handling |
+| **Middleware** | `ServiceBuilder::new().layer(layer)` | Request processing |
+| **Layer** | `tower_http::cors::CorsLayer` | CORS, tracing, compression |
 
 ---
 
@@ -21,6 +53,35 @@ cargo add tower-http --features cors,fs
 # Run
 cargo run
 ```
+
+---
+
+## 📊 Quick Reference
+
+### Overview Table
+
+| Concept | Pattern | Use Case |
+|---------|---------|----------|
+| **Extractor** | `Path<T>`, `Query<T>`, `State<T>` | Parse request data |
+| **Handler** | `async fn handler() -> Result<Json<T>, AppError>` | Route handler function |
+| **Middleware** | Tower middleware layer | Cross-cutting concerns |
+| **Repository** | Trait + implementation pattern | Database abstraction |
+| **Error** | Custom enum with `IntoResponse` | Consistent error handling |
+| **State** | `Arc<T>` shared via `State<T>` | Shared application state |
+
+### File Patterns
+
+| File | Purpose |
+|------|---------|
+| `src/main.rs` | Entry point, server setup |
+| `src/api/routes.rs` | Route definitions |
+| `src/api/handlers/*.rs` | Request handlers |
+| `src/api/middleware/*.rs` | Custom middleware |
+| `src/domain/repositories/*.rs` | Repository traits |
+| `src/infrastructure/database/*.rs` | DB implementation |
+| `src/error.rs` | Error types |
+
+---
 
 ### Cargo.toml Base
 
@@ -92,6 +153,112 @@ src/
 │       └── settings.rs
 │
 └── error.rs                # Error types
+```
+
+---
+
+## 💻 Core Concepts
+
+### Ownership & Borrowing in Axum
+
+**What:** Rust's ownership system applied to web handlers
+
+**When to use:**
+- ✅ Handlers : `async fn` avec `Extractors` comme paramètres
+- ✅ State : `Arc<T>` pour shared state entre handlers
+- ❌ Pas de `Clone` inutile : préférer `Arc`
+
+**Example:**
+```rust
+use axum::{extract::State, Json};
+use std::sync::Arc;
+
+struct AppState {
+    db: Arc<Db>,
+}
+
+async fn get_user(
+    State(state): State<Arc<AppState>>,
+    Path(id): Path<u32>,
+) -> Result<Json<User>, AppError> {
+    let user = state.db.find_user(id).await?;
+    Ok(Json(user))
+}
+```
+
+### Extractors
+
+**What:** Axum's way to parse request data
+
+**When to use:**
+- ✅ Path parameters → `Path<T>`
+- ✅ Query parameters → `Query<T>`
+- ✅ JSON body → `Json<T>`
+- ✅ Shared state → `State<T>`
+- ✅ Headers → `TypedHeader<T>`
+
+**Example:**
+
+```rust
+use axum::extract::{Path, Query, State};
+
+pub async fn get_post(
+    Path(id): Path<i32>,           // /posts/:id
+    Query(params): Query<Params>,  // ?page=1
+    State(db): State<PgPool>,      // App state
+) -> Result<Json<Post>, AppError> {
+    // ...
+}
+```
+
+### Tower Middleware
+
+**What:** Composable middleware via Tower ecosystem
+
+**When to use:**
+- ✅ CORS handling
+- ✅ Authentication/authorization
+- ✅ Logging
+- ✅ Compression
+
+**Example:**
+```rust
+use tower_http::{
+    cors::CorsLayer,
+    trace::TraceLayer,
+    compression::CompressionLayer,
+};
+use tower::ServiceBuilder;
+
+let app = Router::new()
+    .route("/users", get(users_index))
+    .layer(
+        ServiceBuilder::new()
+            .layer(TraceLayer::new_for_http())
+            .layer(CompressionLayer::new())
+            .layer(CorsLayer::permissive())
+    );
+```
+
+### Async/Await in Rust
+
+**What:** Rust's async/await syntax for concurrent code
+
+**When to use:**
+- ✅ I/O-bound operations
+- ✅ Database queries
+- ✅ HTTP requests
+- ✅ Multiple concurrent tasks
+
+**Example:**
+
+```rust
+use tokio::try_join;
+
+let (posts, users) = try_join!(
+    fetch_posts(),
+    fetch_users()
+)?;
 ```
 
 ---
@@ -574,4 +741,214 @@ pub async fn create_post_with_notification(
 
 ---
 
-*Version: 1.0.0 | TrigMem Cat 4*
+## ⚠️ Anti-Patterns
+
+| ❌ NEVER | ✅ ALWAYS | Why |
+|---------|-----------|-----|
+| `String` dans handlers | `&str` ou `Arc<str>` | Évite allocations |
+| `unwrap()` en prod | `Result<T, E>` + `?` | Error handling propre |
+| `Clone` sur AppState | `Arc<AppState>` | Shared state efficace |
+| `Box<dyn Error>` | Error enum + `thiserror` | Type-safe errors |
+| Routes imbriquées | `Router::nest()` | Structure claire |
+| Blocking dans async | `spawn_blocking` | Ne bloque runtime |
+| `println!` pour logging | `tracing::info!`, `tracing::error!` | Structured logging |
+| String concatenation pour SQL | `sqlx::query_as!` macro | Compile-time verification |
+| `Vec<u8>` pour binary data | `bytes::Bytes` | Zero-copy parsing |
+| Raw mutex locks | `tokio::sync::RwLock` | Async-safe locking |
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem | Cause | Solution |
+|---------|-------|----------|
+| "the trait bound is not satisfied" | Type manquant dans State | Ajouter `Clone` + `Send` |
+| "future cannot be sent between threads" | Type non `Send` | Utiliser `Arc` ou `spawn_blocking` |
+| "borrowed value does not live long enough" | Lifetime trop court | Vérifier les références |
+| "ambiguous item" | Import conflict | Préfixer avec le module |
+| "no method named \`json\`" | Feature manquante | Activer `axum/json` dans Cargo.toml |
+| **"Future cannot be sent between threads safely"** | Missing `Send` bound | Use `#[tokio::main]` and check types |
+| **"Borrowed value does not live long enough"** | Lifetime issue in handler | Clone or use `Arc<T>` |
+| **"Database connection closed"** | Pool exhausted | Increase `max_connections` or check connection leaks |
+| **"Trait bound not satisfied"** | Missing trait import | Add `use async_trait::async_trait;` |
+| **"SQL query wrong"** | Using `query!` instead of `query_as!` | Use `query_as!` for type mapping |
+| **"CORS error in browser"** | Missing CORS layer | Add `CorsLayer` to router |
+| **"Service not found"** | Wrong state setup | Use `.with_state(app_state)` on router |
+| **"Migration failed"** | Wrong migration path | Check `migrate!("./migrations")` path |
+| **"Compile time too long"** | Too many dependencies in one crate | Split into workspace crates |
+| **"Handler not called"** | Wrong route order | More specific routes first |
+
+---
+
+## 📚 Advanced Topics
+
+### Graceful Shutdown
+
+```rust
+use axum::{Router, routing::get};
+use tokio::signal;
+use tower_http::trace::TraceLayer;
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    let app = Router::new()
+        .route("/", get(handler))
+        .layer(TraceLayer::new_for_http());
+
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
+
+    axum::serve(listener, app)
+        .with_graceful_shutdown(shutdown_signal())
+        .await?;
+
+    Ok(())
+}
+
+async fn shutdown_signal() {
+    let ctrl_c = async {
+        signal::ctrl_c()
+            .await
+            .expect("failed to install Ctrl+C handler");
+    };
+
+    #[cfg(unix)]
+    let terminate = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .expect("failed to install signal handler")
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(unix))]
+    let terminate = std::future::pending::<()>();
+
+    tokio::select! {
+        _ = ctrl_c => {},
+        _ = terminate => {},
+    }
+}
+```
+
+### SSE (Server-Sent Events)
+
+```rust
+use axum::{response::sse::{Event, Sse}, Json};
+use std::{convert::Infallible, time::Duration};
+use futures_util::stream::Stream;
+
+async fn sse_handler() -> Sse<impl Stream<Item = Result<Event, Infallible>>> {
+    Sse::new(async_stream::stream! {
+        let mut counter = 0;
+        loop {
+            counter += 1;
+            yield Ok::<_, Infallible>(
+                Event::default()
+                    .json_data(json!({"message": "ping", "count": counter}))
+                    .unwrap()
+            );
+            tokio::time::sleep(Duration::from_secs(1)).await;
+        }
+    })
+    .keep_alive(
+        axum::response::sse::KeepAlive::new()
+            .interval(Duration::from_secs(10))
+            .text("keepalive")
+    )
+}
+```
+
+### Rate Limiting
+
+```rust
+use tower_governor::{
+    governor::config::GovernorConfigBuilder,
+    Governor,
+};
+
+let governor_conf = Box::new(
+    GovernorConfigBuilder::default()
+        .per_second(10)
+        .burst_size(30)
+        .finish()
+        .unwrap(),
+);
+
+let app = Router::new()
+    .route("/", get(handler))
+    .layer(Governor::new(&governor_conf));
+```
+
+---
+
+## 🔗 Related Skills
+
+- **Complementary:** `nestjs-patterns` - Alternative Node.js backend
+- **Complementary:** `nextjs-patterns` - Frontend with Rust backend
+- **Related:** `wasm-rust` - Rust compilé vers WebAssembly
+- **Used by:** Skills nécessitant haute performance
+- **Related:** `tech-decisions` - When to choose Rust vs Node.js
+- **Prerequisite:** `typescript-patterns` - For frontend integration
+
+---
+
+## 📖 Further Reading
+
+- [Official Axum Documentation](https://docs.rs/axum/)
+- [Axum GitHub Repository](https://github.com/tokio-rs/axum)
+- [Tower Middleware Guide](https://docs.rs/tower/)
+- [SQLx Documentation](https://docs.rs/sqlx/)
+- [Tokio Async Runtime](https://tokio.rs/)
+- [Rust Async Book](https://rust-lang.github.io/async-book/)
+
+---
+
+## 🎯 Success Criteria
+
+Axum handler is complete when:
+- [ ] Handler async avec extractors appropriés
+- [ ] Error handling avec `Result<T, AppError>`
+- [ ] State partagé via `Arc<T>` si nécessaire
+- [ ] Tests unitaires passent
+- [ ] Tests d'intégration couvrent routes principales
+- [ ] Pas de `unwrap()` dans le code de prod
+- [ ] Middleware configuré (CORS, logging, compression)
+- [ ] Using `sqlx::query_as!` for compile-time checked queries
+- [ ] Proper error handling with `anyhow`/`thiserror`
+- [ ] Structured logging with `tracing`
+- [ ] Repository pattern for database access
+- [ ] Tower middleware for cross-cutting concerns
+- [ ] Graceful shutdown implemented
+- [ ] Connection pooling configured
+- [ ] Clean project structure (api/domain/infrastructure)
+- [ ] No blocking operations in async handlers
+- [ ] Tests for handlers and repositories
+
+---
+
+## 💡 Key Insights
+
+### Why Rust + Axum Matters
+
+1. **Performance** ~10x plus rapide que Node.js
+2. **Memory Safety** sans garbage collector
+3. **Type Safety** erreurs à la compilation
+4. **Tower Ecosystem** middleware réutilisables
+
+### Common Pitfalls
+
+- ❌ **Pitfall:** Tout mettre en `Arc` → **Fix:** Uniquement ce qui est shared
+- ❌ **Pitfall:** Ignorer les lifetimes → **Fix:** Comprendre borrow checker
+- ❌ **Pitfall:** `unwrap()` partout → **Fix:** Créer enum Error + `thiserror`
+- ❌ **Pitfall:** Blocking dans async → **Fix:** `spawn_blocking` pour CPU-bound
+
+### Why Rust + Axum Works Well
+
+1. **Performance** - Near-native speed with minimal overhead
+2. **Type Safety** - Compile-time guarantees prevent runtime errors
+3. **Memory Safety** - No GC, deterministic memory usage
+4. **Concurrency** - Tokio runtime for efficient async I/O
+5. **Ecosystem** - Growing ecosystem with Tower middleware
+
+---
+
+*Version: 2.0.0 | Rust + Axum Patterns*

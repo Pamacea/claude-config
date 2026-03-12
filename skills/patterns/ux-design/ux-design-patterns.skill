@@ -439,15 +439,6 @@ Anti-Patterns:
 
 ---
 
-## 🔗 RELATED SKILLS
-
-- `/pattern nextjs` - Server Components integration
-- `/pattern react` - React patterns
-- `/pattern tailwind` - Styling approach
-- `/pattern accessibility` - Deep a11y patterns
-
----
-
 ## ⚠️ Anti-Patterns
 
 | ❌ NEVER | ✅ ALWAYS | Why |

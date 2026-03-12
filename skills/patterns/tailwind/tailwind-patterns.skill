@@ -17,6 +17,46 @@ npx tailwindcss init -p
 
 ---
 
+## 📊 Quick Reference
+
+### Overview Table
+
+| Concept | Class Pattern | Use Case |
+|---------|--------------|----------|
+| **Spacing** | `m-{size}`, `p-{size}` | Margin, padding |
+| **Flexbox** | `flex`, `items-{align}`, `justify-{align}` | One-dimensional layouts |
+| **Grid** | `grid`, `grid-cols-{n}` | Two-dimensional layouts |
+| **Colors** | `bg-{color}-{shade}`, `text-{color}-{shade}` | Backgrounds, text |
+| **Typography** | `text-{size}`, `font-{weight}` | Text styling |
+| **Responsive** | `{breakpoint}:{class}` | Mobile-first design |
+| **Dark Mode** | `dark:{class}` | Dark theme support |
+
+### Breakpoints
+
+| Prefix | Min Width | Target |
+|--------|-----------|--------|
+| (none) | 0px | Mobile first |
+| `sm:` | 640px | Small tablets |
+| `md:` | 768px | Tablets |
+| `lg:` | 1024px | Desktops |
+| `xl:` | 1280px | Large screens |
+| `2xl:` | 1536px | Extra large |
+
+### Spacing Scale
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `0` | 0px | No spacing |
+| `px` | 1px | Hairline |
+| `1` | 4px | 0.25rem |
+| `2` | 8px | 0.5rem |
+| `3` | 12px | 0.75rem |
+| `4` | 16px | 1rem |
+| `6` | 24px | 1.5rem |
+| `8` | 32px | 2rem |
+
+---
+
 ## 🎨 Common Patterns
 
 ### Spacing
