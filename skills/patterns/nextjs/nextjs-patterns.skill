@@ -4,18 +4,22 @@
 > **Auto-Activation:** "nextjs", "next.js", "server action", "app router", "rsc", "revalidatetag", "use cache", "server component"
 > **Tags:** [nextjs, react, server-components, app-router, ssr, ssr]
 > **Related:** tanstack-patterns, typescript-patterns, tailwind-patterns
-> **Last Updated:** 2025-03-12
+> **Last Updated:** 2025-03-17
 
 ---
 
 ## 🎯 Auto-Activation
 
-**This skill auto-activates when:**
+**Ce skill s'active automatiquement quand :**
 - "nextjs", "next js", "next.js"
 - "server component", "server action", "rsc"
 - "app router", "ssr", "ssg", "isr"
 - "use cache", "revalidateTag"
 - "app directory", "route handler"
+
+**Mutual Exclusivity Rules :**
+- Triggers exclusifs avec : react, vite (SPA frameworks)
+- Priorité : nextjs > react (plus spécifique)
 
 **Progressive Disclosure:**
 1. **Metadata** → Quick reference tables
@@ -93,12 +97,22 @@ src/
 
 ---
 
-## 🎯 Server vs Client Components
+## 💡 Core Concepts
 
-### Default: Server Component
+### Concept 1 : Server Components par Défaut
+
+**Standard :** Utiliser Server Components comme choix par défaut.
+
+**Rationale :**
+- Réduit le JavaScript client de ~40%
+- Accès direct aux données et base de données
+- Secrets sécurisés (jamais exposés au client)
+- Meilleure performance et SEO
+
+**Pattern :**
 
 ```typescript
-// ✅ GOOD - Server Component (default)
+// ✅ Standard - Server Component (default)
 import { db } from '@/lib/db'
 
 export default async function PostsPage() {
@@ -107,16 +121,25 @@ export default async function PostsPage() {
 }
 ```
 
-**Use for:**
-- ✅ Data fetching
-- ✅ Direct database access
-- ✅ Keeping secrets safe
-- ✅ Reducing client JS
+**Quality Gates :**
+- [ ] Server Component par défaut
+- [ ] `async` utilisé pour data fetching
+- [ ] Pas de `'use client'` sauf nécessité
 
-### Client Component with 'use client'
+### Concept 2 : Client Components pour Interactivité
+
+**Standard :** Ajouter `'use client'` uniquement quand nécessaire.
+
+**Signaux de nécessité :**
+- Hooks (useState, useEffect, etc.)
+- Event handlers
+- Browser APIs
+- Interactive UI
+
+**Pattern :**
 
 ```typescript
-// ✅ GOOD - Client Component
+// ✅ Standard - Client Component
 'use client'
 
 import { useState } from 'react'
@@ -127,36 +150,22 @@ export function Counter() {
 }
 ```
 
-**Use for:**
-- ✅ Hooks (useState, useEffect, etc.)
-- ✅ Event handlers
-- ✅ Browser APIs
-- ✅ Interactive UI
+**Quality Gates :**
+- [ ] `'use client'` présent
+- [ ] Hooks ou event handlers utilisés
+- [ ] Frontière Server/Client claire
 
-### Pattern: Server Parent, Client Child
+### Concept 3 : Server Actions pour Mutations
 
-```typescript
-// Server Component
-import { Counter } from '@/ui/atoms/counter'
+**Standard :** Préférer Server Actions aux API Routes pour les mutations.
 
-export default async function Page() {
-  const initialCount = await getInitialCount()
-  return <Counter initialCount={initialCount} />
-}
+**Rationale :**
+- Pas de couche HTTP supplémentaire
+- Validation côté serveur avec Zod
+- Revalidation de cache intégrée
+- Formulaires natifs HTML
 
-// Client Component
-'use client'
-export function Counter({ initialCount }: { initialCount: number }) {
-  const [count, setCount] = useState(initialCount)
-  // ...
-}
-```
-
----
-
-## 🔥 Server Actions (Next.js 16)
-
-### Basic Server Action
+**Pattern :**
 
 ```typescript
 // features/posts/actions/create-post.ts
@@ -181,192 +190,86 @@ export async function createPost(formData: FormData) {
 
   // Revalidate cache
   revalidateTag('posts')
-  // OR revalidate path
-  // revalidatePath('/posts')
 
   return post
 }
 ```
 
-### Server Action with TypeScript
-
-```typescript
-'use server'
-
-import { revalidateTag } from 'next/cache'
-
-type CreatePostInput = {
-  title: string
-  content: string
-}
-
-export async function createPost(input: CreatePostInput) {
-  const post = await db.post.create({ data: input })
-  revalidateTag('posts')
-  return post
-}
-```
-
-### Using Server Actions in Forms
-
-```typescript
-'use client'
-
-import { createPost } from '@/features/posts/actions/create'
-
-export function CreatePostForm() {
-  async function handleSubmit(formData: FormData) {
-    await createPost(formData)
-  }
-
-  return (
-    <form action={handleSubmit}>
-      <input name="title" />
-      <textarea name="content" />
-      <button type="submit">Create</button>
-    </form>
-  )
-}
-```
-
-### Server Action with useActionState
-
-```typescript
-'use client'
-
-import { useActionState } from 'react'
-import { createPost } from '@/features/posts/actions/create'
-
-export function CreatePostForm() {
-  const [state, formAction, isPending] = useActionState(createPost, null)
-
-  return (
-    <form action={formAction}>
-      <input name="title" disabled={isPending} />
-      <button type="submit" disabled={isPending}>
-        {isPending ? 'Creating...' : 'Create'}
-      </button>
-      {state?.error && <p>{state.error}</p>}
-    </form>
-  )
-}
-```
+**Quality Gates :**
+- [ ] `'use server'` directive
+- [ ] Validation avec Zod
+- [ ] `revalidateTag()` après mutation
+- [ ] Type-safe avec TypeScript
 
 ---
 
-## 🏷️ Cache Components (Next.js 16)
+## 🎯 Implementation Patterns
 
-### Basic Cache Component
+### Pattern 1 : Server Parent, Client Child
+
+**Purpose :** Combiner Server et Client Components
+
+**Implementation :**
+
+```typescript
+// Server Component
+import { Counter } from '@/ui/atoms/counter'
+
+export default async function Page() {
+  const initialCount = await getInitialCount()
+  return <Counter initialCount={initialCount} />
+}
+
+// Client Component
+'use client'
+export function Counter({ initialCount }: { initialCount: number }) {
+  const [count, setCount] = useState(initialCount)
+  return <button onClick={() => setCount(c => c + 1)}>{count}</button>
+}
+```
+
+**Quality Gates :**
+- [ ] Server Component fetch les données
+- [ ] Client Component reçoit props
+- [ ] Frontière explicite
+
+### Pattern 2 : Cache Components (Next.js 16)
+
+**Purpose :** Data caching avec invalidation
+
+**Implementation :**
 
 ```typescript
 // features/posts/queries/get-posts.ts
+import { unstable_cacheTag as cacheTag } from 'next/cache'
+
 async function getPosts() {
   'use cache'
   cacheTag('posts')
 
   return db.post.findMany()
 }
-```
 
-### Cache with Tags
-
-```typescript
-import { unstable_cacheTag as cacheTag } from 'next/cache'
-
-async function getPost(id: string) {
-  'use cache'
-  cacheTag('posts', `post-${id}`)
-
-  return db.post.findUnique({ where: { id } })
-}
-```
-
-### Invalidate Cache
-
-```typescript
+// Invalidated after mutation
 'use server'
-
 import { revalidateTag } from 'next/cache'
-import { db } from '@/lib/db'
 
 export async function updatePost(id: string, data: any) {
   await db.post.update({ where: { id }, data })
-  revalidateTag('posts')        // Invalidate all posts
-  revalidateTag(`post-${id}`)  // Invalidate specific post
+  revalidateTag('posts')
 }
 ```
 
----
+**Quality Gates :**
+- [ ] `'use cache'` directive
+- [ ] `cacheTag()` utilisé
+- [ ] `revalidateTag()` après mutation
 
-## 📡 Data Fetching Patterns
+### Pattern 3 : Route Handlers (Webhooks Only)
 
-### Server Component Data Fetching
+**Purpose :** Gérer les webhooks et intégrations tierces
 
-```typescript
-// app/posts/page.tsx
-import { getPosts } from '@/features/posts/queries/get-posts'
-
-export default async function PostsPage() {
-  const posts = await getPosts()
-  return <PostList posts={posts} />
-}
-```
-
-### TanStack Query in Client Components
-
-```typescript
-// features/posts/hooks/use-posts.ts
-'use client'
-
-import { useQuery } from '@tanstack/react-query'
-
-export function usePosts() {
-  return useQuery({
-    queryKey: ['posts'],
-    queryFn: async () => {
-      const res = await fetch('/api/posts')
-      return res.json()
-    },
-  })
-}
-```
-
-### Hybrid: Server Component + TanStack Query
-
-```typescript
-// Server Component provides initial data
-export default async function PostsPage() {
-  const posts = await getPosts()
-  return <PostsClient initialData={posts} />
-}
-
-// Client Component hydrates with TanStack Query
-'use client'
-import { useQuery } from '@tanstack/react-query'
-
-export function PostsClient({ initialData }: { initialData: Post[] }) {
-  const { data } = useQuery({
-    queryKey: ['posts'],
-    queryFn: getPosts,
-    initialData,
-  })
-  // ...
-}
-```
-
----
-
-## 🔗 Route Handlers (API Routes)
-
-**Use ONLY for:**
-- ✅ Webhooks (Stripe, GitHub, etc.)
-- ✅ Third-party integrations
-- ✅ Non-web applications
-
-**NOT for:**
-- ❌ Regular data fetching → Use Server Components/Actions
-
-### Webhook Handler
+**Implementation :**
 
 ```typescript
 // app/api/webhooks/stripe/route.ts
@@ -393,250 +296,94 @@ export async function POST(req: Request) {
 }
 ```
 
----
-
-## 🎨 Layouts & Templates
-
-### Root Layout
-
-```typescript
-// app/layout.tsx
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'My App',
-  description: 'Built with Next.js',
-}
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  )
-}
-```
-
-### Route Groups
-
-```
-app/
-├── (auth)/              # No URL segment
-│   ├── login/
-│   └── register/
-├── (dashboard)/         # No URL segment
-│   ├── layout.tsx       # Shared layout
-│   └── page.tsx
-└── (marketing)/         # No URL segment
-    ├── about/
-    └── pricing/
-```
+**Quality Gates :**
+- [ ] Utilisé uniquement pour webhooks/intégrations
+- [ ] Signature vérifiée
+- [ ] Errors gérés correctement
 
 ---
 
-## ⚡ Performance Patterns
+## ✅ Quality Gates
 
-### Dynamic Imports
+### Validation Checklist
 
-```typescript
-import dynamic from 'next/dynamic'
+#### Server Components
+- [ ] **SC1** - Server Component par défaut
+- [ ] **SC2** - `async` pour data fetching
+- [ ] **SC3** - Pas de `'use client'` sauf nécessité
+- [ ] **SC4** - Secrets côté serveur uniquement
 
-const HeavyComponent = dynamic(
-  () => import('@/components/HeavyComponent'),
-  { loading: () => <p>Loading...</p> }
-)
+#### Client Components
+- [ ] **CC1** - `'use client'` directive
+- [ ] **CC2** - Hooks ou event handlers présents
+- [ ] **CC3** - Props bien typées
+- [ ] **CC4** - Frontière Server/Client claire
 
-export default function Page() {
-  return <HeavyComponent />
-}
-```
+#### Server Actions
+- [ ] **SA1** - `'use server'` directive
+- [ ] **SA2** - Validation Zod présente
+- [ ] **SA3** - `revalidateTag()` après mutation
+- [ ] **SA4** - Type-safe avec TypeScript
 
-### Image Optimization
+#### Cache & Performance
+- [ ] **CP1** - `use cache` avec tags
+- [ ] **CP2** - `revalidateTag()` approprié
+- [ ] **CP3** - Dynamic imports pour composants lourds
+- [ ] **CP4** - Images optimisées avec next/image
 
-```typescript
-import Image from 'next/image'
+#### Security
+- [ ] **SEC1** - Secrets côté serveur uniquement
+- [ ] **SEC2** - Environment variables protégées
+- [ ] **SEC3** - Input validation avec Zod
+- [ ] **SEC4** - CORS configuré pour API routes
 
-export function Avatar({ src }: { src: string }) {
-  return (
-    <Image
-      src={src}
-      alt="Avatar"
-      width={40}
-      height={40}
-      className="rounded-full"
-    />
-  )
-}
-```
+### Acceptance Criteria
 
-### Font Optimization
-
-```typescript
-import { Inter } from 'next/font/google'
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-})
-```
-
----
-
-## 🔒 Security Best Practices
-
-### Environment Variables
-
-```typescript
-// .env.local
-DATABASE_URL="postgresql://..."
-API_SECRET="..."
-
-// Server-only
-const dbUrl = process.env.DATABASE_URL
-
-// Client-accessible (must start with NEXT_PUBLIC_)
-const apiUrl = process.env.NEXT_PUBLIC_API_URL
-```
-
-### Input Validation with Zod
-
-```typescript
-import { z } from 'zod'
-
-const postSchema = z.object({
-  title: z.string().min(1).max(100),
-  content: z.string().min(1),
-})
-
-export async function createPost(formData: FormData) {
-  const data = postSchema.parse({
-    title: formData.get('title'),
-    content: formData.get('content'),
-  })
-  // Safe to use `data`
-}
-```
-
----
-
-## 🧪 Testing Patterns
-
-### Server Action Test
-
-```typescript
-import { describe, it, expect } from 'vitest'
-import { createPost } from './create-post'
-
-describe('createPost', () => {
-  it('should create a post', async () => {
-    const formData = new FormData()
-    formData.set('title', 'Test')
-    formData.set('content', 'Content')
-
-    const result = await createPost(formData)
-
-    expect(result).toHaveProperty('id')
-  })
-})
-```
-
----
-
-## 📚 Common Patterns
-
-### Parallel Data Fetching
-
-```typescript
-async function getData() {
-  const [posts, users, comments] = await Promise.all([
-    getPosts(),
-    getUsers(),
-    getComments(),
-  ])
-
-  return { posts, users, comments }
-}
-```
-
-### Error Handling
-
-```typescript
-// app/error.tsx (client)
-'use client'
-
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error
-  reset: () => void
-}) {
-  return (
-    <div>
-      <h2>Something went wrong!</h2>
-      <button onClick={reset}>Try again</button>
-    </div>
-  )
-}
-
-// app/posts/error.tsx (scoped)
-```
-
-### Loading States
-
-```typescript
-// app/posts/loading.tsx
-export default function Loading() {
-  return <Skeleton className="h-4 w-full" />
-}
-```
-
----
-
-## 🎯 Best Practices Checklist
-
-- [ ] Use Server Components by default
-- [ ] Use Server Actions for mutations
-- [ ] Use TanStack Query for client data
-- [ ] Use cacheTag/revalidateTag for caching
-- [ ] Validate inputs with Zod
-- [ ] Keep secrets server-side only
-- [ ] Use dynamic imports for heavy components
-- [ ] Optimize images with next/image
-- [ ] Use route groups for shared layouts
-- [ ] Test server actions with vitest
-
----
-
-## ⚠️ Anti-Patterns
-
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| `useEffect` pour data fetching | Server Components ou Server Actions | Server-side = plus performant |
-| `useState` pour server data | TanStack Query ou Server Components | Évite synchro state |
-| API Routes pour data | Server Actions | Réduit couche HTTP |
-| `'use client'` par défaut | Server Components par défaut | Réduit JS client |
-| Fetch sans cache | `use cache` + `revalidateTag` | Performance |
+L'implémentation Next.js est conforme quand :
+- **Server Components** utilisés par défaut
+- **Server Actions** pour mutations
+- **Cache** avec tags et revalidation
+- **Type-safe** avec TypeScript strict
+- **Performance** optimisée (images, imports)
 
 ---
 
 ## 🔧 Troubleshooting
 
-| Problem | Cause | Solution |
+| Symptôme | Cause | Solution |
 |---------|-------|----------|
 | "Server Component can't use hook" | Hook dans Server Component | Ajouter `'use client'` ou déplacer |
-| "useCache is not a function" | Next.js < 15 | Upgrader vers Next.js 16 |
+| "useCache is not a function" | Next.js < 16 | Upgrader vers Next.js 16 |
 | "revalidateTag not working" | Pas de cache tag utilisé | Utiliser `use cache` avec tags |
 | "FormData empty in Server Action" | `request.formData()` manquant | Extraire formData dans l'action |
 | "CORS error on route handler" | OPTIONS non géré | Ajouter gestion OPTIONS |
+| "Too much client JS" | Trop de `'use client'` | Migrer vers Server Components |
+
+---
+
+## 🎯 Best Practices
+
+### Recommandations Guidelines
+
+1. **Standard : Server Components First**
+   - **What:** Toujours commencer avec Server Component
+   - **Why:** Performance et SEO optimaux
+   - **How:** Supprimer `'use client'` sauf nécessité prouvée
+
+2. **Standard : Server Actions pour Mutations**
+   - **What:** Préférer Server Actions aux API Routes
+   - **Why:** Moins de boilerplate, type-safe
+   - **How:** `'use server'` + Zod + revalidateTag
+
+3. **Standard : Cache avec Tags**
+   - **What:** Utiliser `use cache` + tags
+   - **Why:** Invalidation fine-grained
+   - **How:** `cacheTag('posts')` + `revalidateTag('posts')`
+
+4. **Standard : TanStack Query Client-Side**
+   - **What:** Utiliser TanStack Query pour data client
+   - **Why:** Cache, refetch, background updates
+   - **How:** `useQuery({ queryKey, queryFn })`
 
 ---
 
@@ -661,17 +408,17 @@ export default function Loading() {
 
 ## 🎯 Success Criteria
 
-Next.js implementation is complete when:
-- [ ] Using Server Components by default
-- [ ] Server Actions for mutations with Zod validation
-- [ ] Cache components with `cacheTag()` for data
-- [ ] `revalidateTag()` after mutations
-- [ ] Route handlers only for webhooks
-- [ ] TanStack Query for client data fetching
-- [ ] Proper error.tsx and loading.tsx files
-- [ ] Environment variables properly secured
-- [ ] Images optimized with next/image
-- [ ] Type-safe with TypeScript strict mode
+L'implémentation Next.js est complète quand :
+- [ ] Server Components par défaut
+- [ ] Server Actions avec Zod validation
+- [ ] Cache components avec `cacheTag()`
+- [ ] `revalidateTag()` après mutations
+- [ ] Route handlers uniquement pour webhooks
+- [ ] TanStack Query pour client data
+- [ ] error.tsx et loading.tsx présents
+- [ ] Environment variables sécurisées
+- [ ] Images optimisées avec next/image
+- [ ] TypeScript strict mode actif
 
 ---
 
@@ -679,18 +426,22 @@ Next.js implementation is complete when:
 
 ### Why Next.js 16 Matters
 
-1. **React Server Components** = Réduit JS client de ~40%
-2. **Cache Components** = Data fetching sans boilerplate
-3. **Turbopack** = Build 10x plus rapide en production
-4. **Partial Prerendering** = Best of SSR + SPA
+1. **React Server Components** → Réduit JS client de ~40%
+2. **Cache Components** → Data fetching sans boilerplate
+3. **Turbopack** → Build 10x plus rapide
+4. **Partial Prerendering** → Best of SSR + SPA
 
-### Common Pitfalls
+### Optimisation Patterns
 
-- ❌ **Pitfall:** Tout mettre en `'use client'` → **Fix:** Server Components par défaut
-- ❌ **Pitfall:** Oublier `async` sur Server Components → **Fix:** Toujours utiliser `async` pour data fetching
-- ❌ **Pitfall:** API Routes pour tout → **Fix:** Server Actions pour mutations
-- ❌ **Pitfall:** Pas de stratégie de cache → **Fix:** `use cache` + `revalidateTag`
+| Optimisation | Pattern | Bénéfice |
+|--------------|---------|----------|
+| Client JS | Server Components par défaut | -40% JS |
+| Data fetching | Server Components/Actions | Performance serveur |
+| Cache | `use cache` + tags | Invalidation fine-grained |
+| Mutations | Server Actions | Moins de boilerplate |
+| Images | next/image | Optimisation automatique |
+| Build | Turbopack | 10x plus rapide |
 
 ---
 
-*Version: 2.0.0 | Next.js 16 Patterns*
+*Version: 2.0.0 | Next.js 16 Patterns - Positive Standards*

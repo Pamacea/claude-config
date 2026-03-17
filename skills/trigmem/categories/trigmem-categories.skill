@@ -1,109 +1,219 @@
 # TrigMem Categories - Les 6 Types d'Information
 
-> **Invocable par** : `/trigmem-categories`
-> **Type** : Classification Support
-> **Déclenchement** : Automatique (détecte la catégorie)
+> **Version:** 2.0.0 | **Category:** Cat 2 (Classification) | **Difficulty:** Foundation
+> **Auto-Activation:** "catégorie", "classifier", "quel type d'info", "trigmem cat"
+> **Tags:** [trigmem, classification, categories, memory-types]
+> **Related:** trigmem-core, trigmem-decision, trigmem-storage
+> **Last Updated:** 2025-03-17
 
 ---
 
-## 🎯 CE QUE CE SKILL FAIT
+## 🎯 Auto-Activation
 
-Ce skill identifie automatiquement dans quelle catégorie appartient votre information, selon les 6 types définis par TrigMem.
+**Ce skill s'active automatiquement quand :**
+- Questions sur "quoi stocker"
+- Besoin de classifier une information
+- Décision de stockage nécessaire
 
-Il est appelé automatiquement quand vous essayez de stocker quelque chose et que Claude a besoin de comprendre **QUOI** c'est.
+**Progressive Disclosure:**
+1. **Metadata** → Table des 6 catégories
+2. **Instructions** → Description détaillée avec exemples
+3. **Resources** → Guide de décision
 
 ---
 
-## 📊 LES 6 CATÉGORIES
+## 📊 Les 6 Catégories
 
-### Catégorie 1 : Identité Projet
+| Catégorie | Stockage | Chargement | Trigger Type |
+|-----------|----------|------------|--------------|
+| **Cat 1** - Identité Projet | CLAUDE.md | Systématique | "Qu'est-ce que c'est", "Stack" |
+| **Cat 2** - Structure Codebase | CLAUDE.md + Rules | Systématique | "Où sont", "Structure" |
+| **Cat 3** - Commandes Ops | CLAUDE.md | Systématique | "Comment lancer", "Déployer" |
+| **Cat 4** - Patterns Réutilisables | skills/patterns/* | À la demande | "Architecture", "Pattern" |
+| **Cat 5** - Guides Architecturaux | rules/ | Systématique | "Convention", "Comment faire" |
+| **Cat 6** - Corrections Itératives | rules/ | Systématique | "Erreur récurrente" |
 
-**Questions clés :**
+---
+
+## 💡 Core Concepts
+
+### Concept 1 : Classification Automatique
+
+**Standard :** Chaque information appartient à une et une seule catégorie.
+
+**Workflow de classification :**
+
+```
+Information à stocker
+     ↓
+Question 1 : Est-ce l'identité du projet ?
+     OUI → Cat 1 (CLAUDE.md)
+     NON ↓
+Question 2 : Est-ce la structure du code ?
+     OUI → Cat 2 (CLAUDE.md + Rules)
+     NON ↓
+Question 3 : Est-ce un workflow opérationnel ?
+     OUI → Cat 3 (CLAUDE.md)
+     NON ↓
+Question 4 : Est-ce un pattern réutilisable ?
+     OUI → Cat 4 (skills/patterns/*)
+     NON ↓
+Question 5 : Est-ce une convention projet ?
+     OUI → Cat 5 (rules/)
+     NON ↓
+Question 6 : Est-ce une correction itérative ?
+     OUI → Cat 6 (rules/)
+```
+
+### Concept 2 : Chargement Adaptatif
+
+**Standard :** Seules Cat 1-3-5-6 sont systématiques. Cat 4 est à la demande.
+
+**Bénéfices :**
+- Économie de 73% sur sessions standards
+- Patterns chargés uniquement quand nécessaires
+- Base tokens保持在 ~8k
+
+---
+
+## 🎯 Implementation Patterns
+
+### Pattern 1 : Catégorie 1 - Identité Projet
+
+**Purpose :** Informations critiques toujours disponibles
+
+**Stockage :** CLAUDE.md
+
+**Exemples :**
+
+```markdown
+## Project Identity
+**Nom:** ShopFlow
+**Stack:** Next.js 16, Prisma, PostgreSQL, Stripe
+**Objectif:** E-commerce pour créateurs indépendants
+```
+
+**Triggers :**
 - "Qu'est-ce que c'est ce projet ?"
 - "Quel est le tech stack ?"
 - "Quel est le but de ce projet ?"
 
+**Quality Gates :**
+- [ ] Nom du projet identifié
+- [ ] Stack technique complète
+- [ ] Objectif clairement défini
+- [ ] < 50 lignes total
+
+### Pattern 2 : Catégorie 2 - Structure Codebase
+
+**Purpose :** Navigation et organisation
+
+**Stockage :** CLAUDE.md + rules/02-conventions.md
+
 **Exemples :**
-```markdown
-- Nom: ShopFlow
-- Stack: Next.js 14, Prisma, PostgreSQL, Stripe
-```
 
 ```markdown
-- Nom: PetTracker API
-- Stack: Go, gRPC, MongoDB, GCP
+## Project Structure
+src/
+├── app/          # Next.js App Router (routing)
+├── features/     # Business logic
+├── ui/           # Presentational components
+└── lib/          # Library code & configs
 ```
 
----
-
-### Catégorie 2 : Structure Codebase
-
-**Questions clés :**
+**Triggers :**
 - "Où sont les composants ?"
 - "Quelle est la structure des dossiers ?"
+- "Comment organiser les features ?"
+
+**Quality Gates :**
+- [ ] Structure hiérarchique claire
+- [ ] Noms explicites
+- [ ] Commentaires explicatifs
+- [ ] Convention appliquée
+
+### Pattern 3 : Catégorie 3 - Commandes Opérationnelles
+
+**Purpose :** Workflows opérationnels
+
+**Stockage :** CLAUDE.md
 
 **Exemples :**
-```markdown
-# Monorepo
-packages/
-├── web/          # Next.js frontend
-├── api/          # Express backend
-├── shared/       # Shared types and utilities
-└── mobile/       # React Native app
+
+```bash
+# Development
+npm run dev
+
+# Testing
+npm run test          # Vitest (unit)
+npm run test:e2e      # Playwright (E2E)
+
+# Build
+npm run build
+
+# Deploy
+npm run deploy
 ```
 
----
-
-### Catégorie 3 : Commandes Opérationnelles
-
-**Questions clés :**
+**Triggers :**
 - "Comment lancer les tests ?"
 - "Comment déployer ?"
 - "Comment builder ?"
 
-**Exemples :**
-```bash
-# Lancer tests
-pnpm test
+**Quality Gates :**
+- [ ] Commandes documentées
+- [ ] Ordre logique respecté
+- [ ] Résultats attendus indiqués
 
-# Déployer
-./scripts/deploy-staging.sh
-```
+### Pattern 4 : Catégorie 4 - Patterns Réutilisables ⭐
 
----
+**Purpose :** Connaissance universelle portable
 
-### Catégorie 4 : Patterns Réutilisables
-
-**Questions clés :**
-- "Quelle est l'architecture ?"
-- "Quel pattern utilises-vous ?"
+**Stockage :** skills/patterns/*
 
 **Exemples :**
+
 ```markdown
 ## Architecture Hexagonale
-Domain layer contains pure business rules. Ports define interfaces. Adapters implement ports.
-Dependencies point inward (adapters depend on ports, not vice versa).
+Domain layer contains pure business rules.
+Ports define interfaces. Adapters implement ports.
+Dependencies point inward.
 ```
 
 ```markdown
 ## TDD Workflow
-1. Write a failing test for new behavior
-2. Write minimal code to make test pass
-3. Refactor while keeping tests green
+1. Write failing test for behavior
+2. Write minimal code to pass
+3. Refactor while green
 4. Repeat
 ```
 
----
+**Triggers :**
+- "Quelle architecture utiliser ?"
+- "Quel pattern pour X ?"
+- "Best practice pour Y ?"
 
-### Catégorie 5 : Guides Architecturales
+**Mutual Exclusivity Rules :**
+- Un seul pattern skill chargé à la fois
+- Triggers optimisés pour éviter les conflits
+- Références croisées plutôt que duplication
 
-**Questions clés :**
-- "Comment est-ce implémenté ici ?"
-- "Quelles conventions utilise-t-on ?"
+**Quality Gates :**
+- [ ] Pattern universel (pas spécifique projet)
+- [ ] Code exécutable fourni
+- [ ] Utilisable directement
+- [ ] Triggers exclusifs
+
+### Pattern 5 : Catégorie 5 - Guides Architecturaux
+
+**Purpose :** Conventions projet spécifiques
+
+**Stockage :** rules/02-conventions.md
 
 **Exemples :**
+
 ```markdown
-# Conventions de composants
+## Component Convention
 ComponentName/
 ├── index.tsx         # Main component
 ├── ComponentName.test.tsx
@@ -111,51 +221,138 @@ ComponentName/
 └── types.ts
 ```
 
----
+**Triggers :**
+- "Comment implémenter ici ?"
+- "Quelles conventions utilise-t-on ?"
+- "Standard de nommage ?"
 
-### Catégorie 6 : Corrections Itératives
+**Quality Gates :**
+- [ ] Convention clairement définie
+- [ ] Exemples fournis
+- [ ] Justification incluse
 
-**Questions clés :**
+### Pattern 6 : Catégorie 6 - Corrections Itératives
+
+**Purpose :** Corrections automatiques de comportements
+
+**Stockage :** rules/01-standards.md
+
+**Exemples :**
+
+```markdown
+## TypeScript Standards
+**Standard :** Utiliser `unknown` au lieu de `any`
+**Validation :** Type guards ou Zod pour narrowing
+```
+
+**Triggers :**
 - "Est-ce que je continue à faire cette erreur ?"
-- "Est-ce que Claude utilise ce mauvais pattern ?"
+- "Comment éviter ce pattern ?"
+- "Standard pour X ?"
 
-**Exemples :**
-```markdown
-## Langage/Framework Quirks
-Don't use 'any' - use 'unknown' and narrow type.
-```
-
----
-
-## 🎯 COMMENT UTILISER CE SKILL
-
-### Invocation Automatique
-
-Ce skill s'active automatiquement quand Claude détecte que vous essayez de stocker quelque chose. Vous n'avez pas besoin de l'invoquer manuellement - il pose automatiquement les bonnes questions.
-
-**Exemples :**
-
-```
-Vous: "J'ai créé un nouveau composant"
-Skill détecte: Catégorie 4 (Patterns Réutilisables)
-Pose: "Quelle est l'architecture ? (Hexagonale, Layered, etc.)"
-```
+**Quality Gates :**
+- [ ] Standard positif (pas de négation)
+- [ ] Alternative constructive
+- [ ] Exemple de correction
 
 ---
 
-## 🔧 DÉCLANCHEMENT POSSIBLE
+## ✅ Quality Gates
 
-Si vous souhaitez un contrôle plus manuel sur l'invocation, utilisez plutôt :
+### Validation Checklist
 
-```markdown
-/trigmem-storage  - Pour choisir manuellement le mécanisme
-```
+- [ ] **QG1** - Catégorie identifiée
+- [ ] **QG2** - Stockage approprié choisi
+- [ ] **QG3** - Triggers bien définis
+- [ ] **QG4** - Exemples fournis
+- [ ] **QG5** - Quality Gates définis
+
+### Acceptance Criteria
+
+La classification est correcte quand :
+- **Une seule catégorie** sélectionnée
+- **Stockage optimal** choisi
+- **Triggers** mutuellement exclusifs
+- **Exemples** illustratifs
 
 ---
 
-## 📚 EN SAVOIR PLUS
+## 🔧 Troubleshooting
 
-Pour une maîtrise complète, continuez avec :
-- `/trigmem-decision` - Guide de décision
-- `/trigmem-storage` - Options de stockage
-- Et les autres skills TrigMem...
+| Symptôme | Cause | Solution |
+|---------|-------|----------|
+| Incertitude sur la catégorie | Information ambiguë | Utiliser arbre de décision |
+| Trop d'informations dans CLAUDE.md | Mauvaise classification | Déplacer vers skills/ ou rules/ |
+| Patterns pas chargés | Triggers mal définis | Clarifier et rendre exclusifs |
+| Duplication entre catégories | Frontières floues | Avoir des critères plus stricts |
+
+---
+
+## 🎯 Best Practices
+
+### Recommandations Guidelines
+
+1. **Standard : Une catégorie par information**
+   - **What:** Chaque information appartient à une seule catégorie
+   - **Why:** Évite duplication, clarifie le stockage
+   - **How:** Utiliser l'arbre de décision systématiquement
+
+2. **Standard : Patterns à la demande uniquement**
+   - **What:** Cat 4 chargée seulement sur trigger
+   - **Why:** Économie de tokens significative
+   - **How:** Définir triggers clairs et exclusifs
+
+3. **Standard : Exemples pour chaque catégorie**
+   - **What:** Illustrer avec cas concrets
+   - **Why:** Facilite la classification future
+   - **How:** Inclure exemples dans chaque description
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `trigmem-core` - Comprendre la méthodologie
+- **Related:** `trigmem-decision` - Guide de décision 2 phases
+- **Related:** `trigmem-storage` - Options de stockage
+- **Related:** `trigmem-examples` - Exemples travaillés
+
+---
+
+## 📖 Further Reading
+
+- [TrigMem Methodology](https://github.com/Pamace/claude-config/blob/main/GUIDE.md)
+- [Skills Index](https://github.com/Pamace/claude-config/blob/main/skills/INDEX.md)
+- [Rules System](https://github.com/Pamace/claude-config/blob/main/rules/README.md)
+
+---
+
+## 🎯 Success Criteria
+
+La classification est maîtrisée quand :
+- [ ] Les 6 catégories sont connues
+- [ ] L'arbre de décision est appliqué
+- [ ] Le stockage optimal est choisi
+- [ ] Les triggers sont mutuellement exclusifs
+- [ ] Les exemples sont fournis
+
+---
+
+## 💡 Key Insights
+
+### Why This Matters
+
+1. **Classification précise** → Stockage optimal
+2. **Chargement adaptatif** → Économie de tokens
+3. **Réutilisabilité** → Patterns portables
+
+### Common Pitfalls & Solutions
+
+| Pitfall | Solution |
+|---------|----------|
+| Mélanger universel/spécifique | Séparer Cat 4 (universel) de Cat 5 (spécifique) |
+| Oublier l'arbre de décision | L'appliquer systématiquement |
+| Triggers qui se chevauchent | Rendre mutuellement exclusifs |
+
+---
+
+*Version: 2.0.0 | TrigMem Categories - Positive Standards*

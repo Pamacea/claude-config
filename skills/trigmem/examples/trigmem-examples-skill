@@ -1,17 +1,28 @@
 # TrigMem Examples - Démonstrations Travaillées
 
-> **Version:** 1.0.0 | **Invocable par:** `/trigmem-examples`
-> **Type:** Working Examples | **Déclenchement:** Automatique (quand pertinent)
+> **Version:** 2.0.0 | **Category:** Cat 5 (Working Examples) | **Difficulty:** Intermediate
+> **Auto-Activation:** "exemple", "démonstration", "comment utiliser trigmem", "trigmem example"
+> **Tags:** [trigmem, examples, worked-demos, patterns]
+> **Related:** trigmem-core, trigmem-categories, trigmem-decision, trigmem-storage
+> **Last Updated:** 2025-03-17
 
 ---
 
-## 🎯 OBJECTIF
+## 🎯 Auto-Activation
 
-Ce skill démontre comment TrigMem s'applique en pratique et quand charger les patterns.
+**Ce skill s'active automatiquement quand :**
+- Demande d'exemples d'utilisation
+- "Comment TrigMem s'applique ?"
+- "Montre-moi un exemple"
+
+**Progressive Disclosure:**
+1. **Metadata** → Index des exemples
+2. **Instructions** → Exemples détaillés par catégorie
+3. **Resources** → Flowcharts et références
 
 ---
 
-## 🎯 FLOW DE DÉCISION
+## 🚀 Quick Start
 
 ```
 User Question
@@ -29,60 +40,196 @@ CLAUDE.md
 
 ---
 
-## 📋 CATÉGORIE 1 : Identité Projet
+## 📊 Index des Exemples
 
-**Trigger:** "Qu'est-ce que ce projet ?", "Quel stack ?", "C'est quoi ce repo ?"
-
-**Détection:** Demande d'identité ou de stack du projet
-
-**Stockage:** CLAUDE.md (toujours chargé)
-
----
-
-## 📋 CATÉGORIE 2 : Structure Codebase
-
-**Trigger:** "Où sont les composants ?", "Structure du projet", "Où je mets X ?"
-
-**Détection:** Question sur la structure du code
-
-**Stockage:** CLAUDE.md + rules/02-conventions.md (toujours chargé)
+| Exemple | Catégorie | Destination | Leçon |
+|---------|-----------|-------------|--------|
+| **Ex 1** - Identité Projet | Cat 1 | CLAUDE.md | Informations critiques |
+| **Ex 2** - Structure Codebase | Cat 2 | CLAUDE.md + Rules | Navigation essentielle |
+| **Ex 3** - Commandes Ops | Cat 3 | CLAUDE.md | Workflows opérationnels |
+| **Ex 4** - Server Actions | Cat 4 | skills/patterns/* | Patterns à la demande ⭐ |
+| **Ex 5** - Conventions Git | Cat 5 | Rules | Guides architecturaux |
+| **Ex 6** - TypeScript Standards | Cat 6 | Rules | Corrections itératives |
 
 ---
 
-## 📋 CATÉGORIE 3 : Commandes Opérationnelles
+## 💡 Core Concepts
 
-**Trigger:** "Comment je déploie ?", "Comment build ?", "Scripts de dev"
+### Concept 1 : Flux de Décision
 
-**Détection:** Demande de workflow opérationnel
+**Standard :** Toute information suit ce flux de classification.
 
-**Stockage:** CLAUDE.md ou README du projet
+```
+Information à stocker
+     ↓
+Q1: Quelle catégorie ? (trigmem-categories)
+     ↓
+Q2: Où stocker ? (trigmem-decision)
+     ↓
+Q3: Comment configurer ? (trigmem-storage)
+     ↓
+Stockage optimal
+```
+
+### Concept 2 : Catégorie 4 - La Clé de l'Économie
+
+**Standard :** Les patterns techniques sont chargés **uniquement à la demande**.
+
+**Bénéfices mesurables :**
+- Base : ~8k tokens (Cat 1-3-5-6 systématiques)
+- Patterns : ~22k tokens (Cat 4 chargé si trigger)
+- **Économie :** 73% sur sessions standards
 
 ---
 
-## 📋 CATÉGORIE 4 : Patterns Réutilisables ⭐
+## 🎯 Implementation Patterns
 
-**C'est la clé de l'économie de tokens !**
+### Exemple 1 : Catégorie 1 - Identité Projet
 
-Les patterns techniques sont dans `skills/patterns/*` et chargés **uniquement à la demande**.
+**Question :** "Qu'est-ce que ShopFlow ?"
 
-### Triggers de Chargement
+**Workflow :**
 
-| Trigger | Skill à charger |
-|---------|-----------------|
-| "Server Action", "use server", "revalidateTag", "use cache" | `/skill patterns/nextjs` |
-| "App Router", "RSC", "Next.js 16" | `/skill patterns/nextjs` |
-| "Axum handler", "sqlx query", "Tower middleware", "rust extractor" | `/skill patterns/rust` |
-| "NestJS module", "DTO validation", "JWT guard", "TypeORM" | `/skill patterns/nestjs` |
-| "wasm-bindgen", "wasm-pack", "WASM Next.js", "js-sys" | `/skill patterns/wasm` |
-| "Quel stack", "quelle techno", "Next.js ou Vite" | `/skill patterns/tech-decisions` |
+```
+User: "Qu'est-ce que c'est ce projet ?"
+↓
+Classification: Cat 1 (Identité Projet)
+↓
+Decision: CLAUDE.md (toujours chargé)
+↓
+Storage: CLAUDE.md
+```
 
-### Exemple de Pattern
+**Résultat :**
 
-```typescript
+```markdown
+# CLAUDE.md
+
+## Project Identity
+**Nom:** ShopFlow
+**Stack:** Next.js 16, Prisma, PostgreSQL, Stripe
+**Objectif:** E-commerce pour créateurs indépendants
+```
+
+**Quality Gates :**
+- [ ] Nom identifié
+- [ ] Stack complète
+- [ ] Objectif clair
+- [ ] < 50 lignes
+
+### Exemple 2 : Catégorie 2 - Structure Codebase
+
+**Question :** "Où sont les composants ?"
+
+**Workflow :**
+
+```
+User: "Où je mets mes composants ?"
+↓
+Classification: Cat 2 (Structure Codebase)
+↓
+Decision: CLAUDE.md + rules/02-conventions.md
+↓
+Storage: CLAUDE.md (structure principale)
+         + Rules (détails conventions)
+```
+
+**Résultat :**
+
+```markdown
+# CLAUDE.md
+
+## Project Structure
+src/
+├── app/          # Next.js App Router
+├── features/     # Business logic
+├── ui/           # Presentational components
+└── lib/          # Library code
+
+# rules/02-conventions.md
+
+## Component Convention
+ComponentName/
+├── index.tsx
+├── ComponentName.test.tsx
+└── types.ts
+```
+
+**Quality Gates :**
+- [ ] Structure hiérarchique claire
+- [ ] Noms explicites
+- [ ] Conventions documentées
+
+### Exemple 3 : Catégorie 3 - Commandes Opérationnelles
+
+**Question :** "Comment je déploie ?"
+
+**Workflow :**
+
+```
+User: "Comment déployer en production ?"
+↓
+Classification: Cat 3 (Commandes Opérationnelles)
+↓
+Decision: CLAUDE.md
+↓
+Storage: CLAUDE.md (ou README.md du projet)
+```
+
+**Résultat :**
+
+```markdown
+# CLAUDE.md
+
+## Commands
+
+### Development
+npm run dev
+
+### Testing
+npm run test
+npm run test:e2e
+
+### Deployment
+npm run deploy        # Production
+npm run deploy:staging # Staging
+```
+
+**Quality Gates :**
+- [ ] Commandes documentées
+- [ ] Ordre logique
+- [ ] Résultats attendus
+
+### Exemple 4 : Catégorie 4 - Patterns Réutilisables ⭐
+
+**Question :** "Comment créer un Server Action ?"
+
+**Workflow :**
+
+```
+User: "Montre-moi comment créer un Server Action"
+↓
+Classification: Cat 4 (Patterns Réutilisables)
+↓
+Decision: skills/patterns/nextjs/
+↓
+Auto-charge: /pattern nextjs
+↓
+Pattern fourni
+```
+
+**Résultat (dans le skill) :**
+
+```markdown
+# skills/patterns/nextjs/nextjs-patterns.skill
+
+> **Triggers:** "server action", "use server", "revalidateTag"
+
+## Server Action Pattern
 'use server'
 
-import { revalidateTag } from 'next/cache'
 import { z } from 'zod'
+import { revalidateTag } from 'next/cache'
 
 const schema = z.object({
   title: z.string().min(1),
@@ -92,92 +239,219 @@ export async function createPost(formData: FormData) {
   const data = schema.parse({
     title: formData.get('title'),
   })
-  // ...
+
+  const post = await db.post.create({ data })
+
   revalidateTag('posts')
+
+  return post
 }
 ```
 
----
+**Triggers mutuellement exclusifs :**
+- "server action", "use server" → nextjs pattern
+- "Axum handler", "sqlx" → rust pattern
+- "DTO validation", "JWT guard" → nestjs pattern
 
-## 📋 CATÉGORIE 5 : Guides Architecturales
+**Quality Gates :**
+- [ ] Pattern exécutable
+- [ ] Triggers exclusifs
+- [ ] Code complet
+- [ ] Portable entre projets
 
-**Trigger:** "Conventions Git", "Format commit", "Structure de dossier", "Nomination"
+### Exemple 5 : Catégorie 5 - Guides Architecturaux
 
-**Détection:** Demande de guide/convention
+**Question :** "Quelles sont les conventions Git ?"
 
-**Stockage:** rules/02-conventions.md (toujours chargé)
+**Workflow :**
 
----
-
-## 📋 CATÉGORIE 6 : Corrections Itératives
-
-**Trigger:** "Ne fais plus jamais X", "Toujours utiliser Y", "Éviter Z"
-
-**Détection:** Correction de comportement
-
-**Stockage:** rules/01-nevers.md (toujours chargé)
-
----
-
-## 🎯 RÉSUMÉ DES CATÉGORIES
-
-| Catégorie | Contenu | Stockage | Chargement |
-|-----------|---------|----------|------------|
-| **Cat 1** | Identité projet | CLAUDE.md | Systématique |
-| **Cat 2** | Structure codebase | CLAUDE.md + rules | Systématique |
-| **Cat 3** | Workflows opérationnels | CLAUDE.md | Systématique |
-| **Cat 4** | Patterns réutilisables | **skills/patterns/*** | **À la demande** ⭐ |
-| **Cat 5** | Guides architecturales | rules/02-conventions.md | Systématique |
-| **Cat 6** | Corrections itératives | rules/01-nevers.md | Systématique |
-
----
-
-## 🚀 BÉNÉFICES TRIGMEM v1.0.0
-
-### Économie de tokens
-- **Avant:** ~30k tokens/session (toutes les rules chargées)
-- **Après:** ~8k tokens/session + patterns à la demande
-- **Économie:** 73% sur les sessions sans besoin de patterns techniques
-
-### Organisation claire
-- **Systématique:** Identité, Structure, Guides, Corrections
-- **À la demande:** Patterns techniques par techno (chargé seulement si trigger détecté)
-
-### Conformité
-- Respect des 6 catégories TrigMem
-- Séparation Universel/Spécifique
-- Équilibre Économie/Précision/Réutilisabilité
-
----
-
-## 🔧 UTILISATION DES SKILLS
-
-**Pour charger un pattern à la demande :**
 ```
-/skill patterns/nextjs
-/pattern rust
-/skills/patterns/nestjs
+User: "Quel format de commit utiliser ?"
+↓
+Classification: Cat 5 (Guides Architecturaux)
+↓
+Decision: rules/02-conventions.md
+↓
+Storage: rules/02-conventions.md
 ```
 
-**Pour vérifier les règles systématiques :**
+**Résultat :**
+
+```markdown
+# rules/02-conventions.md
+
+## Git Flow Master Convention
+
+### Format des Commits
 ```
-/trigmem-core      # Principes fondamentaux
-/trigmem-categories # Classification automatique
-/trigmem-examples  # Ce fichier
+TYPE: PROJECT_NAME - vX.Y.Z
+
+- Change 1
+- Change 2
 ```
+
+### Types
+- RELEASE (MAJOR) - Breaking changes
+- UPDATE (MINOR) - Nouvelles fonctionnalités
+- PATCH (PATCH) - Bug fixes
+```
+
+**Quality Gates :**
+- [ ] Convention claire
+- [ ] Exemples fournis
+- [ ] Justification incluse
+
+### Exemple 6 : Catégorie 6 - Corrections Itératives
+
+**Question :** "Est-ce que je dois utiliser 'any' ?"
+
+**Workflow :**
+
+```
+User: "Je vais utiliser 'any' pour ce type"
+↓
+Classification: Cat 6 (Corrections Itératives)
+↓
+Decision: rules/01-standards.md
+↓
+Storage: rules/01-standards.md
+↓
+Auto-apply: Correction suggérée
+```
+
+**Résultat :**
+
+```markdown
+# rules/01-standards.md
+
+## Standard : Types Stricts
+
+**Outil recommandé :** `unknown` avec type guards ou Zod
+
+**Checklist :**
+- [ ] J'ai utilisé `unknown` au lieu de `any`
+- [ ] J'ai ajouté un type guard
+- [ ] J'ai validé avec Zod si nécessaire
+```
+
+**Quality Gates :**
+- [ ] Standard positif
+- [ ] Alternative constructive
+- [ ] Checklist de validation
 
 ---
 
-## 📚 PATTERNS DISPONIBLES
+## ✅ Quality Gates
+
+### Validation Checklist
+
+- [ ] **QG1** - Catégorie correctement identifiée
+- [ ] **QG2** - Destination optimale choisie
+- [ ] **QG3** - Pattern exécutable fourni
+- [ ] **QG4** - Triggers bien définis
+- [ ] **QG5** - Quality Gates inclus
+
+### Acceptance Criteria
+
+L'exemple est complet quand :
+- **Workflow** documenté étape par étape
+- **Résultat** final montré
+- **Quality Gates** définis
+- **Leçon** clairement identifiée
+
+---
+
+## 🔧 Troubleshooting
+
+| Symptôme | Cause | Solution |
+|---------|-------|----------|
+| Catégorie ambiguë | Frontières floues | Utiliser arbre de décision |
+| Pattern pas chargé | Triggers mal définis | Clarifier triggers |
+| Duplication d'info | Mauvaise classification | Réviser catégorie |
+
+---
+
+## 🎯 Best Practices
+
+### Recommandations Guidelines
+
+1. **Standard : Suivre le flux complet**
+   - **What:** Classification → Decision → Storage
+   - **Why:** Garantit la décision optimale
+   - **How:** Appliquer systématiquement les 3 questions
+
+2. **Standard : Documenter le workflow**
+   - **What:** Montrer chaque étape du processus
+   - **Why:** Facilite la compréhension
+   - **How:** Inclure le flux dans chaque exemple
+
+3. **Standard : Patterns à la demande**
+   - **What:** Cat 4 chargée uniquement sur trigger
+   - **Why:** Économie de tokens
+   - **How:** Définir triggers clairs et exclusifs
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `trigmem-core` - Méthodologie générale
+- **Related:** `trigmem-categories` - Classification des 6 types
+- **Related:** `trigmem-decision` - Guide de décision
+- **Related:** `trigmem-storage` - Options de stockage
+
+---
+
+## 📖 Further Reading
+
+- [TrigMem Methodology](https://github.com/Pamace/claude-config/blob/main/GUIDE.md)
+- [Skills Index](https://github.com/Pamace/claude-config/blob/main/skills/INDEX.md)
+- [Rules System](https://github.com/Pamace/claude-config/blob/main/rules/README.md)
+
+---
+
+## 🎯 Success Criteria
+
+Les exemples sont maîtrisés quand :
+- [ ] Les 6 catégories sont illustrées
+- [ ] Le workflow est documenté
+- [ ] Les Quality Gates sont définis
+- [ ] Les leçons sont claires
+
+---
+
+## 💡 Key Insights
+
+### Why This Matters
+
+1. **Exemples concrets** → Meilleure compréhension
+2. **Workflow documenté** → Reproductible
+3. **Leçons identifiées** → Applicables
+
+### Common Pitfalls & Solutions
+
+| Pitfall | Solution |
+|---------|----------|
+| Sauter des étapes du workflow | Toujours montrer le flux complet |
+| Exemples trop spécifiques | Garder la portabilité |
+| Oublier les Quality Gates | Inclure dans chaque exemple |
+
+---
+
+## 📚 Patterns Disponibles
 
 | Skill | Contenu | Triggers |
 |-------|---------|----------|
-| `tech-decisions` | Choix de stack technique | "Quel stack", "quelle techno", "X ou Y" |
-| `nextjs` | Next.js 16 + React 19 patterns | "Server Action", "App Router", "RSC", "revalidateTag" |
-| `rust` | Rust + Axum patterns | "Axum handler", "sqlx query", "Tower middleware" |
-| `nestjs` | NestJS patterns | "NestJS module", "DTO validation", "JWT guard" |
-| `wasm` | WebAssembly patterns | "wasm-bindgen", "wasm-pack", "WASM Next.js" |
+| `tech-decisions` | Choix de stack | "Quel stack", "X ou Y" |
+| `nextjs` | Next.js 16 patterns | "Server Action", "RSC", "App Router" |
+| `rust` | Rust + Axum | "Axum", "sqlx", "Tower" |
+| `nestjs` | NestJS | "DTO", "JWT guard", "TypeORM" |
+| `wasm` | WebAssembly | "wasm-bindgen", "wasm-pack" |
+| `typescript` | TypeScript strict | "generic", "utility type" |
+| `tanstack` | TanStack Suite | "useQuery", "router", "form" |
+| `tailwind` | Tailwind CSS | "responsive", "dark mode" |
+| `ux-design` | UX/Design patterns | "component design", "accessibility" |
+| `documentation` | Docs patterns | "write docs", "README" |
 
 ---
 
-*Version: 1.0.0 | TrigMem Enhanced*
+*Version: 2.0.0 | TrigMem Examples - Positive Standards*

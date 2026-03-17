@@ -2,6 +2,120 @@
 
 > **Historique des versions de claude-config**
 
+---
+
+## [1.4.0] - 2026-03-17
+
+### 🔄 Refactorisation Systémique - Positive Standards
+
+#### Philosophie "Actions Positives"
+- **Éradication du négatif** : Remplacement de tous "NE PAS", "INTERDIT", "NO", "SANS" par des instructions positives
+- **Standards techniques** : Chaque interdiction remplacée par un "Standard" avec checklist de validation
+- **Quality Gates** : Nouveau système de validation objective avec critères chiffrés
+
+#### Nouveaux Fichiers Rules
+- **rules/01-standards.md** (remplace 01-nevers.md)
+  - 40+ règles "NEVER/ALWAYS" transformées en standards + checklists
+  - Approche positive : "Utiliser X" au lieu de "Ne pas utiliser Y"
+  - Validation par checklist pour chaque standard
+
+- **rules/quality-gates.md** (nouveau)
+  - Critères de validation objectifs pour tous les types de tâches
+  - Gates E1-E5 pour Feature Development
+  - Gates B1-B5 pour Bug Fixes
+  - Gates R1-R5 pour Refactoring
+
+#### Skills Patterns v2.0 - Qualité Gates
+Tous les 11 skills patterns maintenant avec sections "Quality Gates" :
+
+| Skill | Transformation | Quality Gates Ajoutés |
+|-------|----------------|----------------------|
+| **nextjs-patterns** | ❌ NEVER → ✅ Standards | SC1-SC5, AC1-AC3, SR1-SR3 |
+| **rust-axum** | Anti-Patterns → Quality Gates | QM1-QM5, E1-E4, AS1-AS4 |
+| **nestjs-patterns** | Anti-Patterns → Quality Gates | AR1-AR4, CQ1-CQ5, BP1-BP4 |
+| **tanstack-patterns** | Anti-Patterns → Quality Gates | DF1-DF4, SM1-SM4, CQ1-CQ4 |
+| **wasm-rust** | Anti-Patterns → Quality Gates | PF1-PF4, MM1-MM4, BP1-BP5 |
+| **vite-patterns** | Anti-Patterns → Quality Gates | CF1-CF5, DV1-DV4, BP1-BP4 |
+| **typescript-patterns** | Anti-Patterns → Quality Gates | TS1-TS5, TG1-TG4, CP1-CP4 |
+| **tailwind-patterns** | Anti-Patterns → Quality Gates | CU1-CU3, DT1-DT3, RD1-RD3 |
+| **ux-design-patterns** | 2 sections Anti-Patterns → Quality Gates | DP1-DP4, VA1-VA3, IE1-IE3 |
+| **documentation-patterns** | Anti-Patterns → Quality Gates | CQ1-CQ4, SF1-SF3, CC1-CC3 |
+| **tech-decisions** | Anti-Patterns → Quality Gates | RG1-RG4, SC1-SC3, PR1-PR4 |
+
+#### Rules Core mises à jour
+- **00-core.md v2.0** : Sections "❌ NEVER / ✅ ALWAYS" remplacées par workflows positifs
+- **02-conventions.md** : Préservé (déjà positif)
+- **03-delete-first.md** : Préservé (philosophie positive)
+- **04-react-hooks-limits.md** : Transformé en standards positifs
+- **05-reusability.md** : Préservé (déjà positif)
+- **06-mcp-mandatory.md** : Suggestions fortes (pas négatives)
+
+#### Format Quality Gates Uniforme
+```markdown
+## ✅ Quality Gates
+
+### Validation Checklist
+- [ ] **XX1** - Standard positif avec critère mesurable
+- [ ] **XX2** - Standard positif avec critère mesurable
+
+### Acceptance Criteria
+L'implémentation est conforme quand :
+- **Critère 1** measurable
+- **Critère 2** measurable
+```
+
+### 📊 Statistiques v1.4.0
+
+| Métrique | v1.3.0 | v1.4.0 | Δ |
+|----------|--------|--------|---|
+| **Sections négatives** | 15 | 0 | **-100%** |
+| **Quality Gates** | 0 | 44 | **+∞** |
+| **Checklists validation** | 8 | 52 | **+550%** |
+| **Skills avec QG** | 0/11 | 11/11 | **100%** |
+| **Approche positive** | 60% | 100% | **+40%** |
+
+### 🔧 Méthode de Travail
+
+**Principe Delete-First Apply :**
+1. Lire le fichier existant
+2. Identifier sections négatives
+3. Remplacer par standards positifs
+4. Ajouter Quality Gates avec checklists
+5. Préserver toute information utile
+
+**Exemple de transformation :**
+```markdown
+# AVANT (❌ négatif)
+## ⚠️ Anti-Patterns
+| ❌ NEVER | ✅ ALWAYS |
+|---------|-----------|
+| `@apply` everywhere | Inline utility classes |
+
+# APRÈS (✅ positif)
+## ✅ Quality Gates
+### CSS Usage
+- [ ] **CU1** - Classes utilitaires en ligne (priorité sur `@apply`)
+- [ ] **CU2** - `@apply` limité aux composants réutilisables uniquement
+```
+
+### 📚 Documentation
+
+- **README.md** : Mis à jour pour refléter l'approche positive
+- **GUIDE.md** : Section Quality Gates ajoutée
+- **REFERENCE.md** : Tableau des Quality Gates
+
+### 🎯 Bénéfices
+
+1. **Clarté** : Standards positifs plus faciles à suivre
+2. **Validation** : Checklists objectives pour compliance
+3. **Maintenabilité** : Quality Gates mesurables
+4. **Onboarding** : Meilleure compréhension des attentes
+5. **Esprit** : Focus sur "quoi faire" pas "quoi éviter"
+
+---
+
+## [1.3.0] - 2025-03-12
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 

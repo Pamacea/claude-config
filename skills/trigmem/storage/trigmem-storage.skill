@@ -1,132 +1,317 @@
 # TrigMem Storage - Options de Stockage
 
-> **Invocable par** : `/trigmem-storage`
-> **Type** : Storage Configuration
-> **Déclenchement** : Automatique (quand pertinent)
+> **Version:** 2.0.0 | **Category:** Cat 4 (Storage Configuration) | **Difficulty:** Intermediate
+> **Auto-Activation:** "stockage", "où mettre", "mécanisme de stockage", "trigmem storage"
+> **Tags:** [trigmem, storage, memory-options, token-economy]
+> **Related:** trigmem-core, trigmem-categories, trigmem-decision
+> **Last Updated:** 2025-03-17
 
 ---
 
-## 🎯 CE QUE CE SKILL FAIT
+## 🎯 Auto-Activation
 
-Ce skill configure comment vous stockez différentes catégories d'information dans Claude Code.
+**Ce skill s'active automatiquement quand :**
+- Configuration du stockage nécessaire
+- Choix entre mécanismes
+- Optimisation des tokens
 
-Il équilibre les **3 objectifs concurrents** de TrigMem :
+**Progressive Disclosure:**
+1. **Metadata** → Table des 5 mécanismes
+2. **Instructions** -> Configuration détaillée
+3. **Resources** → Exemples et comparaisons
+
+---
+
+## 📊 Les 5 Mécanismes de Stockage
+
+| Mécanisme | Portabilité | Chargement | Invocation | Usage Optimal |
+|-----------|-------------|------------|-----------|---------------|
+| **CLAUDE.md** | Spécifique projet | Toujours | Toujours actif | Identité critique |
+| **Rules** | Mixte | Pattern-match | Automatique | Corrections contextuelles |
+| **Skills** | Universel | À la demande | Auto/Utilisateur | Patterns portables |
+| **Commands** | Spécifique projet | À la demande | Utilisateur seul | Workflows opérationnels |
+| **Sub-agents** | N/A | Explicite | Explicite | Isolation contexte |
+
+---
+
+## 💡 Core Concepts
+
+### Concept 1 : Équilibre des 3 Objectifs
+
+**Standard :** Chaque mécanisme optimise différemment les 3 objectifs.
 
 ```
             ÉCONOMIE DE TOKENS
                  /\
               /  \
-             /    \   \
-          /       \     \
-       /           PRÉCISION    \
-    /                        \
-   /                           RÉUTILISABILITÉ
+             /    \
+          /       PRÉCISION
+       /
+    /
+   RÉUTILISABILITÉ
+```
+
+**Par mécanisme :**
+
+| Mécanisme | Économie | Précision | Réutilisabilité |
+|-----------|----------|-----------|-----------------|
+| CLAUDE.md | ⚠ Coûteux | ✅ Toujours | ❌ Spécifique |
+| Rules | �️ Contextuel | �️ Automatique | ⚠ Mixte |
+| Skills | ✅ Optimal | �️ Détaillé | ✅ Universel |
+| Commands | �️ Optimal | �️ Contrôlé | ❌ Spécifique |
+| Sub-agents | �️ Isolé | �️ Focalisé | ❌ Unique |
+
+### Concept 2 : Chargement Adaptatif
+
+**Standard :** Adapter le mécanisme au type d'information.
+
+**Workflow de choix :**
+
+```
+Information à stocker
+     ↓
+Identifier la catégorie (trigmem-categories)
+     ↓
+Appliquer guide de décision (trigmem-decision)
+     ↓
+Choisir le mécanisme optimal
+     ↓
+Configurer et déployer
 ```
 
 ---
 
-## 📊 LES 5 DIMENSIONS
+## 🎯 Implementation Patterns
 
-| Dimension | CLAUDE.md | Rules | Skills | Commands |
-|-----------|-----------|--------|---------|-----------|
-| **Portabilité** | Spécifique projet | Mixte | Universel | Spécifique projet |
-| **Chargement** | Toujours | Pattern-match | À la demande | À la demande |
-| **Invocation** | Toujours actif | Auto | Auto/Utilisateur | Utilisateur seul |
-| **Isolation** | Principal | Principal | Principal | Isolé |
+### Pattern 1 : CLAUDE.md - Identité Critique
 
-**Légende :**
-- ✅ = Avantage principal
-- ⚡ = Inconvénient principal
-- ⚠️ = Défaut probable
+**Purpose :** Informations toujours disponibles
+
+**Configuration :**
+
+```markdown
+# CLAUDE.md
+
+## Project Identity
+**Nom:** ShopFlow
+**Stack:** Next.js 16, Prisma, PostgreSQL
+**Objectif:** E-commerce pour créateurs
+
+## Quick Start
+npm install
+npm run dev
+```
+
+**Standards :**
+- Garder < 50 lignes
+- Uniquement identité critique
+- Stable dans le temps
+
+**Quality Gates :**
+- [ ] < 50 lignes total
+- [ ] Identité projet complète
+- [ ] Quick start présent
+- [ ] Stable dans le temps
+
+### Pattern 2 : Rules - Corrections Automatiques
+
+**Purpose :** Corrections contextuelles par pattern-match
+
+**Configuration :**
+
+```markdown
+# rules/01-standards.md
+
+## Standard : Recherche Sémantique
+
+**Quand :** Recherche de code
+
+**Outils recommandés :**
+1. grepai search (prioritaire)
+2. /toolkit search
+3. Grep (dernier recours)
+
+**Checklist :**
+- [ ] J'ai utilisé grepai search en premier
+- [ ] J'ai vérifié les résultats sémantiques
+```
+
+**Pattern-match :**
+```
+Fichiers édités : **/*.ts, **/*.tsx
+↓
+Rule détecte : "typescript"
+↓
+Charge : rules/typescript-standards.md
+↓
+Applique corrections automatiques
+```
+
+**Quality Gates :**
+- [ ] Pattern de fichier défini
+- [ ] Standard positif (pas de négation)
+- [ ] Alternative constructive
+- [ ] Checklist de validation
+
+### Pattern 3 : Skills - Patterns Portables
+
+**Purpose :** Connaissance universelle réutilisable
+
+**Configuration :**
+
+```markdown
+# skills/patterns/nextjs/nextjs-patterns.skill
+
+> **Triggers:** "server action", "rsc", "app router"
+
+## Server Action Pattern
+'use server'
+export async function createPost(formData: FormData) {
+  const data = schema.parse({...})
+  revalidateTag('posts')
+}
+```
+
+**Chargement à la demande :**
+```
+Trigger détecté : "server action"
+↓
+Auto-charge : skills/patterns/nextjs/nextjs-patterns.skill
+↓
+Applique le pattern
+```
+
+**Quality Gates :**
+- [ ] Triggers mutuellement exclusifs
+- [ ] Code exécutable
+- [ ] Portable entre projets
+- [ ] Bien documenté
+
+### Pattern 4 : Commands - Workflows Opérationnels
+
+**Purpose :** Actions avec effets secondaires
+
+**Configuration :**
+
+```markdown
+# CLAUDE.md ou README.md
+
+## Commands
+
+### Development
+npm run dev
+
+### Testing
+npm run test          # Unit tests
+npm run test:e2e      # E2E tests
+
+### Deployment
+npm run deploy        # Production
+npm run deploy:staging # Staging
+```
+
+**Quality Gates :**
+- [ ] Commandes documentées
+- [ ] Résultats attendus indiqués
+- [ ] Ordre logique respecté
 
 ---
 
-## 🎯 OPTIONS DE STOCKAGE
+## ✅ Quality Gates
 
-### Option 1 : CLAUDE.md (Toujours)
+### Validation Checklist
 
-**Quoi :** Identité projet + structure
-**Quand :** Information critique, rarement change
-**Avantages :**
-- ✅ Toujours disponible
-- ✅ Aucune charge rapide
-- ⚠ Consomme des tokens à chaque message
+- [ ] **QG1** - Mécanisme approprié choisi
+- [ ] **QG2** - Configuration correcte
+- [ ] **QG3** - Triggers/Patterns définis
+- [ ] **QG4** - Quality Gates inclus
+- [ ] **QG5** - Documentation complète
 
-**Inconvénients :**
-- ⚡ Trop volumineux
-- Inutile pour projet en évolution constante
+### Acceptance Criteria
 
----
-
-### Option 2 : Rules (Pattern-matched)
-
-**Quoi :** Conventions projet-spécifiques + corrections automatiques
-**Quand :** Fichiers édités correspondants
-**Avantages :**
-- ✅ Charge seulement quand pertinent
-- ✅ Corrections automatiques
-
-**Inconvénients :**
-- ⚠ Peut manquer de contexte
-- Déclenchement imprévisible
+Le stockage est optimal quand :
+- **Mécanisme** adapté au type d'information
+- **Tokens** optimisés (< 10k base)
+- **Chargement** adaptatif (à la demande si possible)
+- **Réutilisabilité** maximisée
 
 ---
 
-### Option 3 : Skills (À la demande)
+## 🔧 Troubleshooting
 
-**Quoi :** Patterns réutilisables (universels)
-**Quand :** Claude a besoin de ce pattern
-**Avantages :**
-- ✅ Maximum économie de tokens
-- ✅ Portables entre projets
-- ✅ Instructions détaillées
-
-**Inconvénients :**
-- ⚠ Chargement manuel
-- Invocation non fiable
+| Symptôme | Cause | Solution |
+|---------|-------|----------|
+| Trop de tokens utilisés | CLAUDE.md trop volumineux | Réduire, déplacer vers skills/ |
+| Patterns pas chargés | Triggers mal définis | Clarifier et rendre exclusifs |
+| Rules pas appliquées | Pattern-match manquant | Ajouter patterns de fichiers |
+| Commands pas exécutables | Permissions manquantes | Vérifier configuration |
 
 ---
 
-### Option 4 : Commands (Utilisateur)
+## 🎯 Best Practices
 
-**Quoi :** Workflows opérationnels
-**Avantages :**
-- ✅ Contrôle total
-- ✅ Effets secondaires
+### Recommandations Guidelines
 
----
+1. **Standard : Minimiser CLAUDE.md**
+   - **What:** Uniquement identité critique
+   - **Why:** Chargé à chaque message
+   - **How:** Garder < 50 lignes, déplacer le reste
 
-## 🔧 DÉCISION PAR DÉFAUT
+2. **Standard : Patterns dans skills/**
+   - **What:** Connaissance universelle portable
+   - **Why:** Réutilisabilité maximale
+   - **How:** Extraire patterns, rendre agnostiques
 
-Pour choisir le bon mécanisme, utilisez ce processus simple :
-
-### 1. Identifier la catégorie
-→ Posez-vous : "Qu'est-ce que c'est ?"
-→ Réponse automatique de la catégorie
-
-### 2. Choisir la destination
-→ Catégorie 1 (Identité) → CLAUDE.md
-→ Catégorie 2 (Structure) → CLAUDE.md + Rules
-→ Catégorie 3 (Commandes) → Commands
-→ Catégorie 4 (Patterns) → Skills
-→ Catégorie 5 (Guides) → Rules
-→ Catégorie 6 (Corrections) → Rules
+3. **Standard : Rules avec pattern-match**
+   - **What:** Corrections automatiques contextuelles
+   - **Why:** Appliquées sans intervention
+   - **How:** Définir patterns de fichiers clairs
 
 ---
 
-## 📊 MATRICE DE DÉCISION
+## 🔗 Related Skills
 
-| Catégorie | Questions clés | Où aller |
-|-----------|---------------|-------------|
-| **Identité** | "Qu'est-ce que c'est ?" | CLAUDE.md |
-| **Structure** | "Où sont les composants ?" | CLAUDE.md + Rules |
-| **Commandes** | "Comment lancer les tests ?" | Commands |
-| **Patterns** | "Quelle est l'architecture ?" | Skills |
-| **Guides** | "Comment est-ce que c'est implémenté ?" | Rules |
-| **Corrections** | "Est-ce que je continue à faire cette erreur ?" | Rules |
+- **Prerequisite:** `trigmem-core` - Méthodologie générale
+- **Related:** `trigmem-categories` - Classification des 6 types
+- **Related:** `trigmem-decision` - Guide de décision
+- **Related:** `trigmem-examples` - Exemples travaillés
 
 ---
 
-## 🎯 UTILISATION
+## 📖 Further Reading
 
-Ce skill est activé automatiquement par défaut. Pour un contrôle manuel, utilisez plutôt `/trigmem-storage` pour choisir manuellement chaque mécanisme.
+- [TrigMem Methodology](https://github.com/Pamace/claude-config/blob/main/GUIDE.md)
+- [Skills Index](https://github.com/Pamace/claude-config/blob/main/skills/INDEX.md)
+- [Rules System](https://github.com/Pamace/claude-config/blob/main/rules/README.md)
+
+---
+
+## 🎯 Success Criteria
+
+Le stockage est optimal quand :
+- [ ] Les 5 mécanismes sont compris
+- [ ] Le choix est adapté à l'information
+- [ ] Les tokens sont optimisés
+- [ ] La réutilisabilité est maximisée
+
+---
+
+## 💡 Key Insights
+
+### Why This Matters
+
+1. **Bon stockage** → Informations accessibles
+2. **Tokens optimisés** → Sessions moins coûteuses
+3. **Réutilisabilité** → Investissement unique
+
+### Common Pitfalls & Solutions
+
+| Pitfall | Solution |
+|---------|----------|
+| Tout dans CLAUDE.md | Déplacer vers skills/ ou rules/ |
+| Patterns spécifiques dans skills | Séparer universel/spécifique |
+| Rules sans pattern-match | Ajouter patterns de fichiers |
+
+---
+
+*Version: 2.0.0 | TrigMem Storage - Positive Standards*

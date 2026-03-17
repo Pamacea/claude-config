@@ -85,16 +85,39 @@ export default defineConfig({
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| Using `import.meta.env` directly | `VITE_` prefixed env vars | Vite only exposes vars with `VITE_` prefix |
-| Not using alias imports | `@/` alias for clean imports | Cleaner import paths |
-| Ignoring build optimization | Proper build config | Faster, smaller bundles |
-| Not configuring proxy | Proxy API calls during dev | Avoid CORS issues |
-| Manual bundling | Let Vite handle bundling | Vite is optimized by default |
-| Ignoring HMR issues | Proper HMR configuration | Fast development experience |
+### Validation Checklist
+
+#### Configuration
+- [ ] **CF1** - `VITE_` prefix pour env vars
+- [ ] **CF2** - `@/` alias configuré pour imports propres
+- [ ] **CF3** - build optimization configurée
+- [ ] **CF4** - Proxy configuré pour API calls
+- [ ] **CF5** - sourcemap activé en dev
+
+#### Development
+- [ ] **DV1** - HMR fonctionnant smooth
+- [ ] **DV2** - Fast dev experience
+- [ ] **DV3** - Plugins appropriés installés
+- [ ] **DV4** - Path aliases working
+
+#### Best Practices
+- [ ] **BP1** - Laisser Vite gérer le bundling
+- [ ] **BP2** - environment/ dir pour .env files
+- [ ] **BP3** - lib targets configurés pour browsers
+- [ ] **BP4** - optimizeDeps pour dépendances
+
+### Acceptance Criteria
+
+L'implémentation Vite est conforme quand :
+- **Framework** configuré correctement
+- **Path aliases** working (`@/` imports)
+- **Env vars** avec `VITE_` prefix
+- **HMR** smooth
+- **Build** optimisé pour production
+- **Proxy** configuré
+- **sourcemaps** activés
 
 ---
 

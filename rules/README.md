@@ -1,6 +1,7 @@
-# Rules - v1.0.0 TrigMem Enhanced
+# Rules - Système de Standards Techniques Positifs
 
-> **Documentation optimisée des règles essentielles**
+> **Version:** 2.0.0 | TrigMem Enhanced | Positive Standards
+> **Dernière mise à jour:** 2025-03-17
 
 ---
 
@@ -10,8 +11,16 @@
 rules/
 ├── README.md                # Ce fichier
 ├── 00-core.md               # Principes fondamentaux, EPCT
-├── 01-nevers.md             # Règles bloquantes
-└── 02-conventions.md        # Git, docs, structure de projet
+├── 01-standards.md          # Standards techniques positifs
+├── 02-conventions.md        # Git, docs, structure de projet
+├── 03-delete-first.md       # Philosophie de simplification
+├── 04-react-hooks-limits.md  # Standards Server Components
+├── 05-reusability.md        # Patterns de réutilisation
+├── 06-mcp-mandatory.md      # Workflows MCP optimaux
+├── quality-gates.md         # Critères de validation
+└── legacy/                  # Anciennes règles (référence)
+    ├── 01-nevers.md.bak      # Version historique
+    └── ...
 ```
 
 ---
@@ -26,76 +35,153 @@ rules/
 - Quand utiliser Plan Mode
 - Success Criteria
 
-### 01-nevers.md - Règles Bloquantes
+### 01-standards.md - Standards Techniques (NOUVEAU)
 
-40+ règles réparties en catégories :
-- Search & Navigation
-- Code Editing
+**Remplace :** `01-nevers.md` (approche négative)
+
+Standards techniques pour :
+- Search & Navigation (grepai search prioritaire)
+- Code Editing (Edit-Informed Workflow)
 - Implementation (React, State, TypeScript)
-- Testing
+- Testing (Behavior-driven)
 - Git & Version Control
-- Security
-- Performance
-- Architecture
+- Security (Defense in depth)
+- Performance (Measure before optimize)
+- Architecture (Clean dependency graph)
+
+**Changement clé :** Tableaux "NEVER/ALWAYS" transformés en standards positifs et checklists de validation.
 
 ### 02-conventions.md - Conventions
 
-**Git Flow Master :**
-- Format des commits (TYPE: PROJECT - vX.Y.Z)
-- Types : RELEASE, UPDATE, PATCH
-- Checklist pre-commit
+- Git Flow Master (format TYPE: PROJECT - vX.Y.Z)
+- Documentation Convention (README + GUIDE + REFERENCE)
+- Project Structure (Clean Architecture)
+- File Naming Conventions
+- Import Rules (forward/backward dependencies)
 
-**Documentation Convention :**
-- Dual-layout (README + GUIDE + REFERENCE)
-- README.md : 30-second hook
+### 03-delete-first.md - Delete First Philosophy
 
-**Project Structure :**
-- Architecture Clean (app/, ui/, features/, lib/)
-- Feature module pattern
-- Import rules
+- Search Before Create workflow
+- Variant Props over Duplicate Components
+- Composition over Creation
+- Abstraction Standards (YAGNI)
+- Refactoring Workflow
 
----
+### 04-react-hooks-limits.md - React Hooks Standards
 
-## 📚 Skills Disponibles
+- Server Components Priority
+- useEffect Guidelines (Browser APIs, Third-party SDKs)
+- useMemo Standards (Measure first)
+- useCallback Standards (Memoized components)
+- Hook Alternatives (Derived State, Server Actions)
+- Custom Hooks Standards
 
-Les patterns techniques sont dans **skills/patterns/** (chargés à la demande) :
+### 05-reusability.md - Reusability Standards
 
-| Skill | Contenu |
-|-------|---------|
-| `tech-decisions` | Choix de stack technique |
-| `nextjs` | Next.js 16 + React 19 patterns |
-| `rust` | Rust + Axum patterns |
-| `nestjs` | NestJS patterns |
-| `wasm` | WebAssembly patterns |
+- Barrel Exports (index.ts pattern)
+- Component Reusability (Variants, Slots, Polymorphic)
+- Utility Reusability (Pure functions, Generics)
+- Composition over Inheritance
+- Type Reusability (Shared types, Generic components)
+- DRY Patterns
 
-**Utilisation :**
-```bash
-# Charger un skill à la demande
-/skill patterns/nextjs
-/pattern nextjs
-```
+### 06-mcp-mandatory.md - MCP Workflows
+
+- claude-mem (Memory Reuse)
+- git-flow-master (Versioned Commits)
+- chrome-devtools (UI Testing)
+- z-ai (Visual Analysis)
+- web-reader & web-search-prime (Documentation)
+
+### quality-gates.md - Système de Validation (NOUVEAU)
+
+Critères de validation pour :
+- Feature Development
+- Bug Fix
+- Refactoring
+- Performance Optimization
+- Security Fix
+- Documentation
+- Testing
+- Dependencies Update
 
 ---
 
 ## 🎯 Points Clés
 
-### Ce qui a été optimisé
-- ✅ Toutes les règles critiques (Nevers) conservées
-- ✅ Toutes les best practices essentielles
-- ✅ Patterns techniques déplacés vers skills/
-- ✅ Réduction drastique des tokens chargés systématiquement
+### Ce qui a Changé (v2.0.0)
 
-### Économie de tokens
-- **Avant:** ~30k tokens par session (9 fichiers rules)
-- **Après:** ~8k tokens par session (3 fichiers rules + patterns à la demande)
-- **Économie:** ~73% de tokens par session
+**Approche Positive :**
+- ✅ Plus de "NEVER", "NO", "PROHIBITED", "INTERDIT"
+- ✅ Standards techniques positifs à la place
+- ✅ Checklists de validation pour auto-contrôle
+- ✅ Quality Gates objectifs pour chaque type de tâche
 
-### Conformité TrigMem
-- Cat 1 (Identité) → CLAUDE.md
-- Cat 2 (Structure) → rules/02-conventions.md
-- Cat 4 (Patterns) → skills/patterns/*
-- Cat 5 (Guides) → rules/02-conventions.md
-- Cat 6 (Corrections) → rules/01-nevers.md
+**Nouveaux Fichiers :**
+- ✅ `01-standards.md` (remplace 01-nevers.md)
+- ✅ `quality-gates.md` (nouveau système)
+
+**Fichiers Mis à Jour :**
+- ✅ `00-core.md` - Principes sans négatifs
+- ✅ `02-conventions.md` - Standards d'import
+- ✅ `03-delete-first.md` - Patterns de simplification
+- ✅ `04-react-hooks-limits.md` - Server Components priority
+- ✅ `05-reusability.md` - Patterns de réutilisation
+- ✅ `06-mcp-mandatory.md` - Workflows optimaux
+
+### Économie de Tokens (maintenu)
+
+- **Base Rules:** ~8k tokens par session
+- **Quality Gates:** ~1k tokens supplémentaires
+- **Total:** ~9k tokens (vs ~30k avant TrigMem)
+
+---
+
+## 📚 Skills Disponibles
+
+Les patterns techniques sont maintenant dans **skills/** (chargés à la demande) :
+
+```
+/skills/patterns/tech-decisions/    → Choix de stack
+/skills/patterns/nextjs/             → Next.js 16 patterns
+/skills/patterns/rust/               → Rust + Axum patterns
+/skills/patterns/nestjs/             → NestJS patterns
+/skills/patterns/wasm/               → WebAssembly patterns
+```
+
+**Utilisation :** Demandez `/pattern nextjs` ou `/skill nextjs` pour charger.
+
+---
+
+## 🔄 Migration depuis v1.0
+
+### Ancien → Nouveau
+
+| Ancien Fichier | Nouveau Fichier | Changement |
+|---------------|----------------|------------|
+| `01-nevers.md` | `01-standards.md` | Positif |
+| N/A | `quality-gates.md` | Nouveau |
+| `00-core.md` | `00-core.md` | Mis à jour |
+| `02-conventions.md` | `02-conventions.md` | Mis à jour |
+| `03-delete-first.md` | `03-delete-first.md` | Mis à jour |
+| `04-react-hooks-limits.md` | `04-react-hooks-limits.md` | Mis à jour |
+| `05-reusability.md` | `05-reusability.md` | Mis à jour |
+| `06-mcp-mandatory.md` | `06-mcp-mandatory.md` | Mis à jour |
+
+### Pour les Plugins/Users
+
+**Si vous utilisez l'ancien système :**
+
+```bash
+# Les anciens fichiers sont déplacés dans rules/legacy/
+mv rules/01-nevers.md rules/legacy/
+```
+
+**Pour vous mettre à jour :**
+
+1. Remplacer les imports de `01-nevers.md` par `01-standards.md`
+2. Mettre à jour les références aux "NEVER/ALWAYS"
+3. Utiliser les nouvelles Quality Gates dans vos workflows
 
 ---
 
@@ -111,4 +197,4 @@ Les patterns techniques sont dans **skills/patterns/** (chargés à la demande) 
 
 ---
 
-*Version: 1.0.0 | TrigMem Enhanced*
+*Version: 2.0.0 | Rules - Positive Standards System*

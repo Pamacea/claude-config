@@ -741,20 +741,37 @@ pub async fn create_post_with_notification(
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| `String` dans handlers | `&str` ou `Arc<str>` | Évite allocations |
-| `unwrap()` en prod | `Result<T, E>` + `?` | Error handling propre |
-| `Clone` sur AppState | `Arc<AppState>` | Shared state efficace |
-| `Box<dyn Error>` | Error enum + `thiserror` | Type-safe errors |
-| Routes imbriquées | `Router::nest()` | Structure claire |
-| Blocking dans async | `spawn_blocking` | Ne bloque runtime |
-| `println!` pour logging | `tracing::info!`, `tracing::error!` | Structured logging |
-| String concatenation pour SQL | `sqlx::query_as!` macro | Compile-time verification |
-| `Vec<u8>` pour binary data | `bytes::Bytes` | Zero-copy parsing |
-| Raw mutex locks | `tokio::sync::RwLock` | Async-safe locking |
+### Validation Checklist
+
+#### Memory Management
+- [ ] **QM1** - `&str` ou `Arc<str>` au lieu de `String` dans handlers
+- [ ] **QM2** - `Arc<T>` pour shared state
+- [ ] **QM3** - `bytes::Bytes` pour binary data
+- [ ] **QM4** - Pas de `Clone` inutile
+
+#### Error Handling
+- [ ] **EH1** - `Result<T, E>` + `?` au lieu de `unwrap()`
+- [ ] **EH2** - Error enum + `thiserror` au lieu de `Box<dyn Error>`
+- [ ] **EH3** - `IntoResponse` implémenté pour errors custom
+- [ ] **EH4** - Proper error logging avec `tracing::error!`
+
+#### Code Quality
+- [ ] **CQ1** - `Router::nest()` au lieu de routes imbriquées
+- [ ] **CQ2** - `spawn_blocking` pour CPU-bound dans async
+- [ ] **CQ3** - `tracing::info!` au lieu de `println!`
+- [ ] **CQ4** - `sqlx::query_as!` macro pour SQL
+- [ ] **CQ5** - `tokio::sync::RwLock` pour async-safe locking
+
+### Acceptance Criteria
+
+Le code Rust est conforme quand :
+- **Memory** allocations minimisées
+- **Errors** propagent proprement avec `?`
+- **Shared state** utilise `Arc<T>`
+- **SQL** vérifié à la compilation
+- **Logging** structuré avec `tracing`
 
 ---
 

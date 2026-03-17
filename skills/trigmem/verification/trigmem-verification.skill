@@ -1,52 +1,83 @@
-# TrigMem Verification - Session Analysis
+# TrigMem Verification - Analyse de Session
 
-> **Version:** 1.0.0 | **Category:** TrigMem Support
-> **Type:** Verification & Analysis
->
-> **Purpose:** Analyze Claude Code sessions to verify TrigMem skills are being used
-
----
-
-## 🎯 WHAT THIS SKILL DOES
-
-This skill helps verify that TrigMem skills are being invoked during sessions. It analyzes:
-
-1. **Session history** - Parse `history.jsonl` for skill invocations
-2. **Skill usage patterns** - Which skills are used, how often
-3. **Missed opportunities** - When skills SHOULD have been used but weren't
-4. **Compliance score** - Overall adherence to TrigMem methodology
+> **Version:** 2.0.0 | **Category:** Cat 6 (Quality Assurance) | **Difficulty:** Advanced
+> **Auto-Activation:** "vérifier session", "analyser utilisation", "trigmem compliance"
+> **Tags:** [trigmem, verification, analysis, quality-assurance]
+> **Related:** trigmem-core, trigmem-categories, trigmem-decision
+> **Last Updated:** 2025-03-17
 
 ---
 
-## 📊 TRIGMEM SKILLS TO VERIFY
+## 🎯 Auto-Activation
+
+**Ce skill s'active automatiquement quand :**
+- Analyse de session nécessaire
+- Vérification de compliance TrigMem
+- "Comment améliorer l'utilisation ?"
+
+**Progressive Disclosure:**
+1. **Metadata** → Métriques et scores
+2. **Instructions** → Méthodes d'analyse
+3. **Resources** → Scripts et templates
+
+---
+
+## 📊 Métriques de Compliance
+
+### Score de Compliance
+
+```
+Score = (Skills Invités / Opportunités) × 100
+
+Catégories :
+├─ 90-100% : Excellent - TrigMem pleinement intégré
+├─ 70-89% : Good - Majoritairement conforme
+├─ 50-69% : Fair - Amélioration possible
+└─ <50% : Poor - Formation nécessaire
+```
+
+### Skills TrigMem à Vérifier
 
 | Skill | Invocation | Purpose |
 |-------|------------|---------|
-| `trigmem-core` | `/trigmem-core` | Core concepts, 5 mechanisms |
-| `trigmem-categories` | `/trigmem-categories` | 6 category types |
-| `trigmem-decision` | `/trigmem-decision` | 2-phase decision guide |
-| `trigmem-storage` | `/trigmem-storage` | Storage options |
-| `trigmem-examples` | `/trigmem-examples` | Worked examples |
+| `trigmem-core` | `/trigmem-core` | Concepts fondamentaux |
+| `trigmem-categories` | `/trigmem-categories` | Classification des 6 types |
+| `trigmem-decision` | `/trigmem-decision` | Guide de décision 2 phases |
+| `trigmem-storage` | `/trigmem-storage` | Options de stockage |
+| `trigmem-examples` | `/trigmem-examples` | Exemples travaillés |
 
 ---
 
-## 🔍 ANALYSIS METHODS
+## 💡 Core Concepts
 
-### Method 1: Session History Analysis
+### Concept 1 : Analyse de Session
 
-**Parse `history.jsonl` to find:**
+**Standard :** Vérifier que TrigMem est utilisé pour les décisions de stockage.
 
-```bash
-# In Claude Code session history
-~/.claude/history.jsonl
+**Méthodes d'analyse :**
 
-# Look for patterns:
-- Skill invocations: "/trigmem-*"
-- Auto-suggestions: "trigmem" mentioned
-- Storage decisions: "CLAUDE.md", "rules", "skills"
-```
+1. **Analyse automatique** - Parser history.jsonl
+2. **Review manuelle** - Checklist de session
+3. **Test de simulation** - Scénarios de test
 
-**Analysis script (Bash):**
+### Concept 2 : Identification des Opportunités
+
+**Standard :** Reconnaître quand TrigMem aurait dû être utilisé.
+
+**Signaux d'opportunités manquées :**
+- Nouvelle information stockée sans classification
+- Pattern créé sans vérifier l'universalité
+- Stockage direct sans passer par le decision tree
+
+---
+
+## 🎯 Implementation Patterns
+
+### Pattern 1 : Analyse de History.jsonl
+
+**Purpose :** Analyse automatisée des sessions
+
+**Script d'analyse :**
 
 ```bash
 #!/bin/bash
@@ -58,7 +89,7 @@ OUTPUT="trigmem-analysis-$(date +%Y%m%d).md"
 echo "# TrigMem Analysis - $(date)" > "$OUTPUT"
 echo "" >> "$OUTPUT"
 
-# Count skill invocations
+## Compter les invocations de skills
 echo "## Skill Invocations" >> "$OUTPUT"
 echo "" >> "$OUTPUT"
 
@@ -67,7 +98,7 @@ for skill in core categories decision storage examples; do
   echo "- \`trigmem-$skill\`: $count invocations" >> "$OUTPUT"
 done
 
-# Find storage decisions
+## Trouver les décisions de stockage
 echo "" >> "$OUTPUT"
 echo "## Storage Decisions" >> "$OUTPUT"
 echo "" >> "$OUTPUT"
@@ -78,194 +109,185 @@ echo "- Skills created: $(grep -c "skills/" "$HISTORY" 2>/dev/null || echo 0)" >
 cat "$OUTPUT"
 ```
 
-### Method 2: Manual Session Review
+**Quality Gates :**
+- [ ] Script exécutable
+- [ ] Output formaté
+- [ ] Métriques calculées
+- [ ] Recommandations incluses
 
-**Checklist for each session:**
+### Pattern 2 : Checklist de Review Manuelle
 
-```markdown
-Session Analysis:
-☐ Was trigmem-core consulted for memory decisions?
-☐ Was trigmem-categories used to classify information?
-☐ Was trigmem-decision used for complex choices?
-☐ Was trigmem-storage consulted for storage decisions?
-☐ Were examples referenced from trigmem-examples?
+**Purpose :** Vérification manuelle de session
 
-Score: ___/5
-```
-
-### Method 3: Simulation Test
-
-**Test scenarios to verify skills work:**
+**Checklist :**
 
 ```markdown
-Test Scenario 1: Classify information
-Prompt: "I want to store this component pattern..."
-Expected: trigmem-categories auto-invoked or suggested
+## Session Analysis
 
-Test Scenario 2: Make complex decision
-Prompt: "Should this be a skill or a rule?"
-Expected: trigmem-decision invoked
+### Classification
+☐ trigmem-categories utilisé pour classifier l'information ?
+☐ Catégorie correctement identifiée (1-6) ?
 
-Test Scenario 3: Memory storage
-Prompt: "How should I store this project identity?"
-Expected: trigmem-storage consulted
+### Décision
+☐ trigmem-decision utilisé pour choisir le stockage ?
+☐ Les 4 questions de triage ont été posées ?
+
+### Stockage
+☐ trigmem-storage consulté pour la configuration ?
+☐ Mécanisme optimal choisi ?
+
+### Résultat
+☐ Stockage effectué conformément à TrigMem ?
+☐ Quality Gates validés ?
+
+**Score: ___/4**
 ```
 
----
+**Quality Gates :**
+- [ ] Toutes les 6 catégories couvertes
+- [ ] Critères clairs
+- [ ] Score calculable
+- [ ] Améliorations suggérées
 
-## 📈 COMPLIANCE SCORING
+### Pattern 3 : Rapport de Compliance
 
-### Score Calculation
+**Purpose :** Rapport synthétique d'utilisation
 
-```
-Score = (Skills Invoked / Opportunities) × 100
-
-Categories:
-├─ 90-100%: Excellent - TrigMem fully integrated
-├─ 70-89%: Good - Mostly compliant
-├─ 50-69%: Fair - Room for improvement
-└─ <50%: Poor - Needs training
-```
-
-### Example Report
+**Template :**
 
 ```markdown
 # TrigMem Compliance Report
 
-**Date:** 2025-02-18
-**Sessions Analyzed:** 10
-**Overall Score:** 75% (Good)
+**Date:** YYYY-MM-DD
+**Sessions Analysées:** X
+**Overall Score:** YY% (Level)
 
 ## Skill Usage
 
 | Skill | Invocations | % of Sessions |
 |-------|-------------|---------------|
-| trigmem-core | 3 | 30% |
-| trigmem-categories | 5 | 50% |
-| trigmem-decision | 2 | 20% |
-| trigmem-storage | 6 | 60% |
-| trigmem-examples | 1 | 10% |
+| trigmem-core | N | YY% |
+| trigmem-categories | N | YY% |
+| trigmem-decision | N | YY% |
+| trigmem-storage | N | YY% |
+| trigmem-examples | N | YY% |
 
-## Missed Opportunities
+## Opportunities Found
 
-1. **Session #7** - New pattern created without trigmem-categories
-   - Should have classified the pattern type first
-
-2. **Session #3** - Storage decision without trigmem-decision
-   - Should have used 2-phase decision guide
-
-3. **Session #9** - Complex information stored without consulting core
-   - Should have checked 5 mechanisms first
+### Session #X - [Description]
+**Issue:** [Problème identifié]
+**Expected:** [Ce qui aurait dû être fait]
+**Recommendation:** [Comment améliorer]
 
 ## Recommendations
 
-- Increase trigmem-decision usage for complex choices
-- Reference trigmem-examples more often
-- Use trigmem-core when uncertain about methodology
+1. [Action prioritaire]
+2. [Action secondaire]
+3. [Action d'amélioration continue]
 ```
+
+**Quality Gates :**
+- [ ] Métriques complètes
+- [ ] Opportunités identifiées
+- [ ] Recommandations actionnables
+- [ ] Format standardisé
 
 ---
 
-## 🔄 CONTINUOUS IMPROVEMENT
+## ✅ Quality Gates
 
-### Weekly Review
+### Validation Checklist
 
-```markdown
-1. Run analysis script
-2. Review compliance score
-3. Identify patterns of non-compliance
-4. Update training/prompts as needed
-```
+- [ ] **QG1** - Méthode d'analyse choisie
+- [ ] **QG2** - Session analysée
+- [ ] **QG3** - Score calculé
+- [ ] **QG4** - Opportunités identifiées
+- [ ] **QG5** - Recommandations fournies
 
-### Retraining Triggers
+### Acceptance Criteria
 
-**Consider retraining when:**
-- Score drops below 70%
-- New team member joins
-- TrigMem skills updated
-- New patterns emerge
-
----
-
-## 🎯 QUICK VERIFICATION
-
-### Fast Check (30 seconds)
-
-```bash
-# Count TrigMem invocations in recent sessions
-grep -c "trigmem" ~/.claude/history.jsonl
-
-# Should see consistent usage over time
-```
-
-### Deep Check (5 minutes)
-
-```bash
-# Run full analysis
-./analyze-trigmem.sh
-
-# Review report
-cat trigmem-analysis-*.md
-```
+L'analyse est complète quand :
+- **Sessions** analysées avec méthode choisie
+- **Score** calculé selon formule
+- **Opportunités** identifiées avec solutions
+- **Recommandations** actionnables
 
 ---
 
-## 📋 VERIFICATION CHECKLIST
+## 🔧 Troubleshooting
 
-Before closing a session:
-
-```markdown
-Self-Check:
-☐ Did I classify the information type? (trigmem-categories)
-☐ Did I choose the right storage? (trigmem-storage/decision)
-☐ Should this be saved for reuse? (save to memory)
-☐ Did I follow TrigMem methodology?
-
-If NO to any:
-☐ Explain why TrigMem wasn't applicable
-```
+| Symptôme | Cause | Solution |
+|---------|-------|----------|
+| Score faible | Skills pas utilisés | Former aux triggers |
+| Opportunités manquées | Pas de vérification | Ajouter checklist |
+| Rapport incomplet | Méthode pas suivie | Appliquer template |
 
 ---
 
-## 🔧 TROUBLESHOOTING
+## 🎯 Best Practices
 
-### Problem: Skills Not Being Invoked
+### Recommandations Guidelines
 
-**Possible causes:**
-1. Skills not installed
-2. Triggers not configured
-3. LLM not recognizing patterns
+1. **Standard : Analyser régulièrement**
+   - **What:** Review sessions hebdomadaire
+   - **Why:** Maintenir compliance élevée
+   - **How:** Script automatique + review manuelle
 
-**Solutions:**
-```bash
-# 1. Verify skills exist
-ls ~/.claude/skills/trigmem/
+2. **Standard : Documenter les opportunités**
+   - **What:** Noter quand TrigMem n'était pas utilisé
+   - **Why:** Apprentissage continu
+   - **How:** Template de rapport standard
 
-# 2. Check skill content
-cat ~/.claude/skills/trigmem/core/trigmem-core.skill
-
-# 3. Test invocation
-# In Claude Code: "/trigmem-core"
-```
-
-### Problem: Low Compliance Score
-
-**Solutions:**
-1. Add explicit reminders in CLAUDE.md
-2. Create prompts that reference TrigMem
-3. Train with examples of proper usage
-4. Review sessions and provide feedback
+3. **Standard : Améliorer les triggers**
+   - **What:** Ajuster triggers si skills pas chargés
+   - **Why:** Maximiser l'auto-activation
+   - **How:** Analyser patterns de non-usage
 
 ---
 
-## 📚 RELATED SKILLS
+## 🔗 Related Skills
 
-- `/trigmem-core` - Understanding the methodology
-- `/trigmem-categories` - Classification system
-- `/trigmem-decision` - Decision guide
-- `/trigmem-storage` - Storage options
-- `/trigmem-examples` - Worked examples
+- **Prerequisite:** `trigmem-core` - Méthodologie générale
+- **Related:** `trigmem-categories` - Classification des 6 types
+- **Related:** `trigmem-decision` - Guide de décision
+- **Related:** `trigmem-storage` - Options de stockage
 
 ---
 
-*Version: 1.0.0 | TrigMem Verification*
+## 📖 Further Reading
+
+- [TrigMem Methodology](https://github.com/Pamace/claude-config/blob/main/GUIDE.md)
+- [Skills Index](https://github.com/Pamace/claude-config/blob/main/skills/INDEX.md)
+- [Rules System](https://github.com/Pamace/claude-config/blob/main/rules/README.md)
+
+---
+
+## 🎯 Success Criteria
+
+La vérification est complète quand :
+- [ ] La méthode d'analyse est choisie
+- [ ] Les sessions sont analysées
+- [ ] Le score est calculé
+- [ ] Les recommandations sont formulées
+
+---
+
+## 💡 Key Insights
+
+### Why This Matters
+
+1. **Compliance mesurée** → Amélioration continue
+2. **Opportunités identifiées** → Meilleure utilisation
+3. **Score objectif** → Progression visible
+
+### Common Pitfalls & Solutions
+
+| Pitfall | Solution |
+|---------|----------|
+| Pas d'analyse régulière | Automatiser avec script |
+| Score mal calculé | Appliquer formule standardisée |
+| Recommandations vagues | Rendre actionnables |
+
+---
+
+*Version: 2.0.0 | TrigMem Verification - Positive Standards*

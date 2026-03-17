@@ -249,43 +249,65 @@ export function AnimatedBox({ children }: { children: ReactNode }) {
 
 ---
 
-## 🚫 ANTI-PATTERNS
+## ✅ Quality Gates
 
-### Don't Copy Trends Blindly
+### Validation Checklist
+
+#### Design Philosophy
+- [ ] **DP1** - Design orienté problèmes utilisateurs (pas copie de tendances)
+- [ ] **DP2** - Hiérarchie visuelle claire (priority → secondary → actions)
+- [ ] **DP3** - Atomes composés, pas monolithiques
+
+#### Component Architecture
+- [ ] **CA1** - Composant réutilisable ou one-off identifié
+- [ ] **CA2** - Hiérarchie Atomique respectée (Atom → Molecule → Organism)
+- [ ] **CA3** - Logique minimale dans composants UI
+
+#### Motion & Performance
+- [ ] **MP1** - Animations avec but fonctionnel (pas décoratif)
+- [ ] **MP2** - `prefers-reduced-motion` respecté
+- [ ] **MP3** - GPU uniquement (transform/opacity, pas layout)
+
+#### Consistency
+- [ ] **CS1** - Design tokens pour spacing/typography/colors
+- [ ] **CS2** - Patterns visuels cohérents
+- [ ] **CS3** - Motifs intemporels (pas effets trendy éphémères)
+
+### Acceptance Criteria
+
+L'implémentation UX est conforme quand :
+- **Design** résout un problème utilisateur réel
+- **Composants** suivent hiérarchie atomique
+- **Animations** purposeful et performantes
+- **Design tokens** utilisés systématiquement
+- **Accessibility** intégrée par défaut
+
+---
+
+## 🎯 DESIGN PRINCIPLES
+
+### Purpose Over Trends
+
+**Start with user needs, not design trends:**
 
 ```typescript
-// ❌ BAD - Following trends without purpose
-// "Everyone has bento grids, let's make one"
-export function BentoGrid() {
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {/* Random boxes because it's trendy */}
-    </div>
-  )
-}
-
-// ✅ GOOD - Purposeful design
-// "Our dashboard needs hierarchical information display"
+// ✅ Purposeful design - Dashboard avec hiérarchie claire
 export function DashboardGrid() {
   return (
     <div className="grid" role="region" aria-label="Dashboard">
-      <PriorityMetric />  {/* Most important */}
-      <SecondaryMetrics />  {/* Supporting data */}
-      <Actions />  {/* User actions */}
+      <PriorityMetric />      {/* Most important */}
+      <SecondaryMetrics />    {/* Supporting data */}
+      <Actions />             {/* User actions */}
     </div>
   )
 }
 ```
 
-### Common Anti-Patterns
-
-| Anti-Pattern | Why It's Bad | Better Approach |
-|--------------|--------------|-----------------|
-| **Copying without understanding** | Doesn't solve user problem | Start with user needs |
-| **Over-engineering** | Hard to maintain, slow | Simple, composed atoms |
-| **Trend-chasing** | Dated quickly, confusing | Timeless patterns |
-| **Animation overload** | Distracting, slow | Purposeful motion |
-| **Inconsistent spacing** | Messy, unprofessional | Design tokens |
+**Key questions before designing:**
+1. What problem does this solve for the user?
+2. Can I compose from existing atoms?
+3. Is this a reusable pattern or one-off?
+4. Does it follow our design tokens?
 
 ---
 
@@ -439,17 +461,39 @@ Anti-Patterns:
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| Low contrast text | WCAG AA contrast minimum (4.5:1) | Accessibility |
-| Tiny touch targets (< 44px) | Minimum 44x44px targets | Mobile usability |
-| Color-only indicators | Icons + colors | Color blindness accessibility |
-| Auto-playing media | User-controlled media | Accessibility, UX |
-| Unclear error messages | Specific, actionable errors | User guidance |
-| Infinite scroll without pagination | Load more button | Performance, control |
-| Not keyboard navigable | Full keyboard support | Accessibility |
+### Validation Checklist
+
+#### Visual Accessibility
+- [ ] **VA1** - Contraste WCAG AA minimum (4.5:1 pour texte)
+- [ ] **VA2** - Indicateurs avec icônes + couleurs (pas couleur seule)
+- [ ] **VA3** - Typographie lisible (taille, line-height)
+
+#### Interactive Elements
+- [ ] **IE1** - Touch targets ≥ 44x44px (mobile)
+- [ ] **IE2** - Navigation clavier complète (Tab, Enter, Escape, Arrows)
+- [ ] **IE3** - États focus visibles
+
+#### User Control
+- [ ] **UC1** - Média contrôlé par utilisateur (pas auto-play)
+- [ ] **UC2** - Pagination ou "Load More" (pas infinite scroll exclusif)
+- [ ] **UC3** - Messages d'erreur spécifiques et actionnables
+
+#### Content Structure
+- [ ] **CS1** - Hiérarchie visuelle claire
+- [ ] **CS2** - Labels descriptifs sur éléments interactifs
+- [ ] **CS3** - Feedback pour toutes les actions
+
+### Acceptance Criteria
+
+L'accessibilité UX est conforme quand :
+- **WCAG AA** contrast respecté
+- **Touch targets** ≥ 44x44px
+- **Keyboard navigation** fonctionnelle
+- **Screen reader** testé
+- **Error messages** actionnables
+- **User control** sur média
 
 ---
 

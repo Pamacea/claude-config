@@ -1,131 +1,322 @@
-# TrigMem Core - Compétence de Base
+# TrigMem Core - Méthodologie de Gestion de Mémoire
 
-> **Invocable par** : `/trigmem-core`
-> **Type** : Core Knowledge
-
-Vous êtes actuellement en train d'apprendre la méthodologie TrigMem. Ce skill contient les concepts fondamentaux nécessaires pour comprendre comment organiser la mémoire de Claude Code.
+> **Version:** 2.0.0 | **Category:** Cat 1 (Fondamentaux) | **Difficulty:** Foundation
+> **Auto-Activation:** "trigmem", "mémoire", "où stocker", "comment organiser"
+> **Tags:** [trigmem, memory, methodology, token-optimization]
+> **Related:** trigmem-categories, trigmem-decision, trigmem-storage
+> **Last Updated:** 2025-03-17
 
 ---
 
-## 🎯 CE QUE VOUS APPRENEZ
+## 🎯 Auto-Activation
 
-### Les 3 Objectifs Concurrents
+**Ce skill s'active automatiquement quand :**
+- "Comment organiser la mémoire ?", "TrigMem", "où stocker"
+- Questions sur l'efficacité des tokens
+- Décisions de stockage d'information
 
-TrigMem résout le triangle impossible des 3 objectifs :
+**Progressive Disclosure:**
+1. **Metadata** → Les 3 objectifs et 5 mécanismes
+2. **Instructions** → Méthodologie complète
+3. **Resources** → Exemples et décision trees
+
+---
+
+## 🎯 Objectif : Équilibrer les 3 Objectifs Concurrents
+
+TrigMem résout le triangle impossible :
 
 ```
             ÉCONOMIE DE TOKENS
                  /\
               /  \
-             /    \   \
-          /       \     \
-       /           PRÉCISION    \
-    /                        \
-   /                           RÉUTILISABILITÉ
+             /    \
+          /       PRÉCISION
+       /
+    /
+   RÉUTILISABILITÉ
 ```
 
-**1. ÉCONOMIE DE CONTEXTE (Economy)**
-- Minimiser les tokens utilisés
-- CLAUDE.md = toujours chargé (paye mais efficace)
-- Skills = chargés à la demande (économique)
+### Les 3 Objectifs
 
-**2. PRÉCISION (Precision)**
-- Instructions spécifiques et actionnables
-- Rules = contextuelles et automatiques
-- Skills = détaillées étape par étape
-
-**3. RÉUTILISABILITÉ (Reusability)**
-- Écrire une fois, utiliser partout
-- Skills = patterns universels (Next.js, React, Rust, etc.)
-- Rules = conventions projet (non portables)
-
-**Le secret** : TrigMem utilise **5 mécanismes différents** pour équilibrer ces objectifs.
+| Objectif | Description | Mécanisme Optimal |
+|----------|-------------|-------------------|
+| **Économie** | Minimiser tokens utilisés | Skills (à la demande) |
+| **Précision** | Instructions actionnables | Rules (pattern-match) |
+| **Réutilisabilité** | Portable entre projets | Skills (universels) |
 
 ---
 
-## 🔧 LES 5 MÉCANISMES
+## 📊 Les 5 Mécanismes de Stockage
 
-| Mécanisme | Chargement | Invocation | Isolation | Trade-off |
-|-----------|------------|-----------|----------|-----------|
-| **CLAUDE.md** | Toujours | Toujours actif | Principal | Économie ⬇⬇⬇ Rutilisabilité |
-| **Rules** | Pattern-match | Auto | Principal | Precision ⬆⬇⬇⬇� Reusabilité |
-| **Skills** | À la demande | Auto/Utilisateur | Principal | Precision ⬆⬇⬇ Reusabilité ✅ |
-| **Commands** | À la demande | Utilisateur seul | Principal | Precision ⬆⬇⬇� Reusabilité ✅ |
-| **Sub-agents** | Explicite | Explicite | Isolé | Precision ⬆⬇⬇� Reusabilité |
-
-**Légende :**
-- ✅ = Avantage principal
-- ⚡ = Inconvénient principal
+| Mécanisme | Chargement | Invocation | Portabilité | Usage Optimal |
+|-----------|------------|-----------|-------------|---------------|
+| **CLAUDE.md** | Toujours | Toujours actif | Spécifique projet | Identité critique |
+| **Rules** | Pattern-match | Automatique | Spécifique projet | Corrections auto |
+| **Skills** | À la demande | Auto/Utilisateur | Universel | Patterns portables |
+| **Commands** | À la demande | Utilisateur seul | Spécifique projet | Workflows ops |
+| **Sub-agents** | Explicite | Explicite | N/A | Isolation contexte |
 
 ---
 
-## 📊 GUIDE DE DÉCISION RAPIDE
+## 🎯 Guide de Décision Rapide
 
 ### Q1 : Action déclenchée par utilisateur ?
 
-**Examples qui disent OUI :**
+**Signaux positifs :**
 - "Déploye en staging"
 - "Lance les tests complets"
 - "Génère un composant"
 
-**Examples qui disent NON :**
-- "Comment je déploye ?" (connaissance)
-- "Qu'est-ce que c'est l'architecture ?" (connaissance)
-- "Où sont les tests ?" (structure codebase)
-
-→ **OUI** = Command (workflow avec effets)
-→ **NON** = Skill (connaissance) ou Rule (correction)
+**Destination recommandée :** Commands (workflow avec effets)
 
 ### Q2 : Connaissance universelle réutilisable ?
 
-**Examples qui disent OUI :**
+**Signaux positifs :**
 - "Architecture Hexagonale"
 - "Pattern Repository"
 - "React Hooks personnalisés"
-- "TDD workflow"
 
-→ **OUI** = Skill (pattern portable)
+**Destination recommandée :** Skills (pattern portable)
 
 ### Q3 : Besoin d'isolation de contexte ?
 
-**OUI si :**
-- Tâche réfactorale complexe (pollution contexte principal)
+**Signaux positifs :**
+- Tâche réfactorale complexe
 - Expérimentation risquée
-- Travail en parallèle indépendant
+- Travail parallèle indépendant
 
-→ **OUI** = Sub-agent
+**Destination recommandée :** Sub-agents
 
 ### Q4 : Contexte toujours nécessaire ?
 
-**OUI si :**
-- Information critique projet toujours accessible
-- Rappels fréquents de sécurité
-- Conventions de coding essentielles
+**Signaux positifs :**
+- Information critique projet
+- Rappels de sécurité
+- Conventions essentielles
 
-→ **OUI** = CLAUDE.md ou Rule (pattern-match)
+**Destination recommandée :** CLAUDE.md ou Rules
 
 ---
 
-## 🎯 COMMENT UTILISER CE SKILL
+## 💡 Core Concepts
 
-### 1. Dans CLAUDE.md
+### Concept 1 : Séparation Universel vs Spécifique
+
+**Standard :** Toujours séparer les connaissances universelles des spécificités projet.
+
+**Pattern recommandé :**
 
 ```markdown
-## Mémoire : TrigMem
+# Skills (portables) - Pattern universel
+## Architecture Hexagonale
+Domain layer contains pure business rules...
 
-Voir: [TrigMem complet](C:\Users\Yanis\Desktop\TrigMem.md)
+# Project (spécifique) - Application du pattern
+## Project: ShopFlow
+Voir: docs/architecture.md (implémentation Hexagonale)
 ```
 
-### 2. Invocation directe
+### Concept 2 : Chargement à la Demande
 
-```
-/trigmem-core
-```
+**Standard :** Les patterns techniques ne chargent que quand les triggers sont détectés.
 
-Ce skill charge automatiquement quand vous posez des questions sur l'organisation de mémoire.
+**Bénéfices mesurables :**
+- Base rules : ~8k tokens (toujours chargés)
+- Patterns techniques : ~22k tokens (chargés seulement si nécessaire)
+- **Économie :** 73% sur sessions standards
+
+### Concept 3 : Pattern-Matching Automatique
+
+**Standard :** Les rules utilisent des patterns de fichiers pour se charger automatiquement.
+
+**Exemple :**
+```
+Quand fichier édité : src/components/Button/Button.tsx
+↓
+Rule détecte : "components/"
+↓
+Charge : rules/ui-conventions.md
+↓
+Applique : Convention de nommage et structure
+```
 
 ---
 
-## 📚 RETEN
+## 🎯 Implementation Patterns
 
-Continuez avec les autres skills TrigMem pour des décisions automatisées plus spécifiques.
+### Pattern 1 : Identité Projet (Cat 1)
+
+**Purpose :** Informations critiques toujours disponibles
+
+**Storage :** CLAUDE.md
+
+**Implementation :**
+
+```markdown
+# CLAUDE.md
+
+## Project Identity
+**Nom:** ShopFlow
+**Stack:** Next.js 16, Prisma, PostgreSQL, Stripe
+**Objectif:** E-commerce pour créateurs
+```
+
+**Quality Gates :**
+- [ ] Nom du projet présent
+- [ ] Stack technique complète
+- [ ] Objectif clairement défini
+- [ ] < 50 lignes total
+
+### Pattern 2 : Structure Codebase (Cat 2)
+
+**Purpose :** Navigation et organisation
+
+**Storage :** CLAUDE.md + rules/02-conventions.md
+
+**Implementation :**
+
+```markdown
+## Project Structure
+src/
+├── app/          # Next.js App Router
+├── features/     # Business logic
+├── ui/           # Presentational components
+└── lib/          # Library code
+```
+
+**Quality Gates :**
+- [ ] Structure hiérarchique claire
+- [ ] Noms de dossiers explicites
+- [ ] Commentaires pour chaque section
+- [ ] Convention suivie dans le code
+
+### Pattern 3 : Patterns Techniques (Cat 4)
+
+**Purpose :** Connaissance universelle réutilisable
+
+**Storage :** skills/patterns/*
+
+**Implementation :**
+
+```markdown
+# skills/patterns/nextjs/nextjs-patterns.skill
+
+> **Triggers:** "server action", "rsc", "app router"
+
+## Server Action Pattern
+'use server'
+export async function createPost(formData: FormData) {
+  const data = schema.parse({...})
+  revalidateTag('posts')
+}
+```
+
+**Quality Gates :**
+- [ ] Triggers mutuellement exclusifs
+- [ ] Code exécutable fourni
+- [ ] Utilisable directement
+- [ ] Portable entre projets
+
+---
+
+## ✅ Quality Gates
+
+### Validation Checklist
+
+- [ ] **QG1** - Information classée dans bonne catégorie
+- [ ] **QG2** - Mécanisme de stockage approprié choisi
+- [ ] **QG3** - Patterns portables dans skills/
+- [ ] **QG4** - Spécifique projet dans CLAUDE.md/rules
+- [ ] **QG5** - Triggers bien définis et exclusifs
+
+### Acceptance Criteria
+
+L'organisation de mémoire est optimale quand :
+- **Base tokens** < 10k par session
+- **Patterns** chargés uniquement à la demande
+- **Séparation** universel/spécifique respectée
+- **Réutilisabilité** maximisée entre projets
+
+---
+
+## 🔧 Troubleshooting
+
+| Symptôme | Cause | Solution |
+|---------|-------|----------|
+| Trop de tokens utilisés | Rules trop volumineuses | Déplacer patterns vers skills/ |
+| Patterns pas chargés | Triggers mal définis | Clarifier et rendre exclusifs |
+| Duplication d'information | Mauvaise classification | Appliquer les 6 catégories |
+| Skills non portables | Spécifique projet mélangé | Séparer universel/spécifique |
+
+---
+
+## 🎯 Best Practices
+
+### Recommandations Guidelines
+
+1. **Standard : Minimiser CLAUDE.md**
+   - **What:** Uniquement identité critique et structure
+   - **Why:** Chargé à chaque message
+   - **How:** Garder < 50 lignes, déplacer détails vers rules/
+
+2. **Standard : Patterns universels dans skills/**
+   - **What:** Connaissance réutilisable entre projets
+   - **Why:** Évite duplication, maximise ROI
+   - **How:** Extraire patterns, rendre techniquement agnostiques
+
+3. **Standard : Rules contextuelles**
+   - **What:** Corrections automatiques spécifiques projet
+   - **Why:** Appliquées sans intervention manuelle
+   - **How:** Pattern-matching sur fichiers édités
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** Aucun - Core concept
+- **Related:** `trigmem-categories` - Classification des 6 types
+- **Related:** `trigmem-decision` - Guide de décision 2 phases
+- **Related:** `trigmem-storage` - Options de stockage détaillées
+
+---
+
+## 📖 Further Reading
+
+- [TrigMem Methodology Complete](https://github.com/Pamace/claude-config/blob/main/GUIDE.md)
+- [Rules System](https://github.com/Pamace/claude-config/blob/main/rules/README.md)
+- [Skills Index](https://github.com/Pamace/claude-config/blob/main/skills/INDEX.md)
+
+---
+
+## 🎯 Success Criteria
+
+La méthodologie TrigMem est maîtrisée quand :
+- [ ] Les 6 catégories sont identifiées automatiquement
+- [ ] Les 5 mécanismes sont utilisés correctement
+- [ ] La séparation universel/spécifique est respectée
+- [ ] Les triggers sont mutuellement exclusifs
+- [ ] L'économie de tokens est mesurée (> 70%)
+
+---
+
+## 💡 Key Insights
+
+### Why This Matters
+
+1. **Économie de tokens** - Sessions moins coûteuses
+2. **Précision** - Informations pertinentes au bon moment
+3. **Réutilisabilité** - Investissement unique, bénéfices multiples
+
+### Common Pitfalls & Solutions
+
+| Pitfall | Solution |
+|---------|----------|
+| Tout mettre dans CLAUDE.md | Déplacer vers skills/ patterns |
+| Patterns spécifiques dans skills | Séparer universel/spécifique |
+| Triggers qui se chevauchent | Rendre mutuellement exclusifs |
+| Oublier de mesurer les tokens | Suivre base token count |
+
+---
+
+*Version: 2.0.0 | TrigMem Core - Positive Standards*

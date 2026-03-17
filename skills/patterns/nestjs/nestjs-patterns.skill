@@ -579,18 +579,39 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| Logic in controllers | Use services | Controllers should only handle HTTP concerns |
-| Direct database access in controllers | Use repositories | Separation of concerns |
-| Manual validation without class-validator | Use ValidationPipe + DTOs | Automatic, consistent validation |
-| Hardcoded configuration | Use @nestjs/config | Environment-specific settings |
-| Business logic in guards | Use services | Guards should only authorize |
-| Using `any` type | Use proper TypeScript interfaces | Type safety |
-| Static modules for dynamic config | Use DynamicModule | Flexibility |
-| Not using dependency injection | Use constructor injection | Testability, decoupling |
+### Validation Checklist
+
+#### Architecture
+- [ ] **AR1** - Logique métier dans services (pas controllers)
+- [ ] **AR2** - Repositories pour accès données (pas direct)
+- [ ] **AR3** - Controllers gèrent uniquement HTTP
+- [ ] **AR4** - Guards authorisent seulement (pas logique)
+
+#### Code Quality
+- [ ] **CQ1** - ValidationPipe + DTOs avec class-validator
+- [ ] **CQ2** - @nestjs/config pour configuration
+- [ ] **CQ3** - TypeScript interfaces pour types
+- [ ] **CQ4** - Constructor injection pour DI
+- [ ] **CQ5** - DynamicModule pour config dynamique
+
+#### Best Practices
+- [ ] **BP1** - Modules feature-based
+- [ ] **BP2** - Custom decorators pour code réutilisable
+- [ ] **BP3** - Interceptors pour cross-cutting
+- [ ] **BP4** - Exception filters pour erreurs consistantes
+
+### Acceptance Criteria
+
+L'implémentation NestJS est conforme quand :
+- **Modules** feature-based
+- **DTOs** avec class-validator
+- **Guards** pour auth/authz
+- **Services** contiennent logique métier
+- **ValidationPipe** global configuré
+- **@nestjs/config** pour env vars
+- **Tests** écrits pour services/controllers
 
 ---
 

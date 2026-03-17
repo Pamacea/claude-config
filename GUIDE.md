@@ -1,16 +1,16 @@
-# GUIDE - Claude Config & TrigMem
+# GUIDE - Claude Config & TrigMem v2.0
 
-> **Version:** 1.1.5 | Guide complet d'utilisation
+> **Version:** 2.0.0 | **Révolution Positive** | **Dernière mise à jour:** 2025-03-17
 
 ---
 
-## 📖 Table des Matières
+## 📋 Table des Matières
 
 1. [Introduction](#introduction)
-2. [TrigMem](#trigmem)
+2. [Nouveautés v2.0](#nouveauautés-v200)
 3. [Installation](#installation)
 4. [Utilisation](#utilisation)
-5. [Patterns](#patterns)
+5. [Patterns Techniques](#patterns-techniques)
 6. [Personnalisation](#personnalisation)
 
 ---
@@ -29,42 +29,49 @@ Sans TrigMem, Claude Code charge toutes les règles à chaque session :
 ### La Solution
 
 Avec TrigMem :
-- **~8k tokens** de règles essentielles
+- **~9k tokens** de règles essentielles (vs 30k avant)
 - **Patterns à la demande** (chargés seulement si nécessaire)
 - **73% d'économie** sur les sessions standards
+- **Approche 100% positive** (plus de "NEVER/NO")
 
 ---
 
-## TrigMem
+## Nouveautés v2.0
 
-### Les 6 Catégories
+### 🔄 Révolution Positive
 
-TrigMem classe l'information en 6 catégories avec un stockage optimal :
+**Changement majeur :** Toutes les règles ont été réécrites avec une approche positive.
 
-| Catégorie | Description | Stockage | Exemple |
-|-----------|-------------|----------|---------|
-| **Cat 1** | Identité Projet | CLAUDE.md | "Qu'est-ce que ce projet ?" |
-| **Cat 2** | Structure Codebase | rules/02-conventions.md | "Où sont les composants ?" |
-| **Cat 3** | Workflows Opérationnels | CLAUDE.md | "Comment je déploie ?" |
-| **Cat 4** | Patterns Réutilisables | skills/patterns/* | "Comment créer un Server Action ?" |
-| **Cat 5** | Guides Architecturales | rules/02-conventions.md | "Conventions Git ?" |
-| **Cat 6** | Corrections Itératives | rules/01-nevers.md | "Ne fais plus jamais X" |
+| ❌ Supprimé | ✅ Nouveau Format |
+|-------------|---------------|
+| "NEVER do this" | "Standard : Do this instead" |
+| "❌ BAD practice" | "Recommended pattern" |
+| "PROHIBITED" | "Optimal workflow" |
+| 40+ règles "NEVER" | Standards + Checklists |
 
-### Flow de Décision
+### 📋 Nouveau Système de Quality Gates
 
-```
-User Question
-     ↓
-[trigmem-categories] Classification
-     ↓
-┌────┴────┐
-│         │
-Cat 1-3   Cat 4 (Patterns)
-│         │
-↓         ↓
-Rules/   Skills/ (à la demande)
-CLAUDE.md
-```
+**Nouveau fichier :** `rules/quality-gates.md`
+
+Critères de validation objectifs pour chaque type de tâche :
+- **Feature Development** → E1-E5 gates
+- **Bug Fix** → B1-B5 gates
+- **Refactoring** → R1-R5 gates
+- **Performance** → P1-P5 gates
+- **Security** → S1-S5 gates
+
+### 📁 Fichiers Mis à Jour
+
+| Ancien | Nouveau | Changement Clé |
+|--------|--------|----------------|
+| `01-nevers.md` | `01-standards.md` | Standards positifs |
+| N/A | `quality-gates.md` | Validation objective |
+| `00-core.md` | v2.0 | Principes sans négatifs |
+| `02-conventions.md` | v2.0 | Standards d'import positifs |
+| `03-delete-first.md` | v2.0 | Patterns de simplification |
+| `04-react-hooks-limits.md` | v2.0 | Server Components priority |
+| `05-reusability.md` | v2.0 | Patterns de réutilisation |
+| `06-mcp-mandatory.md` | v2.0 | Workflows optimaux |
 
 ---
 
@@ -77,10 +84,10 @@ CLAUDE.md
 mv ~/.claude ~/.claude.backup
 
 # Cloner ce repo
-git clone https://github.com/yanisdev/claude-config.git ~/.claude
+git clone https://github.com/Pamace/claude-config.git ~/.claude
 ```
 
-### Méthode 2 : Copie des fichiers
+### Méthode 2 : Copie des Fichiers
 
 ```bash
 # Copier les skills et rules
@@ -97,12 +104,12 @@ cp CLAUDE.md ~/.claude/
 
 Les skills TrigMem sont automatiquement activés par Claude Code :
 
-- `trigmem-core` - Concepts fondamentaux (structure en dossier)
-- `trigmem-decision` - Guide de décision (structure en dossier)
-- `trigmem-categories` - Classification automatique (structure en dossier)
-- `trigmem-storage` - Configuration stockage (structure en dossier)
-- `trigmem-examples` - Exemples travaillés (structure en dossier)
-- `trigmem-verification` - Analyse de sessions (structure en dossier)
+- `trigmem-core` - Concepts fondamentaux
+- `trigmem-categories` - Classification automatique
+- `trigmem-decision` - Guide de décision
+- `trigmem-storage` - Configuration stockage
+- `trigmem-examples` - Exemples travaillés
+- `trigmem-verification` - Analyse de sessions
 
 ### Nouveau : Pattern Autoloader
 
@@ -143,26 +150,28 @@ Répond avec le pattern spécifique
 /trigmem-core       # Affiche les concepts fondamentaux
 /trigmem-examples   # Montre des exemples d'utilisation
 /pattern nextjs      # Charge les patterns Next.js
-/skill patterns/rust
+/pattern rust        # Charge les patterns Rust
 ```
 
 ---
 
-## Patterns
+## Patterns Techniques
 
 ### Patterns Disponibles
 
 | Pattern | Description | Triggers |
 |---------|-------------|----------|
 | `tech-decisions` | Choix de stack technique | "Quel stack", "X ou Y" |
-| `nextjs` | Next.js 16 + React 19 | "Server Action", "RSC" |
-| `rust` | Rust + Axum | "Axum handler", "sqlx" |
-| `nestjs` | NestJS | "DTO", "JWT guard" |
-| `wasm` | WebAssembly | "wasm-bindgen" |
-| `vite` | Vite | "vite config", "build" |
+| `nextjs` | Next.js 16 + React 19 | "Server Action", "RSC", "App Router" |
+| `rust` | Rust + Axum | "Axum", "sqlx", "Tower" |
+| `nestjs` | NestJS | "DTO", "JWT guard", "TypeORM" |
+| `wasm` | WebAssembly | "wasm-bindgen", "wasm-pack" |
+| `vite` | Vite | "vite config", "build", "HMR" |
 | `typescript` | TypeScript | "generic", "utility type" |
-| `tanstack` | TanStack (Query/Router/Form) | "useQuery", "router" |
+| `tanstack` | TanStack Suite | "useQuery", "router", "form" |
 | `tailwind` | Tailwind CSS | "responsive", "dark mode" |
+| `ux-design` | UX/Design patterns | "component design", "accessibility" |
+| `documentation` | Documentation patterns | "write docs", "README" |
 
 ### Exemple d'Utilisation
 
@@ -201,8 +210,8 @@ export async function createPost(formData: FormData) {
 Créez un nouveau fichier dans `skills/patterns/` :
 
 ```bash
-mkdir skills/patterns/ma-tecno
-vim skills/patterns/ma-tecno/ma-tecno-patterns.skill
+mkdir skills/patterns/ma-techno
+vim skills/patterns/ma-techno/ma-techno-patterns.skill
 ```
 
 Avec le format :
@@ -227,42 +236,68 @@ Avec le format :
 Les règles essentielles sont dans `rules/` :
 
 - `00-core.md` - Principes fondamentaux
-- `01-nevers.md` - Règles bloquantes
+- `01-standards.md` - Standards techniques
 - `02-conventions.md` - Conventions Git/Docs
+- `03-delete-first.md` - Delete First philosophy
+- `04-react-hooks-limits.md` - React hooks standards
+- `05-reusability.md` - Reusability patterns
+- `quality-gates.md` - Quality gates
 
 ---
 
-## 🎯 Bonnes Pratiques
+## 🎯 Bonnes Pratiques v2.0
 
-1. **Utiliser les triggers** : Les mots-clés déclenchent le chargement des patterns
-2. **Être spécifique** : "Comment créer un Server Action ?" charge le pattern Next.js
-3. **Laisser Claude décider** : trigmem-categories route vers la bonne ressource
+### 1. Utiliser les Standards Positifs
+
+Tous les fichiers utilisent maintenant une approche positive :
+- **Standards techniques** au lieu d'interdictions
+- **Checklists de validation** pour auto-contrôle
+- **Quality Gates** pour validation objective
+
+### 2. Quality Gates pour Tâches
+
+Avant de considérer une tâche comme terminée :
+- Vérifier les Quality Gates correspondants
+- Valider les critères d'acceptation
+- Documenter les résultats
+
+### 3. Triggers Mutuellement Exclusifs
+
+Les patterns utilisent maintenant des triggers exclusifs :
+- Un seul pattern se charge à la fois
+- Priorité claire en cas de multiples matches
+- Références croisées (pas de chargement multiple)
 
 ---
 
 ## 📞 Support
 
-- **Issues:** https://github.com/yanisdev/claude-config/issues
-- **Discussions:** https://github.com/yanisdev/claude-config/discussions
+- **Issues:** https://github.com/Pamace/claude-config/issues
+- **Discussions:** https://github.com/Pamace/claude-config/discussions
 
 ---
 
-### Git Flow Master : Nouveau Type WIP
+## 📈 Migration v1.x → v2.0
 
-Le type **WIP** (Work In Progress) a été ajouté pour les commits de refactoring :
+### Ce Qui Change
 
-```
-WIP: PROJECT_NAME - vX.Y.Z
+**Pour les utilisateurs :**
+- Plus de messages négatifs ("NEVER/NO")
+- Checklists de validation plus claires
+- Quality Gates objectifs pour valider le travail
 
-- Refactor: Restructuring X
-- Work in progress: Y
-```
+**Pour les développeurs :**
+- Standards techniques plus faciles à suivre
+- Quality Gates pour validation automatisée
+- Templates positifs pour nouveaux skills
 
-**Usage :**
-- Refactoring en cours
-- Réorganisations majeures
-- Breaking changes potentiels
+### Migration Pas à Pas
+
+1. **Backup** votre config actuelle
+2. **Clone** la nouvelle version
+3. **Testez** avec quelques tâches
+4. **Adaptez** vos patterns personnels si nécessaire
 
 ---
 
-*Version: 1.1.5 | Mis à jour: 2026-02-19*
+*Version: 2.0.0 | Mis à jour: 2025-03-17 | Positive Revolution*

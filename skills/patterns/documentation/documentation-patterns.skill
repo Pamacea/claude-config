@@ -554,17 +554,39 @@ Before Release:
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| "Coming soon" placeholders | Complete documentation or TODO issues | Users need info now |
-| Outdated examples | Tested, working examples | Frustrating when code doesn't work |
-| Walls of text | Structured with headers, lists, code | Scannability |
-| Assuming knowledge | Context and prerequisites | Clearer onboarding |
-| Writing code without comments | Self-documenting code + key comments | Maintainability |
-| Not updating docs | Docs synced with code changes | Accuracy |
-| Jargon without explanation | Plain language + technical terms | Accessibility |
+### Validation Checklist
+
+#### Content Quality
+- [ ] **CQ1** - Documentation complète (pas de "coming soon")
+- [ ] **CQ2** - Exemples testés et fonctionnels
+- [ ] **CQ3** - Termes techniques expliqués (jargon défini)
+
+#### Structure & Format
+- [ ] **SF1** - Contenu structuré (headers, lists, tables)
+- [ ] **SF2** - Sections scannables (pas de "walls of text")
+- [ ] **SF3** - Table des matières pour docs longs
+
+#### Context & Clarity
+- [ ] **CC1** - Prérequis indiqués clairement
+- [ ] **CC2** - Pourquoi/quoi/comment expliqués
+- [ ] **CC3** - Langage clair + termes techniques
+
+#### Maintenance
+- [ ] **MN1** - Docs synchronisés avec code changements
+- [ ] **MN2** - Code auto-documenté + commentaires clés
+- [ ] **MN3** - Examples mis à jour avec releases
+
+### Acceptance Criteria
+
+La documentation est conforme quand :
+- **README** < 50 lignes avec quick start
+- **Examples** testés et fonctionnels
+- **Structure** claire et scannable
+- **Prérequis** indiqués
+- **Langage** accessible
+- **Synchro** docs/code maintenue
 
 ---
 

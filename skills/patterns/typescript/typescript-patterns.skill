@@ -4,20 +4,27 @@
 > **Auto-Activation:** "typescript", "ts", "type", "interface", "generic", "utility type", "type error"
 > **Tags:** [typescript, types, generics, utility-types, type-safety]
 > **Related:** nextjs-patterns, nestjs-patterns, tanstack-patterns
-> **Last Updated:** 2025-02-24
+> **Last Updated:** 2025-03-17
+
+---
+
+## 🎯 Auto-Activation
+
+**Ce skill s'active automatiquement quand :**
+- "typescript", "ts", "type", "interface"
+- "generic", "utility type", "type error"
+- Questions sur la typification
+
+**Mutual Exclusivity Rules :**
+- Triggers exclusifs avec autres langages (rust, go, python)
 
 ---
 
 ## 🚀 Quick Start
 
 ```bash
-# Install TypeScript
 npm install -D typescript
-
-# Initialize
 npx tsc --init
-
-# Run
 npx tsc --watch
 ```
 
@@ -27,38 +34,121 @@ npx tsc --watch
 
 | Concept | Pattern | Use Case |
 |---------|---------|----------|
-| **Generics** | `<T>` | Reusable components/functions |
-| **Utility Types** | `Partial<T>`, `Pick<T>` | Transform types |
-| **Type Guards** | `value is Type` | Runtime type checking |
-| **Discriminated Unions** | `{ type: 'a' } \| { type: 'b' }` | Exhaustive checking |
-| **Inference** | `infer` | Advanced type manipulation |
+| **Generics** | `<T>` | Composants/fonctions réutilisables |
+| **Utility Types** | `Partial<T>`, `Pick<T>` | Transformer types |
+| **Type Guards** | `value is Type` | Vérification type runtime |
+| **Discriminated Unions** | `{ type: 'a' } \| { type: 'b' }` | Vérification exhaustive |
+| **Inference** | `infer` | Manipulation avancée de types |
 
 ---
 
-## 🚀 tsconfig.json Base
+## 💡 Core Concepts
+
+### Concept 1 : Strict Mode par Défaut
+
+**Standard :** Toujours activer `strict: true` dans tsconfig.json.
+
+**Rationale :**
+- Catch les erreurs à la compilation
+- Meilleure sécurité de type
+- Refactoring plus sûr
+- Auto-completion améliorée
+
+**Configuration :**
 
 ```json
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2023"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "skipLibCheck": true,
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler"
   }
 }
 ```
 
+**Quality Gates :**
+- [ ] `strict: true` activé
+- [ ] Options strictes supplémentaires activées
+- [ ] Pas de `@ts-ignore` dans le code
+
+### Concept 2 : Types Sûrs - Remplacer `any`
+
+**Standard :** Préférer `unknown` avec type guards plutôt que `any`.
+
+**Rationale :**
+- `any` désactive complètement la vérification de type
+- `unknown` force la vérification avant usage
+- Type guards garantissent la sécurité runtime
+
+**Pattern :**
+
+```typescript
+// ✅ Standard - Unknown avec type guard
+function processValue(value: unknown) {
+  if (isString(value)) {
+    // Ici TypeScript sait que value est string
+    console.log(value.toUpperCase())
+  }
+}
+
+function isString(value: unknown): value is string {
+  return typeof value === 'string'
+}
+
+// ❌ Éviter - any désactive la vérification
+function processValueBad(value: any) {
+  console.log(value.toUpperCase()) // Pas d'erreur mais crash si pas string
+}
+```
+
+**Quality Gates :**
+- [ ] `unknown` utilisé au lieu de `any`
+- [ ] Type guards pour narrowing
+- [ ] Zod pour validation complexe
+
+### Concept 3 : Generics pour Réutilisabilité
+
+**Standard :** Utiliser les generics pour du code type-safe et réutilisable.
+
+**Pattern :**
+
+```typescript
+// API Response wrapper
+type ApiResponse<T> = {
+  data: T
+  status: number
+  message: string
+}
+
+// Paginated response
+type Paginated<T> = {
+  items: T[]
+  total: number
+  page: number
+  pageSize: number
+}
+
+// Usage
+type UsersResponse = ApiResponse<User[]>
+type PaginatedUsers = Paginated<User>
+```
+
+**Quality Gates :**
+- [ ] Generics pour code réutilisable
+- [ ] Contraintes appropriées (`<T extends ...>`)
+- [ ] Noms de types génériques clairs
+
 ---
 
-## 🎯 Utility Types Essentiels
+## 🎯 Implementation Patterns
+
+### Pattern 1 : Utility Types Essentiels
+
+**Purpose :** Transformer types sans duplication
 
 ```typescript
 // Partial - Tous les champs optionnels
@@ -83,79 +173,148 @@ type Response = Awaited<ReturnType<typeof fetch>>
 type Params = Parameters<typeof myFunction>
 ```
 
----
+**Quality Gates :**
+- [ ] Utility types utilisés
+- [ ] Pas de duplication de types
+- [ ] Types DRY respectés
 
-## 🛡️ Type Guards
+### Pattern 2 : Type Guards
+
+**Purpose :** Vérification runtime avec préservation de type
 
 ```typescript
-// isString guard
+// Type guard basique
 function isString(value: unknown): value is string {
   return typeof value === 'string'
 }
 
-// isObject guard
+// Type guard pour objets
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
 }
+
+// Type guard pour discriminated unions
+type Shape = { type: 'circle'; radius: number } | { type: 'square'; side: number }
+
+function isCircle(shape: Shape): shape is { type: 'circle'; radius: number } {
+  return shape.type === 'circle'
+}
 ```
 
----
+**Quality Gates :**
+- [ ] Type guards retournent `value is Type`
+- [ ] Utilisés avant manipulation de valeur `unknown`
+- [ ] Coverage des cas possibles
 
-## 🎨 Generic Patterns
+### Pattern 3 : Discriminated Unions
+
+**Purpose :** Vérification exhaustive de types
 
 ```typescript
-// API Response wrapper
-type ApiResponse<T> = {
-  data: T
-  status: number
-  message: string
-}
+// Union discriminée
+type Result<T, E> =
+  | { success: true; data: T }
+  | { success: false; error: E }
 
-// Paginated response
-type Paginated<T> = {
-  items: T[]
-  total: number
-  page: number
-  pageSize: number
+// Fonction avec exhaustiveness check
+function handleResult<T, E>(result: Result<T, E>) {
+  if (result.success) {
+    // Ici TypeScript sait que result.data existe
+    console.log(result.data)
+  } else {
+    // Ici TypeScript sait que result.error existe
+    console.error(result.error)
+  }
 }
 ```
 
+**Quality Gates :**
+- [ ] Discriminant commun (ex: `type`, `success`)
+- [ ] Tous les cas couverts
+- [ ] Exhaustiveness check activée
+
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| `any` type | `unknown` or proper type | Type safety is lost |
-| `as` casting without validation | Type guards or Zod | Runtime safety |
-| `@ts-ignore` | Fix the type error | Suppressing errors causes bugs |
-| Optional chaining everywhere | Proper null checks | `?.` hides real issues |
-| Duplicating type definitions | Utility types | DRY principle |
-| Using `Object` type | `Record<string, T>` | Too permissive |
-| Ignoring strict mode | Enable `strict: true` | Catch errors early |
-| Not using generics | Proper generic types | Reusability |
+### Validation Checklist
+
+#### Type Safety
+- [ ] **TS1** - `strict: true` activé
+- [ ] **TS2** - Zéro `any` (sauf cas justifiés)
+- [ ] **TS3** - `unknown` utilisé pour valeurs inconnues
+- [ ] **TS4** - Type guards pour narrowing
+
+#### Code Quality
+- [ ] **CQ1** - Pas de `@ts-ignore`
+- [ ] **CQ2** - Utility types utilisés (DRY)
+- [ ] **CQ3** - Generics pour réutilisabilité
+- [ ] **CQ4** - Interfaces/Types bien nommés
+
+#### Runtime Safety
+- [ ] **RS1** - Zod ou similaire pour validation
+- [ ] **RS2** - Type guards aux frontières
+- [ ] **RS3** - Schémas de validation définis
+
+### Acceptance Criteria
+
+L'implémentation TypeScript est conforme quand :
+- **Strict mode** activé
+- **Zéro `any`** (sauf cas justifiés)
+- **Types propres** pour toutes les structures de données
+- **Generics** utilisés pour code réutilisable
+- **Type guards** pour validation runtime
+- **Utility types** exploités
+- **Pas de `@ts-ignore`**
+- **Zod** pour validation runtime
 
 ---
 
 ## 🔧 Troubleshooting
 
-| Problem | Cause | Solution |
+| Symptôme | Cause | Solution |
 |---------|-------|----------|
-| **"Type 'X' is not assignable to 'Y'"** | Mismatched types | Check type definitions, use proper interfaces |
-| **"Property 'X' does not exist on type 'Y'"** | Missing type or wrong type | Define interface or use type assertion |
-| **"Type 'unknown' is not assignable to..."** | Need type guard | Add type guard before usage |
-| **"Cannot find module"** | Missing @types package | Install `@types/package-name` |
-| **"TS7053: Element implicitly has 'any' type"** | Missing index signature | Add `Record<string, T>` or key signature |
-| **Generic type error** | Wrong generic constraint | Add proper constraint `<T extends SomeType>` |
+| "Type 'X' is not assignable to 'Y'" | Types mismatch | Vérifier définitions types, utiliser interfaces propres |
+| "Property 'X' does not exist on type 'Y'" | Type manquant ou wrong | Définir interface ou utiliser type assertion |
+| "Type 'unknown' is not assignable to..." | Type guard manquant | Ajouter type guard avant usage |
+| "Cannot find module" | Package @types manquant | Installer `@types/package-name` |
+| "TS7053: Element implicitly has 'any' type" | Index signature manquant | Ajouter `Record<string, T>` ou signature de clé |
+| "Generic type error" | Contrainte générique wrong | Ajouter contrainte propre `<T extends ...>` |
+
+---
+
+## 🎯 Best Practices
+
+### Recommandations Guidelines
+
+1. **Standard : Strict Mode Toujours**
+   - **What:** `strict: true` dans tsconfig.json
+   - **Why:** Catch erreurs tôt, meilleure sécurité
+   - **How:** Activer au démarrage du projet
+
+2. **Standard : Unknown > Any**
+   - **What:** Utiliser `unknown` pour valeurs inconnues
+   - **Why:** Préserve type safety
+   - **How:** Type guards pour narrowing avant usage
+
+3. **Standard : Type Assertions Validated**
+   - **What:** Valider avec Zod ou type guards
+   - **Why:** Runtime safety
+   - **How:** Toujours vérifier avant `as`
+
+4. **Standard : DRY avec Utility Types**
+   - **What:** Utiliser `Partial`, `Pick`, `Omit`, etc.
+   - **Why:** Éviter duplication de types
+   - **How:** Composer types plutôt que dupliquer
 
 ---
 
 ## 🔗 Related Skills
 
-- **Used by:** `nextjs-patterns` - Next.js uses TypeScript extensively
-- **Used by:** `nestjs-patterns` - NestJS is built on TypeScript
-- **Used by:** `tanstack-patterns` - TanStack has excellent TS support
-- **Related:** `tech-decisions` - TypeScript adoption decisions
+- **Used by:** `nextjs-patterns` - Next.js utilise TypeScript extensivement
+- **Used by:** `nestjs-patterns` - NestJS est construit sur TypeScript
+- **Used by:** `tanstack-patterns` - TanStack a excellent support TS
+- **Related:** `tech-decisions` - Décisions d'adoption TypeScript
 
 ---
 
@@ -170,15 +329,15 @@ type Paginated<T> = {
 
 ## 🎯 Success Criteria
 
-TypeScript implementation is complete when:
-- [ ] `strict: true` enabled in tsconfig.json
-- [ ] Zero `any` types (except specific cases)
-- [ ] Proper interfaces/types for all data structures
-- [ ] Generics used for reusable code
-- [ ] Type guards for runtime validation
-- [ ] Utility types leveraged (Partial, Pick, Omit, etc.)
-- [ ] No `@ts-ignore` comments
-- [ ] Zod or similar for runtime validation
+L'implémentation TypeScript est complète quand :
+- [ ] `strict: true` activé
+- [ ] Zéro `any` types (sauf cas justifiés)
+- [ ] Interfaces/Types propres pour toutes structures
+- [ ] Generics utilisés pour code réutilisable
+- [ ] Type guards pour validation runtime
+- [ ] Utility types exploités
+- [ ] Pas de `@ts-ignore`
+- [ ] Zod pour validation runtime
 
 ---
 
@@ -186,26 +345,21 @@ TypeScript implementation is complete when:
 
 ### Why TypeScript Matters
 
-1. **Catch Errors Early** - Compile-time error detection
-2. **Better IDE Support** - Autocomplete, inline docs
-3. **Self-Documenting** - Types serve as documentation
-4. **Refactoring Safety** - Change with confidence
-5. **Team Collaboration** - Clear contracts between code
+1. **Catch Errors Early** - Détection erreurs compilation-time
+2. **Better IDE Support** - Autocomplete, docs inline
+3. **Self-Documenting** - Types servent de documentation
+4. **Refactoring Safety** - Changes avec confiance
+5. **Team Collaboration** - Contracts clairs entre code
 
-### Common Pitfalls
+### Optimisation Patterns
 
-- ❌ **Pitfall:** Using `any` to fix type errors
-  → **Fix:** Use `unknown` and type guards
-
-- ❌ **Pitfall:** Type assertions (`as`) without validation
-  → **Fix:** Use Zod or runtime checks
-
-- ❌ **Pitfall:** Over-complicating types
-  → **Fix:** Keep types simple, let inference work
-
-- ❌ **Pitfall:** Not using strict mode
-  → **Fix:** Always enable `strict: true`
+| Pattern | Standard | Bénéfice |
+|---------|----------|----------|
+| Type Safety | `strict: true` | Erreurs catch tôt |
+| Unknown Values | `unknown` + guards | Runtime safety |
+| Reusability | Generics | Code DRY |
+| Validation | Zod + Type guards | Safety garantie |
 
 ---
 
-*Version: 2.0.0 | TypeScript Patterns*
+*Version: 2.0.0 | TypeScript Patterns - Positive Standards*

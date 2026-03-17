@@ -1,13 +1,15 @@
 # claude-config
 
-> **Configuration optimisée pour Claude Code** | Version 1.1.5
-> **Méthodologie:** TrigMem Enhanced + UX Design + MCP Integration + Git Flow Master
+> **Configuration optimisée pour Claude Code** | Version 2.0.0
+> **Méthodologie:** TrigMem Enhanced + Positive Standards + Quality Gates
+>
+> **🎉 NOUVEAU v2.0 :** Approche 100% positive - Zéro "NEVER/NO/PROHIBITED"
 
 ---
 
 ## 🎯 Quick Start
 
-Installation de la configuration TrigMem pour Claude Code :
+Installation de la configuration optimisée pour Claude Code :
 
 ```bash
 # Cloner ce repo
@@ -18,132 +20,117 @@ git clone https://github.com/Pamace/claude-config.git ~/.claude
 
 ---
 
-## ✨ Nouveautés v1.1.5
+## ✨ Nouveautés v2.0.0 - Révolution Positive
 
-### 🔧 Git Flow Master Enhanced
-- **Nouveau type WIP** - Pour les commits de refactoring
-- **Système de hooks** - Validation automatique des commits
-- **Suggestion intelligente** du type de commit
+### 🔄 Approche 100% Positive
 
-### 🚀 TrigMem Skills v2
-- **Structure en dossiers** - Organisation modulaire
-- **6 compétences TrigMem** - core, categories, decision, storage, examples, verification
-- **Chargement ciblé** - Meilleure économie de tokens
+**Changement majeur :** Tous les fichiers ont été réécrits pour éliminer les négations :
 
-### 🔌 Pattern Autoloader
-- **Détection automatique** des patterns nécessaires
-- **Chargement intelligent** basé sur les triggers
+| ❌ Supprimé | ✅ Remplacé par |
+|-------------|----------------|
+| "NEVER do this" | "Standard : Do this instead" |
+| "❌ BAD practice" | "Recommended pattern" |
+| "PROHIBITED" | "Optimal workflow" |
+| "INTERDIT" | "Guideline" |
+| 40+ règles "NEVER" | Standards techniques + Checklists |
 
----
+### 📋 Nouveau Système de Quality Gates
 
-## ✨ Nouveautés v2.0
+**Nouveau fichier :** `rules/quality-gates.md`
 
-### 🎨 UX Design Patterns
-- Philosophie **Atomic Design** (Atoms → Molecules → Organisms)
-- **Accessibilité d'abord** - ARIA, keyboard navigation, WCAG AA
-- **Animations performantes** - GPU only, prefers-reduced-motion
-- **Anti-patterns** - Ne pas copier les tendances aveuglément
+Critères de validation objectifs pour chaque type de tâche :
+- Feature Development → E1-E5 gates
+- Bug Fix → B1-B5 gates
+- Refactoring → R1-R5 gates
+- Performance → P1-P5 gates
+- Security → S1-S5 gates
 
-### 📖 Documentation Patterns
-- README.md - 30-second hook
-- GUIDE.md - Storytelling 5 minutes
-- REFERENCE.md - Cheat sheet
-- JSDoc/TSDoc pour le code
+### 📁 Fichiers Mis à Jour
 
-### 🔧 MCP Mandatory
-- **claude-mem** - Mémoire persistante
-- **git-flow-master** - Commits versionnés
-- **chrome-devtools** - Debugging UI
-- **z-ai** - Analyse images/vidéos
-
-### 📏 Nouvelles Règles
-- **Delete First** - Supprimer avant de créer
-- **React Hooks Limits** - MAX 1 useEffect par composant
-- **Réutilisabilité** - Barrel exports, composition
-- **MCP Suggestions** - Suggestions fortes (pas bloquant)
+| Ancien | Nouveau | Description |
+|--------|--------|-------------|
+| `01-nevers.md` | `01-standards.md` | Standards positifs (40+ règles transformées) |
+| N/A | `quality-gates.md` | Système de validation objectif |
+| `00-core.md` | `00-core.md` (v2.0) | Principes sans négatifs |
+| `02-conventions.md` | (v2.0) | Standards d'import positifs |
+| `03-delete-first.md` | (v2.0) | Patterns de simplification |
+| `04-react-hooks-limits.md` | (v2.0) | Server Components priority |
+| `05-reusability.md` | (v2.0) | Patterns de réutilisation |
+| `06-mcp-mandatory.md` | (v2.0) | Workflows MCP optimaux |
+| `rules/README.md` | (v2.0) | Documentation du système |
 
 ---
 
-## ✨ Fonctionnalités
+## 🚀 Économie de Tokens
 
-### 🚀 Économie de Tokens
+| Métrique | Valeur |
+|----------|-------|
+| Rules essentielles | ~8k tokens |
+| Quality Gates | ~1k tokens |
+| **Total Base** | **~9k tokens** |
+| Économie vs v1.x | ~73% (30k → 9k) |
 
-- **73% d'économie** par session grâce au chargement à la demande des patterns
-- Rules essentielles : ~10k tokens (au lieu de ~30k)
-- Patterns techniques : chargés uniquement quand nécessaire
+---
 
-### 📊 Organisation TrigMem
+## 📊 Organisation TrigMem v2.0
 
 Les règles sont organisées selon les 6 catégories TrigMem :
 
-| Catégorie | Contenu | Chargement |
+| Catégorie | Fichier | Chargement |
 |-----------|---------|------------|
-| **Cat 1** | Identité Projet | Systématique |
-| **Cat 2** | Structure Codebase | Systématique |
-| **Cat 3** | Workflows Opérationnels | Systématique |
-| **Cat 4** | Patterns Réutilisables | **À la demande** ⭐ |
-| **Cat 5** | Guides Architecturales | Systématique |
-| **Cat 6** | Corrections Itératives | Systématique |
+| **Cat 1** | `CLAUDE.md` | Systématique |
+| **Cat 2** | `rules/02-conventions.md` | Systématique |
+| **Cat 3** | `CLAUDE.md` | Systématique |
+| **Cat 4** | `skills/patterns/*` | **À la demande** ⭐ |
+| **Cat 5** | `rules/01-standards.md` | Systématique |
+| **Cat 6** | `rules/quality-gates.md` | Systématique |
 
-### 🎚️ Patterns Disponibles
+---
+
+## 🎚️ Patterns Disponibles
 
 Les patterns techniques sont chargés **à la demande** selon les triggers :
 
 | Pattern | Trigger | Commande |
 |--------|---------|----------|
-| **tech-decisions** | "Quel stack ?", "X ou Y ?" | `/skill patterns/tech-decisions` |
-| **nextjs** | "Server Action", "RSC", "App Router" | `/skill patterns/nextjs` |
-| **rust** | "Axum", "sqlx", "Tower middleware" | `/skill patterns/rust` |
-| **nestjs** | "DTO", "JWT guard", "TypeORM" | `/skill patterns/nestjs` |
-| **wasm** | "wasm-bindgen", "wasm-pack" | `/skill patterns/wasm` |
-| **vite** | "vite config", "build" | `/skill patterns/vite` |
-| **typescript** | "generic", "utility type" | `/skill patterns/typescript` |
-| **tanstack** | "useQuery", "router", "form" | `/skill patterns/tanstack` |
-| **tailwind** | "responsive", "dark mode" | `/skill patterns/tailwind` |
-| **ux-design** | "component design", "accessibility" | `/skill patterns/ux-design` |
-| **documentation** | "write docs", "README", "changelog" | `/skill patterns/documentation` |
+| **tech-decisions** | "Quel stack ?", "X ou Y ?" | `/pattern tech-decisions` |
+| **nextjs** | "Server Component", "RSC", "App Router" | `/pattern nextjs` |
+| **rust** | "Axum", "sqlx", "Tower middleware" | `/pattern rust` |
+| **nestjs** | "DTO", "JWT guard", "TypeORM" | `/pattern nestjs` |
+| **wasm** | "wasm-bindgen", "wasm-pack" | `/pattern wasm` |
+| **typescript** | "generic", "utility type" | `/pattern typescript` |
+| **tanstack** | "useQuery", "router", "form" | `/pattern tanstack` |
+| **tailwind** | "responsive", "dark mode" | `/pattern tailwind` |
+| **ux-design** | "component design", "accessibility" | `/pattern ux-design` |
+| **documentation** | "write docs", "README", "changelog" | `/pattern documentation` |
 
 ---
 
-## 📁 Structure
+## 📁 Structure v2.0
 
 ```
 .claude/
 ├── skills/
-│   ├── trigmem-*/         # Skills TrigMem v2 (structure en dossiers)
-│   │   ├── trigmem-core/
-│   │   ├── trigmem-categories/
-│   │   ├── trigmem-decision/
-│   │   ├── trigmem-storage/
-│   │   ├── trigmem-examples/
-│   │   └── trigmem-verification/
-│   ├── pattern-autoloader/  # NOUVEAU - Autoloading intelligent
-│   ├── patterns/          # Patterns à la demande
-│   │   ├── tech-decisions/
-│   │   ├── nextjs/
-│   │   ├── rust/
-│   │   ├── nestjs/
-│   │   ├── wasm/
-│   │   ├── vite/
-│   │   ├── typescript/
-│   │   ├── tanstack/
-│   │   ├── tailwind/
-│   │   ├── ux-design/
-│   │   └── documentation/
-│   └── operations/        # MCP workflows
+│   ├── TEMPLATE.md           # Template positif v2.0
+│   ├── INDEX.md              # Index avec triggers exclusifs
+│   ├── README.md             # Documentation skills
+│   ├── pattern-autoloader/  # Autoloading intelligent
+│   ├── patterns/             # Patterns à la demande
+│   └── operations/           # MCP workflows
 │       └── mcp-mandatory/
-├── hooks/                 # NOUVEAU - Git Flow Master hooks
-├── settings.json          # NOUVEAU - Configuration Git Flow Master
-├── rules/                 # Règles essentielles
-│   ├── 00-core.md
-│   ├── 01-nevers.md
-│   ├── 02-conventions.md
-│   ├── 03-delete-first.md
-│   ├── 04-react-hooks-limits.md
-│   ├── 05-reusability.md
-│   ├── 06-mcp-mandatory.md
-│   └── README.md
-└── CLAUDE.md              # Identité du projet
+├── rules/                     # Règles essentielles
+│   ├── 00-core.md           # Principes fondamentaux
+│   ├── 01-standards.md       # Standards techniques (v2.0)
+│   ├── 02-conventions.md     # Git, docs, structure
+│   ├── 03-delete-first.md    # Delete First philosophy
+│   ├── 04-react-hooks-limits.md # Server Components priority
+│   ├── 05-reusability.md     # Reusability patterns
+│   ├── 06-mcp-mandatory.md   # MCP workflows
+│   ├── quality-gates.md      # Quality gates (NOUVEAU)
+│   └── README.md             # Documentation rules
+├── legacy/                    # Anciennes règles (backup)
+│   └── 01-nevers.md.bak      # Version historique
+└── CLAUDE.md                 # Identité projet
 ```
 
 ---
@@ -158,27 +145,48 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 
 ## 🔧 Utilisation
 
-Les skills sont automatiquement chargés par Claude Code. Pour accéder à un pattern spécifique :
+### Commandes Disponibles
 
-```
-Dans Claude Code :
+```bash
+# Dans Claude Code :
 
-# Patterns techniques
+# Patterns techniques (chargés à la demande)
 /pattern nextjs     # Charge les patterns Next.js
-/skill patterns/tanstack
-/pattern ux-design  # Charge les patterns UX/Design
-/pattern documentation  # Charge les patterns de doc
+/pattern rust        # Charge les patterns Rust
+/pattern typescript  # Charge les patterns TypeScript
 
-# TrigMem
+# TrigMem (méthodologie)
 /trigmem-core       # Concepts fondamentaux
 /trigmem-categories # Classification
 /trigmem-decision   # Guide de décision
-/trigmem-storage    # Options de stockage
+/trigmem-storage    # Configuration stockage
 /trigmem-examples   # Exemples travaillés
 /trigmem-verification # Analyse sessions
 
 # Opérations MCP
-/mcp-mandatory      # Checklist pour utiliser les MCPs
+/mcp-mandatory      # Checklists pour utiliser les MCPs
+```
+
+### Standards Techniques Positifs
+
+Toutes les règles suivent maintenant une approche positive :
+- ✅ Standards techniques explicites
+- ✅ Checklists de validation
+- ✅ Quality Gates objectifs
+- ✅ Workflows recommandés
+- ✅ Alternatives constructives
+
+**Exemple de transformation :**
+
+```
+AVANT (négatif) :
+❌ NEVER use grep for searching
+✅ ALWAYS use grepai search first
+
+APRÈS (positif) :
+Standard : Utiliser grepai search en premier
+Outils recommandés : grepai search → /toolkit search → Grep
+Checklist : [ ] J'ai utilisé grepai search en premier
 ```
 
 ---
@@ -187,6 +195,40 @@ Dans Claude Code :
 
 Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou un PR.
 
+Pour contribuer :
+1. Suivre le TEMPLATE.md pour les nouveaux skills
+2. Utiliser l'approche positive (pas de "NEVER/NO")
+3. Ajouter des Quality Gates pour vos workflows
+
 ---
 
-**Licence:** MIT | **Auteur:** Oalacea | **Version:** 1.1.5
+**Licence:** MIT | **Auteur:** Pamace | **Version:** 2.0.0 (Positive Revolution)
+
+---
+
+## 📈 Changelog v2.0.0
+
+### Added
+- `01-standards.md` - Standards techniques positifs
+- `quality-gates.md` - Système de validation objectif
+- Approche 100% positive dans tous les fichiers
+- Triggers mutuellement exclusifs dans INDEX.md
+
+### Changed
+- `00-core.md` - Refactorisé sans négatifs
+- `02-conventions.md` - Standards d'import positifs
+- `03-delete-first.md` - Patterns de simplification
+- `04-react-hooks-limits.md` - Server Components priority
+- `05-reusability.md` - Patterns de réutilisation
+- `06-mcp-mandatory.md` - Workflows optimaux
+- `rules/README.md` - Documentation du système mis à jour
+
+### Removed
+- Approche négative ("NEVER/NO/PROHIBITED")
+- Tableaux "❌ NEVER / ✅ ALWAYS"
+- Section "Anti-Patterns" dans TEMPLATE.md
+
+### Migration Notes
+- Les fichiers `01-nevers.md` → déplacés dans `legacy/`
+- Mettre à jour les imports si vous utilisez l'ancien système
+- Les Quality Gates remplacent les anciennes "Anti-Patterns"

@@ -126,16 +126,36 @@ function PostForm() {
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| useEffect for data fetching | useQuery | Automatic caching, loading states, error handling |
-| useState for server data | useQuery | Stale data handling, background refetch |
-| Manual caching | QueryClient with cacheTime | Built-in intelligent caching |
-| Ignoring query keys | Consistent, descriptive keys | Cache invalidation, refetching |
-| Not using TypeScript interfaces | Proper type safety | Type inference for data |
-| Fetching in useEffect without deps | useQuery with proper deps | Prevents infinite loops |
+### Validation Checklist
+
+#### Data Fetching
+- [ ] **DF1** - `useQuery` pour data fetching (pas `useEffect`)
+- [ ] **DF2** - Query keys consistantes et descriptives
+- [ ] **DF3** - `staleTime` configuré appropriément
+- [ ] **DF4** - TypeScript types définis pour data
+
+#### State Management
+- [ ] **SM1** - `useQuery` pour server state (pas `useState`)
+- [ ] **SM2** - `invalidateQueries` après mutations
+- [ ] **SM3** - Error boundaries pour error handling
+- [ ] **SM4** - `useMutation` pour updates
+
+#### Code Quality
+- [ ] **CQ1** - Pas de fetch dans `useEffect` sans deps
+- [ ] **CQ2** - Cache automatique de QueryClient
+- [ ] **CQ3** - DevTools utilisé pour debug
+- [ ] **CQ4** - Forms avec TanStack Form + validation
+
+### Acceptance Criteria
+
+L'implémentation TanStack est conforme quand :
+- **useQuery** utilisé pour tout data fetching
+- **Query keys** consistantes et descriptives
+- **Error boundaries** configurées
+- **Mutations** avec cache invalidation
+- **TypeScript** types propres définis
 
 ---
 

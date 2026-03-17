@@ -1,152 +1,288 @@
-# TrigMem Decision Guide - Guide de Décision en 2 Phases
+# TrigMem Decision - Guide de Décision en 2 Phases
 
-> **Invocable par** : `/trigmem-decision`
-> **Type** : Decision Support
-> **Déclenchement** : Automatique (quand pertinent)
-
----
-
-## 🎯 CE QUE CE SKILL FAIT
-
-Ce skill implémente le **guide de décision en 2 phases** de TrigMem pour vous aider à choisir le bon emplacement pour chaque type d'information.
-
-Il répond automatiquement aux questions de triage (Phase 1) puis fournit un raffinement cibé (Phase 2).
+> **Version:** 2.0.0 | **Category:** Cat 3 (Decision Support) | **Difficulty:** Intermediate
+> **Auto-Activation:** "où stocker", "quelle destination", "skill ou rule", "trigmem decision"
+> **Tags:** [trigmem, decision, storage-choice, methodology]
+> **Related:** trigmem-core, trigmem-categories, trigmem-storage
+> **Last Updated:** 2025-03-17
 
 ---
 
-## 📋 LES 6 CATÉGORIES
+## 🎯 Auto-Activation
 
-Avant de décider **OÙ** stocker, identifiez **Quoi** vous stockez :
+**Ce skill s'active automatiquement quand :**
+- Décision de stockage nécessaire
+- Choix entre mécanismes (CLAUDE.md vs Skills vs Rules)
+- "Où mettre cette information ?"
 
-### Catégorie 1 : Identité Projet
-**Exemples** : "Qu'est-ce que c'est ShopFlow ?", "Stack technique : Next.js 14, Prisma"
-
-### Catégorie 2 : Structure Codebase
-**Exemples** : "Où sont les composants ?", "Layout : src/app, src/components"
-
-### Catégorie 3 : Commandes Opérationnelles
-**Exemples** : "Comment lancer les tests ?", "Comment déployer ?"
-
-### Catégorie 4 : Patterns Réutilisables
-**Exemples** : "Architecture Hexagonale", "React Custom Hooks", "TDD"
-
-### Catégorie 5 : Guides Architecturales
-**Exemples** : "Conventions projet", "Structure de fichiers spécifique"
-
-### Catégorie 6 : Corrections Itératives
-**Exemples** : "Ne pas utiliser `any`", "Toujours utiliser `create_user()`"
+**Progressive Disclosure:**
+1. **Metadata** → Matrice de décision rapide
+2. **Instructions** → 2 phases détaillées
+3. **Resources** → Exemples et flowcharts
 
 ---
 
-## 🎯 GUIDE DE DÉCISION
+## 🚀 Quick Start
 
 ```
-┌─────────────────────────────────────────────┐
-│ PHASE 1 : TRIAGE │
-├─────────────────────────────────────────────┤
-│ Q1: Action déclenchée par utilisateur ? │
-│ Q2: Connaissance universelle réutilisable ? │
-│ Q3: Besoin d'isolation de contexte ? │
-│ Q4: Contexte toujours nécessaire ? │
-└─────────────────────────────────────────────┘
+Phase 1 : Triage (4 questions)
+     ↓
+Destination identifiée
+     ↓
+Phase 2 : Raffinement (vérification)
+     ↓
+Stockage optimal
 ```
-
-### Phase 1 : Triage (4 questions rapides)
-
-**Q1** : Est-ce une action déclenchée par l'utilisateur ?
-- **OUI** → Commands (workflow avec effets secondaires)
-- **NON** → Autre chose
-
-**Q2** : Est-ce une connaissance universelle réutilisable ?
-- **OUI** → Skills (patterns portables comme Hexagonal, TDD)
-- **NON** → Connaissance spécifique au projet
-
-**Q3** : Nécessite isolation du contexte principal ?
-- **OUI** → Sub-agents (tâches complexes, refactoring)
-- **NON** → Peut être dans contexte principal
-
-**Q4** : Information critique toujours nécessaire ?
-- **OUI** → CLAUDE.md (identité, structure toujours nécessaires)
-- **NON** → Peut être chargé à la demande
 
 ---
 
-## 🔧 DÉCISIONS PAR CATÉGORIE
+## 📊 Guide de Décision Rapide
 
-### Catégorie 1 → CLAUDE.md
-- Identité projet (nom, tech stack)
+### Matrice de Destination
+
+| Catégorie | Où stocker | Pourquoi |
+|-----------|-----------|----------|
+| **Cat 1 - Identité** | CLAUDE.md | Toujours nécessaire, critique |
+| **Cat 2 - Structure** | CLAUDE.md + Rules | Navigation essentielle |
+| **Cat 3 - Commandes** | CLAUDE.md ou README | Workflows opérationnels |
+| **Cat 4 - Patterns** | skills/patterns/* | À la demande, portable |
+| **Cat 5 - Guides** | rules/ avec référence | Spécifique projet, contextuel |
+| **Cat 6 - Corrections** | rules/ (pattern-match) | Automatique, itératif |
+
+---
+
+## 💡 Core Concepts
+
+### Concept 1 : Phase 1 - Triage Rapide
+
+**Standard :** 4 questions pour identifier la destination.
+
+**Questions de triage :**
+
+```
+Q1: Est-ce une action déclenchée par l'utilisateur ?
+   └─ OUI → Commands (workflow avec effets)
+   └─ NON → Continue vers Q2
+
+Q2: Est-ce une connaissance universelle réutilisable ?
+   └─ OUI → Skills (pattern portable)
+   └─ NON → Continue vers Q3
+
+Q3: Nécessite isolation du contexte principal ?
+   └─ OUI → Sub-agents
+   └─ NON → Continue vers Q4
+
+Q4: Information critique toujours nécessaire ?
+   └─ OUI → CLAUDE.md (ou Rules)
+   └─ NON → Skills (à la demande)
+```
+
+### Concept 2 : Phase 2 - Raffinement
+
+**Standard :** Vérifier et optimiser la décision.
+
+**Checklist de raffinement :**
+- [ ] La catégorie est correctement identifiée
+- [ ] Le stockage est optimal
+- [ ] Les triggers sont bien définis (si Skills)
+- [ ] Les Quality Gates sont inclus
+
+---
+
+## 🎯 Implementation Patterns
+
+### Pattern 1 : Decision Workflow pour CLAUDE.md
+
+**Purpose :** Identifier ce qui doit être dans CLAUDE.md
+
+**Signaux positifs :**
+- Information critique pour le projet
 - Rarement change
-- **Destination** : CLAUDE.md
+- Toujours utile à avoir
 
-### Catégorie 2 → CLAUDE.md + Rules
-- Navigation codebase
-- **Destination** : CLAUDE.md + Rules (pattern-match)
+**Exemple :**
 
-### Catégorie 3 → Commands
-- Workflows opérationnels
-- **Destination** : Commands
-
-### Catégorie 4 → Skills
-- Patterns réutilisables
-- **Destination** : Skills
-
-### Catégorie 5 → Rules (liés)
-- Conventions projet
-- **Destination** : Rules avec `Voir: docs/...`
-
-### Catégorie 6 → Rules
-- Corrections itératives
-- **Destination** : Rules (project-specific)
-
----
-
-## 🎯 UTILISATION
-
-Ce skill s'active automatiquement quand il détecte que vous essayez de stocker quelque chose. Il pose les 4 questions de triage puis recommande la destination appropriée.
-
-**Exemple d'interaction** :
-```
-Vous: "Où mettre mon architecture ?"
-Skill: Je détecte que c'est une connaissance universelle (Cat 2).
-   Recommandation: → Skills (pour Architecture Hexagonale)
-
-Vous: "Comment déployer ?"
-Skill: Je détecte que c'est une commande opérationnelle (Cat 3).
-   Recommandation: → Commands (pour workflow de déploiement)
-```
-
----
-
-## 📚 MATRICE D'APPRENTISSAGE
-
-### Séparation Universel vs Spécifique
-
-Le point clé de TrigMem : **jamais mélanger** les deux :
-
-❌ **MAUVAIS** : Mettre du contenu spécifique dans un skill prétendu
 ```markdown
-# Dans Skills (portables)
-## Components
-src/components/Button/
-src/components/Card/
+# Question : "Est-ce que le tech stack va dans CLAUDE.md ?"
+
+Phase 1 - Triage :
+Q1: Action utilisateur ? NON
+Q2: Universel ? NON (spécifique projet)
+Q3: Isolation ? NON
+Q4: Toujours nécessaire ? OUI
+
+Phase 2 - Raffinement :
+→ Catégorie 1 (Identité)
+→ Destination : CLAUDE.md
+→ Justification : Critique, rarement change, toujours utile
 ```
 
-✅ **BON** : Séparer le pattern du projet
+**Quality Gates :**
+- [ ] Information critique identifiée
+- [ ] Stable dans le temps
+- [ ] Toujours pertinente
+- [ ] < 50 lignes
+
+### Pattern 2 : Decision Workflow pour Skills
+
+**Purpose :** Identifier les patterns portables
+
+**Signaux positifs :**
+- Connaissance universelle (Framework, Language, Pattern)
+- Réutilisable entre projets
+- Peut être automatisé
+
+**Exemple :**
+
 ```markdown
-# Skills (portables)
-## Pattern
-Architecture Hexagonale sépare...
+# Question : "Est-ce que Server Actions est un Skill ?"
 
-## Project: Hexagonal
-Voir: docs/architecture.md
+Phase 1 - Triage :
+Q1: Action utilisateur ? NON
+Q2: Universel ? OUI (Next.js pattern)
+→ STOP → Destination : Skills
+
+Phase 2 - Raffinement :
+→ Catégorie 4 (Patterns)
+→ skills/patterns/nextjs/nextjs-patterns.skill
+→ Triggers : "server action", "use server", "revalidateTag"
 ```
+
+**Quality Gates :**
+- [ ] Universel (pas spécifique projet)
+- [ ] Portable entre projets
+- [ ] Triggers définis
+- [ ] Code exécutable
+
+### Pattern 3 : Decision Workflow pour Rules
+
+**Purpose :** Identifier corrections contextuelles
+
+**Signaux positifs :**
+- Spécifique au projet
+- Pattern-match sur fichiers
+- Correction automatique
+
+**Exemple :**
+
+```markdown
+# Question : "Est-ce que la convention de nommage est une Rule ?"
+
+Phase 1 - Triage :
+Q1: Action utilisateur ? NON
+Q2: Universel ? NON (spécifique projet)
+Q3: Isolation ? NON
+Q4: Toujours nécessaire ? PARTIEL
+
+Phase 2 - Raffinement :
+→ Catégorie 5 (Guides) ou 6 (Corrections)
+→ rules/02-conventions.md
+→ Pattern-match : src/components/**/*.{tsx,ts}
+```
+
+**Quality Gates :**
+- [ ] Spécifique projet
+- [ ] Pattern-match défini
+- [ ] Correction constructive
+- [ ] Standard positif
 
 ---
 
-## 🎯 FORMATION CONTINUE
+## ✅ Quality Gates
 
-Pour une utilisation avancée, voir aussi :
-- `/trigmem-categories` - Aide détaillée sur les 6 catégories
-- `/trigmem-storage` - Options de stockage (5 dimensions)
+### Validation Checklist
 
-Continuez avec les autres skills TrigMem pour une maîtrise complète !
+- [ ] **QG1** - Les 4 questions de triage ont été posées
+- [ ] **QG2** - La catégorie est identifiée
+- [ ] **QG3** - Le stockage optimal est choisi
+- [ ] **QG4** - Le raffinement est effectué
+- [ ] **QG5** - Les Quality Gates sont inclus
+
+### Acceptance Criteria
+
+La décision est valide quand :
+- **Phase 1** terminée avec destination identifiée
+- **Phase 2** terminée avec optimisation
+- **Catégorisation** conforme aux 6 types
+- **Justification** documentée
+
+---
+
+## 🔧 Troubleshooting
+
+| Symptôme | Cause | Solution |
+|---------|-------|----------|
+| Incertitude sur la destination | Questions de triage ambiguës | Réviser les critères |
+| Trop dans CLAUDE.md | Q4 trop large | Déplacer vers Skills ou Rules |
+| Skills pas chargés | Triggers mal définis | Clarifier triggers |
+| Rules pas appliquées | Pattern-match manquant | Ajouter patterns de fichiers |
+
+---
+
+## 🎯 Best Practices
+
+### Recommandations Guidelines
+
+1. **Standard : Appliquer Phase 1 systématiquement**
+   - **What:** Toujours poser les 4 questions de triage
+   - **Why:** Garantit la décision optimale
+   - **How:** Suivre l'arbre de décision sans raccourci
+
+2. **Standard : Raffiner avec Phase 2**
+   - **What:** Vérifier et optimiser la décision
+   - **Why:** Évite les erreurs de classification
+   - **How:** Appliquer la checklist de raffinement
+
+3. **Standard : Documenter la décision**
+   - **What:** Justifier le choix de destination
+   - **Why:** Facilite les révisions futures
+   - **How:** Inclure rationale dans le commentaire
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `trigmem-core` - Méthodologie générale
+- **Related:** `trigmem-categories` - Classification des 6 types
+- **Related:** `trigmem-storage` - Options de stockage
+- **Related:** `trigmem-examples` - Exemples travaillés
+
+---
+
+## 📖 Further Reading
+
+- [TrigMem Methodology](https://github.com/Pamace/claude-config/blob/main/GUIDE.md)
+- [Skills Index](https://github.com/Pamace/claude-config/blob/main/skills/INDEX.md)
+- [Rules System](https://github.com/Pamace/claude-config/blob/main/rules/README.md)
+
+---
+
+## 🎯 Success Criteria
+
+La décision est complète quand :
+- [ ] Phase 1 (Triage) terminée
+- [ ] Phase 2 (Raffinement) terminée
+- [ ] Destination identifiée et justifiée
+- [ ] Quality Gates validés
+
+---
+
+## 💡 Key Insights
+
+### Why This Matters
+
+1. **Décision systématique** → Plus d'incertitude
+2. **Stockage optimal** → Meilleure efficacité
+3. **Consistance** → Même processus chaque fois
+
+### Common Pitfalls & Solutions
+
+| Pitfall | Solution |
+|---------|----------|
+| Sauter Phase 1 pour aller vite | Toujours appliquer les 4 questions |
+| Confondre universel/spécifique | Utiliser critère de portabilité |
+| Oublier le raffinement | Phase 2 essentielle pour optimiser |
+
+---
+
+*Version: 2.0.0 | TrigMem Decision - Positive Standards*

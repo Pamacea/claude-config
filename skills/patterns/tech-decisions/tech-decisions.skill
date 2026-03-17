@@ -4,121 +4,134 @@
 > **Auto-Activation:** "which tech", "tech stack", "choose", "framework", "library", "vs", "or", "quel stack"
 > **Tags:** [tech-decisions, stack, framework, choice, comparison]
 > **Related:** nextjs-patterns, nestjs-patterns, rust-axum
-> **Last Updated:** 2025-02-24
+> **Last Updated:** 2025-03-17
+
+---
+
+## 🎯 Auto-Activation
+
+**Ce skill s'active automatiquement quand :**
+- "Which tech", "quel stack", "quoi choisir"
+- "Framework X vs Y", "X or Y"
+- "Est-ce que je devrais utiliser..."
+- "Best framework for..."
+
+**Mutual Exclusivity Rules :**
+- Triggers exclusifs avec les patterns spécifiques (nextjs, rust, nestjs)
+- Si techno spécifique mentionnée → déléguer au pattern spécifique
 
 ---
 
 ## 🚀 Quick Start
 
 ```bash
-# Ask yourself these questions:
-1. What type of app? (SPA, SSR, API, Desktop, Mobile)
-2. What's the team's expertise? (JS, TypeScript, Rust, Go)
-3. What are the performance requirements? (Prototype, Production, High-scale)
-4. What's the deployment target? (Vercel, AWS, Self-hosted)
+# Processus de décision :
+1. Type d'app ? (SPA, SSR, API, Desktop, Mobile)
+2. Expertise équipe ? (JS, TS, Rust, Go)
+3. Requirements performance ? (Prototype, Production, High-scale)
+4. Cible déploiement ? (Vercel, AWS, Self-hosted)
 
-# Then check the Decision Matrix below
+# Puis vérifier la matrice de décision ci-dessous
 ```
 
 ---
 
-## 🎯 Decision Matrix Quick Reference
+## 📊 Decision Matrix Quick Reference
 
-| Requirement | Stack | When to Use |
-|-------------|-------|-------------|
-| **Full-stack SSR app** | Next.js 16 + Prisma + Vercel | SSR/SSG needed, Vercel deploy |
-| **Type-safe SPA** | TanStack Start + Query/Router/Form | 100% type-safe routing |
-| **High-performance API** | Rust + Axum + PostgreSQL | Max performance, type safety |
-| **Simple prototype** | Vite + React + Zustand + Supabase | Quick MVP, minimal setup |
-| **Enterprise app** | Next.js + Drizzle + PostgreSQL + AWS | Complex requirements, control |
-| **Real-time app** | NestJS + Socket.io + Redis | WebSockets, complex backend |
-| **SaaS platform** | Next.js + Stripe + Prisma + Vercel | Subscription, payments |
-| **WASM app** | Rust + Axum + WebAssembly (wasm-bindgen) | High-performance compute in browser |
+| Requirement | Stack | Quand Utiliser |
+|-------------|-------|----------------|
+| **Full-stack SSR app** | Next.js 16 + Prisma + Vercel | SSR/SSG nécessaire, Vercel deploy |
+| **Type-safe SPA** | TanStack Start + Query/Router/Form | Type-safe routing 100% |
+| **High-performance API** | Rust + Axum + PostgreSQL | Performance max, type safety |
+| **Simple prototype** | Vite + React + Zustand + Supabase | MVP rapide, setup minimal |
+| **Enterprise app** | Next.js + Drizzle + PostgreSQL + AWS | Complex requirements, contrôle |
+| **Real-time app** | NestJS + Socket.io + Redis | WebSockets, backend complexe |
+| **SaaS platform** | Next.js + Stripe + Prisma + Vercel | Subscription, paiements |
+| **WASM app** | Rust + Axum + WebAssembly (wasm-bindgen) | Compute haute performance browser |
 
 ---
 
-## 🖥️ Frontend Framework Decision
+## 💡 Core Concepts
 
-### Next.js 16
+### Concept 1 : Requirements-First Decision
 
-**Use when:**
-- ✅ SSR/SSG/ISR needed
-- ✅ Vercel deployment
-- ✅ Server Components (RSC)
-- ✅ Built-in API routes (webhooks only)
-- ✅ File-based routing
+**Standard :** Toujours commencer par les requirements du projet.
 
-**Key Features:**
+**Checklist de requirements :**
+- [ ] Type d'application identifié
+- [ ] Échelle attendue (utilisateurs, données)
+- [ ] Constraints techniques (latence, sécurité)
+- [ ] Expertise de l'équipe
+- [ ] Horizon de temps (prototype vs production)
+- [ ] Budget et ressources
+
+### Concept 2 : Team Expertise Match
+
+**Standard :** Choisir une techno qui correspond aux compétences de l'équipe.
+
+**Matrix Expertise → Techno :**
+
+| Expertise | Stack Recommandée | Pourquoi |
+|-----------|------------------|---------|
+| JavaScript/TypeScript | Next.js, NestJS, Vite | Courbe d'apprentissage minime |
+| Rust | Rust + Axum | Exploite compétences existantes |
+| Go | Go + standard lib | Simplicité, performance |
+| Full-stack JS | Next.js ou TanStack Start | Stack unifié |
+
+### Concept 3 : Long-Term Viability
+
+**Standard :** Évaluer la viabilité long-terme de la techno.
+
+**Critères d'évaluation :**
+- [ ] Communauté active
+- [ ] Mises à jour régulières
+- [ ] Support long-terme
+- [ ] Écosystème de bibliothèques
+- [ ] Adoption industrielle
+
+---
+
+## 🎯 Implementation Patterns
+
+### Pattern 1 : Frontend Framework Decision
+
+**Next.js 16**
+
+**Utiliser pour :**
+- Applications SSR/SSG/ISR
+- Déploiement Vercel
+- Server Components (RSC)
+- API routes intégrées (webhooks uniquement)
+- Routing fichier-based
+
+**Features clés :**
 - App Router + RSC
 - Cache Components (`use cache`)
-- Tag-based invalidation (`revalidateTag`)
-- Turbopack default in production
+- Invalidation par tags (`revalidateTag`)
+- Turbopack par défaut en production
 - React 19.2 support
 
-**Avoid when:**
-- ❌ 100% type-safe routing needed → Use TanStack Start
-- ❌ Need framework-agnostic → Use Vite
+**Quality Gates :**
+- [ ] SSR/SSG nécessaire
+- [ ] Équipe confortable avec React
+- [ ] Vercel comme cible de déploiement
 
-### TanStack Start
+**Alternative recommandée :** TanStack Start pour type-safe routing 100%
 
-**Use when:**
-- ✅ 100% type-safe routing everywhere
-- ✅ Advanced data loading
-- ✅ TanStack ecosystem (Query/Router/Form)
-- ✅ Framework-agnostic deployment
+### Pattern 2 : State Management Decision
 
-**Key Features:**
-- File-based + code-based routing
-- Type-safe search params
-- Type-safe loaders
-- Integrated with TanStack Query
-
-### Vite + React
-
-**Use when:**
-- ✅ SPA only (no SSR)
-- ✅ Maximum flexibility
-- ✅ Custom backend (Rust, Go)
-- ✅ Fastest build times
-
-**Avoid when:**
-- ❌ SSR needed → Use Next.js
-- ❌ Built-in backend → Use Next.js
-
-### Angular
-
-**Use when:**
-- ✅ Enterprise apps with large teams
-- ✅ Full-framework ecosystem needed
-- ✅ TypeScript-first
-- ✅ Structured dependency injection
-
-**Avoid when:**
-- ❌ Small projects → Overkill
-- ❌ Quick prototype → Slower DX
-
----
-
-## 📦 State Management Decision
+**Standard :** Adapter le state management au type de données.
 
 ```
-Server Data  → TanStack Query (ALWAYS)
-Form State   → TanStack Form or React Hook Form
+Server Data  → TanStack Query
+Form State   → TanStack Form ou React Hook Form
 UI State     → Zustand
 URL State    → Framework router
-Server State → Server Components (no client state)
+Server State → Server Components (pas de client state)
 ```
 
-### TanStack Query
+**TanStack Query - Standard pour Server Data**
 
-**Use for:**
-- ✅ Server data fetching
-- ✅ Caching
-- ✅ Background refetch
-- ✅ Optimistic updates
-- ✅ Pagination/infinite scroll
-
-**Example:**
 ```typescript
 const { data, isLoading, error } = useQuery({
   queryKey: ['posts', page],
@@ -127,370 +140,138 @@ const { data, isLoading, error } = useQuery({
 })
 ```
 
-### Zustand
+**Quality Gates :**
+- [ ] Type de données identifié
+- [ ] State management approprié choisi
+- [ ] Pas de useState pour server data
 
-**Use for:**
-- ✅ UI state (modals, sidebars, themes)
-- ✅ Client-side cache
-- ✅ Simple global state
-- ✅ Form state (small forms)
+### Pattern 3 : Backend Decision
 
-**Avoid for:**
-- ❌ Server data → Use TanStack Query
-- ❌ Complex time-travel → Use Redux Toolkit
+**Node.js + NestJS**
 
-**Example:**
-```typescript
-const useStore = create((set) => ({
-  sidebarOpen: false,
-  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen }))
-}))
-```
+**Utiliser pour :**
+- Équipe connaît JavaScript/TypeScript
+- Prototypage rapide
+- Opérations I/O-bound
+- Architecture microservices
+- Real-time (WebSocket)
+- Framework structuré style enterprise
 
-### Redux Toolkit
+**Rust + Axum**
 
-**Use for:**
-- ✅ Large-scale apps
-- ✅ Time-travel debugging needed
-- ✅ Complex state relationships
-- ✅ Middleware required
+**Utiliser pour :**
+- Performance maximum
+- Logique métier complexe (DDD)
+- Contraintes mémoire
+- Type safety critique
+- Abstractions zero-cost
 
-**Avoid for:**
-- ❌ Simple apps → Overkill
-
----
-
-## 🔧 Backend Decision
-
-### Node.js + NestJS
-
-**Use when:**
-- ✅ Team knows JavaScript/TypeScript
-- ✅ Quick prototyping
-- ✅ I/O-bound operations
-- ✅ Microservices architecture
-- ✅ Real-time (WebSocket)
-- ✅ Structured, enterprise-style framework
-
-**NestJS Features:**
-- TypeScript-first
-- Dependency injection
-- Modules architecture
-- Built-in validation (class-validator)
-- Guards, interceptors, pipes
-- Excellent for large teams
-
-### Rust + Axum
-
-**Use when:**
-- ✅ Maximum performance
-- ✅ Complex business logic (DDD)
-- ✅ Memory constraints
-- ✅ Type safety critical
-- ✅ Zero-cost abstractions
-
-**Axum Features:**
-- Ergonomic router
-- Extractor system
-- Tower middleware
-- Async/await first
-- Memory safe
-
-### Go
-
-**Use when:**
-- ✅ High concurrency needs
-- ✅ Simple, fast services
-- ✅ Team knows Go
-- ✅ Cloud-native apps
-- ✅ Standard library preference
+**Quality Gates :**
+- [ ] Performance requirements évaluées
+- [ ] Expertise équipe disponible
+- [ ] Complexité du projet comprise
 
 ---
 
-## 🗄️ Database Decision
-
-### PostgreSQL
-
-**Use when:**
-- ✅ Complex relations
-- ✅ Full-text search needed
-- ✅ ACID transactions required
-- ✅ JSONB flexibility useful
-- ✅ Geospatial data (PostGIS)
-
-**Best ORM:** Prisma or Drizzle
-
-### MySQL
-
-**Use when:**
-- ✅ Existing MySQL infrastructure
-- ✅ Simpler needs
-- ✅ Team familiarity
-
-### MongoDB
-
-**Use when:**
-- ✅ Flexible schema required
-- ✅ Document-based data model
-- ✅ Horizontal scaling priority
-- ✅ JSON-heavy data
-
-**Avoid when:**
-- ❌ Complex relations → Use PostgreSQL
-- ❌ ACID critical → Use PostgreSQL
-
-### SQLite
-
-**Use when:**
-- ✅ Embedded database needed
-- ✅ Simple data model
-- ✅ Single-instance app
-- ✅ Testing/local development
-
----
-
-## 🔌 ORM Decision
-
-### Prisma
-
-**Use when:**
-- ✅ Type safety critical
-- ✅ Schema migrations needed
-- ✅ Complex relations
-- ✅ TypeScript project
-- ✅ Great DX required
-
-**Example:**
-```typescript
-const user = await prisma.user.findUnique({
-  where: { id: userId },
-  include: { posts: true }
-})
-```
-
-### Drizzle
-
-**Use when:**
-- ✅ SQL-like API needed
-- ✅ Smaller bundle size
-- ✅ No migrations needed
-- ✅ Performance critical
-- ✅ Maximum type safety
-
-**Example:**
-```typescript
-const user = await db.select().from(users).where(eq(users.id, userId))
-```
-
-### sqlx (Rust)
-
-**Use when:**
-- ✅ Compile-time verification
-- ✅ Raw SQL performance
-- ✅ Rust project
-- ✅ No ORM overhead
-
----
-
-## 🧪 Testing Decision
-
-```
-Unit/Integration → Vitest (fast, native ESM)
-E2E              → Playwright (cross-browser, fast)
-Visual Regression → Chromatic or Percy
-Load Testing      → k6 or Artillery
-```
-
-### Vitest
-
-**Use when:**
-- ✅ Unit tests
-- ✅ Integration tests
-- ✅ Fast feedback needed
-- ✅ Vite project
-
-### Playwright
-
-**Use when:**
-- ✅ E2E tests
-- ✅ Cross-browser testing
-- ✅ User flow testing
-
----
-
-## 🚀 Deployment Decision
-
-### Vercel
-
-**Use when:**
-- ✅ Next.js project
-- ✅ Zero-config deployment
-- ✅ Edge functions needed
-- ✅ Preview deployments
-- ✅ Automatic HTTPS
-
-### AWS
-
-**Use when:**
-- ✅ Existing AWS infrastructure
-- ✅ Full control needed
-- ✅ Complex requirements
-- ✅ Cost optimization at scale
-- ✅ Multi-region
-
-### Docker
-
-**Use when:**
-- ✅ Consistency across environments
-- ✅ Self-hosted
-- ✅ Microservices
-- ✅ On-premise deployment
-
----
-
-## 🌐 Real-Time Decision
-
-### WebSockets
-
-| Solution | Use When |
-|----------|----------|
-| **Socket.io** | Node.js, fallbacks needed |
-| **ws** | Node.js, simple WebSockets |
-| **Socketize** | Rust, Axum |
-| **SignalR** | .NET backend |
-
-### Server-Sent Events (SSE)
-
-**Use when:**
-- ✅ One-way communication (server → client)
-- ✅ Simpler than WebSockets
-- ✅ Auto-reconnect needed
-
----
-
-## 📦 API Decision
-
-### REST
-
-**Use when:**
-- ✅ Standard CRUD operations
-- ✅ Simple caching (HTTP)
-- ✅ Stateless
-
-### GraphQL
-
-**Use when:**
-- ✅ Complex data relationships
-- ✅ Multiple clients with different needs
-- ✅ Flexible queries needed
-
-### tRPC
-
-**Use when:**
-- ✅ TypeScript end-to-end
-- ✅ Next.js full-stack
-- ✅ No schema duplication
-
----
-
-## 🎨 Styling Decision
-
-| Solution | Use When |
-|----------|----------|
-| **Tailwind CSS** | Utility-first, rapid UI dev |
-| **CSS Modules** | Component-scoped, traditional |
-| **Styled Components** | CSS-in-JS, React |
-| **shadcn/ui** | Copy-paste, Radix primitives |
-
----
-
-## 🔐 Authentication Decision
-
-| Solution | Use When |
-|----------|----------|
-| **NextAuth.js** | Next.js, OAuth providers |
-| **Clerk** | Drop-in auth, great UX |
-| **Lucia** | Framework-agnostic, lightweight |
-| **Supabase Auth** | Supabase ecosystem |
-
----
-
-## ⚡ WebAssembly Decision
-
-### When to Use WebAssembly
-
-| Use Case | Stack | Why |
-|----------|-------|-----|
-| **High-performance compute** | Rust + wasm-bindgen | Near-native speed |
-| **Image/Video processing** | Rust + WASM + Workers | Offload main thread |
-| **Cryptography** | Rust + WASM | Secure, fast |
-| **Games/Physics** | Rust + WASM | Performance critical |
-| **Data visualization** | Rust + WASM | Large dataset processing |
-| **Audio processing** | Rust + WASM | Real-time processing |
-
-### When NOT to Use WASM
-
-❌ **Avoid for:**
-- Simple DOM manipulation → JS is fine
-- Basic CRUD → No performance gain
-- Small apps → Overhead of WASM > benefits
-- Team doesn't know Rust → Learning curve
-
----
-
-## ⚠️ Anti-Patterns
-
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| Choosing tech based on hype | Project requirements first | Hype fades, requirements remain |
-| Using 10+ libraries for simple tasks | Minimal dependencies | Complexity overhead |
-| Switching tech mid-project | Proper research upfront | Expensive context switch |
-| Ignoring team expertise | Team skills match | Learning curve delays |
-| Not considering long-term maintenance | Sustainability | Technical debt accumulates |
-| Analysis paralysis | Informed decisions with cutoff | Perfection is enemy of good |
+## ✅ Quality Gates
+
+### Validation Checklist
+
+#### Requirements
+- [ ] **RG1** - Type d'application identifié
+- [ ] **RG2** - Échelle attendue définie
+- [ ] **RG3** - Constraints techniques listées
+- [ ] **RG4** - Expertise équipe évaluée
+
+#### Decision Process
+- [ ] **DP1** - 2-3 alternatives évaluées
+- [ ] **DP2** - Proof-of-concept testé si nécessaire
+- [ ] **DP3** - Équipe en accord avec la décision
+- [ ] **DP4** - Plan de migration documenté (si applicable)
+
+#### Long-Term
+- [ ] **LT1** - Viabilité long-terme évaluée
+- [ ] **LT2** - Communauté active
+- [ ] **LT3** - Support et mises à jour
+- [ ] **LT4** - Métriques de succès définies
+
+### Acceptance Criteria
+
+La décision tech est valide quand :
+- **Requirements** clairement définis
+- **Alternatives** évaluées objectivement
+- **Équipe** alignée sur le choix
+- **Viabilité** long-terme confirmée
+- **Plan** de migration existant
 
 ---
 
 ## 🔧 Troubleshooting
 
-| Problem | Cause | Solution |
+| Symptôme | Cause | Solution |
 |---------|-------|----------|
-| **"Tech choice feels wrong"** | Insufficient research | Re-evaluate requirements vs tech capabilities |
-| **"Team can't learn tech"** | Too steep learning curve | Consider training or alternative |
-| **"Performance issues"** | Wrong tech for use case | Profile before choosing, benchmark after |
-| **"Integration nightmare"** | Incompatible choices | Verify ecosystem compatibility early |
-| **"Regretting choice later"** | Short-term thinking | Consider 6-12 month roadmap |
+| "Tech choice feels wrong" | Recherche insuffisante | Ré-évaluer requirements vs capacités |
+| "Team can't learn tech" | Courbe d'apprentissage trop raide | Considérer formation ou alternative |
+| "Performance issues" | Mauvais techno pour use case | Profiler avant choisir, bench après |
+| "Integration nightmare" | Choisis incompatibles | Vérifier compatibilité écosystème tôt |
+| "Regretting choice later" | Pensée court-terme | Considérer roadmap 6-12 mois |
+
+---
+
+## 🎯 Best Practices
+
+### Recommandations Guidelines
+
+1. **Standard : Requirements-First**
+   - **What:** Commencer par requirements, pas par la techno
+   - **Why:** La hype passe, les requirements restent
+   - **How:** Checklist complète avant d'évaluer les technos
+
+2. **Standard : Équipe Expertise Match**
+   - **What:** Choisir une techno que l'équipe connaît ou peut apprendre
+   - **Why:** La courbe d'apprentissage retarde le projet
+   - **How:** Évaluer honnêtement les compétences actuelles
+
+3. **Standard : Minimal Dependencies**
+   - **What:** Éviter 10+ bibliothèques pour des tâches simples
+   - **Why:** La complexité crée de la dette technique
+   - **How:** Choisir des technos avec batteries included
+
+4. **Standard : Informed Decision avec Cutoff**
+   - **What:** Fixer une deadline pour la décision
+   - **Why:** L'analyse paralyse tue la productivité
+   - **How:** Décider avec info disponible, itérer si nécessaire
 
 ---
 
 ## 🔗 Related Skills
 
-- **Related:** All pattern skills - Detailed tech-specific patterns
-- **Related:** `nextjs-patterns` - When to choose Next.js
-- **Related:** `rust-axum` - When to choose Rust
-- **Related:** `nestjs-patterns` - When to choose NestJS
+- **Related:** `nextjs-patterns` - Quand choisir Next.js
+- **Related:** `rust-axum` - Quand choisir Rust
+- **Related:** `nestjs-patterns` - Quand choisir NestJS
+- **Related:** `typescript-patterns` - TypeScript adoption
 
 ---
 
 ## 📖 Further Reading
 
-- [Technology Radar](https://www.thoughtworks.com/radar) - Tech assessment guide
-- [StackShare](https://stackshare.io) - Real tech stacks from companies
+- [Technology Radar](https://www.thoughtworks.com/radar) - Guide d'évaluation techno
+- [StackShare](https://stackshare.io) - Stacks techniques réelles d'entreprises
 - [Choose Boring Technology](https://mcfunley.com/2016/04/22/choose-boring-technology.html)
 
 ---
 
 ## 🎯 Success Criteria
 
-Tech decision process is complete when:
-- [ ] Requirements clearly defined
-- [ ] Options evaluated (2-3 alternatives)
-- [ ] Team expertise considered
-- [ ] Long-term viability assessed
-- [ ] Proof-of-concept tested if needed
-- [ ] Team agrees on decision
-- [ ] Migration plan documented (if applicable)
-- [ ] Success metrics defined
+Le processus de décision est complet quand :
+- [ ] Requirements clairement définis
+- [ ] Alternatives évaluées (2-3 options)
+- [ ] Expertise équipe considérée
+- [ ] Viabilité long-terme évaluée
+- [ ] POC testé si nécessaire
+- [ ] Équipe d'accord
+- [ ] Plan de migration documenté
+- [ ] Métriques de succès définies
 
 ---
 
@@ -498,23 +279,21 @@ Tech decision process is complete when:
 
 ### Why Tech Decisions Matter
 
-1. **Long-term Impact** - Choices affect years of development
-2. **Team Productivity** - Right tools = happy, productive team
-3. **Maintenance Cost** - Good choices reduce technical debt
-4. **Scalability** - Tech must handle growth
-5. **Ecosystem** - Available libraries and community support
+1. **Long-Term Impact** - Les choix affectent des années de développement
+2. **Team Productivity** - Les bons outils = équipe heureuse et productive
+3. **Maintenance Cost** - Les bons choix réduisent la dette technique
+4. **Scalability** - La techno doit gérer la croissance
+5. **Ecosystem** - Bibliothèques et support communauté disponibles
 
-### Common Pitfalls
+### Optimisation Patterns
 
-- ❌ **Pitfall:** Choosing based on trends
-  → **Fix:** Focus on requirements and team skills
-
-- ❌ **Pitfall:** Analysis paralysis
-  → **Fix:** Set decision deadline, move forward
-
-- ❌ **Pitfall:** Ignoring maintenance
-  → **Fix:** Consider long-term support and updates
+| Dimension | Standard | Bénéfice |
+|-----------|----------|----------|
+| Choix techno | Requirements-first | Alignement métier |
+| Équipe | Expertise match | Productivité |
+| Viabilité | Long-term eval | Durabilité |
+| Complexité | Minimal dependencies | Maintainabilité |
 
 ---
 
-*Version: 2.0.0 | Tech Stack Decisions*
+*Version: 2.0.0 | Tech Stack Decisions - Positive Standards*

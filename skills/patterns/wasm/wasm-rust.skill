@@ -534,16 +534,38 @@ pub fn safe_process(input: &str) -> Result<String, JsValue> {
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| Using `wasm-bindgen` for everything | `js-sys` or `web-sys` for browser APIs | Reduces bundle size |
-| Ignoring memory management | Proper `Vec`/String handling | Memory leaks |
-| Not optimizing WASM size | `wasm-opt` for optimization | Faster loading |
-| Synchronous WASM operations | Async with promises | Don't block main thread |
-| Not using `wasm-pack` | Proper packaging workflow | Standard tooling |
-| Ignoring browser compatibility | Feature detection first | Graceful degradation |
+### Validation Checklist
+
+#### Performance
+- [ ] **PF1** - `js-sys` ou `web-sys` pour browser APIs (pas wasm-bindgen)
+- [ ] **PF2** - `wasm-opt` pour optimization taille
+- [ ] **PF3** - TypedArrays pour données volumineuses
+- [ ] **PF4** - Minimiser JS/Wasm boundary crossings
+
+#### Memory Management
+- [ ] **MM1** - Proper `Vec`/String handling
+- [ ] **MM2** - Shared memory pour processing in-place
+- [ ] **MM3** - Pas de memory leaks
+- [ ] **MM4** - Allocation minimisée
+
+#### Best Practices
+- [ ] **BP1** - `await init()` avant utilisation
+- [ ] **BP2** - Async operations pour longues tâches
+- [ ] **BP3** - `wasm-pack` pour packaging standard
+- [ ] **BP4** - Feature detection pour compatibilité
+- [ ] **BP5** - Error handling avec Result types
+
+### Acceptance Criteria
+
+L'implémentation WASM est conforme quand :
+- **`#[wasm_bindgen]`** pour exports
+- **Memory** gérée correctement (pas de leaks)
+- **WASM size** optimisé (< 100KB gzipped)
+- **Async** pour opérations longues
+- **TypeScript types** générés
+- **Error handling** à travers frontière TS/WASM
 
 ---
 

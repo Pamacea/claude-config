@@ -55,9 +55,9 @@
 **When to use:**
 - ✅ [Use case 1]
 - ✅ [Use case 2]
-- ❌ [Not for]
+- ✅ [Use case 3]
 
-**Example:**
+**Standard Pattern:**
 
 ```typescript
 // Runnable code example with comments
@@ -67,7 +67,7 @@ const example = "value";
 
 ---
 
-## 🎯 Common Patterns
+## 🎯 Implementation Patterns
 
 ### Pattern 1: [Pattern Name]
 
@@ -92,47 +92,55 @@ function patternExample() {
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| [Bad practice] | [Good practice] | [Explanation] |
-| [Bad practice] | [Good practice] | [Explanation] |
-| [Bad practice] | [Good practice] | [Explanation] |
+### Validation Checklist
+
+Use this checklist to validate implementations:
+
+- [ ] [Gate 1 - Specific criterion]
+- [ ] [Gate 2 - Specific criterion]
+- [ ] [Gate 3 - Specific criterion]
+- [ ] [Gate 4 - Specific criterion]
+- [ ] [Gate 5 - Specific criterion]
+
+### Acceptance Criteria
+
+Implementation meets quality standards when:
+- **Criterion 1:** [Specific measurable outcome]
+- **Criterion 2:** [Specific measurable outcome]
+- **Criterion 3:** [Specific measurable outcome]
 
 ---
 
 ## 🔧 Troubleshooting
 
-| Problem | Cause | Solution |
-|---------|-------|----------|
-| [Error/Issue] | [Root cause] | [How to fix] |
-| [Error/Issue] | [Root cause] | [How to fix] |
-| [Error/Issue] | [Root cause] | [How to fix] |
+| Symptom | Root Cause | Solution |
+|---------|-----------|----------|
+| [Observable issue] | [Underlying cause] | [How to fix] |
+| [Observable issue] | [Underlying cause] | [How to fix] |
+| [Observable issue] | [Underlying cause] | [How to fix] |
 
 ---
 
 ## 🎯 Best Practices
 
-### Checklist
-
-- [ ] [Best practice 1]
-- [ ] [Best practice 2]
-- [ ] [Best practice 3]
-- [ ] [Best practice 4]
-- [ ] [Best practice 5]
-
-### Guidelines
+### Recommended Guidelines
 
 1. **Guideline 1**
-   - What: [Description]
-   - Why: [Rationale]
-   - How: [Implementation]
+   - **What:** [Description]
+   - **Why:** [Rationale]
+   - **How:** [Implementation steps]
 
 2. **Guideline 2**
-   - What: [Description]
-   - Why: [Rationale]
-   - How: [Implementation]
+   - **What:** [Description]
+   - **Why:** [Rationale]
+   - **How:** [Implementation steps]
+
+3. **Guideline 3**
+   - **What:** [Description]
+   - **Why:** [Rationale]
+   - **How:** [Implementation steps]
 
 ---
 
@@ -149,8 +157,8 @@ function patternExample() {
 ```
 
 **Trade-offs:**
-- Pro: [Advantage]
-- Con: [Disadvantage]
+- ✅ **Pro:** [Advantage]
+- ⚠️ **Con:** [Disadvantage]
 
 ---
 
@@ -173,12 +181,12 @@ function patternExample() {
 ## 🎯 Success Criteria
 
 Implementation is complete when:
-- [ ] [Criterion 1]
-- [ ] [Criterion 2]
-- [ ] [Criterion 3]
-- [ ] [Criterion 4]
-- [ ] All tests passing
-- [ ] No regressions
+- [ ] [Criterion 1 - Observable outcome]
+- [ ] [Criterion 2 - Observable outcome]
+- [ ] [Criterion 3 - Observable outcome]
+- [ ] [Criterion 4 - Observable outcome]
+- [ ] All quality gates passed
+- [ ] No regressions detected
 
 ---
 
@@ -190,11 +198,13 @@ Implementation is complete when:
 2. **Insight 2** - [Explanation]
 3. **Insight 3** - [Explanation]
 
-### Common Pitfalls
+### Common Pitfalls & Solutions
 
-- ❌ **Pitfall 1:** [Description] → **Fix:** [Solution]
-- ❌ **Pitfall 2:** [Description] → **Fix:** [Solution]
-- ❌ **Pitfall 3:** [Description] → **Fix:** [Solution]
+| Pitfall | Solution |
+|---------|----------|
+| [Observable mistake] | [Corrective action] |
+| [Observable mistake] | [Corrective action] |
+| [Observable mistake] | [Corrective action] |
 
 ---
 

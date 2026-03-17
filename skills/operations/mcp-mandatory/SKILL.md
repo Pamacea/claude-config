@@ -1,10 +1,10 @@
-# MCP Mandatory - Strong Suggestions for Tool Usage
+# MCP Tools - Optimal Usage Guide
 
-> **Version:** 2.0.0 | **Category:** Cat 3 (Commandes Opérationnelles) | **Difficulty:** Beginner
+> **Version:** 3.0.0 | **Category:** Cat 3 (Operational Workflows)
 > **Auto-Activation:** "commit", "git", "debug UI", "screenshot", "analyze image", "docs", "search latest"
 > **Tags:** [mcp, tools, git, debugging, memory, documentation]
 > **Related:** All pattern skills - For implementation details
-> **Last Updated:** 2025-03-12
+> **Last Updated:** 2025-03-17
 
 ---
 
@@ -25,51 +25,41 @@
 ## 🚀 Quick Start
 
 ```bash
-# Before any action, ask:
-1. Check memory?  → claude-mem
-2. Committing?    → git-flow-master
-3. UI debugging?  → chrome-devtools
-4. Visual?        → z-ai
+# Before any significant action, use:
+1. Check memory?  → claude-mem (search past solutions)
+2. Committing?    → git-flow-master (versioned commits)
+3. UI debugging?  → chrome-devtools (browser tools)
+4. Visual?        → z-ai (image/video analysis)
 ```
 
 ---
 
-## 🎯 Core Principle
+## 📊 MCP Selection Guide
 
-**Before ANY significant action, check:**
-1. Should I use memory? → claude-mem
-2. Should I commit? → Git Flow Master
-3. Should I debug UI? → Chrome DevTools
-4. Should I analyze visual? → z-ai
+### Quick Reference Table
 
-This is a **strong suggestion system** - not blocking, but highly recommended.
-
----
-
-## 📊 MCP QUICK REFERENCE
-
-| MCP | When to Use | Trigger Keywords |
-|-----|-------------|------------------|
-| **claude-mem** | Search/save memory | "did we", "how did we", "remember" |
-| **git-flow-master** | Versioned commits | "commit", "release", "update", "patch" |
-| **chrome-devtools** | UI debugging | "debug UI", "test page", "screenshot" |
-| **z-ai** | Image/video analysis | "analyze image", "screenshot error", "video" |
-| **web-reader** | Fetch web content | "read URL", "fetch page", "scrape" |
-| **web-search-prime** | Search web | "latest docs", "current info", "search" |
+| MCP | Optimal For | Trigger Keywords | Priority |
+|-----|-------------|------------------|----------|
+| **claude-mem** | Reusing past solutions | "did we", "how did we", "remember" | 1 (Memory first) |
+| **git-flow-master** | Versioned commits | "commit", "release", "update", "patch" | 2 (After quality gates) |
+| **chrome-devtools** | UI debugging/testing | "debug UI", "test page", "screenshot" | 3 (When working on UI) |
+| **z-ai** | Visual analysis | "analyze image", "screenshot error", "video" | 4 (Visual content) |
+| **web-reader** | Fetching docs | "read URL", "fetch page", "scrape" | 5 (Before implementing) |
+| **web-search-prime** | Latest info | "latest docs", "current info", "search" | 5 (Before implementing) |
 
 ---
 
-## 🧠 CLAUDE-MEM
+## 🧠 CLAUDE-MEM - Memory Reuse
 
-### When to Use claude-mem
+### Optimal Usage
 
-**USE IT FOR:**
-- ✅ "Did we solve this before?"
-- ✅ "How did we implement X?"
-- ✅ "What was the solution for Y?"
-- ✅ "Remember this for later"
+**Use claude-mem when:**
+- ✅ Looking for similar past solutions
+- ✅ Need to recall how something was implemented
+- ✅ Want to avoid repeating mistakes
+- ✅ Saving successful patterns for future
 
-**Workflow:**
+### Recommended Workflow
 
 ```
 BEFORE implementing:
@@ -86,71 +76,73 @@ AFTER solving:
 
 ### MCP Tools Available
 
-| Tool | Purpose |
-|------|---------|
-| `mcp__plugin_claude-mem_mcp-search__search` | Search memory by query |
-| `mcp__plugin_claude-mem_mcp-search__timeline` | Get context around result |
-| `mcp__plugin_claude-mem_mcp-search__get_observations` | Fetch full details |
-| `mcp__plugin_claude-mem_mcp-search__save_memory` | Save to memory |
+| Tool | Purpose | When to Use |
+|------|---------|-------------|
+| `mcp__plugin_claude-mem_mcp-search__search` | Search memory by query | Starting any task |
+| `mcp__plugin_claude-mem_mcp-search__timeline` | Get context around result | Understanding solution context |
+| `mcp__plugin_claude-mem_mcp-search__get_observations` | Fetch full details | Getting complete solution |
+| `mcp__plugin_claude-mem_mcp-search__save_memory` | Save to memory | After solving problem |
 
-### Examples
+### Usage Examples
 
 ```markdown
 User: "How did we handle JWT refresh last time?"
-→ Use: mcp__plugin_claude-mem_mcp-search__search with query "JWT refresh token"
+→ Use: mcp__plugin_claude-mem_mcp-search__search
+→ Query: "JWT refresh token"
 → Get: Previous solution details
-→ Apply: Same pattern
+→ Apply: Same pattern to current problem
 
 User: "Here's a new pattern for debouncing"
 → Use: mcp__plugin_claude-mem_mcp-search__save_memory
 → Title: "Debounce pattern - React hooks"
 → Content: Code + explanation
+→ Tags: react, hooks, debounce, performance
 ```
 
 ---
 
-## 🔄 GIT FLOW MASTER
+## 🔄 GIT FLOW MASTER - Versioned Commits
 
-### When to Use Git Flow Master
+### Optimal Usage
 
-**USE IT FOR:**
+**Use git-flow-master when:**
 - ✅ Creating commits (RELEASE, UPDATE, PATCH)
-- ✅ Analyzing changes for SemVer
+- ✅ Analyzing changes for SemVer impact
 - ✅ Generating release notes
-- ✅ Validating commit messages
+- ✅ Validating commit message format
 
-**Workflow:**
+### Recommended Workflow
 
 ```
 BEFORE committing:
-├─ git_get_status - Check what changed
-├─ git_get_diff - See actual changes
-├─ git_suggest_type - Get commit type
-├─ git_generate_message - Format message
-├─ Run lint/typecheck/tests
-└─ git_versioned_commit - Create commit
+├─ git_get_status → Check what changed
+├─ git_get_diff → See actual changes
+├─ git_suggest_type → Get commit type
+├─ git_generate_message → Format message
+├─ Run quality gates (lint, typecheck, test)
+└─ git_versioned_commit → Create commit
 
 AFTER feature complete:
-├─ git_analyze_commits - Check SemVer impact
-├─ git_suggest_version - Get version number
-└─ git_create_release - Create release + changelog
+├─ git_analyze_commits → Check SemVer impact
+├─ git_suggest_version → Get version number
+└─ git_create_release → Create release + changelog
 ```
 
 ### MCP Tools Available
 
-| Tool | Purpose |
-|------|---------|
-| `git_get_status` | Get branch, staged, unstaged files |
-| `git_get_diff` | Get diff of changes |
-| `git_get_log` | Get recent commit history |
-| `git_suggest_type` | Suggest commit type based on files |
-| `git_generate_message` | Generate versioned commit message |
-| `git_versioned_commit` | Create formatted commit |
-| `git_analyze_commits` | Analyze for SemVer bump |
-| `git_suggest_version` | Suggest next version |
-| `git_create_release` | Create release with CHANGELOG |
+| Tool | Purpose | Output |
+|------|---------|--------|
+| `git_get_status` | Get branch, staged, unstaged files | File list + status |
+| `git_get_diff` | Get diff of changes | Exact changes |
+| `git_get_log` | Get recent commit history | Commit messages |
+| `git_suggest_type` | Suggest commit type | RELEASE/UPDATE/PATCH |
+| `git_generate_message` | Generate versioned message | Formatted commit |
+| `git_versioned_commit` | Create formatted commit | Commit created |
+| `git_analyze_commits` | Analyze for SemVer bump | Version impact |
+| `git_suggest_version` | Suggest next version | X.Y.Z |
+| `git_create_release` | Create release with CHANGELOG | Release notes |
 
-### Commit Format
+### Commit Format Standard
 
 ```
 TYPE: PROJECT_NAME - vX.Y.Z
@@ -161,116 +153,118 @@ TYPE: PROJECT_NAME - vX.Y.Z
 Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 ```
 
-### Types
+### Commit Type Decision Matrix
 
-| Type | SemVer | When to Use |
-|------|--------|-------------|
-| **RELEASE** | MAJOR | Breaking changes |
-| **UPDATE** | MINOR | New features |
-| **PATCH** | PATCH | Bug fixes |
+| Type | SemVer | When to Use | Examples |
+|------|--------|-------------|----------|
+| **RELEASE** | MAJOR | Breaking changes | Removing API, changing signature |
+| **UPDATE** | MINOR | New features | Adding function, new capability |
+| **PATCH** | PATCH | Bug fixes | Fixing bug, correcting behavior |
 
 ---
 
-## 🌐 CHROME DEVTOOLS
+## 🌐 CHROME DEVTOOLS - UI Testing
 
-### When to Use Chrome DevTools
+### Optimal Usage
 
-**USE IT FOR:**
-- ✅ "Debug this UI issue"
-- ✅ "Test this page"
-- ✅ "Take screenshot"
-- ✅ "Check console errors"
-- ✅ "Analyze network requests"
+**Use chrome-devtools when:**
+- ✅ Debugging layout issues
+- ✅ Testing interactive elements
+- ✅ Taking screenshots for verification
+- ✅ Checking console errors
+- ✅ Analyzing network requests
 
-**Workflow:**
+### Recommended Workflows
 
+**UI Debugging:**
 ```
-UI Debugging:
-├─ list_pages - See open pages
-├─ select_page - Choose page to work with
-├─ navigate_page - Go to URL
-├─ take_snapshot - Get page structure
-├─ list_console_messages - Check errors
-├─ take_screenshot - Visual verification
-└─ click/fill/hover - Test interactions
+├─ list_pages → See open pages
+├─ select_page → Choose page to work with
+├─ navigate_page → Go to URL
+├─ take_snapshot → Get page structure (a11y tree)
+├─ list_console_messages → Check errors
+├─ take_screenshot → Visual verification
+└─ click/fill/hover → Test interactions
+```
 
-Interactive testing:
-├─ fill_form - Fill multiple fields
-├─ evaluate_script - Run custom JS
-└─ list_network_requests - Check API calls
+**Interactive Testing:**
+```
+├─ fill_form → Fill multiple fields
+├─ evaluate_script → Run custom JS
+└─ list_network_requests → Check API calls
 ```
 
 ### MCP Tools Available
 
-| Tool | Purpose |
-|------|---------|
-| `list_pages` | Get all open pages |
-| `select_page` | Select page for operations |
-| `navigate_page` | Navigate to URL |
-| `take_snapshot` | Get page structure (a11y tree) |
-| `take_screenshot` | Capture page visually |
-| `click` | Click element |
-| `fill` | Fill input field |
-| `hover` | Hover over element |
-| `list_console_messages` | Get console output |
-| `list_network_requests` | Get network activity |
-| `evaluate_script` | Run JavaScript in page |
+| Tool | Purpose | Use Case |
+|------|---------|----------|
+| `list_pages` | Get all open pages | Starting UI work |
+| `select_page` | Select page for operations | Focusing on specific tab |
+| `navigate_page` | Navigate to URL | Loading test page |
+| `take_snapshot` | Get page structure (a11y) | Understanding DOM |
+| `take_screenshot` | Capture page visually | Before/after verification |
+| `click` | Click element | Testing buttons/links |
+| `fill` | Fill input field | Form testing |
+| `hover` | Hover over element | Hover states |
+| `list_console_messages` | Get console output | Error checking |
+| `list_network_requests` | Get network activity | API verification |
+| `evaluate_script` | Run JavaScript | Custom testing |
 
-### Examples
+### Usage Examples
 
 ```markdown
 Debugging layout issue:
-→ take_snapshot - See page structure
+→ take_snapshot → See page structure
 → Check computed styles in snapshot
-→ take_screenshot - Verify visual appearance
-→ test with different viewports (resize_page)
+→ take_screenshot → Verify visual appearance
+→ resize_page → Test responsive behavior
 
 Testing form:
 → fill_form with test data
 → click submit button
-→ list_network_requests - Verify API call
-→ check console for errors
+→ list_network_requests → Verify API call
+→ list_console_messages → Check for errors
 ```
 
 ---
 
-## 🖼️ Z-AI (Visual Analysis)
+## 🖼️ Z-AI - Visual Analysis
 
-### When to Use z-ai
+### Optimal Usage
 
-**USE IT FOR:**
-- ✅ "Analyze this screenshot"
-- ✅ "What's this error message?"
-- ✅ "Convert this UI to code"
-- ✅ "Compare two designs"
-- ✅ "Extract text from image"
-- ✅ "Analyze video"
+**Use z-ai when:**
+- ✅ Converting UI designs to code
+- ✅ Debugging error screenshots
+- ✅ Comparing two designs/implementations
+- ✅ Extracting text from images
+- ✅ Analyzing charts/graphs
+- ✅ Understanding video content
 
-**Workflow:**
+### Recommended Workflow
 
 ```
 Visual Analysis:
-├─ ui_to_artifact - UI → code/prompt/spec
-├─ extract_text_from_screenshot - OCR
-├─ diagnose_error_screenshot - Debug errors
-├─ ui_diff_check - Compare designs
-├─ analyze_data_visualization - Charts/graphs
-└─ analyze_video - Video content
+├─ ui_to_artifact → UI → code/prompt/spec
+├─ extract_text_from_screenshot → OCR extraction
+├─ diagnose_error_screenshot → Debug errors
+├─ ui_diff_check → Compare designs
+├─ analyze_data_visualization → Charts/graphs
+└─ analyze_video → Video content
 ```
 
 ### MCP Tools Available
 
-| Tool | Purpose |
-|------|---------|
-| `mcp__zai-mcp-server__ui_to_artifact` | UI → code/prompt/spec/description |
-| `mcp__zai-mcp-server__extract_text_from_screenshot` | OCR extraction |
-| `mcp__zai-mcp-server__diagnose_error_screenshot` | Debug error messages |
-| `mcp__zai-mcp-server__ui_diff_check` | Compare two UIs |
-| `mcp__zai-mcp-server__analyze_data_visualization` | Charts analysis |
-| `mcp__zai-mcp-server__analyze_video` | Video content |
-| `mcp__zai-mcp-server__understand_technical_diagram` | Architecture diagrams |
+| Tool | Purpose | When to Use |
+|------|---------|-------------|
+| `mcp__zai-mcp-server__ui_to_artifact` | UI → code/prompt/spec/description | Converting designs |
+| `mcp__zai-mcp-server__extract_text_from_screenshot` | OCR extraction | Error messages, code |
+| `mcp__zai-mcp-server__diagnose_error_screenshot` | Debug error messages | Debugging crashes |
+| `mcp__zai-mcp-server__ui_diff_check` | Compare two UIs | Design vs implementation |
+| `mcp__zai-mcp-server__analyze_data_visualization` | Charts analysis | Dashboard debugging |
+| `mcp__zai-mcp-server__analyze_video` | Video content | Tutorial/feature analysis |
+| `mcp__zai-mcp-server__understand_technical_diagram` | Architecture diagrams | System documentation |
 
-### Examples
+### Usage Examples
 
 ```markdown
 Converting UI design to code:
@@ -292,37 +286,37 @@ Comparing designs:
 
 ---
 
-## 📖 WEB READER & SEARCH
+## 📖 WEB READER & SEARCH - Documentation
 
-### When to Use
+### Optimal Usage
 
 **web-reader:**
-- ✅ "Read this documentation page"
-- ✅ "Fetch content from URL"
-- ✅ "Get article content as markdown"
+- ✅ Reading documentation pages
+- ✅ Fetching content from URLs
+- ✅ Getting article content as markdown
 
 **web-search-prime:**
-- ✅ "Latest docs for [library]"
-- ✅ "Current best practices for [topic]"
-- ✅ "What's new in [framework]"
+- ✅ Finding latest documentation
+- ✅ Current best practices research
+- ✅ What's new in frameworks
 
-**Workflow:**
+### Recommended Workflow (Post-2024 Libraries)
 
 ```
-Before implementing (post-2024 libraries):
-├─ web-search-prime - Find latest docs
-├─ web-reader - Read full documentation
-├─ Check breaking changes
-└─ Verify examples work
+Before implementing:
+├─ web-search-prime → Find latest docs
+├─ web-reader → Read full documentation
+├─ Check → Breaking changes section
+└─ Verify → Examples work with current version
 ```
 
 ---
 
-## ✅ PRE-ACTION CHECKLIST
+## ✅ Pre-Action Checklists
 
 ### Before Implementing Feature
 
-```markdown
+```
 Memory Check:
 ☐ Search claude-mem for similar implementations
 ☐ Check if solution exists in project memory
@@ -341,19 +335,19 @@ After Implementation:
 
 ### Before Committing
 
-```markdown
+```
 Git Workflow:
-☐ git_get_status - Check changes
-☐ git_get_diff - Review actual changes
-☐ git_suggest_type - Get commit type
-☐ git_generate_message - Format message
+☐ git_get_status → Check changes
+☐ git_get_diff → Review actual changes
+☐ git_suggest_type → Get commit type
+☐ git_generate_message → Format message
 ☐ Run quality gates (lint, typecheck, test)
-☐ git_versioned_commit - Create commit
+☐ git_versioned_commit → Create commit
 ```
 
 ### Before UI Work
 
-```markdown
+```
 UI Debugging:
 ☐ Navigate to page with chrome-devtools
 ☐ Take snapshot for structure
@@ -364,7 +358,7 @@ UI Debugging:
 
 ---
 
-## 🎯 MCP SELECTION FLOWCHART
+## 🎯 MCP Selection Flowchart
 
 ```
 ┌─────────────────────────────────────────┐
@@ -389,7 +383,7 @@ UI Debugging:
 
 ---
 
-## 💡 SUGGESTION PROMPTS FOR CLAUDE
+## 💡 Self-Reminder Prompts
 
 When working on tasks, Claude should think:
 
@@ -417,23 +411,23 @@ Visual Analysis:
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Best Practices Summary
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| Committing without lint/typecheck | Run quality gates first | Prevent broken code in repo |
-| Guessing at solutions | Search claude-mem first | Reuse existing patterns |
-| Manual commit messages | Use git-flow-master | Consistent versioning |
-| Not verifying UI after changes | Use chrome-devtools | Catch visual regressions |
-| Ignoring screenshots from users | Use z-ai for analysis | Faster debugging |
-| Implementing without latest docs | Use web-search-prime | Avoid breaking changes |
+| Practice | Tool | Benefit |
+|----------|------|---------|
+| Search memory first | claude-mem | Reuse past solutions |
+| Versioned commits | git-flow-master | Consistent history |
+| Test in browser | chrome-devtools | Catch visual bugs |
+| Analyze visuals | z-ai | Faster debugging |
+| Check latest docs | web-search-prime | Avoid breaking changes |
+| Save patterns | claude-mem | Continuous improvement |
 
 ---
 
 ## 🔧 Troubleshooting
 
-| Problem | Cause | Solution |
-|---------|-------|----------|
+| Issue | Likely Cause | Solution |
+|-------|--------------|----------|
 | **"MCP tool not found"** | MCP not installed/configured | Check Claude settings for MCP server |
 | **"Git commit fails"** | Hook failed or lint error | Run lint/typecheck manually first |
 | **"Chrome page not found"** | Browser not open or wrong page | Use list_pages to check available pages |
@@ -482,17 +476,17 @@ MCP usage is effective when:
 4. **Speed** - Faster debugging with proper tools
 5. **Knowledge** - Latest documentation at fingertips
 
-### Common Pitfalls
+### Optimization Tips
 
-- ❌ **Pitfall:** Forgetting to search memory first
-  → **Fix:** Make claude-mem search the first step
+**Tip 1:** Always search memory before implementing
+→ Fix: Make claude-mem search the first step
 
-- ❌ **Pitfall:** Manual commit messages
-  → **Fix:** Always use git-flow-master for versioning
+**Tip 2:** Use git-flow-master for versioning
+→ Fix: Always use proper commit types and messages
 
-- ❌ **Pitfall:** Not using available MCPs
-  → **Fix:** Check MCP reference before any action
+**Tip 3:** Leverage available MCPs
+→ Fix: Check MCP reference before any action
 
 ---
 
-*Version: 2.0.0 | MCP Mandatory - Strong Suggestions*
+*Version: 3.0.0 | MCP Tools - Optimal Usage Guide*

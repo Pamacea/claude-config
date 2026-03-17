@@ -124,16 +124,39 @@ export default {
 
 ---
 
-## ⚠️ Anti-Patterns
+## ✅ Quality Gates
 
-| ❌ NEVER | ✅ ALWAYS | Why |
-|---------|-----------|-----|
-| `@apply` everywhere | Inline utility classes | @apply increases CSS bundle size |
-| Arbitrary values like `w-[137px]` | Design tokens | Hard to maintain, inconsistent |
-| `!important` in utilities | Proper specificity order | Indicates specificity problem |
-| Not using responsive variants | Mobile-first approach | `md:`, `lg:` breakpoints |
-| Hardcoding colors | Theme colors | Consistent theming |
-| Inline styles | Tailwind classes | Defeats utility-first purpose |
+### Validation Checklist
+
+#### CSS Usage
+- [ ] **CU1** - Classes utilitaires en ligne (priorité sur `@apply`)
+- [ ] **CU2** - `@apply` limité aux composants réutilisables uniquement
+- [ ] **CU3** - Styles inline évités (sauf valeurs dynamiques)
+
+#### Design Tokens
+- [ ] **DT1** - Valeurs arbitraires limitées (`w-[137px]` → `w-32` ou token)
+- [ ] **DT2** - Couleurs définies dans `tailwind.config.ts`
+- [ ] **DT3** - Espacement avec échelle standard (`4`, `8`, `12`...)
+
+#### Responsive Design
+- [ ] **RD1** - Mobile-first (base styles → `sm:` → `md:` → `lg:`)
+- [ ] **RD2** - Breakpoints utilisés de façon cohérente
+- [ ] **RD3** - Hide/Show avec `hidden md:block` pattern
+
+#### Theme & Consistency
+- [ ] **TC1** - Couleurs du thème utilisées (pas de hardcoded colors)
+- [ ] **TC2** - Dark mode implémenté avec préfixe `dark:`
+- [ ] **TC3** - Spacing consistant avec design tokens
+
+### Acceptance Criteria
+
+L'implémentation Tailwind est conforme quand :
+- **Classes utilitaires** en ligne (pas de `@apply` excessif)
+- **Design tokens** définis dans config
+- **Responsive** mobile-first
+- **Dark mode** fonctionnel
+- **Pas de valeurs arbitraires** en production
+- **Spécificité CSS** gérée proprement
 
 ---
 

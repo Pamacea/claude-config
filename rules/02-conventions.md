@@ -1,14 +1,19 @@
 # Conventions - Git, Docs, Project Structure
 
-> **Version:** 1.0.0 | TrigMem Enhanced
+> **Version:** 2.0.0 | TrigMem Enhanced | Positive Standards
+>
+> **Changement majeur:** Version basée sur des standards positifs et des
+> workflows recommandés, sans interdictions.
 
 ---
 
 ## 🔄 Git Flow Master Convention
 
-### Règles
-- ✅ Vérifiez que le .env a les secrets cachés par les placeholders $SECRET_NAME. 
-- ✅ Verifiez que le .enc.env est crypté et pas ouvert.
+### Standard de Sécurité des Secrets
+
+**Vérifier avant commit :**
+- ✅ Le .env utilise des placeholders `$SECRET_NAME` pour les secrets
+- ✅ Le .enc.env est crypté et non ouvert
 
 ### Format des Commits
 
@@ -23,10 +28,10 @@ TYPE: PROJECT NAME - vX.Y.Z
 
 | Type | SemVer | Usage |
 |------|--------|-------|
-| **RELEASE** | MAJOR | Breaking changes |
+| **RELEASE** | MAJOR | Breaking changes dans l'API publique |
 | **UPDATE** | MINOR | Nouvelles fonctionnalités |
-| **PATCH** | PATCH | Bug fixes |
-| **WIP** | MAJOR | Refactoring |
+| **PATCH** | PATCH | Corrections de bugs |
+| **WIP** | MAJOR | Refactoring en cours |
 
 ### Exemples
 
@@ -45,7 +50,7 @@ git commit -m "PATCH: MyProject - v1.1.1
 
 ### Checklist Pre-Commit
 
-```bash
+```markdown
 - [ ] npm run lint          # Linting OK
 - [ ] npm run typecheck     # TypeScript OK
 - [ ] npm run test          # Tests OK
@@ -68,11 +73,11 @@ project/
 
 ### README.md - The 30-Second Hook
 
-**Règles:**
+**Standards de qualité :**
 - ✅ One-liner < 15 mots
 - ✅ Quick Start = 3 commandes max
 - ✅ < 50 lignes total
-- ❌ Pas de "Coming soon"
+- ✅ Contenu actuel (pas de "Coming soon")
 
 **Template:**
 ```markdown
@@ -93,6 +98,8 @@ tech-name init
 ---
 
 ## 🏗️ Project Structure - Clean Architecture
+
+### Standard Structure
 
 ```
 src/
@@ -137,6 +144,8 @@ features/[feature]/
 
 ## 📝 File Naming Conventions
 
+### Standard de Nommage
+
 ```
 Components      → PascalCase.tsx           # Button.tsx
 Tests           → PascalCase.test.tsx     # Button.test.tsx
@@ -148,31 +157,41 @@ Constants       → UPPER_SNAKE_CASE.ts      # API_BASE_URL.ts
 
 ---
 
-## 🎯 Import Rules
+## 🎯 Import Rules - Standards de Dépendances
 
-**✅ Allowed:**
+### Imports Autorisés (Forward Dependencies)
+
 ```typescript
-// Feature → UI
+// ✅ Feature → UI (coupling autorisé)
 import { Button } from '@/ui/atoms/button'
 
-// Feature → Lib
+// ✅ Feature → Lib (coupling autorisé)
 import { formatCurrency } from '@/lib/utils/format'
 
-// Feature → Feature
+// ✅ Feature → Feature (coupling autorisé)
 import { useAuth } from '@/features/auth'
 ```
 
-**❌ Forbidden:**
+### Imports à Éviter (Backward Dependencies)
+
 ```typescript
-// UI → Features (coupling)
-import { useTodos } from '@/features/todos'
+// ⚠️ Éviter : UI → Features (crée coupling inverse)
+// Utiliser plutôt : Passer les données via props
 
-// UI → Lib/DB (infrastructure in UI)
-import { db } from '@/lib/db'
+// ⚠️ Éviter : UI → Lib/DB (infrastructure dans UI)
+// Utiliser plutôt : Server Components / Actions
 
-// Lib → Features (circular)
-import { useAuth } from '@/features/auth'
+// ⚠️ Éviter : Lib → Features (crée dépendances circulaires)
+// Utiliser plutôt : Patterns dependency injection
 ```
+
+### Alternatives Recommandées
+
+| Au lieu de | Utiliser |
+|-----------|---------|
+| UI importing features | Props drilling / Context / Server Components |
+| UI importing db | Server Components fetching data |
+| Lib importing features | Dependency injection / Events |
 
 ---
 
@@ -192,4 +211,25 @@ Les patterns techniques sont maintenant dans **skills/** (chargés à la demande
 
 ---
 
-*Version: 5.0.0 | TrigMem Enhanced*
+## ✅ Quality Gates
+
+### Git Commit Gates
+
+Un commit est valide quand :
+- [ ] Lint passe sans erreurs
+- [ ] Typecheck passe sans erreurs
+- [ ] Tests passent
+- [ ] Pas de secrets exposés
+- [ ] Message au format correct
+
+### Documentation Gates
+
+Une documentation est complète quand :
+- [ ] README < 50 lignes
+- [ ] Quick Start ≤ 3 commandes
+- [ ] Commandes exécutables
+- [ ] Pas de sections vides
+
+---
+
+*Version: 2.0.0 | Conventions - Positive Standards*
