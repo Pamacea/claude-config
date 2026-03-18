@@ -4,6 +4,46 @@
 
 ---
 
+## [1.4.1] - 2026-03-18
+
+### 🔧 Rust Full Stack Workspace Structure
+
+#### Nouveau Skill rust-workspace-structure
+- **Structure Gold Standard** pour monorepo Rust (Axum + Dioxus/Leptos)
+- **Workspace complet** avec common/server/client
+- **Cargo.toml racine** avec workspace dependencies
+- **Docker Compose** pour PostgreSQL + Adminer + Redis
+- **Documentation complète** avec liens vers docs officielles
+- **~400 lignes** de contenu exhaustif
+
+#### Nouvelle Règle Minimale
+- **rules/08-rust-workspace.md** (~25 lignes)
+- Quick structure visuelle
+- Checklist de validation
+- Référence au skill complet
+
+#### CLAUDE.md v5.0.0 - Prompting Avancé
+- **Section Prompting** : Spécificité, Structure efficace, Vérification
+- **Section EPCT** : Workflow complet avec matrice de décision
+- **Section Communication** : Questions efficaces + Pattern d'interview
+- **Section Patterns d'Évitement** : 5 anti-patterns identifiés
+- **Section Gestion du Contexte** : Commandes utiles + Variables d'environnement
+
+#### INDEX.md Mis à jour
+- **25 skills total** (+1 rust-workspace-structure)
+- **Nouvelle Rule 5** : Project Structure Exclusivity
+- **Cross-references** mises à jour
+
+### 📊 Statistiques v1.4.1
+
+| Métrique | v1.4.0 | v1.4.1 | Δ |
+|----------|--------|--------|---|
+| **Skills total** | 24 | 25 | +1 |
+| **Rules** | 8 | 9 | +1 |
+| **CLAUDE.md** | v4.1.0 | v5.0.0 | Major update |
+
+---
+
 ## [1.4.0] - 2026-03-17
 
 ### 🔄 Refactorisation Systémique - Positive Standards

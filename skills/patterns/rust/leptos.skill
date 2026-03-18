@@ -1,0 +1,442 @@
+# Leptos - Frontend Framework Rust avec SSR
+
+> **Version:** 1.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Advanced
+> **Auto-Activation:** "leptos", "rust ssr", "signals", "create_resource", "isomorphic rust", "view! macro"
+> **Tags:** [leptos, ssr, signals, isomorphic, rust-frontend, fine-grained-reactivity]
+> **Related:** rust-fullstack, rust-axum, wasm-rust
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Pourquoi Leptos ?
+
+### Comparaison avec React
+
+| Concept | React | Leptos |
+|---------|-------|--------|
+| **Réactivité** | `useState` | Signals (inspiré de SolidJS) |
+| **Effets** | `useEffect` | `create_effect` |
+| **Data Fetching** | `useQuery` (TanStack Query) | `create_resource` |
+| **SSR** | Next.js (framework) | Natif dans Leptos |
+| **Hydration** | `hydrateRoot` | Automatic |
+| **Isomorphic** | Besoin de "use client" | Same code client + server |
+
+### L'Avantage Leptos : Signals
+
+```
+React (Re-render Pattern):
+┌──────────────────────────────────────┐
+│ State change → Re-render entire tree │
+│ "Diffing" virtuel DOM coûteux        │
+└──────────────────────────────────────┘
+
+Leptos (Fine-grained Reactivity):
+┌──────────────────────────────────────┐
+│ Signal change → Update ONLY affected │
+│ No virtual DOM diffing              │
+│ Direct DOM manipulation              │
+└──────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Install Leptos CLI
+cargo install leptos-cli
+cargo install cargo-leptos
+
+# New project
+cargo leptos new my-leptos-app
+cd my-leptos-app
+
+# Development
+cargo leptos watch
+
+# Production build
+cargo leptos build --release
+```
+
+---
+
+## 📊 Quick Reference
+
+| Concept | Leptos | React |
+|---------|--------|-------|
+| **Signal** | `create_signal(0)` | `useState(0)` |
+| **Read** | `signal.get()` | `state[0]` |
+| **Write** | `signal.set(5)` | `setState(5)` |
+| **Effect** | `create_effect` | `useEffect` |
+| **Resource** | `create_resource` | `useQuery` |
+| **Memo** | `create_memo` | `useMemo` |
+| **Callback** | `create_action` | `useCallback` |
+
+---
+
+## 💻 Core Concepts
+
+### 1. Signals - Réactivité Fine-Grained
+
+```rust
+use leptos::*;
+
+fn app() -> impl IntoView {
+    let (count, set_count) = create_signal(0);
+
+    // Signal dérivé (auto-mise à jour)
+    let double = create_memo(move || count.get() * 2);
+
+    view! {
+        <div>
+            <p>"Count: " {count}</p>
+            <p>"Double: " {double}</p>
+
+            <button
+                on:click=move |_| set_count.update(|n| n + 1)
+            >
+                "+1"
+            </button>
+        </div>
+    }
+}
+```
+
+### 2. Resources - Data Fetching Simplifié
+
+```rust
+use leptos::*;
+
+#[server(GetPosts)]
+pub async fn get_posts() -> Result<Vec<Post>, ServerFnError> {
+    let pool = expect_state::<PgPool>();
+    sqlx::query_as!(Post, "SELECT * FROM posts")
+        .fetch_all(&pool)
+        .await
+        .map_err(ServerFnError::from)
+}
+
+fn PostList() -> impl IntoView {
+    let posts = create_local_resource(
+        || get_posts(),
+        |query| async move { query.await },
+    );
+
+    view! {
+        <div>
+            <h1>"Posts"</h1>
+
+            {move || {
+                posts.and_then(|posts| {
+                    match posts {
+                        None => view! { <p>"Loading..."</p> },
+                        Some(Err(e)) => view! { <p class="error">{e.to_string()}</p> },
+                        Some(Ok(posts)) => view! {
+                            <ul>
+                                {posts.iter().map(|post| {
+                                    view! {
+                                        <li>
+                                            <h2>{&post.title}</h2>
+                                            <p>{&post.content}</p>
+                                        </li>
+                                    }
+                                }).collect_view()}
+                            </ul>
+                        },
+                    }
+                })
+            }}
+        </div>
+    }
+}
+```
+
+### 3. Server Functions - Isomorphic Magic
+
+```rust
+use leptos_axum::server_fn;
+
+/// S'exécute côté SERVEUR pendant SSR
+/// S'exécute côté SERVEUR via fetch pendant CSR
+#[server]
+pub async fn get_user(id: i32) -> Result<User, ServerFnError> {
+    let pool = expect_state::<PgPool>();
+    let user = sqlx::query_as!(User, "SELECT * FROM users WHERE id = $1", id)
+        .fetch_optional(&pool)
+        .await?
+        .ok_or_else(|| ServerFnError::new("User not found"))?;
+    Ok(user)
+}
+
+fn UserProfile() -> impl IntoView {
+    let user = create_local_resource(
+        || get_user(1),
+        |query| async move { query.await },
+    );
+
+    // ... rest du composant
+}
+```
+
+---
+
+## 🏗️ Project Structure
+
+```
+leptos-app/
+├── Cargo.toml
+├── src/
+│   ├── app.rs                 # Root App component
+│   ├── main.rs                # Entrypoint (hydrate + server)
+│   ├── components/            # UI components
+│   │   ├── mod.rs
+│   │   ├── header.rs
+│   │   └── post_list.rs
+│   ├── pages/                 # Route components
+│   │   ├── mod.rs
+│   │   ├── home.rs
+│   │   └── post.rs
+│   └── server_fns/            # Server functions
+│       ├── mod.rs
+│       └── posts.rs
+├── style/
+│   └── main.scss              # Global styles (Tailwind, etc.)
+├── tests/                     # Integration tests
+└── site/                      # Compiled output
+```
+
+---
+
+## 🎨 Components
+
+### Props Pattern
+
+```rust
+use leptos::*;
+
+#[component]
+pub fn Button(
+    /// Variant style
+    #[prop(default = "primary".into())]
+    variant: String,
+
+    /// Disabled state
+    #[prop(default = false)]
+    disabled: bool,
+
+    /// On click callback
+    on_click: EventHandler,
+
+    /// Children
+    children: Children,
+) -> impl IntoView {
+    let classes = move || {
+        format!(
+            "btn btn-{} {}",
+            variant.get(),
+            if disabled() { "disabled" } else { "" }
+        )
+    };
+
+    view! {
+        <button
+            class=classes
+            disabled=disabled
+            on:click=move |e| {
+                if !disabled() {
+                    on_click.call(e);
+                }
+            }
+        >
+            {children()}
+        </button>
+    }
+}
+
+// Usage
+view! {
+    <Button
+        variant="danger"
+        on_click=move |_| println!("Clicked!")
+    >
+        "Delete"
+    </Button>
+}
+```
+
+### Conditional Rendering
+
+```rust
+use leptos::*;
+
+fn Conditional() -> impl IntoView {
+    let (show, set_show) = create_signal(true);
+    let (count, _) = create_signal(0);
+
+    view! {
+        <div>
+            // Show/Hide
+            {move || {
+                if show() {
+                    view! { <p>"Visible!"</p> }.into_view()
+                } else {
+                    view! { }.into_view() // Empty
+                }
+            }}
+
+            // Show/Hide shorthand
+            {move || show().then(|| view! { <p>"Visible!"</p> })}
+
+            // Match/Else
+            {move || {
+                match count() {
+                    0 => view! { <span>"Zero"</span> },
+                    1..=10 => view! { <span>"Small"</span> },
+                    _ => view! { <span>"Large"</span> },
+                }
+            }}
+        </div>
+    }
+}
+```
+
+---
+
+## 🌐 Routing
+
+```rust
+use leptos::*;
+use leptos_router::*;
+
+#[component]
+pub fn App() -> impl IntoView {
+    view! {
+        <Router>
+            <nav>
+                <A href="/">"Home"</A>
+                <A href="/posts">"Posts"</A>
+            </nav>
+
+            <main>
+                <Routes>
+                    <Route path="/" view=Home/>
+                    <Route path="/posts" view=Posts/>
+                    <Route path="/posts/:id" view=PostDetail/>
+                </Routes>
+            </main>
+        </Router>
+    }
+}
+
+#[component]
+fn PostDetail() -> impl IntoView {
+    let params = use_params_map();
+    let id = move || params().get("id").cloned().unwrap_or_default();
+
+    view! {
+        <h1>"Post " {id}</h1>
+    }
+}
+```
+
+---
+
+## 🔌 Server Integration
+
+### Axum Integration Setup
+
+```rust
+// main.rs
+use leptos::*;
+use leptos_axum::{generate_route_list, LeptosRoutes};
+use leptos_meta::MetaTags;
+use axum::{Router, routing::get};
+
+#[component]
+pub fn App() -> impl IntoView {
+    provide_meta_context();
+    view! {
+        <html lang="fr">
+            <head>
+                <MetaTags />
+            </head>
+            <body>
+                <Router>
+                    <Routes />
+                </Router>
+            </body>
+        </html>
+    }
+}
+
+#[tokio::main]
+async fn main() {
+    let conf = get_configuration(None).await.unwrap();
+    let leptos_options = LeptosOptions::builder().build();
+
+    let routes = generate_route_list(App);
+    let app = Router::new()
+        .leptos_routes(&leptos_options)
+        .leptos_routes_with_handler(routes, get(file_handler))
+        .fallback(file_handler);
+
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
+}
+```
+
+---
+
+## ✅ Quality Gates
+
+### Performance
+- [ ] **P1** - Signals utilisés correctement (pas de re-renders inutiles)
+- [ ] **P2** - `create_memo` pour valeurs dérivées coûteuses
+- [ ] **P3** - Keys sur les itérations de listes
+- [ ] **P4** - `create_resource` pour data fetching
+
+### SSR Compatibility
+- [ ] **S1** - Pas de `window`/`document` direct
+- [ ] **S2** - Server functions pour données serveur
+- [ ] **S3** - `use_context` pour state partagé
+- [ ] **S4** - Metadata pour SEO
+
+### Code Quality
+- [ ] **C1** - Components avec `#[component]`
+- [ ] **C2** - Props typées
+- [ ] **C3** - Error handling dans server functions
+- [ ] **C4** - Loading states pour resources
+
+---
+
+## 🎯 Success Criteria
+
+Leptos app est production-ready quand :
+- [ ] SSR fonctionne (view source = HTML complet)
+- [ ] Hydration sans errors
+- [ ] Server functions appelables sans fetch
+- [ ] Loading states sur toutes les resources
+- [ ] Error boundaries en place
+- [ ] SEO metadata présente
+- [ ] WASM size optimisé
+
+---
+
+## 🔗 Related Skills
+
+- **Prerequisite:** `rust-fullstack` - Architecture complète
+- **Prerequisite:** `wasm-rust` - WASM fundamentals
+- **Related:** `rust-axum` - Backend patterns
+- **Alternative:** `dioxus` - Multi-platform framework
+
+---
+
+## 📚 Resources
+
+- [Leptos Book](https://book.leptos.dev/)
+- [Leptos Docs](https://leptos.dev/)
+- [Examples](https://github.com/leptos-rs/leptos/tree/master/examples)
+
+---
+
+*Version: 1.0.0 | Leptos - Rust SSR Framework*

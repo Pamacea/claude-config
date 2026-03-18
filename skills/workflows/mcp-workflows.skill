@@ -1,0 +1,116 @@
+# MCP Workflows
+
+> **Version:** 1.0.0 | **Category:** Cat 3 (Operations) | **TrigMem Auto-Load**
+> **Triggers:** "git commit", "version control", "screenshot", "debug UI", "chrome devtools"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 MCP Priority Guide
+
+| MCP | Optimal For | Trigger Keywords | Priority |
+|-----|-------------|------------------|----------|
+| **claude-mem** | Reusing past solutions | "did we", "how did we", "remember" | 1 |
+| **git-flow-master** | Versioned commits | "commit", "release", "update", "patch" | 2 |
+| **chrome-devtools** | UI debugging/testing | "debug UI", "test page", "screenshot" | 3 |
+| **web-reader** | Reading documentation | "read URL", "fetch page", "docs" | 4 |
+| **web-search-prime** | Latest info | "latest docs", "current info" | 4 |
+
+---
+
+## 🧠 CLAUDE-MEM Workflow
+
+```
+Before implementing:
+1. Search claude-mem for similar solutions
+2. Check if solution exists
+3. Use existing approach
+
+After solving:
+1. Save to claude-mem
+2. Include context and code snippet
+3. Make searchable
+```
+
+---
+
+## 🔄 GIT FLOW MASTER
+
+### Commit Format
+
+```
+TYPE: PROJECT_NAME - vX.Y.Z
+
+- Change 1
+- Change 2
+```
+
+### Types
+
+| Type | SemVer | Usage |
+|------|--------|-------|
+| RELEASE | MAJOR | Breaking changes |
+| UPDATE | MINOR | New features |
+| PATCH | PATCH | Bug fixes |
+
+### Pre-Commit Workflow
+
+```bash
+# Quality Gates
+npm run lint
+npm run typecheck
+npm test
+
+# Commit
+TYPE: PROJECT - vX.Y.Z
+- Description
+```
+
+---
+
+## 🌐 CHROME DEVTOOLS
+
+### UI Debugging Workflow
+
+```bash
+1. list_pages → See open pages
+2. select_page → Choose page
+3. navigate_page → Go to URL
+4. take_snapshot → Get page structure
+5. list_console_messages → Check errors
+6. take_screenshot → Visual check
+```
+
+---
+
+## 📖 WEB DOCS WORKFLOW
+
+### Verification (Post-2024 Libraries)
+
+```bash
+1. web-search-prime → Find latest docs
+2. web-reader → Read full documentation
+3. Check breaking changes
+4. Test examples in isolation
+```
+
+---
+
+## ✅ Pre-Action Checklist
+
+### Before Implementing
+
+- [ ] Search claude-mem for similar implementations
+- [ ] Check for existing reusable components
+- [ ] Consider delete-first approach
+- [ ] Verify patterns in project
+
+### Before Committing
+
+- [ ] Run quality gates
+- [ ] Format commit message properly
+- [ ] Check for secrets in changes
+
+---
+
+*See Also: `epct-methodology`, `quality-validation`*

@@ -1,0 +1,157 @@
+# React Hooks Standards
+
+> **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **TrigMem Auto-Load**
+> **Triggers:** "useeffect", "usememo", "usecallback", "server component", "usememo usecallback"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Core Principle
+
+**React hooks add complexity.** Minimize them, maximize server-side.
+
+**Goal:** 0-1 hooks per component (Server Component if possible)
+
+---
+
+## 📊 Hook Count Metrics
+
+```
+Server Component:    0 hooks (idéal !)
+Client Component:    1-3 hooks (acceptable)
+Complex Component:   3-5 hooks (attention)
+Over-engineered:     5+ hooks (refactor nécessaire)
+```
+
+---
+
+## 🎯 useEffect - Optimal Usage
+
+**Use for:**
+1. **Browser APIs** - localStorage, setInterval, addEventListener
+2. **Third-party SDKs** - Google Analytics, Stripe.js
+3. **Animations** - Framer Motion, GSAP
+
+**Extract to custom hook:**
+
+```typescript
+// ✅ Reusable localStorage hook
+function useLocalStorage<T>(key: string, initial: T) {
+  const [value, setValue] = useState<T>(initial)
+
+  useEffect(() => {
+    const stored = localStorage.getItem(key)
+    if (stored) setValue(JSON.parse(stored))
+  }, [key])
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value))
+  }, [key, value])
+
+  return [value, setValue] as const
+}
+```
+
+**NOT for:**
+- ❌ Data fetching → Server Components / TanStack Query
+- ❌ State sync → Derived state
+- ❌ API calls → Server Actions
+
+---
+
+## 🎯 useMemo - Measure First
+
+**Use for:**
+- ✅ Operations > 10ms (measured with Profiler)
+- ✅ Arrays > 1000 items with complex sorting
+- ✅ Reference equality needed for props
+
+```typescript
+// ✅ Inline calculation (default)
+const fullName = `${firstName} ${lastName}`
+
+// ✅ useMemo for heavy (measured)
+const sortedProducts = useMemo(() => {
+  return products.sort((a, b) => {
+    // Complex sorting with multiple criteria
+    return compareByPrice(a, b) || compareByRating(a, b)
+  })
+}, [products]) // Only if products.length > 1000
+```
+
+---
+
+## 🎯 useCallback - Memoized Components Only
+
+**Use for:**
+- ✅ Passed to memoized component (React.memo)
+- ✅ Used in other hook dependencies
+
+```typescript
+// ✅ Inline function (default)
+const handleClick = () => console.log('clicked')
+
+// ✅ useCallback + React.memo
+const Parent = () => {
+  const handleClick = useCallback(() => {}, [])
+  return <MemoChild onClick={handleClick} />
+}
+
+const MemoChild = React.memo(Child)
+```
+
+---
+
+## 🔄 Hook Alternatives
+
+### State: Server Components First
+
+```typescript
+// ✅ Server Component (default)
+export default async function Page() {
+  const posts = await db.post.findMany()
+  return <PostList posts={posts} />
+}
+```
+
+### State: Derived State
+
+```typescript
+// ✅ Derived state (no useEffect)
+const [firstName, setFirstName] = useState('')
+const fullName = `${firstName} Doe`  // Calculated, not synced
+```
+
+### Side Effects: Server Actions
+
+```typescript
+// ✅ Server Action for mutations
+async function handleSave(formData: FormData) {
+  'use server'
+  await db.user.update({ /* ... */ })
+}
+```
+
+---
+
+## 🎯 Custom Hooks Standards
+
+**Create when:**
+- Same hook logic in 2+ components
+- Hook logic > 10 lines
+- Hook has single, clear responsibility
+
+---
+
+## ✅ Component Hook Checklist
+
+- [ ] Can be Server Component instead?
+- [ ] Derived state possible instead of useState + useEffect?
+- [ ] TanStack Query possible instead of useEffect + fetch?
+- [ ] useMemo necessary? (profile first)
+- [ ] useCallback passed to memoized component?
+- [ ] Can extract to custom hook?
+
+---
+
+*See Also: `technical-standards`, `nextjs-patterns`*

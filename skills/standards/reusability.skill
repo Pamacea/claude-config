@@ -1,0 +1,143 @@
+# Reusability Patterns
+
+> **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **TrigMem Auto-Load**
+> **Triggers:** "barrel export", "shared component", "reuse", "generic type"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Core Principle
+
+**Code not reused is code wasted.** Every piece should be reusable.
+
+---
+
+## 📦 Barrel Exports
+
+**Standard:** Always use index.ts
+
+```typescript
+// ✅ Pattern
+export { Button } from './atoms/Button'
+export { Card } from './molecules/Card'
+export { Input } from './atoms/Input'
+```
+
+---
+
+## 🧩 Component Reusability
+
+### Variant Props
+
+```typescript
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger'
+type ButtonSize = 'sm' | 'md' | 'lg'
+
+export function Button({ variant, size, children, ...props }: ButtonProps) {
+  // ... variant implementation
+}
+```
+
+### Composition Slots
+
+```typescript
+export function Card({ header, body, footer, children }: CardProps) {
+  return (
+    <div class="card">
+      {header && <div class="card-header">{header}</div>}
+      {body ? <div class="card-body">{body}</div> : children}
+      {footer && <div class="card-footer">{footer}</div>}
+    </div>
+  )
+}
+```
+
+---
+
+## 🔧 Utility Reusability
+
+### Pure Functions
+
+```typescript
+export function formatCurrency(
+  amount: number,
+  currency = 'EUR',
+  locale = 'fr-FR'
+): string {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency
+  }).format(amount)
+}
+```
+
+### Generic Utilities
+
+```typescript
+export function chunk<T>(array: T[], size: number): T[][] {
+  return Array.from(
+    { length: Math.ceil(array.length / size) },
+    (_, i) => array.slice(i * size, i * size + size)
+  )
+}
+
+export function groupBy<T, K extends keyof T>(
+  array: T[],
+  key: K
+): Record<string, T[]> {
+  return array.reduce((acc, item) => {
+    const group = String(item[key])
+    acc[group] = acc[group] ?? []
+    acc[group].push(item)
+    return acc
+  }, {} as Record<string, T[]>)
+}
+```
+
+---
+
+## 📋 Type Reusability
+
+### Shared Types
+
+```typescript
+// types/api.ts
+export interface ApiResponse<T> {
+  data: T
+  error: string | null
+}
+
+export interface PaginatedResponse<T> {
+  items: T[]
+  total: number
+  page: number
+  pageSize: number
+}
+```
+
+### Generic Components
+
+```typescript
+export function DataTable<T extends Entity>({
+  data,
+  columns,
+  onRowClick
+}: DataTableProps<T>) {
+  // ... generic table implementation
+}
+```
+
+---
+
+## ✅ Reusability Checklist
+
+- [ ] Researched existing implementation?
+- [ ] Can extend existing component?
+- [ ] Can use variant props?
+- [ ] Can extract to utility?
+- [ ] Is generic enough for reuse?
+- [ ] Barrel export added?
+
+---
+
+*See Also: `technical-standards`, `delete-first`*

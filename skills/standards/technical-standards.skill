@@ -1,0 +1,126 @@
+# Technical Standards
+
+> **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **TrigMem Auto-Load**
+> **Triggers:** "best practices", "coding standards", "conventions", "how to implement"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Auto-Load When
+
+- User asks about coding standards/best practices
+- "How to implement X correctly"
+- Question about code quality/conventions
+
+---
+
+## 🔍 Search & Navigation Standards
+
+**Standard:** Semantic search first, never grep blindly.
+
+```
+Priority:
+1. grepai search (semantic)
+2. /toolkit search (contextual)
+3. Grep (exact match only)
+```
+
+### Code Editing Standards
+
+**Standard:** Read before Edit.
+
+```
+Workflow:
+1. Read tool → Read file
+2. Analyze patterns
+3. Edit tool (exact old_string)
+4. Verify results
+```
+
+### For Post-2024 Libraries
+
+**Standard:** Verify docs before implementing.
+
+```
+Workflow:
+1. Web Search → "TechName latest docs breaking changes"
+2. Web Reader → Read official docs
+3. Test Examples → Verify in isolation
+4. Apply Pattern → Use current patterns
+```
+
+---
+
+## 🚀 Implementation Standards
+
+### Frontend Data Fetching
+
+**Standard:** Server Components → TanStack Query (interactive only)
+
+```typescript
+// ✅ Server Component (default)
+export default async function Page() {
+  const posts = await db.post.findMany()
+  return <PostList posts={posts} />
+}
+
+// ✅ TanStack Query (with interactivity)
+const { data } = useQuery({
+  queryKey: ['posts'],
+  queryFn: () => fetch('/api/posts').then(r => r.json())
+})
+```
+
+### State Management Matrix
+
+```
+Server data     → TanStack Query (cached, refetchable)
+UI-only state   → useState / Zustand
+Form state      → TanStack Form / react-hook-form
+Global UI       → Zustand / Context
+```
+
+### TypeScript Standards
+
+```typescript
+// ✅ Use unknown for external data
+function parseInput(input: unknown) {
+  // validation with Zod
+}
+
+// ✅ Type guards for unions
+function isString(value: unknown): value is string {
+  return typeof value === 'string'
+}
+```
+
+---
+
+## 🧪 Testing Standards
+
+**Standard:** Test behavior, not implementation.
+
+**Focus on:**
+- ✅ Inputs → Observable outputs
+- ✅ States → State transitions
+- ✅ User actions
+
+**Avoid:**
+- Implementation details
+- Function names
+- Internal structure
+
+---
+
+## ✅ Quick Checklist
+
+**Before implementing:**
+- [ ] Used semantic search first
+- [ ] Read file before editing
+- [ ] Verified docs (post-2024 libs)
+- [ ] Follow existing patterns
+- [ ] Tests for what changes
+
+---
+
+*See Also: `delete-first`, `reusability`, `quality-validation`*

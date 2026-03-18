@@ -1,0 +1,97 @@
+# Delete First Philosophy
+
+> **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **TrigMem Auto-Load**
+> **Triggers:** "refactor", "remove duplicate", "simplify", "delete code", "composition"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Core Principle
+
+**The best code is no code.** Before adding, ask:
+1. Can I delete something instead?
+2. Can I reuse existing code?
+3. Can I simplify by removing?
+
+---
+
+## 🔍 Search Before Create Workflow
+
+```bash
+# Before writing new feature
+grepai search "similar functionality"
+
+# Evaluate duplication
+# - Does 80% solution exist?
+# - Can I extend existing utility?
+# - Is this a variant prop case?
+```
+
+---
+
+## 🧩 Variant Props Over Duplicates
+
+```typescript
+// ❌ Multiple components
+<PrimaryButton />
+<SecondaryButton />
+<DangerButton />
+
+// ✅ Single component with variant
+type ButtonVariant = "primary" | "secondary" | "danger"
+
+export function Button({ variant, ... }) {
+  const colors = { primary: "blue", secondary: "gray", danger: "red" }
+  return <button className={colors[variant]} />
+}
+```
+
+---
+
+## 🔄 Composition > Creation
+
+```typescript
+// Compose from existing atoms
+export function UserCard() {
+  return (
+    <Card>
+      <Avatar />
+      <UserInfo />
+      <FollowButton />
+    </Card>
+  )
+}
+```
+
+---
+
+## 📦 Abstraction Standards
+
+**Create abstraction when:**
+- Code appears 3+ times
+- Different parts need same behavior
+- Tests need mocking
+
+**Checklist before abstracting:**
+- [ ] Code duplicated 3+ times?
+- [ ] Cannot be solved with variant props?
+- [ ] Cannot be solved with composition?
+- [ ] Name is obvious and descriptive?
+
+---
+
+## ✅ Success Metrics
+
+**Good trends:**
+- ✅ Total lines decreasing
+- ✅ Component count stable/decreasing
+- ✅ Reuse percentage increasing
+
+**Bad trends:**
+- ⚠️ Constant addition of new components
+- ⚠️ Similar code in multiple files
+- ⚠️ Utils folder with single-use functions
+
+---
+
+*See Also: `technical-standards`, `reusability`*
