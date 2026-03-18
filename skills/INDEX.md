@@ -53,7 +53,17 @@ When a user asks a question:
 | **Backend Patterns (Cat 4)** | | | | |
 | `rust-axum` | "axum handler", "tokio spawn", "rust ownership" | Other backend frameworks | 20 | Yes |
 | `nestjs-patterns` | "nest controller", "nest service", "nest module" | Other backend frameworks | 21 | Yes |
-| `wasm-rust` | "wasm-bindgen", "rust wasm", "wasm memory" | - | 22 | Yes |
+| `wasm-rust` | "wasm-bindgen", "rust wasm", "wasmgc", "reference types" | - | 22 | Yes |
+| `rust-fullstack` | "fullstack rust", "type sharing", "server functions" | Other fullstack frameworks | 23 | Yes |
+| `rust-workspace-structure` | "monorepo", "workspace structure", "cargo workspace", "project structure" | Other project structures | 24 | Yes |
+| **Frontend Patterns (Cat 4)** | | | | |
+| `nextjs-patterns` | "server component", "app router", "ssr", "nextjs", "next.js" | Other frontend frameworks | 10 | Yes |
+| `tanstack-patterns` | "usequery", "usemutation", "tanstack query", "react query" | - | 11 | Yes |
+| `tailwind-patterns` | "tailwind class", "tailwind config", "@tailwind" | Other CSS frameworks | 12 | Yes |
+| `vite-patterns` | "vite config", "vite plugin", "hmr vite" | Other build tools | 13 | Yes |
+| `typescript-patterns` | "generic type", "utility type", "interface ts" | Other languages | 14 | Yes |
+| `leptos` | "leptos", "rust ssr", "signals", "view! macro" | Other Rust frontend frameworks | 22 | Yes |
+| `dioxus` | "dioxus", "rust multiplatform", "desktop rust", "rsx" | Other Rust frontend frameworks | 23 | Yes |
 | **Tech Decisions (Cat 4)** | | | | |
 | `tech-decisions` | "which framework", "which database", "tech stack choice" | - | 30 | Request |
 | **Operations (Cat 3)** | | | | |
@@ -95,6 +105,17 @@ When a user asks a question:
 | `axum`, `tokio`, `actix` | `rust-axum` | Other backend frameworks |
 | `django`, `flask`, `fastapi` | Python patterns (if created) | Other backend frameworks |
 
+### Rule 3.5: Rust Frontend Framework Exclusivity
+
+**Only ONE Rust frontend framework loads:**
+
+| If Detected | Load | Exclude |
+|-------------|------|---------|
+| `leptos`, `view!`, `create_signal` | `leptos` | Other Rust frontend frameworks |
+| `dioxus`, `rsx!`, `use_signal` | `dioxus` | Other Rust frontend frameworks |
+| `yew`, `html!` | Yew patterns (if created) | Other Rust frontend frameworks |
+| `fullstack rust`, `type sharing` | `rust-fullstack` | Other fullstack frameworks |
+
 ### Rule 4: Build Tool Exclusivity
 
 **Only ONE build tool pattern loads:**
@@ -104,6 +125,16 @@ When a user asks a question:
 | `vite`, `vite.config`, `hmr` | `vite-patterns` | Other build tools |
 | `webpack`, `webpack.config` | Webpack patterns (if created) | Other build tools |
 | `rollup`, `rollup.config` | Rollup patterns (if created) | Other build tools |
+
+### Rule 5: Project Structure Exclusivity
+
+**Only ONE project structure pattern loads:**
+
+| If Detected | Load | Exclude |
+|-------------|------|---------|
+| `cargo workspace`, `rust monorepo`, `common crate` | `rust-workspace-structure` | Other project structures |
+| `nx workspace`, `turbo repo` | Nx/Turbo patterns (if created) | Other project structures |
+| `next monorepo`, `next workspace` | Next.js workspace patterns (if created) | Other project structures |
 
 ---
 
@@ -119,6 +150,11 @@ When a primary skill is loaded, it may **reference** (not load) these skills:
 | `nestjs-patterns` | `typescript-patterns` | Language foundation |
 | `tanstack-patterns` | `typescript-patterns`, `react patterns` | Dependencies |
 | `vite-patterns` | Framework-specific pattern | Build target |
+| `rust-fullstack` | `rust-axum`, `wasm-rust`, `leptos`, `dioxus`, `rust-workspace-structure` | Full stack foundation |
+| `rust-workspace-structure` | `rust-fullstack`, `rust-axum` | Project structure |
+| `leptos` | `rust-axum`, `wasm-rust` | Backend + WASM |
+| `dioxus` | `rust-axum`, `wasm-rust` | Backend + WASM |
+| `rust-axum` | `wasm-rust`, `rust-fullstack` | Full stack option |
 
 **Reference only** - Provide links/mentions, don't auto-load secondary skills.
 
@@ -329,21 +365,21 @@ References (not loaded):
 
 ### Current Inventory
 
-- **Total Skills:** 20
+- **Total Skills:** 25
 - **Meta Skills:** 6 (TrigMem unified)
-- **Pattern Skills:** 11
+- **Pattern Skills:** 16
 - **Operation Skills:** 1
 - **Auto-loader:** 1 (pattern-autoloader)
-- **Template Coverage:** 6/20 (30%)
+- **Template Coverage:** 6/25 (24%)
 
 ### Trigger Coverage
 
 | Category | Skills with Exclusive Triggers | Coverage |
 |----------|-------------------------------|----------|
 | Meta Skills | 6/6 (100%) | ✅ Complete |
-| Frontend Patterns | 3/6 (50%) | ⚠️ Needs work |
-| Backend Patterns | 2/3 (67%) | ⚠️ Needs work |
-| Tech Decisions | 0/1 (0%) | ⚠️ Needs work |
+| Frontend Patterns | 6/8 (75%) | ✅ Good |
+| Backend Patterns | 6/6 (100%) | ✅ Complete |
+| Tech Decisions | 1/1 (100%) | ✅ Complete |
 | Operations | 1/1 (100%) | ✅ Complete |
 
 ---

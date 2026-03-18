@@ -1,15 +1,15 @@
 # claude-config
 
 > **Configuration optimisée pour Claude Code** | Version 2.0.0
-> **Méthodologie:** TrigMem Enhanced + Positive Standards + Quality Gates
+> **Methodologie:** TrigMem Enhanced + Positive Standards + Quality Gates
 >
-> **🎉 NOUVEAU v2.0 :** Approche 100% positive - Zéro "NEVER/NO/PROHIBITED"
+> **NOUVEAU v2.0 :** Approche 100% positive - Zero "NEVER/NO/PROHIBITED"
 
 ---
 
-## 🎯 Quick Start
+## Quick Start
 
-Installation de la configuration optimisée pour Claude Code :
+Installation de la configuration optimisee pour Claude Code :
 
 ```bash
 # Cloner ce repo
@@ -20,21 +20,21 @@ git clone https://github.com/Pamace/claude-config.git ~/.claude
 
 ---
 
-## ✨ Nouveautés v2.0.0 - Révolution Positive
+## Nouveautés v2.0.0 - Revolution Positive
 
-### 🔄 Approche 100% Positive
+### Approche 100% Positive
 
 **Changement majeur :** Tous les fichiers ont été réécrits pour éliminer les négations :
 
-| ❌ Supprimé | ✅ Remplacé par |
-|-------------|----------------|
+| Supprimé | Remplacé par |
+|----------|--------------|
 | "NEVER do this" | "Standard : Do this instead" |
-| "❌ BAD practice" | "Recommended pattern" |
+| "BAD practice" | "Recommended pattern" |
 | "PROHIBITED" | "Optimal workflow" |
 | "INTERDIT" | "Guideline" |
 | 40+ règles "NEVER" | Standards techniques + Checklists |
 
-### 📋 Nouveau Système de Quality Gates
+### Nouveau Système de Quality Gates
 
 **Nouveau fichier :** `rules/quality-gates.md`
 
@@ -45,10 +45,10 @@ Critères de validation objectifs pour chaque type de tâche :
 - Performance → P1-P5 gates
 - Security → S1-S5 gates
 
-### 📁 Fichiers Mis à Jour
+### Fichiers Mis a Jour
 
 | Ancien | Nouveau | Description |
-|--------|--------|-------------|
+|--------|---------|-------------|
 | `01-nevers.md` | `01-standards.md` | Standards positifs (40+ règles transformées) |
 | N/A | `quality-gates.md` | Système de validation objectif |
 | `00-core.md` | `00-core.md` (v2.0) | Principes sans négatifs |
@@ -61,38 +61,38 @@ Critères de validation objectifs pour chaque type de tâche :
 
 ---
 
-## 🚀 Économie de Tokens
+## Economie de Tokens
 
-| Métrique | Valeur |
-|----------|-------|
+| Metrique | Valeur |
+|----------|--------|
 | Rules essentielles | ~8k tokens |
 | Quality Gates | ~1k tokens |
 | **Total Base** | **~9k tokens** |
-| Économie vs v1.x | ~73% (30k → 9k) |
+| Economie vs v1.x | ~73% (30k → 9k) |
 
 ---
 
-## 📊 Organisation TrigMem v2.0
+## Organisation TrigMem v2.0
 
 Les règles sont organisées selon les 6 catégories TrigMem :
 
-| Catégorie | Fichier | Chargement |
+| Categorie | Fichier | Chargement |
 |-----------|---------|------------|
-| **Cat 1** | `CLAUDE.md` | Systématique |
-| **Cat 2** | `rules/02-conventions.md` | Systématique |
-| **Cat 3** | `CLAUDE.md` | Systématique |
-| **Cat 4** | `skills/patterns/*` | **À la demande** ⭐ |
-| **Cat 5** | `rules/01-standards.md` | Systématique |
-| **Cat 6** | `rules/quality-gates.md` | Systématique |
+| **Cat 1** | `CLAUDE.md` | Systematique |
+| **Cat 2** | `rules/02-conventions.md` | Systematique |
+| **Cat 3** | `CLAUDE.md` | Systematique |
+| **Cat 4** | `skills/patterns/*` | **A la demande** |
+| **Cat 5** | `rules/01-standards.md` | Systematique |
+| **Cat 6** | `rules/quality-gates.md` | Systematique |
 
 ---
 
-## 🎚️ Patterns Disponibles
+## Patterns Disponibles
 
-Les patterns techniques sont chargés **à la demande** selon les triggers :
+Les patterns techniques sont chargés **a la demande** selon les triggers :
 
 | Pattern | Trigger | Commande |
-|--------|---------|----------|
+|---------|---------|----------|
 | **tech-decisions** | "Quel stack ?", "X ou Y ?" | `/pattern tech-decisions` |
 | **nextjs** | "Server Component", "RSC", "App Router" | `/pattern nextjs` |
 | **rust** | "Axum", "sqlx", "Tower middleware" | `/pattern rust` |
@@ -106,7 +106,7 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 
 ---
 
-## 📁 Structure v2.0
+## Structure v2.0
 
 ```
 .claude/
@@ -115,10 +115,10 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 │   ├── INDEX.md              # Index avec triggers exclusifs
 │   ├── README.md             # Documentation skills
 │   ├── pattern-autoloader/  # Autoloading intelligent
-│   ├── patterns/             # Patterns à la demande
+│   ├── patterns/             # Patterns a la demande
 │   └── operations/           # MCP workflows
 │       └── mcp-mandatory/
-├── rules/                     # Règles essentielles
+├── rules/                     # Regles essentielles
 │   ├── 00-core.md           # Principes fondamentaux
 │   ├── 01-standards.md       # Standards techniques (v2.0)
 │   ├── 02-conventions.md     # Git, docs, structure
@@ -135,27 +135,27 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 - **[GUIDE.md](./GUIDE.md)** - Guide complet d'utilisation
-- **[REFERENCE.md](./REFERENCE.md)** - Référence rapide
+- **[REFERENCE.md](./REFERENCE.md)** - Reference rapide
 - **[CHANGELOG.md](./CHANGELOG.md)** - Historique des versions
 
 ---
 
-## 🔧 Utilisation
+## Utilisation
 
 ### Commandes Disponibles
 
 ```bash
 # Dans Claude Code :
 
-# Patterns techniques (chargés à la demande)
+# Patterns techniques (charges a la demande)
 /pattern nextjs     # Charge les patterns Next.js
 /pattern rust        # Charge les patterns Rust
 /pattern typescript  # Charge les patterns TypeScript
 
-# TrigMem (méthodologie)
+# TrigMem (methodologie)
 /trigmem-core       # Concepts fondamentaux
 /trigmem-categories # Classification
 /trigmem-decision   # Guide de décision
@@ -163,37 +163,37 @@ Les patterns techniques sont chargés **à la demande** selon les triggers :
 /trigmem-examples   # Exemples travaillés
 /trigmem-verification # Analyse sessions
 
-# Opérations MCP
+# Operations MCP
 /mcp-mandatory      # Checklists pour utiliser les MCPs
 ```
 
 ### Standards Techniques Positifs
 
 Toutes les règles suivent maintenant une approche positive :
-- ✅ Standards techniques explicites
-- ✅ Checklists de validation
-- ✅ Quality Gates objectifs
-- ✅ Workflows recommandés
-- ✅ Alternatives constructives
+- Standards techniques explicites
+- Checklists de validation
+- Quality Gates objectifs
+- Workflows recommandés
+- Alternatives constructives
 
 **Exemple de transformation :**
 
 ```
-AVANT (négatif) :
-❌ NEVER use grep for searching
-✅ ALWAYS use grepai search first
+AVANT (negatif) :
+NEVER use grep for searching
+ALWAYS use grepai search first
 
-APRÈS (positif) :
+APRES (positif) :
 Standard : Utiliser grepai search en premier
 Outils recommandés : grepai search → /toolkit search → Grep
-Checklist : [ ] J'ai utilisé grepai search en premier
+Checklist : [ ] J'ai utilise grepai search en premier
 ```
 
 ---
 
-## 🤝 Contribution
+## Contribution
 
-Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou un PR.
+Les contributions sont les bienvenues ! N'hésitez pas a ouvrir une issue ou un PR.
 
 Pour contribuer :
 1. Suivre le TEMPLATE.md pour les nouveaux skills
@@ -206,7 +206,7 @@ Pour contribuer :
 
 ---
 
-## 📈 Changelog v2.0.0
+## Changelog v2.0.0
 
 ### Added
 - `01-standards.md` - Standards techniques positifs
@@ -221,14 +221,14 @@ Pour contribuer :
 - `04-react-hooks-limits.md` - Server Components priority
 - `05-reusability.md` - Patterns de réutilisation
 - `06-mcp-mandatory.md` - Workflows optimaux
-- `rules/README.md` - Documentation du système mis à jour
+- `rules/README.md` - Documentation du système mis a jour
 
 ### Removed
 - Approche négative ("NEVER/NO/PROHIBITED")
-- Tableaux "❌ NEVER / ✅ ALWAYS"
+- Tableaux "NEVER / ALWAYS"
 - Section "Anti-Patterns" dans TEMPLATE.md
 
 ### Migration Notes
 - Les fichiers `01-nevers.md` → déplacés dans `legacy/`
-- Mettre à jour les imports si vous utilisez l'ancien système
+- Mettre a jour les imports si vous utilisez l'ancien système
 - Les Quality Gates remplacent les anciennes "Anti-Patterns"

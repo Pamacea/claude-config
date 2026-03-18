@@ -1,0 +1,88 @@
+# EPCT Methodology
+
+> **Version:** 1.0.0 | **Category:** Cat 3 (Operations) | **TrigMem Auto-Load**
+> **Triggers:** "epct", "methodology", "workflow", "how do you work", "how to implement"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Core Principles
+
+**Correctness > Completeness > Speed**
+
+1. **Correctness** → Le code fonctionne correctement
+2. **Completeness** → Le problème est résolu entièrement
+3. **Speed** → La productivité est optimisée
+
+---
+
+## 🔄 EPCT Methodology
+
+```
+E - EXPLORE │ Semantic search, lire patterns, parallel research
+P - PLAN    │ Stratégie, fichiers à modifier, tests, edge cases
+C - CODE    │ Suivre patterns exacts, barrel exports, self-documenting
+T - TEST    │ Lint, typecheck, tests liés uniquement
+```
+
+---
+
+## 📊 Decision Table
+
+| Type de Tâche | Approche | Exemple |
+|---------------|----------|---------|
+| **Tiny Fix** | CODE only | Fix typo, change couleur |
+| **Small Feature** | EXPLORE → CODE | Add button, simple form |
+| **Medium Feature** | EPCT complet | Auth flow, data table |
+| **Complex Feature** | EPCT + Plan Mode | Payment system, real-time |
+| **Architecture** | Plan Mode → EPCT | System redesign, new module |
+
+---
+
+## 🔍 Search Priority
+
+```
+1. grepai search (sémantique)
+2. /toolkit search (contextuelle)
+3. Grep (textuelle exacte)
+```
+
+---
+
+## ✏️ Edit-Informed Workflow
+
+```
+1. Read tool → Lire le fichier
+2. Analyze → Comprendre les patterns
+3. Edit tool → old_string exact
+4. Verify → Compilation/tests
+```
+
+---
+
+## 🎯 When to Use Plan Mode
+
+**Enter Plan Mode quand:**
+- Affectation de 3+ fichiers
+- Décisions architecturales
+- L'utilisateur n'a pas spécifié l'approche
+- Refactoring de modules larges
+
+**Code Directement quand:**
+- Petites corrections (< 3 fichiers)
+- Bugs évidents
+- Implémentation exactement spécifiée
+
+---
+
+## ✅ Success Criteria
+
+- [ ] Question de l'utilisateur répondue
+- [ ] Code suit les patterns existants
+- [ ] Pas d'erreurs évidentes
+- [ ] Références fichier:line incluses
+- [ ] Tests passent (si applicable)
+
+---
+
+*See Also: `mcp-workflows`, `quality-validation`*

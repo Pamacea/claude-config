@@ -1,0 +1,92 @@
+# Quality Gates & Validation
+
+> **Version:** 1.0.0 | **Category:** Cat 6 (Corrections) | **TrigMem Auto-Load**
+> **Triggers:** "quality gate", "acceptance criteria", "validation checklist", "ready to merge"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Universal Quality Gates
+
+**Apply to ALL implementation tasks:**
+
+| Gate | Verification | Command |
+|------|-------------|---------|
+| Code compiles | Build successful | `npm run build` |
+| Type checks pass | No type errors | `npm run typecheck` |
+| Lint passes | No lint errors | `npm run lint` |
+| Format passes | No format errors | `pnpm run fmt:check` (oxfmt) |
+| Tests pass | All tests green | `npm test` |
+| No regressions | Existing tests pass | `npm test` |
+
+---
+
+## 🏗️ Quality Gates by Task Type
+
+### Feature Development
+
+- [ ] **E1** - User requirement met
+- [ ] **E2** - Integration successful
+- [ ] **E3** - No breaking changes
+- [ ] **E4** - Tests passing
+- [ ] **E5** - Documentation updated
+
+### Bug Fix
+
+- [ ] **B1** - Root cause identified
+- [ ] **B2** - Fix applied (not symptom)
+- [ ] **B3** - Regression test added
+- [ ] **B4** - Tests pass
+- [ ] **B5** - No side effects
+
+### Refactoring
+
+- [ ] **R1** - Behavior preserved
+- [ ] **R2** - Tests pass
+- [ ] **R3** - Code reduced
+- [ ] **R4** - Complexity reduced
+- [ ] **R5** - No regressions
+
+### Performance Optimization
+
+- [ ] **P1** - Baseline measured
+- [ ] **P2** - Improvement verified (≥20%)
+- [ ] **P3** - Target met
+- [ ] **P4** - No regressions
+- [ ] **P5** - Stability maintained
+
+---
+
+## ✅ Pre-Delivery Checklist
+
+### Core Verification
+- [ ] Code compiles
+- [ ] Type checks pass
+- [ ] Lint passes
+- [ ] Tests pass
+- [ ] No console errors/warnings
+
+### Task-Specific
+- [ ] Quality gates for task type applied
+- [ ] Acceptance criteria satisfied
+
+### Final
+- [ ] Modified files listed
+- [ ] File references included
+- [ ] Next steps clear
+
+---
+
+## 📊 Success Metrics
+
+| Task Type | Success Metric | Target |
+|-----------|----------------|--------|
+| Feature | User requirement coverage | 100% |
+| Bug Fix | Bug cannot be reproduced | 100% |
+| Refactor | Code reduction / Complexity down | ≥10% |
+| Performance | Performance improvement | ≥20% |
+| Security | Vulnerability eliminated | 100% |
+
+---
+
+*See Also: `technical-standards`, `epct-methodology`*

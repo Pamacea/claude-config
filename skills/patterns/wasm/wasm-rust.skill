@@ -1,10 +1,82 @@
 # Rust + WebAssembly Patterns & Best Practices
 
-> **Version:** 2.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Advanced
-> **Auto-Activation:** "wasm", "webassembly", "rust wasm", "wasm-bindgen", "wasm-pack", "performance"
-> **Tags:** [wasm, webassembly, rust, performance, optimization]
-> **Related:** rust-axum, typescript-patterns, nextjs-patterns
-> **Last Updated:** 2025-02-24
+> **Version:** 3.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Advanced
+> **Auto-Activation:** "wasm", "webassembly", "rust wasm", "wasm-bindgen", "wasm-pack", "wasmgc", "reference types", "performance"
+> **Tags:** [wasm, webassembly, rust, wasmgc, performance, optimization]
+> **Related:** rust-axum, rust-fullstack, leptos, dioxus, typescript-patterns, nextjs-patterns
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🆕 WASMGC - Le Game Changer (2024-2026)
+
+### Qu'est-ce que WasmGC ?
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│               WASMGC - GARBAGE COLLECTION NATIVE          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  AVANT (2021-2023):                                       │
+│  └─ Pas de GC dans Wasm                                   │
+│  └─ Rust gère sa mémoire (ownership)                       │
+│  └─ DOM access = bridge JS coûteux                        │
+│  └─ Binaires volumineux (gestion mémoire incluse)          │
+│                                                             │
+│  APRÈS (2024-2026):                                        │
+│  └─ WasmGC standard activé dans tous navigateurs           │
+│  └─ Reference Types = accès direct aux objets DOM         │
+│  └─ GC du navigateur utilisé pour objets externes          │
+│  └─ Binaires plus légers (délégation GC)                   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Support Navigateur (2026)
+
+| Navigateur | Version WasmGC | Reference Types | Status |
+|-----------|----------------|-----------------|--------|
+| Chrome | 119+ | ✅ | Stable |
+| Firefox | 120+ | ✅ | Stable |
+| Safari | 18.2+ | ✅ | Stable |
+| Edge | 119+ | ✅ | Stable |
+
+**Pourquoi c'est révolutionnaire pour Full Stack Rust :**
+
+1. **Pont DOM directe** - Plus besoin de wasm-bindgen manuel
+2. **Binaires plus légers** - Moins de code de gestion mémoire
+3. **Meilleure performance** - Moins d'allers-retours JS/Wasm
+4. **Framework support** - Leptos, Dioxus l'utilisent nativement
+
+### Configuration WasmGC
+
+```toml
+# Cargo.toml
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ['-O4', '--enable-reference-types']
+
+[dependencies]
+wasm-bindgen = { version = "0.2", features = ["enable-interning"] }
+getrandom = { version = "0.2", features = ["js"] }
+
+# Target avec WasmGC activé
+# En CLI:
+RUSTFLAGS="-C target-feature=+reference-types" cargo build --target wasm32-unknown-unknown --release
+```
+
+### Avec Leptos/Dioxus
+
+```bash
+# Leptos
+cargo leptos build --release
+
+# Dioxus
+dx build --release
+
+# Ces outils activent automatiquement WasmGC
+```
+
+---
 
 ---
 

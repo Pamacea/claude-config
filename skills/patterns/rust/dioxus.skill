@@ -1,0 +1,433 @@
+# Dioxus - Multi-Platform Frontend Rust Framework
+
+> **Version:** 1.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Advanced
+> **Auto-Activation:** "dioxus", "rust multiplatform", "desktop rust", "rust mobile", "rsx macro", "dioxus desktop"
+> **Tags:** [dioxus, multiplatform, cross-platform, rust-desktop, rust-mobile]
+> **Related:** rust-fullstack, rust-axum, leptos
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Pourquoi Dioxus ?
+
+### Multi-Plateforme Native
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 DIOXUS - WRITE ONCE, RUN ANYWHERE          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Rust Code                                                 │
+│      ↓                                                      │
+│   Dioxus RSX                                               │
+│      ↓                                                      │
+│   ┌───────┬────────┬─────────┬─────────┐                   │
+│   │ Web   │ Desktop│ Mobile  │ SSR    │                   │
+│   │WasmGC │ Tauri  │ iOS/And │ Axum   │                   │
+│   │       │        │ Kotlin  │        │                   │
+│   └───────┴────────┴─────────┴─────────┘                   │
+│      ↓         ↓         ↓         ↓                        │
+│   Browser  Native   Native   Server                      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Comparaison Dioxus vs Leptos
+
+| Feature | Dioxus | Leptos |
+|---------|--------|--------|
+| **Web (Wasm)** | ✅ Oui | ✅ Oui |
+| **SSR** | ✅ Via Axum | ✅ Natif |
+| **Desktop** | ✅ Tauri intégré | ❌ Non |
+| **Mobile** | ✅ iOS/Android (expérimental) | ❌ Non |
+| **Syntax** | `rsx!` macro | `view!` macro |
+| **Learning Curve** | Plus facile (React-like) | Plus complexe (signals) |
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Install Dioxus CLI
+cargo install dioxus-cli
+
+# New project (auto-detect template)
+dx new my-dioxus-app
+
+# Development
+cd my-dioxus-app
+dx serve
+
+# Build specific platform
+dx build --platform web
+dx build --platform desktop
+dx build --platform mobile
+
+# Fullstack with server functions
+dx serve --fullstack
+```
+
+---
+
+## 📊 Quick Reference
+
+| Concept | Dioxus | React | Leptos |
+|---------|--------|-------|--------|
+| **Component** | `fn App() -> Element` | `function App()` | `fn App() -> impl IntoView` |
+| **State** | `use_signal()` | `useState()` | `create_signal()` |
+| **Effect** | `use_effect()` | `useEffect()` | `create_effect()` |
+| **Memo** | `use_memo()` | `useMemo()` | `create_memo()` |
+| **Resource** | `use_resource()` | `useQuery()` | `create_resource()` |
+
+---
+
+## 💻 Core Concepts
+
+### 1. RSX - Dioxus Syntax Extension
+
+```rust
+use dioxus::prelude::*;
+
+fn app() -> Element {
+    let mut count = use_signal(|| 0);
+    let mut text = use_signal(|| "Hello".to_string());
+
+    rsx! {
+        div {
+            class: "container",
+            id: "main",
+
+            h1 { "Dioxus App" }
+
+            p { "Count: {count}" }
+
+            button {
+                onclick: move |_| count += 1,
+                "Increment"
+            }
+
+            input {
+                value: "{text}",
+                oninput: move |e| text.set(e.value()),
+            }
+        }
+    }
+}
+```
+
+### 2. Signals - Simples & Efficaces
+
+```rust
+use dioxus::prelude::*;
+
+fn counter() -> Element {
+    let mut count = use_signal(|| 0);
+
+    // Signal dérivé (memo)
+    let double = use_memo(move || count() * 2);
+
+    rsx! {
+        div {
+            p { "Count: {count}" }
+            p { "Double: {double}" }
+            button { onclick: move |_| count += 1, "+1" }
+        }
+    }
+}
+```
+
+### 3. Resources - Data Fetching
+
+```rust
+use dioxus::prelude::*;
+use dioxus_fullstack::prelude::*;
+
+#[server]
+async fn fetch_posts() -> Result<Vec<Post>, ServerFnError> {
+    let pool = get_db_pool();
+    let posts = sqlx::query_as!(Post, "SELECT * FROM posts")
+        .fetch_all(&pool)
+        .await?;
+    Ok(posts)
+}
+
+fn post_list() -> Element {
+    let mut resource = use_resource(fetch_posts);
+
+    rsx! {
+        div {
+            h1 { "Posts" }
+
+            {match &*resource.read() {
+                None => rsx! { p { "Loading..." } },
+                Some(Err(e)) => rsx! { p { "Error: {e}" } },
+                Some(Ok(posts)) => rsx! {
+                    ul {
+                        {posts.iter().map(|post| rsx! {
+                            li { key: "{post.id}" {
+                                h2 { "{post.title}" }
+                                p { "{post.content}" }
+                            }}
+                        }).collect::<Vec<_>>()}
+                    }
+                },
+            }}
+        }
+    }
+}
+```
+
+### 4. Server Functions - Fullstack Magic
+
+```rust
+use dioxus_fullstack::prelude::*;
+
+#[server]
+pub async fn create_post(
+    title: String,
+    content: String,
+) -> Result<Post, ServerFnError> {
+    if title.is_empty() {
+        return Err(ServerFnError::new("Title required"));
+    }
+
+    let post = sqlx::query_as!(
+        Post,
+        "INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING *",
+        title, content
+    )
+    .fetch_one(&get_db_pool())
+    .await?;
+
+    Ok(post)
+}
+```
+
+---
+
+## 🏗️ Project Structure
+
+```
+dioxus-app/
+├── Cargo.toml
+├── src/
+│   ├── main.rs                # Entry point (auto-generated)
+│   ├── app.rs                 # Root component
+│   ├── components/            # UI components
+│   │   ├── mod.rs
+│   │   ├── button.rs
+│   │   └── nav.rs
+│   ├── pages/                 # Routes
+│   │   ├── mod.rs
+│   │   ├── home.rs
+│   │   └── posts.rs
+│   └── server_fns/            # Server functions
+│       ├── mod.rs
+│       └── posts.rs
+├── assets/                    # Static assets
+└── DexConfig.toml             # Dioxus config
+```
+
+---
+
+## 🎨 Components
+
+### Props Pattern
+
+```rust
+use dioxus::prelude::*;
+
+#[derive(Props, PartialEq, Clone)]
+pub struct ButtonProps {
+    #[props(default = "primary".to_string())]
+    variant: String,
+
+    #[props(default = false)]
+    disabled: bool,
+
+    onclick: EventHandler<MouseEvent>,
+
+    children: Element,
+}
+
+pub fn Button(props: ButtonProps) -> Element {
+    rsx! {
+        button {
+            class: format_args!("btn btn-{}", props.variant),
+            disabled: props.disabled,
+            onclick: move |e| {
+                if !props.disabled {
+                    props.onclick.call(e);
+                }
+            },
+            {props.children}
+        }
+    }
+}
+
+// Usage
+rsx! {
+    Button {
+        variant: "danger",
+        onclick: move |_| println!("Clicked!"),
+        "Delete"
+    }
+}
+```
+
+---
+
+## 🌐 Routing
+
+```rust
+use dioxus::prelude::*;
+use dioxus_router::prelude::*;
+
+#[component]
+fn App() -> Element {
+    rsx! {
+        Router {
+            div {
+                nav {
+                    Link { to: "/", "Home" }
+                    Link { to: "/posts", "Posts" }
+                }
+
+                main {
+                    Routes {
+                        Route { to: "/", Home {} }
+                        Route { to: "/posts", Posts {} }
+                        Route { to: "/posts/:id", PostDetail {} }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#[component]
+fn PostDetail() -> Element {
+    let params: RouteSegments = use_route();
+    let id = params.get("id").unwrap_or("0");
+
+    rsx! {
+        h1 { "Post {id}" }
+    }
+}
+```
+
+---
+
+## 🖥️ Desktop avec Tauri
+
+```rust
+use dioxus::prelude::*;
+use dioxus_desktop::Config;
+
+fn main() {
+    dioxus_desktop::launch_cfg(
+        app,
+        Config::default()
+            .with_window(|w| {
+                w.with_title("My Desktop App")
+                 .with_size(800.0, 600.0)
+            })
+    );
+}
+
+fn app() -> Element {
+    let mut count = use_signal(|| 0);
+
+    rsx! {
+        div {
+            h1 { "Desktop App" }
+            p { "Count: {count}" }
+            button {
+                onclick: move |_| count += 1,
+                "Increment"
+            }
+        }
+    }
+}
+```
+
+---
+
+## 🔌 Fullstack Integration
+
+### Axum Server Setup
+
+```rust
+use dioxus_fullstack::prelude::*;
+
+#[tokio::main]
+async fn main() {
+    let app = launch_fullstack(app).await;
+
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
+    axum::serve(listener, app).await.unwrap();
+}
+
+#[component]
+fn app() -> Element {
+    use_router();
+
+    rsx! {
+        Router {
+            Routes {
+                Route { to: "/", Home {} }
+                Route { to: "/about", About {} }
+            }
+        }
+    }
+}
+```
+
+---
+
+## ✅ Quality Gates
+
+### Cross-Platform
+- [ ] **P1** - Code compile pour web + desktop
+- [ ] **P2** - Pas de platform-specific APIs sans feature gate
+- [ ] **P3** - Server functions avec fallback pour standalone
+- [ ] **P4** - Responsive design pour différentes tailles
+
+### Performance
+- [ ] **P5** - Keys sur itérations
+- [ ] **P6** - `use_memo` pour calculs coûteux
+- [ ] **P7** - Pas de re-renders inutiles
+- [ ] **P8** - Lazy loading pour gros composants
+
+---
+
+## 🎯 Success Criteria
+
+Dioxus app est production-ready quand :
+- [ ] Fonctionne sur web + desktop
+- [ ] Server functions appelables
+- [ ] Routing fonctionnel
+- [ ] Loading states gérés
+- [ ] Error boundaries
+- [ ] WASM optimisé
+- [ ] Hot reload fonctionne
+
+---
+
+## 🔗 Related Skills
+
+- **Alternative:** `leptos` - Si SSR natif prioritaire
+- **Prerequisite:** `rust-fullstack` - Architecture complète
+- **Prerequisite:** `wasm-rust` - WASM fundamentals
+
+---
+
+## 📚 Resources
+
+- [Dioxus Docs](https://dioxuslabs.com/)
+- [Dioxus Book](https://dioxuslabs.com/learn/0.5/)
+- [GitHub](https://github.com/DioxusLabs/dioxus)
+
+---
+
+*Version: 1.0.0 | Dioxus - Multi-Platform Rust Framework*

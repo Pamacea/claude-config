@@ -1,0 +1,726 @@
+# Rust Full Stack Workspace Structure
+
+> **Version:** 1.0.0 | **Category:** Patterns (Cat 4)
+> **Mutual Exclusivity:** `rust-workspace-structure` vs `nextjs-structure` vs `nestjs-structure`
+
+---
+
+## 🏗️ Gold Standard Workspace Structure
+
+```
+mon-projet-fullstack/
+├── Cargo.toml               # Workspace root
+├── .clauderules             # Claude Code rules
+├── .github/                 # CI/CD
+│   └── workflows/
+│       ├── ci.yml
+│       └── release.yml
+├── docker-compose.yml       # Dev environment
+├── Dockerfile               # Production build
+├── .env.example             # Environment template
+│
+├── common/                  # 🟢 SHARED CRATE (Types, Validation, Logic)
+│   ├── Cargo.toml
+│   └── src/
+│       ├── lib.rs
+│       ├── models/          # Data structures
+│       │   ├── mod.rs
+│       │   ├── user.rs
+│       │   ├── post.rs
+│       │   └── auth.rs
+│       ├── dto/             # Request/Response types
+│       │   ├── mod.rs
+│       │   └── api.rs
+│       ├── error/           # Shared error types
+│       │   ├── mod.rs
+│       │   └── app_error.rs
+│       └── validation/      # Zod-like validation
+│           ├── mod.rs
+│           └── validators.rs
+│
+├── server/                  # 🔵 BACKEND (Axum)
+│   ├── Cargo.toml
+│   ├── .env                 # DB_URL, JWT_SECRET, etc.
+│   └── src/
+│       ├── main.rs          # Axum setup + DB pool
+│       ├── config/          # Configuration
+│       │   ├── mod.rs
+│       │   └── database.rs
+│       ├── routes/          # API handlers
+│       │   ├── mod.rs
+│       │   ├── auth.rs
+│       │   ├── users.rs
+│       │   └── posts.rs
+│       ├── services/        # Business logic
+│       │   ├── mod.rs
+│       │   ├── auth_service.rs
+│       │   └── user_service.rs
+│       ├── middleware/      # Axum middleware
+│       │   ├── mod.rs
+│       │   └── auth.rs
+│       └── utils/          # Server utilities
+│           └── jwt.rs
+│
+├── client/                  # 🔴 FRONTEND (Dioxus/Leptos)
+│   ├── Cargo.toml
+│   ├── Dioxus.toml         # Dioxus CLI config
+│   ├── assets/             # Static assets
+│   │   ├── css/
+│   │   │   └── main.css    # Tailwind output
+│   │   └── images/
+│   └── src/
+│       ├── main.rs         # Wasm entry point
+│       ├── components/     # Reusable UI
+│       │   ├── mod.rs
+│       │   ├── button.rs
+│       │   ├── input.rs
+│       │   └── card.rs
+│       ├── views/          # Pages
+│       │   ├── mod.rs
+│       │   ├── home.rs
+│       │   ├── login.rs
+│       │   └── profile.rs
+│       ├── hooks/          # Custom hooks
+│       │   ├── mod.rs
+│       │   └── use_auth.rs
+│       └── server_funcs/   # Server functions bridge
+│           └── api.rs
+│
+├── migrations/             # Database migrations
+│   └── ...
+│
+└── target/                 # (Generated) Build output
+```
+
+---
+
+## 📦 Root Cargo.toml
+
+```toml
+[workspace]
+members = ["common", "server", "client"]
+resolver = "2"
+
+[workspace.dependencies]
+# Core
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.36", features = ["full"] }
+async-trait = "0.1"
+
+# Web
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "fs"] }
+hyper = "1.0"
+
+# Database
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "chrono", "uuid"] }
+sea-orm = { version = "0.12", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
+
+# Auth
+jsonwebtoken = "9.2"
+bcrypt = "0.15"
+
+# Validation
+validator = { version = "0.18", features = ["derive"] }
+garde = { version = "0.16", features = ["derive"] }
+
+# Utils
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.6", features = ["v4", "serde"] }
+thiserror = "1.0"
+anyhow = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Frontend (Dioxus)
+dioxus = { version = "0.5", features = ["full"] }
+dioxus-fullstack = "0.5"
+
+# Frontend (Leptos) - Alternative
+# leptos = { version = "0.6", features = ["full", "csr", "ssr"] }
+# leptos_axum = "0.6"
+
+# Internal
+shared = { path = "./common" }
+```
+
+---
+
+## 🟢 Common Crate Setup
+
+**`common/Cargo.toml`:**
+```toml
+[package]
+name = "shared"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+validator = { workspace = true }
+garde = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+```
+
+**`common/src/lib.rs`:**
+```rust
+pub mod models;
+pub mod dto;
+pub mod error;
+pub mod validation;
+
+pub use models::*;
+pub use dto::*;
+pub use error::*;
+pub use validation::*;
+```
+
+**`common/src/models/user.rs`:**
+```rust
+use serde::{Deserialize, Serialize};
+use uuid::Uuid;
+use chrono::{DateTime, Utc};
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+pub struct User {
+    pub id: Uuid,
+    pub username: String,
+    pub email: String,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CreateUser {
+    pub username: String,
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UpdateUser {
+    pub username: Option<String>,
+    pub email: Option<String>,
+}
+```
+
+**`common/src/error/app_error.rs`:**
+```rust
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum AppError {
+    #[error("Database error: {0}")]
+    Database(#[from] sqlx::Error),
+
+    #[error("Validation error: {0}")]
+    Validation(String),
+
+    #[error("Not found: {0}")]
+    NotFound(String),
+
+    #[error("Unauthorized")]
+    Unauthorized,
+
+    #[error("Forbidden")]
+    Forbidden,
+
+    #[error("Internal server error: {0}")]
+    Internal(String),
+}
+
+impl AppError {
+    pub fn status_code(&self) -> u16 {
+        match self {
+            AppError::Database(_) => 500,
+            AppError::Validation(_) => 400,
+            AppError::NotFound(_) => 404,
+            AppError::Unauthorized => 401,
+            AppError::Forbidden => 403,
+            AppError::Internal(_) => 500,
+        }
+    }
+}
+```
+
+---
+
+## 🔵 Server Crate Setup
+
+**`server/Cargo.toml`:**
+```toml
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Workspace
+shared = { workspace = true }
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+# Web
+axum = { workspace = true }
+tower = { workspace = true }
+tower-http = { workspace = true }
+hyper = { workspace = true }
+
+# Database
+sqlx = { workspace = true }
+
+# Auth
+jsonwebtoken = { workspace = true }
+bcrypt = { workspace = true }
+
+# Config
+dotenv = "0.15"
+config = "0.14"
+```
+
+**`server/src/main.rs`:**
+```rust
+use axum::{
+    routing::{get, post},
+    Router,
+};
+use tower_http::cors::CorsLayer;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
+mod config;
+mod routes;
+mod services;
+mod middleware;
+
+use config::database::create_pool;
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    // Initialize tracing
+    tracing_subscriber::registry()
+        .with(tracing_subscriber::EnvFilter::new(
+            std::env::var("RUST_LOG").unwrap_or_else(|_| "info,tower_http=debug".into()),
+        ))
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
+    // Database pool
+    let pool = create_pool().await?;
+
+    // Build router
+    let app = Router::new()
+        .route("/", get(root))
+        .route("/health", get(health))
+        .nest("/api", routes::api_routes())
+        .layer(CorsLayer::permissive())
+        .with_state(pool);
+
+    // Start server
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
+    tracing::info!("Server listening on {}", listener.local_addr()?);
+    axum::serve(listener, app).await?;
+
+    Ok(())
+}
+
+async fn root() -> &'static str {
+    "Rust Full Stack API"
+}
+
+async fn health() -> serde_json::Value {
+    serde_json::json!({"status": "ok"})
+}
+```
+
+**`server/src/routes/api.rs`:**
+```rust
+use axum::{Router, routing};
+use crate::services::{auth, users};
+
+pub fn api_routes() -> Router {
+    Router::new()
+        .nest("/auth", auth_routes())
+        .nest("/users", user_routes())
+}
+
+fn auth_routes() -> Router {
+    Router::new()
+        .route("/register", post(auth::register))
+        .route("/login", post(auth::login))
+        .route("/logout", post(auth::logout))
+}
+
+fn user_routes() -> Router {
+    Router::new()
+        .route("/", get(users::list).post(users::create))
+        .route("/:id", get(users::get).put(users::update).delete(users::delete))
+}
+```
+
+---
+
+## 🔴 Client Crate Setup (Dioxus)
+
+**`client/Cargo.toml`:**
+```toml
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Workspace
+shared = { workspace = true }
+
+# Dioxus Fullstack
+dioxus = { workspace = true }
+dioxus-fullstack = { workspace = true }
+
+# Utils
+serde = { workspace = true }
+tracing = { workspace = true }
+```
+
+**`client/Dioxus.toml`:**
+```toml
+[application]
+# The unique name of your app
+name = "My Full Stack App"
+
+# The Dioxus platform to build for
+platform = "fullstack"
+
+[web.app]
+# The title of your app
+title = "My Full Stack App"
+
+[web.watcher]
+# Watch for file changes
+watch_path = ["src"]
+
+# Include extra files to watch
+reload_html = true
+# On rebuild (cargo build) reload the page
+full_rebuild_on_change = true
+
+[web.resource]
+# The CSS style and JS script files
+style = ["assets/css/main.css"]
+script = []
+
+[web.resource.dev]
+# Same as [web.resource] but for development
+
+[web.resource.prod]
+# Same as [web.resource] but for production
+
+# wasm-opt settings for production
+wasm-opt = ["-Oz", "--enable-mutable-globals", "--enable-reference-types"]
+```
+
+**`client/src/main.rs`:**
+```rust
+// Enable WasmGC features
+#![allow(wasm_gc_features)]
+
+use dioxus::prelude::*;
+use dioxus_fullstack::prelude::*;
+
+fn app() -> Element {
+    rsx! {
+        Router::<Route> {}
+    }
+}
+
+#[derive(Clone, Routable, Debug, PartialEq)]
+enum Route {
+    #[route("/")]
+    Home {},
+    #[route("/login")]
+    Login {},
+    #[route("/register")]
+    Register {},
+    #[route("/profile")]
+    Profile {},
+}
+
+#[component]
+fn Home() -> Element {
+    rsx! {
+        h1 { "Welcome to Rust Full Stack!" }
+        p { "This app uses Axum + Dioxus with WasmGC" }
+    }
+}
+
+#[component]
+fn Login() -> Element {
+    rsx! {
+        h1 { "Login" }
+        LoginForm {}
+    }
+}
+
+#[component]
+fn LoginForm() -> Element {
+    let mut email = use_signal(|| String::new());
+    let mut password = use_signal(|| String::new());
+
+    rsx! {
+        form {
+            onsubmit: move |evt| async move {
+                evt.prevent_default();
+                // Call server function
+                if let Err(e) = server_fn().email(email.get()).password(password.get()).send().await {
+                    eprintln!("Login error: {e}");
+                }
+            },
+            input {
+                r#type: "email",
+                value: "{email}",
+                oninput: move |evt| email.set(evt.value())
+            }
+            input {
+                r#type: "password",
+                value: "{password}",
+                oninput: move |evt| password.set(evt.value())
+            }
+            button { "Login" }
+        }
+    }
+}
+
+// Server function (runs on Axum backend)
+#[server(LoginServer)]
+async fn server_fn(email: String, password: String) -> Result<(), ServerFnError> {
+    // Auth logic here
+    Ok(())
+}
+
+fn main() {
+    LaunchBuilder::fullstack()
+        .with_cfg(server_context!())
+        .launch(app);
+}
+```
+
+---
+
+## 🔄 Client Crate Setup (Leptos Alternative)
+
+**`client/Cargo.toml` (Leptos):**
+```toml
+[package]
+name = "client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Workspace
+shared = { workspace = true }
+
+# Leptos
+leptos = { workspace = true }
+leptos_axum = { workspace = true }
+leptos_meta = { workspace = true }
+
+# Utils
+wasm-bindgen = "0.2"
+console_log = "1.0"
+log = "0.4"
+```
+
+**`client/src/main.rs` (Leptos):**
+```rust
+use leptos::*;
+use leptos_axum::{generate_route_list, LeptosRoutes};
+use leptos_meta::*;
+use crate::pages::*;
+
+#[component]
+pub fn App() -> impl IntoView {
+    provide_meta_context();
+
+    view! {
+        <Html lang="fr" />
+        <Title text="Rust Full Stack" />
+        <Router routes>
+            <main>
+                <Routes />
+            </main>
+        </Router>
+    }
+}
+
+#[component]
+fn HomePage() -> impl IntoView {
+    view! {
+        <h1>"Welcome to Leptos Full Stack"</h1>
+        <p>"Axum backend + Leptos frontend + WasmGC"</p>
+    }
+}
+
+#[component]
+fn Counter() -> impl IntoView {
+    let (count, set_count) = create_signal(0);
+    let double = create_memo(move |_| count.get() * 2);
+
+    view! {
+        <button on:click=move |_| set_count.update(|n| *n += 1)>"+1"</button>
+        <p>"Count: " {count}</p>
+        <p>"Double: " {double}</p>
+    }
+}
+```
+
+---
+
+## 🐳 Docker Compose for Dev
+
+**`docker-compose.yml`:**
+```yaml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: rustfullstack_db
+    environment:
+      POSTGRES_USER: ${DB_USER:-rustuser}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-rustpass}
+      POSTGRES_DB: ${DB_NAME:-rustfullstack}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-rustuser}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer:latest
+    container_name: rustfullstack_adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:7-alpine
+    container_name: rustfullstack_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+---
+
+## 🔒 Environment Variables
+
+**`.env.example`:**
+```bash
+# Database
+DATABASE_URL=postgresql://rustuser:rustpass@localhost:5432/rustfullstack
+
+# Server
+HOST=0.0.0.0
+PORT=3000
+RUST_LOG=info,tower_http=debug
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+JWT_EXPIRATION=604800
+
+# CORS
+CORS_ORIGIN=http://localhost:8080
+
+# Redis (optional)
+REDIS_URL=redis://localhost:6379
+```
+
+---
+
+## 🚀 Development Workflow
+
+```bash
+# Start services
+docker-compose up -d
+
+# Run migrations
+sqlx migrate run --source migrations
+
+# Run server (Axum)
+cd server && cargo run
+
+# Run client (Dioxus with hot reload)
+cd client && dx serve
+
+# OR run fullstack (Dioxus handles both)
+cd client && dx serve --fullstack
+
+# Run tests
+cargo test --workspace
+
+# Run clippy
+cargo clippy --workspace -- -D warnings
+
+# Format code
+cargo fmt --all
+
+# Build for production
+cargo build --release --workspace
+```
+
+---
+
+## 📚 Documentation Links
+
+| Technology | Docs |
+|------------|------|
+| **Rust** | https://doc.rust-lang.org/book/ |
+| **Axum** | https://docs.rs/axum/ |
+| **Dioxus** | https://dioxuslabs.com/learn/0.5/ |
+| **Leptos** | https://leptos.dev/ |
+| **SQLx** | https://docs.rs/sqlx/ |
+| **SeaORM** | https://www.sea-ql.org/SeaORM/ |
+| **Tokio** | https://tokio.rs/ |
+| **WasmGC** | https://github.com/WebAssembly/gc |
+| **Tower** | https://docs.rs/tower/ |
+
+---
+
+## ✅ Quality Checklist
+
+- [ ] Workspace dependencies defined in root Cargo.toml
+- [ ] Common crate shared by server and client
+- [ ] Server uses Axum with proper error handling
+- [ ] Client uses Dioxus or Leptos with WasmGC
+- [ ] Environment variables properly configured
+- [ ] Docker compose for local development
+- [ ] Database migrations set up
+- [ ] CI/CD pipeline configured
+- [ ] Proper logging with tracing
+- [ ] CORS configured for development
+
+---
+
+*Version: 1.0.0 | Rust Full Stack Workspace Structure*

@@ -49,6 +49,19 @@
 | **SaaS platform** | Next.js + Stripe + Prisma + Vercel | Subscription, paiements |
 | **WASM app** | Rust + Axum + WebAssembly (wasm-bindgen) | Compute haute performance browser |
 
+### Tooling Standard
+
+| Outil | Remplace | Pourquoi |
+|-------|----------|----------|
+| **Oxfmt** | Prettier | ~30x plus rapide, Rust-native, compatible Prettier |
+| **Oxlint** | ESLint | ~50-100x plus rapide, 695+ rules built-in |
+
+```bash
+pnpm add -D oxfmt oxlint        # Installation
+oxfmt --init                      # Config formatter
+oxlint --init                     # Config linter
+```
+
 ---
 
 ## 💡 Core Concepts

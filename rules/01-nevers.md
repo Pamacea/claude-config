@@ -114,6 +114,7 @@ Edit          → Read first (NEVER edit blind)
 Server data   → TanStack Query (NEVER useState)
 Data fetching → Server Components/Actions (NEVER useEffect)
 Business log  → features/ (NEVER app/)
+Formatting    → Oxfmt (NEVER Prettier)
 Validation    → Zod at boundaries (NEVER trust client)
 Testing       → Behavior, not implementation
 Git           → Quality gates first, then commit

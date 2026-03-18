@@ -17,10 +17,15 @@ rules/
 ├── 04-react-hooks-limits.md  # Standards Server Components
 ├── 05-reusability.md        # Patterns de réutilisation
 ├── 06-mcp-mandatory.md      # Workflows MCP optimaux
+├── 07-pre-commit-gates.md   # Pipeline de validation avant commit
 ├── quality-gates.md         # Critères de validation
 └── legacy/                  # Anciennes règles (référence)
     ├── 01-nevers.md.bak      # Version historique
     └── ...
+
+../hooks/
+├── pre-commit.cjs           # Git hook cross-platform (Node.js)
+└── README.md                # Documentation des hooks
 ```
 
 ---
@@ -93,7 +98,24 @@ Standards techniques pour :
 - z-ai (Visual Analysis)
 - web-reader & web-search-prime (Documentation)
 
-### quality-gates.md - Système de Validation (NOUVEAU)
+### 07-pre-commit-gates.md - Pipeline de Validation (NOUVEAU)
+
+**Règle bloquante :** Aucun commit sans validation complète
+
+Pipeline obligatoire avant `git commit` :
+- Rust: `cargo check` → `cargo clippy -- -D warnings` → `cargo fmt --check` → `cargo test`
+- TypeScript: `npm run typecheck` → `npm run lint`
+- E2E: `npx playwright test` (si UI modifiée)
+
+Commit format avec Verification footer :
+```
+Verification:
+- cargo check: ✅
+- cargo clippy: ✅
+- cargo test: ✅
+```
+
+### quality-gates.md - Système de Validation
 
 Critères de validation pour :
 - Feature Development

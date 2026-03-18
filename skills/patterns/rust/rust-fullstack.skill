@@ -1,0 +1,614 @@
+# Rust Full Stack Development - Axum + Leptos/Dioxus + WasmGC
+
+> **Version:** 1.0.0 | **Category:** Cat 4 (Patterns Réutilisables) | **Difficulty:** Expert
+> **Auto-Activation:** "fullstack rust", "rust frontend", "leptos", "dioxus", "rust ssr", "rust webassembly", "type sharing", "server functions"
+> **Tags:** [rust, fullstack, axum, leptos, dioxus, wasmgc, wasm, type-sharing, server-functions]
+> **Related:** rust-axum, wasm-rust, typescript-patterns, nextjs-patterns
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🎯 Why Full Stack Rust in 2026?
+
+### The Game Changer: WasmGC + Reference Types
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│               WASMGC - GARBAGE COLLECTION NATIVE          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  AVANT (2021-2023):                                       │
+│  └─ Pas de GC dans Wasm                                   │
+│  └─ Rust gère sa mémoire (ownership)                       │
+│  └─ DOM access = bridge JS coûteux                        │
+│  └─ Binaires volumineux (gestion mémoire incluse)          │
+│                                                             │
+│  APRÈS (2024-2026):                                        │
+│  └─ WasmGC standard activé dans tous navigateurs           │
+│  └─ Reference Types = accès direct aux objets DOM         │
+│  └─ GC du navigateur utilisé pour objets externes          │
+│  └─ Binaires plus légers (délégation GC)                   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Browser Support (2026)
+
+| Navigateur | Version WasmGC | Reference Types | Status |
+|-----------|----------------|-----------------|--------|
+| Chrome | 119+ | ✅ | Stable |
+| Firefox | 120+ | ✅ | Stable |
+| Safari | 18.2+ | ✅ | Stable |
+| Edge | 119+ | ✅ | Stable |
+
+### The Full Stack Advantage
+
+**Type Sharing - The #1 Argument:**
+```rust
+// crates/shared/src/models.rs (partagé backend + frontend)
+
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct User {
+    pub id: i32,
+    pub email: String,
+    pub username: String,
+}
+
+// Backend (Axum)
+async fn get_user(id: i32) -> Option<User> { ... }
+
+// Frontend (Leptos/Dioxus)
+let user = create_resource(|| get_user(1));
+```
+
+---
+
+## 📊 Framework Comparison
+
+| Feature | Leptos | Dioxus | React + Next.js |
+|---------|--------|--------|-----------------|
+| **Web (Wasm)** | ✅ Oui | ✅ Oui | ✅ JS |
+| **SSR** | ✅ Natif | ✅ Via Axum | ✅ Yes |
+| **Desktop** | ❌ Non | ✅ Tauri intégré | ❌ Electron |
+| **Mobile** | ❌ Non | ✅ iOS/Android (exp.) | ✅ React Native |
+| **Syntax** | `view!` macro | `rsx!` macro | JSX |
+| **Reactivity** | Signals (SolidJS-like) | Signals | useState/useEffect |
+| **Type Safety** | 100% (Rust) | 100% (Rust) | TypeScript (~90%) |
+| **Learning Curve** | Plus complexe | Plus facile (React-like) | Plus facile |
+
+**Choose Leptos if:**
+- ✅ SSR natif prioritaire
+- ✅ Performance web absolue
+- ✅ Écosystème plus mature
+- ✅ Projets web uniquement
+
+**Choose Dioxus if:**
+- ✅ Multi-plateforme (web + desktop/mobile)
+- ✅ Préférence syntax proche de React
+- ✅ Intégration Tauri native
+- ✅ Fullstack avec Axum
+
+---
+
+## 🚀 Quick Start
+
+### Create Full Stack Rust Project
+
+```bash
+# Option 1: Leptos Full Stack
+cargo install leptos-cli
+cargo leptos new my-app --git https://github.com/leptos-rs/start
+
+# Option 2: Dioxus Full Stack
+cargo install dioxus-cli
+dx new my-app
+cd my-app
+dx serve --fullstack
+
+# Option 3: Manual Workspace
+cargo new --lib my-fullstack-app
+cd my-fullstack-app
+mkdir -p crates/{shared,backend,frontend}
+```
+
+---
+
+## 📁 Workspace Architecture
+
+```
+my-fullstack-app/
+├── Cargo.toml                 # Workspace root
+├── crates/
+│   ├── shared/                # ★ TYPES PARTAGÉS ★
+│   │   └── src/
+│   │       └── models.rs
+│   │
+│   ├── backend/               # Axum Server
+│   │   └── src/
+│   │       ├── main.rs
+│   │       ├── api/
+│   │       ├── db/
+│   │       └── services/
+│   │
+│   └── frontend/              # Leptos/Dioxus
+│       └── src/
+│           ├── app.rs
+│           ├── components/
+│           └── server_fns/
+│
+├── migrations/                # SQLx migrations
+└── site/                      # Compiled output (Leptos)
+```
+
+### Workspace Cargo.toml
+
+```toml
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+[workspace.dependencies]
+# Versions synchronisées
+axum = "0.8"
+leptos = "0.7"
+dioxus = "0.6"
+sqlx = { version = "0.8", features = ["runtime-tokio", "postgres"] }
+tokio = { version = "1.40", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+```
+
+---
+
+## 🎨 Type Sharing Pattern
+
+### Shared Types (Backend + Frontend)
+
+```rust
+// crates/shared/src/models.rs
+
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct User {
+    pub id: i32,
+    pub email: String,
+    pub username: String,
+    pub created_at: i64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Post {
+    pub id: i32,
+    pub title: String,
+    pub content: String,
+    pub author_id: i32,
+    pub author: Option<User>,  // Join
+    pub created_at: i64,
+}
+```
+
+### Backend Usage (Axum)
+
+```rust
+// crates/backend/src/main.rs
+use axum::{extract::State, Json};
+use shared::models::User;
+
+struct AppState {
+    db: sqlx::PgPool,
+}
+
+async fn get_user(
+    State(state): State<Arc<AppState>>,
+    Path(id): Path<i32>,
+) -> Result<Json<User>, AppError> {
+    let user = sqlx::query_as!(User, "SELECT * FROM users WHERE id = $1", id)
+        .fetch_optional(&state.db)
+        .await?
+        .ok_or(AppError::NotFound)?;
+    Ok(Json(user))
+}
+```
+
+### Frontend Usage (Leptos)
+
+```rust
+// crates/frontend/src/components/users.rs
+use leptos::*;
+use shared::models::User;
+
+#[server(GetUserServer)]
+pub async fn get_user(id: i32) -> Result<User, ServerFnError> {
+    // Appelle automatiquement le backend
+    let pool = expect_state::<PgPool>();
+    let user = sqlx::query_as!(User, "SELECT * FROM users WHERE id = $1", id)
+        .fetch_one(&pool)
+        .await?;
+    Ok(user)
+}
+
+fn UserProfile() -> impl IntoView {
+    let user = create_local_resource(
+        || get_user(1),
+        |q| async move { q.await },
+    );
+
+    view! {
+        {move || {
+            user().and_then(|u| {
+                match u {
+                    None => view! { <p>"Loading..."</p> },
+                    Some(Err(e)) => view! { <p class="error">{e.to_string()}</p> },
+                    Some(Ok(user)) => view! {
+                        <div>
+                            <h1>{&user.username}</h1>
+                            <p>{&user.email}</p>
+                        </div>
+                    },
+                }
+            })
+        }}
+    }
+}
+```
+
+---
+
+## 🖥️ Backend Patterns (Axum)
+
+### Extractors Pattern
+
+```rust
+use axum::{
+    extract::{Path, Query, State},
+    Json,
+};
+
+struct AppState {
+    db: Arc<PgPool>,
+}
+
+async fn get_user(
+    State(state): State<Arc<AppState>>,
+    Path(id): Path<i32>,
+    Query(params): Query<ListParams>,
+) -> Result<Json<User>, AppError> {
+    let user = state.db.find_user(id).await?;
+    Ok(Json(user))
+}
+```
+
+### Repository Pattern
+
+```rust
+#[async_trait]
+pub trait UserRepository: Send + Sync {
+    async fn find(&self, id: i32) -> Result<Option<User>>;
+    async fn save(&self, user: &User) -> Result<()>;
+}
+
+pub struct SqlUserRepository {
+    pool: PgPool,
+}
+
+#[async_trait]
+impl UserRepository for SqlUserRepository {
+    async fn find(&self, id: i32) -> Result<Option<User>> {
+        sqlx::query_as!(User, "SELECT * FROM users WHERE id = $1", id)
+            .fetch_optional(&self.pool)
+            .await
+            .map_err(AppError::from)
+    }
+}
+```
+
+### Error Handling
+
+```rust
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum AppError {
+    #[error("Database error: {0}")]
+    Database(#[from] sqlx::Error),
+
+    #[error("Not found: {entity} with id {id}")]
+    NotFound { entity: &'static str, id: String },
+
+    #[error("Unauthorized")]
+    Unauthorized,
+}
+
+impl axum::response::IntoResponse for AppError {
+    fn into_response(self) -> Response {
+        let (status, message) = match self {
+            AppError::Database(e) => {
+                tracing::error!("Database error: {:?}", e);
+                (StatusCode::INTERNAL_SERVER_ERROR, "Database error")
+            },
+            AppError::NotFound { .. } => (StatusCode::NOT_FOUND, "Not found"),
+            AppError::Unauthorized => (StatusCode::UNAUTHORIZED, "Unauthorized"),
+        };
+
+        let body = Json(serde_json::json!({ "error": message }));
+        (status, body).into_response()
+    }
+}
+```
+
+---
+
+## 🎨 Frontend Patterns (Leptos)
+
+### Signals - Fine-Grained Reactivity
+
+```rust
+use leptos::*;
+
+fn counter() -> impl IntoView {
+    let (count, set_count) = create_signal(0);
+
+    // Signal dérivé (auto-update)
+    let is_even = create_memo(move || count() % 2 == 0);
+
+    view! {
+        <div>
+            <p>"Count: " {count}</p>
+            <p>"Even: " {is_even}</p>
+            <button
+                on:click=move |_| set_count.update(|n| *n + 1)
+            >
+                "+1"
+            </button>
+        </div>
+    }
+}
+```
+
+### Server Functions - Isomorphic Magic
+
+```rust
+#[server(GetPostsServer)]
+pub async fn get_posts() -> Result<Vec<Post>, ServerFnError> {
+    let pool = expect_state::<PgPool>();
+    let posts = sqlx::query_as!(Post, "SELECT * FROM posts")
+        .fetch_all(&pool)
+        .await?;
+    Ok(posts)
+}
+
+fn PostList() -> impl IntoView {
+    let posts = create_local_resource(
+        || get_posts(),
+        |query| async move { query.await },
+    );
+
+    view! {
+        <div>
+            {move || {
+                posts.and_then(|posts| {
+                    match posts {
+                        None => view! { <p>"Loading..."</p> },
+                        Some(Err(e)) => view! { <p class="error">{e}</p> },
+                        Some(Ok(posts)) => view! {
+                            <ul>
+                                {posts.iter().map(|post| {
+                                    view! {
+                                        <li>
+                                            <h2>{&post.title}</h2>
+                                            <p>{&post.content}</p>
+                                        </li>
+                                    }
+                                }).collect_view()}
+                            </ul>
+                        },
+                    }
+                })
+            }}
+        </div>
+    }
+}
+```
+
+---
+
+## 🖥️ Frontend Patterns (Dioxus)
+
+### RSX - React-Like Syntax
+
+```rust
+use dioxus::prelude::*;
+
+fn app() -> Element {
+    let mut count = use_signal(|| 0);
+
+    rsx! {
+        div {
+            class: "container",
+            h1 { "Dioxus App" }
+            p { "Count: {count}" }
+            button {
+                onclick: move |_| count += 1,
+                "+1"
+            }
+        }
+    }
+}
+```
+
+### Server Functions (Fullstack)
+
+```rust
+use dioxus_fullstack::prelude::*;
+
+#[server]
+pub async fn create_post(
+    title: String,
+    content: String,
+) -> Result<Post, ServerFnError> {
+    let pool = get_db_pool();
+    let post = sqlx::query_as!(
+        Post,
+        "INSERT INTO posts (title, content) VALUES ($1, $2) RETURNING *",
+        title, content
+    )
+    .fetch_one(&pool)
+    .await?;
+    Ok(post)
+}
+
+fn create_form() -> Element {
+    let mut title = use_signal(|| String::new());
+    let mut content = use_signal(|| String::new());
+
+    rsx! {
+        form {
+            onsubmit: move |e| {
+                e.prevent_default();
+                async move {
+                    match create_post(title(), content()).await {
+                        Ok(_) => println!("Created!"),
+                        Err(e) => println!("Error: {}", e),
+                    }
+                }
+            },
+            input {
+                value: "{title}",
+                oninput: move |e| title.set(e.value())
+            }
+            textarea {
+                value: "{content}",
+                oninput: move |e| content.set(e.value())
+            }
+            button { type: "submit", "Create" }
+        }
+    }
+}
+```
+
+---
+
+## 🌐 WasmGC Optimization
+
+### Configuration
+
+```toml
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ['-O4', '--enable-reference-types']
+
+[dependencies]
+wasm-bindgen = { version = "0.2", features = ["enable-interning"] }
+getrandom = { version = "0.2", features = ["js"] }
+```
+
+### Build Commands
+
+```bash
+# Leptos
+cargo leptos build --release
+
+# Dioxus
+dx build --release
+
+# Optimisation manuelle
+wasm-opt pkg/app_bg.wasm -O4 --enable-reference-types -o pkg/app_bg_opt.wasm
+```
+
+### Performance Tips
+
+1. **Minimiser JS/Wasm Boundary**
+   - Traiter les données en Rust, passer le résultat
+   - Éviter les appels fréquents pour petites opérations
+
+2. **Utiliser TypedArrays**
+   - `&[u8]` ou `Vec<u8>` pour images
+   - `&[f32]` pour données numériques
+
+3. **Lazy Loading**
+   - Charger WASM uniquement quand nécessaire
+   - `defer` tag dans HTML
+
+---
+
+## ✅ Quality Gates
+
+### Backend
+- [ ] `sqlx::query_as!` pour SQL vérifié
+- [ ] `Arc<T>` pour shared state
+- [ ] Error enum avec `thiserror`
+- [ ] Repository pattern
+- [ ] Graceful shutdown
+
+### Frontend
+- [ ] Server functions avec `#[server]`
+- [ ] `create_resource` pour data fetching
+- [ ] Loading states gérés
+- [ ] Error boundaries
+- [ ] `console_error_panic_hook` initialisé
+
+### WasmGC
+- [ ] `+reference-types` activé
+- [ ] Taille optimisée avec `wasm-opt`
+- [ ] TypedArrays pour données volumineuses
+- [ ] Pas de `unsafe` sauf FFI justifié
+
+### Type Sharing
+- [ ] Types dans crate `shared`
+- [ ] `#[serde(rename_all = "camelCase")]`
+- [ ] Pas de duplication
+- [ ] Version workspace synchronisée
+
+---
+
+## 🔧 Troubleshooting
+
+| Problème | Cause | Solution |
+|---------|-------|----------|
+| **"borrow checker failed"** | Ownership conflict | Utiliser `Arc<T>` ou `clone()` |
+| **"server function not found"** | Route non générée | `cargo leptos build` ou `dx build` |
+| **"Wasm too large"** | Pas d'optimisation | `wasm-opt -O4 --enable-reference-types` |
+| **"SSR hydration fails"** | Browser-only API utilisée | `leptos::is_server()` guards |
+| **"Type mismatch"** | Shared types désynchronisés | Recompiler workspace entier |
+
+---
+
+## 🔗 Related Skills
+
+- **Foundation:** `rust-axum` - Backend patterns
+- **Foundation:** `wasm-rust` - WASM fundamentals
+- **Alternative:** `nextjs-patterns` - Next.js full stack
+
+---
+
+## 🎯 Success Criteria
+
+Full Stack Rust app est production-ready quand :
+
+### Backend
+- [ ] Axum server avec graceful shutdown
+- [ ] SQLx migrations applicables
+- [ ] Error handling exhaustif
+- [ ] Repository pattern implémenté
+- [ ] Tests unitaires + integration
+
+### Frontend
+- [ ] Leptos SSR ou Dioxus multiplateforme
+- [ ] Server functions fonctionnelles
+- [ ] Loading + Error states
+- [ ] SEO metadata
+- [ ] HMR fonctionne
+
+### Integration
+- [ ] Types partagés compilent des deux côtés
+- [ ] Server functions sans fetch manuel
+- [ ] WASM < 100KB gzipped
+- [ ] First paint < 2s
+
+---
+
+*Version: 1.0.0 | Rust Full Stack - WasmGC Edition*

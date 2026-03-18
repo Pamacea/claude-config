@@ -1,24 +1,139 @@
 {
-  "env": {
-    "ANTHROPIC_AUTH_TOKEN": "xxxx",
-    "ANTHROPIC_BASE_URL": "xxxx",
-    "API_TIMEOUT_MS": "3000000",
-    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "node C:/Users/NOM/.claude/statusline.mjs"
-  },
+  "effortLevel": "medium",
   "enabledPlugins": {
-    "git-master@claude-git": true,
-    "claude-mem@thedotmack": true,
     "agents@smite": true,
+    "context7@claude-plugins-official": true,
     "core@smite": true,
     "essentials@smite": true,
+    "exg@strike": true,
+    "frontend-design@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "glm-plan-usage@zai-coding-plugins": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
     "studio@smite": true,
     "ui@strike": true
   },
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "xxx",
+    "ANTHROPIC_BASE_URL": "xxx",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": 1,
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "CLAUDE_DATA_DIR": "C:\\Users\\Yanis\\.claude",
+    "PARRY_BIN": "C:/Users/Yanis/.cargo/bin/parry.exe",
+    "PARRY_CONFIG": "C:\\Users\\Yanis\\.config\\parry\\config.toml"
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "repo": "anthropics/claude-plugins-official",
+        "source": "github"
+      }
+    },
+    "smite": {
+      "source": {
+        "repo": "Pamacea/smite",
+        "source": "github"
+      }
+    },
+    "strike": {
+      "source": {
+        "repo": "Pamacea/strike",
+        "source": "github"
+      }
+    }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/parry-post-write.cjs",
+            "timeout": 10000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Write|Edit"
+      },
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/argus-post-tool.cjs",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Edit|Write|Explore|CreateTeam|Bash"
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/aureus-rewrite.cjs",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/rtk-rewrite.cjs",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/argus-pre-tool.cjs",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Explore|CreateTeam|Task|Agent|Plan"
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/argus-session.cjs",
+            "timeout": 10000,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ]
+  },
+  "language": "French",
+  "mcpServers": {
+    "chrome-devtools": {
+      "args": [
+        "-y",
+        "chrome-devtools-mcp@latest"
+      ],
+      "command": "npx"
+    },
+    "sequential-thinking": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "command": "npx"
+    }
+  },
+  "model": "opus[1m]",
   "skipDangerousModePermissionPrompt": true,
-  "teammateMode": "tmux",
+  "statusLine": {
+    "command": "node C:/Users/Yanis/.claude/statusline.mjs",
+    "type": "command"
+  },
+  "teammateMode": "tmux"
 }

@@ -1,0 +1,117 @@
+# Project Conventions
+
+> **Version:** 1.0.0 | **Category:** Cat 2 (Structure) | **TrigMem Auto-Load**
+> **Triggers:** "git flow", "commit format", "file structure", "project architecture"
+> **Last Updated:** 2026-03-18
+
+---
+
+## 🔄 Git Flow Master
+
+### Commit Format
+
+```
+TYPE: PROJECT - vX.Y.Z
+
+- Change 1
+- Change 2
+```
+
+### Types
+
+| Type | SemVer | Usage |
+|------|--------|-------|
+| RELEASE | MAJOR | Breaking changes API publique |
+| UPDATE | MINOR | Nouvelles fonctionnalités |
+| PATCH | PATCH | Corrections de bugs |
+| WIP | MAJOR | Refactoring en cours |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                      # Next.js App Router (routing only)
+├── features/                 # Business logic
+│   └── [feature]/
+│       ├── components/
+│       ├── hooks/
+│       └── actions/
+├── ui/                        # Presentational components
+│   ├── atoms/
+│   ├── molecules/
+│   └── organisms/
+└── lib/                       # Library code & configs
+```
+
+---
+
+## 📝 File Naming
+
+```
+Components      → PascalCase.tsx           # Button.tsx
+Tests           → PascalCase.test.tsx     # Button.test.tsx
+Hooks           → camelCase.ts             # useAuth.ts
+Utils           → camelCase.ts             # formatCurrency.ts
+Config files    → kebab-case.ts            # site-config.ts
+Constants       → UPPER_SNAKE_CASE.ts      # API_BASE_URL.ts
+```
+
+---
+
+## 🎯 Import Rules
+
+### Forward Dependencies ✅
+
+```typescript
+// Feature → UI (allowed)
+import { Button } from '@/ui/atoms/button'
+
+// Feature → Lib (allowed)
+import { formatCurrency } from '@/lib/utils/format'
+```
+
+### Backward Dependencies ⚠️
+
+```typescript
+// UI → Features (avoid)
+// Use props drilling / Context instead
+
+// UI → Lib/DB (avoid)
+// Use Server Components / Actions
+```
+
+---
+
+## 📚 Documentation Convention
+
+### README.md (< 50 lines)
+
+```markdown
+# Tech Name
+
+One-liner percutant.
+
+**Problem:** What it solves
+**Solution:** How
+
+## Quick Start
+npm install tech-name
+tech-name init
+```
+
+---
+
+## ✅ Quality Gates
+
+- [ ] README < 50 lines
+- [ ] Quick Start ≤ 3 commands
+- [ ] Commands executable
+- [ ] Barrel exports in place
+- [ ] Forward dependencies only
+- [ ] Oxfmt configuré (`.oxfmtrc.json` + scripts `fmt`/`fmt:check`)
+
+---
+
+*See Also: `technical-standards`, `epct-methodology`*
