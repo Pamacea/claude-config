@@ -2,7 +2,7 @@
 
 > **Version:** 3.0.0 | Minimal Rules → Skills Auto-Activation
 
-## 🎯 Principes Fondateurs
+##  Principes Fondateurs
 
 **Correctness > Completeness > Speed**
 
@@ -12,7 +12,7 @@
 
 ---
 
-## 🔄 EPCT Methodology
+##  EPCT Methodology
 
 ```
 E - EXPLORE │ Semantic search, parallel research
@@ -25,7 +25,7 @@ T - TEST    │ Lint, typecheck, tests ciblés
 
 ---
 
-## 📊 Tableau de Décision
+##  Tableau de Décision
 
 | Type de Tâche | Approche |
 |---------------|----------|
@@ -37,7 +37,7 @@ T - TEST    │ Lint, typecheck, tests ciblés
 
 ---
 
-## 🔍 Search Priority
+## � Search Priority
 
 1. **grepai search** (sémantique)
 2. **/toolkit search** (contextuelle)

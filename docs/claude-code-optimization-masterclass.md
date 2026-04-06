@@ -5,7 +5,7 @@
 
 ---
 
-## 📋 Table des Matières
+##  Table des Matières
 
 1. [Prompting Avancé](#1-prompting-avancé)
 2. [Optimisation Mémoire & Contexte](#2-optimisation-mémoire--contexte)
@@ -23,7 +23,7 @@
 
 ### Principes Fondamentaux du Prompting Claude Code
 
-| Principe | ❌ Mauvais | ✅ Bon |
+| Principe |  Mauvais |  Bon |
 |----------|-----------|-------|
 | **Spécificité** | "Fix the code" | "Fix the type error in src/auth/login.ts at line 45 where user.id might be undefined" |
 | **Vérification** | "Write a function" | "Write a validateEmail function with these tests: [email protected]=true, invalid=false. Run tests after." |
@@ -282,7 +282,7 @@ See: `src/app/api/users/route.ts` for reference implementation
 │  └───────────────────────────────────────┘ │
 │                                             │
 └─────────────────────────────────────────────┘
-     ⚠️ Performance degrades as it fills!
+      Performance degrades as it fills!
 ```
 
 ### Stratégies de Réduction des Tokens
@@ -1383,7 +1383,7 @@ claude-usage() {
 
 ### Anti-Patterns CLAUDE.md
 
-| ❌ Anti-Pattern | ✅ Solution |
+|  Anti-Pattern |  Solution |
 |-----------------|------------|
 | "Write clean code" | "Use 2-space indentation, PascalCase for components" |
 | "Follow best practices" | "Use existing patterns in src/components/Button.tsx" |
@@ -1393,7 +1393,7 @@ claude-usage() {
 
 ### Anti-Patterns Skills
 
-| ❌ Anti-Pattern | ✅ Solution |
+|  Anti-Pattern |  Solution |
 |-----------------|------------|
 | Skill générique "fix everything" | Skills spécialisés par domaine |
 | Pas de description claire | Description avec mots-clés spécifiques |
@@ -1403,7 +1403,7 @@ claude-usage() {
 
 ### Anti-Patterns Subagents
 
-| ❌ Anti-Pattern | ✅ Solution |
+|  Anti-Pattern |  Solution |
 |-----------------|------------|
 | Subagent avec tous les outils | Restreindre avec `allowed-tools` |
 | Pas de description | Description claire pour auto-délégation |
@@ -1412,7 +1412,7 @@ claude-usage() {
 
 ### Anti-Patterns Hooks
 
-| ❌ Anti-Pattern | ✅ Solution |
+|  Anti-Pattern |  Solution |
 |-----------------|------------|
 | Hooks synchrones lents | `runInBackground: true` |
 | Pas de timeout | `timeout: 5000` (ms) |
@@ -1421,7 +1421,7 @@ claude-usage() {
 
 ### Anti-Patterns MCP
 
-| ❌ Anti-Pattern | ✅ Solution |
+|  Anti-Pattern |  Solution |
 |-----------------|------------|
 | Retourner 100K+ tokens | Pagination ou streaming |
 | Pas de cache | Cache avec TTL |
@@ -1494,7 +1494,7 @@ claude-usage() {
 
 ---
 
-## 📝 Conclusion
+##  Conclusion
 
 Cette masterclass couvre les techniques avancées pour optimiser votre utilisation de Claude Code :
 

@@ -4,7 +4,7 @@
 
 ---
 
-## ⚠️ RÈGLE CRITIQUE - OBLIGATOIRE
+##  RÈGLE CRITIQUE - OBLIGATOIRE
 
 **AVANT toute action d'exploration (ls, grep, cat, Explore), tu DOIFS impérativement lancer :**
 
@@ -16,7 +16,7 @@ C:\Users\Yanis\.cargo\bin\argus.exe recall "<contexte_de_recherche>"
 
 ---
 
-## 🎯 Workflow Obligatoire
+##  Workflow Obligatoire
 
 ### 1. Avant d'explorer ou créer quoi que ce soit :
 
@@ -48,7 +48,7 @@ C:\Users\Yanis\.cargo\bin\argus.exe remember "Added Z feature using W pattern"
 
 ---
 
-## 🚫 JAMAIS
+##  JAMAIS
 
 - Explorer sans vérifier ARGUS en premier
 - Créer une nouvelle solution sans chercher les précédentes
@@ -57,7 +57,7 @@ C:\Users\Yanis\.cargo\bin\argus.exe remember "Added Z feature using W pattern"
 
 ---
 
-## 📊 Emplacement des données
+##  Emplacement des données
 
 Toutes les données sont stockées localement dans `~/.argus/` :
 - `memory.db` → Base de données SQLite (transactions)

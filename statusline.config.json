@@ -1,0 +1,28 @@
+{
+  "vim": {
+    "enabled": true,
+    "showLabel": true,
+    "activeText": "vim",
+    "inactiveText": "normal",
+    "colorWhenActive": "green",
+    "colorWhenInactive": "red"
+  },
+  "cache": {
+    "enabled": true,
+    "showLabel": true,
+    "format": "percentage",
+    "prefix": "C:",
+    "progressBar": {
+      "enabled": false,
+      "length": 10,
+      "style": "filled",
+      "color": "progressive",
+      "background": "none"
+    },
+    "colorThresholds": {
+      "low": 30,
+      "medium": 60,
+      "high": 90
+    }
+  }
+}

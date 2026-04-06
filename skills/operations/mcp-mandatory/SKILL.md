@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 Auto-Activation
+##  Auto-Activation
 
 **This skill auto-activates when:**
 - User mentions "commit", "git", "version", "release"
@@ -22,7 +22,7 @@
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Before any significant action, use:
@@ -34,7 +34,7 @@
 
 ---
 
-## 📊 MCP Selection Guide
+##  MCP Selection Guide
 
 ### Quick Reference Table
 
@@ -49,15 +49,15 @@
 
 ---
 
-## 🧠 CLAUDE-MEM - Memory Reuse
+## � CLAUDE-MEM - Memory Reuse
 
 ### Optimal Usage
 
 **Use claude-mem when:**
-- ✅ Looking for similar past solutions
-- ✅ Need to recall how something was implemented
-- ✅ Want to avoid repeating mistakes
-- ✅ Saving successful patterns for future
+-  Looking for similar past solutions
+-  Need to recall how something was implemented
+-  Want to avoid repeating mistakes
+-  Saving successful patterns for future
 
 ### Recommended Workflow
 
@@ -101,15 +101,15 @@ User: "Here's a new pattern for debouncing"
 
 ---
 
-## 🔄 GIT FLOW MASTER - Versioned Commits
+##  GIT FLOW MASTER - Versioned Commits
 
 ### Optimal Usage
 
 **Use git-flow-master when:**
-- ✅ Creating commits (RELEASE, UPDATE, PATCH)
-- ✅ Analyzing changes for SemVer impact
-- ✅ Generating release notes
-- ✅ Validating commit message format
+-  Creating commits (RELEASE, UPDATE, PATCH)
+-  Analyzing changes for SemVer impact
+-  Generating release notes
+-  Validating commit message format
 
 ### Recommended Workflow
 
@@ -163,16 +163,16 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 
 ---
 
-## 🌐 CHROME DEVTOOLS - UI Testing
+##  CHROME DEVTOOLS - UI Testing
 
 ### Optimal Usage
 
 **Use chrome-devtools when:**
-- ✅ Debugging layout issues
-- ✅ Testing interactive elements
-- ✅ Taking screenshots for verification
-- ✅ Checking console errors
-- ✅ Analyzing network requests
+-  Debugging layout issues
+-  Testing interactive elements
+-  Taking screenshots for verification
+-  Checking console errors
+-  Analyzing network requests
 
 ### Recommended Workflows
 
@@ -228,17 +228,17 @@ Testing form:
 
 ---
 
-## 🖼️ Z-AI - Visual Analysis
+## � Z-AI - Visual Analysis
 
 ### Optimal Usage
 
 **Use z-ai when:**
-- ✅ Converting UI designs to code
-- ✅ Debugging error screenshots
-- ✅ Comparing two designs/implementations
-- ✅ Extracting text from images
-- ✅ Analyzing charts/graphs
-- ✅ Understanding video content
+-  Converting UI designs to code
+-  Debugging error screenshots
+-  Comparing two designs/implementations
+-  Extracting text from images
+-  Analyzing charts/graphs
+-  Understanding video content
 
 ### Recommended Workflow
 
@@ -286,19 +286,19 @@ Comparing designs:
 
 ---
 
-## 📖 WEB READER & SEARCH - Documentation
+##  WEB READER & SEARCH - Documentation
 
 ### Optimal Usage
 
 **web-reader:**
-- ✅ Reading documentation pages
-- ✅ Fetching content from URLs
-- ✅ Getting article content as markdown
+-  Reading documentation pages
+-  Fetching content from URLs
+-  Getting article content as markdown
 
 **web-search-prime:**
-- ✅ Finding latest documentation
-- ✅ Current best practices research
-- ✅ What's new in frameworks
+-  Finding latest documentation
+-  Current best practices research
+-  What's new in frameworks
 
 ### Recommended Workflow (Post-2024 Libraries)
 
@@ -312,7 +312,7 @@ Before implementing:
 
 ---
 
-## ✅ Pre-Action Checklists
+##  Pre-Action Checklists
 
 ### Before Implementing Feature
 
@@ -358,7 +358,7 @@ UI Debugging:
 
 ---
 
-## 🎯 MCP Selection Flowchart
+##  MCP Selection Flowchart
 
 ```
 ┌─────────────────────────────────────────┐
@@ -383,7 +383,7 @@ UI Debugging:
 
 ---
 
-## 💡 Self-Reminder Prompts
+##  Self-Reminder Prompts
 
 When working on tasks, Claude should think:
 
@@ -411,7 +411,7 @@ Visual Analysis:
 
 ---
 
-## ✅ Best Practices Summary
+##  Best Practices Summary
 
 | Practice | Tool | Benefit |
 |----------|------|---------|
@@ -424,7 +424,7 @@ Visual Analysis:
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 | Issue | Likely Cause | Solution |
 |-------|--------------|----------|
@@ -436,7 +436,7 @@ Visual Analysis:
 
 ---
 
-## 🔗 Related Skills
+##  Related Skills
 
 - **Used by:** All pattern skills - For implementation guidance
 - **Related:** `trigmem-categories` - For categorizing decisions
@@ -444,7 +444,7 @@ Visual Analysis:
 
 ---
 
-## 📖 Further Reading
+##  Further Reading
 
 - [Claude MCP Documentation](https://github.com/modelcontextprotocol/servers)
 - [Git Flow Master Repository](https://github.com/aureus-linux/git-flow-master)
@@ -452,7 +452,7 @@ Visual Analysis:
 
 ---
 
-## 🎯 Success Criteria
+##  Success Criteria
 
 MCP usage is effective when:
 - [ ] Searching claude-mem before implementing
@@ -466,7 +466,7 @@ MCP usage is effective when:
 
 ---
 
-## 💡 Key Insights
+##  Key Insights
 
 ### Why MCP System Matters
 

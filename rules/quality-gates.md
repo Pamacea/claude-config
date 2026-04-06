@@ -6,7 +6,7 @@ Critères de validation objectifs → voir `quality-validation.skill`
 
 ---
 
-## 📋 Quick Gates par Tâche
+##  Quick Gates par Tâche
 
 | Type | Gates |
 |------|--------|
@@ -18,7 +18,7 @@ Critères de validation objectifs → voir `quality-validation.skill`
 
 ---
 
-## 🎯 Universal Gates
+##  Universal Gates
 
 - [ ] Code compiles
 - [ ] Type checks pass

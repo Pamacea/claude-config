@@ -2,7 +2,7 @@
 
 > **Version:** 3.0.0 | Minimal Rules → Skills Auto-Activation
 
-## 🔄 Git Flow Master
+##  Git Flow Master
 
 ```
 TYPE: PROJECT - vX.Y.Z
@@ -18,7 +18,7 @@ TYPE: PROJECT - vX.Y.Z
 
 ---
 
-## 📁 Structure Standard
+##  Structure Standard
 
 ```
 src/
@@ -30,7 +30,7 @@ src/
 
 ---
 
-## 📝 File Naming
+##  File Naming
 
 - `PascalCase.tsx` → Components
 - `camelCase.ts` → Hooks/Utils
@@ -38,10 +38,10 @@ src/
 
 ---
 
-## 🎯 Import Rules
+##  Import Rules
 
-✅ **Forward:** Feature → UI → Lib
-⚠️ **Backward:** UI → Features (éviter)
+ **Forward:** Feature → UI → Lib
+ **Backward:** UI → Features (éviter)
 
 ---
 

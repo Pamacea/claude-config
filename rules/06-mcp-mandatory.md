@@ -2,7 +2,7 @@
 
 > **Version:** 3.0.0 | Minimal Rules → Skills Auto-Activation
 
-## 🎯 MCP Priority
+##  MCP Priority
 
 | MCP | Usage | Trigger Keywords |
 |-----|-------|------------------|
@@ -13,7 +13,7 @@
 
 ---
 
-## 🧠 Memory First
+## � Memory First
 
 ```
 Avant d'implémenter:
@@ -28,15 +28,15 @@ Après résolution:
 
 ---
 
-## 🔄 Git Flow Format
+##  Git Flow Format
 
 ```
 TYPE: PROJECT - vX.Y.Z
 - Change 1
 
 Verification:
-- cargo check: ✅
-- cargo test: ✅
+- cargo check: 
+- cargo test: 
 ```
 
 ---

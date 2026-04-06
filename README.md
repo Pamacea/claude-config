@@ -1,22 +1,45 @@
 # claude-config
 
-> **Configuration optimisée pour Claude Code** | Version 2.0.0
-> **Methodologie:** TrigMem Enhanced + Positive Standards + Quality Gates
+> **Configuration optimisée pour Claude Code** | Version 5.1.0
+> **Methodologie:** TrigMem Enhanced + PROTOCOL + Positive Standards + Quality Gates + Pamacea Tools
 >
-> **NOUVEAU v2.0 :** Approche 100% positive - Zero "NEVER/NO/PROHIBITED"
+> **Dernière mise à jour :** 2025-04-06
 
 ---
 
-## Quick Start
-
-Installation de la configuration optimisee pour Claude Code :
+##  Quick Start (Ultra-Rapide)
 
 ```bash
-# Cloner ce repo
+# 1. Cloner ce repo
 git clone https://github.com/Pamace/claude-config.git ~/.claude
 
-# Les skills et rules sont automatiquement chargés par Claude Code
+# 2. C'est tout ! PROTOCOL.md se charge automatiquement via @PROTOCOL.md dans CLAUDE.md
+
+# 3. Optionnel : Copier les settings recommandés
+cp settings.json.example ~/.claude/settings.json
 ```
+
+---
+
+##  NOUVEAU : PROTOCOL.md (v5.1)
+
+**Problème résolu :** L'IA devient "débile" avec le temps, crée des doublons, boucle sur les serveurs...
+
+**Solution AUTOMATIQUE :** `PROTOCOL.md` - Règles critiques qui override TOUT.
+
+**Chargement 100% automatique** via `@PROTOCOL.md` dans CLAUDE.md - **AUCUNE action requise**.
+
+| Règle | Description |
+|-------|-------------|
+| **R1** | ZÉRO duplication fichiers (_v2, _new, _backup) |
+| **R2** | MAX 2 redémarrages serveur/session |
+| **R3** | Communication Cro-Magnon (ANALYSIS → ACTION → RESULT) |
+| **R4** | Re-read PROTOCOL toutes les 5 actions |
+| **R5** | Context sync si confus |
+
+**Documentation complète :**
+- `PROTOCOL.md` - Règles critiques (read FIRST)
+- `SETTINGS.md` - Configuration optimale settings.json
 
 ---
 

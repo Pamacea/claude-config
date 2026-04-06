@@ -1,5 +1,5 @@
 {
-  "effortLevel": "medium",
+  "effortLevel": "high",
   "enabledPlugins": {
     "agents@smite": true,
     "context7@claude-plugins-official": true,
@@ -25,12 +25,6 @@
     "PARRY_CONFIG": "C:\\Users\\Yanis\\.config\\parry\\config.toml"
   },
   "extraKnownMarketplaces": {
-    "claude-plugins-official": {
-      "source": {
-        "repo": "anthropics/claude-plugins-official",
-        "source": "github"
-      }
-    },
     "smite": {
       "source": {
         "repo": "Pamacea/smite",
@@ -116,8 +110,9 @@
   "mcpServers": {
     "chrome-devtools": {
       "args": [
-        "-y",
-        "chrome-devtools-mcp@latest"
+        "chrome-devtools-mcp@latest",
+        "&quot;--autoConnect",
+        "--channel=beta"
       ],
       "command": "npx"
     },
@@ -127,9 +122,18 @@
         "@modelcontextprotocol/server-sequential-thinking"
       ],
       "command": "npx"
+    },
+    "unreal": {
+      "args": [
+        "C:\\Users\\Yanis\\Projects\\-plugins\\unreal-mcp-server\\build\\index.js"
+      ],
+      "command": "node",
+      "env": {
+        "UNREAL_MOCK": "false",
+        "UNREAL_PROJECT": "C:\\Users\\Yanis\\Documents\\Unreal Projects\\R2\\R2.uproject"
+      }
     }
   },
-  "model": "opus[1m]",
   "skipDangerousModePermissionPrompt": true,
   "statusLine": {
     "command": "node C:/Users/Yanis/.claude/statusline.mjs",

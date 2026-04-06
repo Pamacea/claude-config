@@ -2,7 +2,7 @@
 
 > **Version:** 3.0.0 | Minimal Rules → Skills Auto-Activation
 
-## 🎯 Server Components Priority
+##  Server Components Priority
 
 **Goal:** 0-1 hooks par composant
 
@@ -15,21 +15,21 @@ Over-engineered:      5+ hooks (refactor!)
 
 ---
 
-## 🎯 useEffect Guidelines
+##  useEffect Guidelines
 
 **Use for:**
-- ✅ Browser APIs (localStorage, setInterval)
-- ✅ Third-party SDKs (GA, Stripe.js)
-- ✅ Animations (Framer Motion)
+-  Browser APIs (localStorage, setInterval)
+-  Third-party SDKs (GA, Stripe.js)
+-  Animations (Framer Motion)
 
 **NOT for:**
-- ❌ Data fetching → Server Components / TanStack Query
-- ❌ State sync → Derived state
-- ❌ API calls → Server Actions
+-  Data fetching → Server Components / TanStack Query
+-  State sync → Derived state
+-  API calls → Server Actions
 
 ---
 
-## 🎯 useMemo / useCallback
+##  useMemo / useCallback
 
 **useMemo:** Mesurer avec Profiler d'abord
 **useCallback:** Seulement avec React.memo

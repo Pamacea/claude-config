@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 Table des Matières
+##  Table des Matières
 
 1. [Introduction](#introduction)
 2. [Nouveautés v2.0](#nouveauautés-v200)
@@ -38,18 +38,18 @@ Avec TrigMem :
 
 ## Nouveautés v2.0
 
-### 🔄 Révolution Positive
+###  Révolution Positive
 
 **Changement majeur :** Toutes les règles ont été réécrites avec une approche positive.
 
-| ❌ Supprimé | ✅ Nouveau Format |
+|  Supprimé |  Nouveau Format |
 |-------------|---------------|
 | "NEVER do this" | "Standard : Do this instead" |
-| "❌ BAD practice" | "Recommended pattern" |
+| " BAD practice" | "Recommended pattern" |
 | "PROHIBITED" | "Optimal workflow" |
 | 40+ règles "NEVER" | Standards + Checklists |
 
-### 📋 Nouveau Système de Quality Gates
+###  Nouveau Système de Quality Gates
 
 **Nouveau fichier :** `rules/quality-gates.md`
 
@@ -60,7 +60,7 @@ Critères de validation objectifs pour chaque type de tâche :
 - **Performance** → P1-P5 gates
 - **Security** → S1-S5 gates
 
-### 📁 Fichiers Mis à Jour
+###  Fichiers Mis à Jour
 
 | Ancien | Nouveau | Changement Clé |
 |--------|--------|----------------|
@@ -245,7 +245,7 @@ Les règles essentielles sont dans `rules/` :
 
 ---
 
-## 🎯 Bonnes Pratiques v2.0
+##  Bonnes Pratiques v2.0
 
 ### 1. Utiliser les Standards Positifs
 
@@ -270,14 +270,14 @@ Les patterns utilisent maintenant des triggers exclusifs :
 
 ---
 
-## 📞 Support
+## � Support
 
 - **Issues:** https://github.com/Pamace/claude-config/issues
 - **Discussions:** https://github.com/Pamace/claude-config/discussions
 
 ---
 
-## 📈 Migration v1.x → v2.0
+##  Migration v1.x → v2.0
 
 ### Ce Qui Change
 

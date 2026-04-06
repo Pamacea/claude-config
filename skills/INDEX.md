@@ -5,7 +5,7 @@
 
 ---
 
-## 🎯 Usage Guide
+##  Usage Guide
 
 When a user asks a question:
 1. Extract keywords from the question
@@ -17,7 +17,7 @@ When a user asks a question:
 
 ---
 
-## 📊 Master Activation Matrix
+##  Master Activation Matrix
 
 ### Priority Rule
 
@@ -71,7 +71,7 @@ When a user asks a question:
 
 ---
 
-## 🎯 Mutual Exclusivity Rules
+##  Mutual Exclusivity Rules
 
 ### Rule 1: Framework Exclusivity
 
@@ -138,7 +138,7 @@ When a user asks a question:
 
 ---
 
-## 🔗 Cross-Reference Matrix
+##  Cross-Reference Matrix
 
 ### Primary → Secondary Relationships
 
@@ -160,7 +160,7 @@ When a primary skill is loaded, it may **reference** (not load) these skills:
 
 ---
 
-## 🎯 Enhanced Decision Tree
+##  Enhanced Decision Tree
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -220,7 +220,7 @@ When a primary skill is loaded, it may **reference** (not load) these skills:
 
 ---
 
-## 📋 Trigger Keyword Optimization
+##  Trigger Keyword Optimization
 
 ### Next.js Patterns - Refined Triggers
 
@@ -280,7 +280,7 @@ When a primary skill is loaded, it may **reference** (not load) these skills:
 
 ---
 
-## 🔧 Maintenance Guidelines
+##  Maintenance Guidelines
 
 ### Adding New Skills
 
@@ -299,7 +299,7 @@ When a primary skill is loaded, it may **reference** (not load) these skills:
 
 ---
 
-## ✅ Validation Checklist
+##  Validation Checklist
 
 Before committing trigger changes:
 
@@ -311,7 +311,7 @@ Before committing trigger changes:
 
 ---
 
-## 🎯 Examples
+##  Examples
 
 ### Example 1: Clear Next.js Question
 
@@ -361,30 +361,32 @@ References (not loaded):
 
 ---
 
-## 📊 Statistics
+##  Statistics
 
 ### Current Inventory
 
-- **Total Skills:** 25
-- **Meta Skills:** 6 (TrigMem unified)
-- **Pattern Skills:** 16
-- **Operation Skills:** 1
+- **Total Skills:** 12 (créés) / 15 (total)
+- **Pattern Skills:** 11 ( créés)
+- **Operation Skills:** 1 (mcp-mandatory)
 - **Auto-loader:** 1 (pattern-autoloader)
-- **Template Coverage:** 6/25 (24%)
+- **Foundation Files:** 3 (TEMPLATE, INDEX, README)
 
 ### Trigger Coverage
 
-| Category | Skills with Exclusive Triggers | Coverage |
-|----------|-------------------------------|----------|
-| Meta Skills | 6/6 (100%) | ✅ Complete |
-| Frontend Patterns | 6/8 (75%) | ✅ Good |
-| Backend Patterns | 6/6 (100%) | ✅ Complete |
-| Tech Decisions | 1/1 (100%) | ✅ Complete |
-| Operations | 1/1 (100%) | ✅ Complete |
+| Category | Skills Created | Status |
+|----------|----------------|--------|
+| Meta Skills | Via CLAUDE.md |  Managed |
+| Frontend Patterns | 3 (Next.js, Tailwind, TanStack, Vite) |  Created |
+| Backend Patterns | 2 (NestJS, Rust/Axum) |  Created |
+| WebAssembly | 1 (WASM) |  Created |
+| Tech Decisions | 1 |  Created |
+| UX Design | 1 |  Created |
+| Documentation | 1 |  Created |
+| Operations | 1 (MCP) |  Complete |
 
 ---
 
-## 🎯 Success Metrics
+##  Success Metrics
 
 - [ ] 100% of skills have exclusive triggers
 - [ ] No trigger conflicts between skills

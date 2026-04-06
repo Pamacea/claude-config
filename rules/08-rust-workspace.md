@@ -8,7 +8,7 @@ Structure de monorepo Rust Full Stack (Axum + Dioxus/Leptos).
 
 ---
 
-## 🏗️ Quick Structure
+##  Quick Structure
 
 ```
 workspace/
@@ -21,7 +21,7 @@ workspace/
 
 ---
 
-## 📋 Checklist
+##  Checklist
 
 - [ ] Workspace dependencies
 - [ ] Common crate partagé

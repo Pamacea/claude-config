@@ -4,7 +4,7 @@
 
 ---
 
-## 🎯 Auto-Activation
+##  Auto-Activation
 
 **This skill auto-activates when:**
 - Tech-specific question asked (React, Next.js, Rust, etc.)
@@ -19,7 +19,7 @@
 
 ---
 
-## 📊 TECH PATTERN MAPPING
+##  TECH PATTERN MAPPING
 
 ### Quick Reference Table
 
@@ -38,7 +38,7 @@
 
 ---
 
-## 🤖 AUTO-DETECTION LOGIC
+## � AUTO-DETECTION LOGIC
 
 ### Phase 1: Identify Technology
 
@@ -67,7 +67,7 @@ Question Types → Pattern Categories:
 
 ---
 
-## 📋 AUTO-ACTIVATION RULES
+##  AUTO-ACTIVATION RULES
 
 ### Rule 1: Explicit Tech Mention
 
@@ -119,7 +119,7 @@ Question Types → Pattern Categories:
 
 ---
 
-## 🎯 IMPLEMENTATION PATTERN
+##  IMPLEMENTATION PATTERN
 
 ### Pattern Detection Flow
 
@@ -152,7 +152,7 @@ Question Types → Pattern Categories:
 
 ---
 
-## 💡 KEYWORD MAPPINGS
+##  KEYWORD MAPPINGS
 
 ### Next.js Keywords
 
@@ -203,7 +203,7 @@ Auto-Activate When:
 
 ---
 
-## 🔄 WORKFLOW EXAMPLES
+##  WORKFLOW EXAMPLES
 
 ### Example 1: React Hooks Question
 
@@ -270,7 +270,7 @@ Let me load the relevant patterns..."
 
 ---
 
-## 🎯 PRIORITY RULES
+##  PRIORITY RULES
 
 ### When Multiple Technologies Detected
 
@@ -298,7 +298,7 @@ Strategy:
 
 ---
 
-## 📋 PATTERN SUGGESTION TEMPLATES
+##  PATTERN SUGGESTION TEMPLATES
 
 ### Template 1: Framework Question
 
@@ -340,7 +340,7 @@ See {PATTERN} for complete guidance."
 
 ---
 
-## 💡 KEY INSIGHTS
+##  KEY INSIGHTS
 
 ### Why Auto-Activation Works
 
@@ -370,7 +370,7 @@ User Choice:
 
 ---
 
-## 🎯 QUICK REFERENCE
+##  QUICK REFERENCE
 
 ```
 Auto-Activation Flow:

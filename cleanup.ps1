@@ -1,7 +1,7 @@
 # Liste des dossiers à supprimer
 $targets = @(
     "todos", "teams", "tasks", "shell-snapshots",
-    "session-env", "projects", "plans", "paste-cache", "file-history", "debug"
+    "session-env", "projects", "plans", "paste-cache", "file-history", "debug", "cache", ".strike", "backups", "sessions", "telemetry"
 )
 
 foreach ($folder in $targets) {

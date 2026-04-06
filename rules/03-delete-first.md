@@ -2,7 +2,7 @@
 
 > **Version:** 3.0.0 | Minimal Rules → Skills Auto-Activation
 
-## 🎯 Philosophie
+##  Philosophie
 
 **Avant d'ajouter, se demander:**
 1. Puis-je supprimer à la place ?
@@ -11,7 +11,7 @@
 
 ---
 
-## 🔍 Search Before Create
+## � Search Before Create
 
 ```bash
 # Toujours rechercher d'abord
@@ -20,21 +20,21 @@ grepai search "similar functionality"
 
 ---
 
-## 🧩 Variant Props Pattern
+## � Variant Props Pattern
 
 ```typescript
-// ❌ Multiples composants
+//  Multiples composants
 <PrimaryButton />
 <SecondaryButton />
 
-// ✅ Variant prop
+//  Variant prop
 <Button variant="primary" />
 <Button variant="secondary" />
 ```
 
 ---
 
-## 🔄 Composition > Creation
+##  Composition > Creation
 
 ```typescript
 // Composer depuis atomes existants

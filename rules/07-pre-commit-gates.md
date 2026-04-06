@@ -2,7 +2,7 @@
 
 > **Version:** 3.0.0 | Minimal Rules → Skills Auto-Activation
 
-## 🚪 Pipeline Obligatoire
+## � Pipeline Obligatoire
 
 **Aucun commit sans validation complète.**
 
@@ -22,7 +22,7 @@ TypeScript:
 
 ---
 
-## 📋 Commit Format
+##  Commit Format
 
 ```
 TYPE: PROJECT - vX.Y.Z
@@ -31,14 +31,14 @@ TYPE: PROJECT - vX.Y.Z
 - Change 2
 
 Verification:
-- cargo check: ✅
-- cargo clippy: ✅
-- cargo test: ✅
+- cargo check: 
+- cargo clippy: 
+- cargo test: 
 ```
 
 ---
 
-## ✅ Checklist
+##  Checklist
 
 - [ ] Lint OK
 - [ ] Typecheck OK

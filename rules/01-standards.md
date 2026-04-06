@@ -6,7 +6,7 @@ Chaque standard technique est maintenant un **skill auto-activable** pour écono
 
 ---
 
-## 🚀 Chargement Automatique
+##  Chargement Automatique
 
 | Concept | Trigger → Skill |
 |---------|----------------|
@@ -21,7 +21,7 @@ Chaque standard technique est maintenant un **skill auto-activable** pour écono
 
 ---
 
-## 📁 Skills Créés
+##  Skills Créés
 
 ### standards/ (Cat 4)
 - `technical-standards.skill` - Search, Edit, Implementation, Testing
@@ -39,7 +39,7 @@ Chaque standard technique est maintenant un **skill auto-activable** pour écono
 
 ---
 
-## ✅ Quick Reference
+##  Quick Reference
 
 ```
 Search         → grepai search (jamais grep/glob direct)
@@ -53,7 +53,7 @@ Testing        → Behavior, not implementation
 
 ---
 
-## 📚 Voir Aussi
+##  Voir Aussi
 
 - `skills/INDEX.md` - Matrice d'activation complète
 - `trigmem-core` - Méthodologie EPCT complète

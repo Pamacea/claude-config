@@ -4,17 +4,17 @@
 
 ---
 
-## 📊 ÉTAT ACTUEL
+##  ÉTAT ACTUEL
 
 ### Skills TrigMem Existant (5 fichiers)
 
 | Skill | Tokens | Catégorie | Statut |
 |-------|--------|-----------|--------|
-| `trigmem-core.skill` | ~1.2k | Concepts fondamentaux | ✅ Complet |
-| `trigmem-categories.skill` | ~1.0k | 6 catégories | ✅ Complet |
-| `trigmem-decision.skill` | ~1.3k | Guide de décision | ✅ Complet |
-| `trigmem-storage.skill` | ~1.0k | Options de stockage | ✅ Complet |
-| `trigmem-examples-skill` | ~0.8k | Exemples travaillés | ⚠️ Incomplet |
+| `trigmem-core.skill` | ~1.2k | Concepts fondamentaux |  Complet |
+| `trigmem-categories.skill` | ~1.0k | 6 catégories |  Complet |
+| `trigmem-decision.skill` | ~1.3k | Guide de décision |  Complet |
+| `trigmem-storage.skill` | ~1.0k | Options de stockage |  Complet |
+| `trigmem-examples-skill` | ~0.8k | Exemples travaillés |  Incomplet |
 
 **Total Skills:** ~5.3k tokens
 
@@ -38,7 +38,7 @@
 
 ---
 
-## 🎯 MAPPING TRIGMEM
+##  MAPPING TRIGMEM
 
 ### Catégorie 1 : Identité Projet
 **Destination:** CLAUDE.md
@@ -53,7 +53,7 @@
 **Actuel:**
 - `02-conventions.md` (structure de projet)
 
-**Statut:** ✅ Bien placé
+**Statut:**  Bien placé
 
 ### Catégorie 3 : Commandes Opérationnelles
 **Destination:** Commands
@@ -78,18 +78,18 @@
 **Actuel:**
 - `02-conventions.md` (Git, docs)
 
-**Statut:** ✅ Bien placé
+**Statut:**  Bien placé
 
 ### Catégorie 6 : Corrections Itératives
 **Destination:** Rules (project-specific)
 **Actuel:**
 - `01-nevers.md`
 
-**Statut:** ✅ Bien placé
+**Statut:**  Bien placé
 
 ---
 
-## 🔴 PROBLÈMES IDENTIFIÉS
+## � PROBLÈMES IDENTIFIÉS
 
 ### 1. Violation du principe de séparation Universel/Spécifique
 
@@ -105,7 +105,7 @@ Les skills TrigMem existent mais les patterns techniques ne sont pas organisés 
 
 ---
 
-## ✅ SOLUTIONS PROPOSÉES
+##  SOLUTIONS PROPOSÉES
 
 ### Solution 1 : Déplacer les patterns vers skills/
 
@@ -182,7 +182,7 @@ commands/
 
 ---
 
-## 📊 RÉSUMÉ DE LA MIGRATION
+##  RÉSUMÉ DE LA MIGRATION
 
 | De | Vers | Économie tokens |
 |----|------|-----------------|
@@ -196,7 +196,7 @@ commands/
 
 ---
 
-## 🎯 PLAN D'ACTION
+##  PLAN D'ACTION
 
 ### Phase 1 : Créer la structure skills/patterns
 1. Créer le dossier `skills/patterns/`
@@ -218,7 +218,7 @@ commands/
 
 ---
 
-## 📈 BÉNÉFICES ATTENDUS
+##  BÉNÉFICES ATTENDUS
 
 ### 1. Économie de tokens
 - **Session type**: 30k → 13k tokens (~57% d'économie)

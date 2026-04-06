@@ -4,7 +4,7 @@
 
 ---
 
-## 📁 Structure
+##  Structure
 
 ```
 .claude/
@@ -22,7 +22,7 @@
 
 ---
 
-## 🎯 Patterns Disponibles
+##  Patterns Disponibles
 
 | Pattern | Trigger | Commande |
 |--------|---------|----------|
@@ -38,7 +38,7 @@
 
 ---
 
-## 🚀 Commands Utiles
+##  Commands Utiles
 
 ```
 /trigmem-core       # Principes fondamentaux
@@ -48,7 +48,7 @@
 
 ---
 
-## 📋 Rules Essentielles
+##  Rules Essentielles
 
 ### 00-core.md
 - Mission Claude Code
@@ -72,7 +72,7 @@
 
 ---
 
-## 🎯 Quick EPCT
+##  Quick EPCT
 
 | Type de Tâche | Approche |
 |---------------|----------|
@@ -84,7 +84,7 @@
 
 ---
 
-## 🔧 Git Flow Master
+##  Git Flow Master
 
 ### Types de Commits
 

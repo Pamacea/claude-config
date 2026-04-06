@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 Auto-Activation
+##  Auto-Activation
 
 **This skill auto-activates when:**
 - [Trigger condition 1]
@@ -22,7 +22,7 @@
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Command 1
@@ -34,7 +34,7 @@
 
 ---
 
-## 📊 Quick Reference
+##  Quick Reference
 
 ### Overview Table
 
@@ -46,16 +46,16 @@
 
 ---
 
-## 💻 Core Concepts
+##  Core Concepts
 
 ### [Section 1: Primary Concept]
 
 **What:** [Brief description]
 
 **When to use:**
-- ✅ [Use case 1]
-- ✅ [Use case 2]
-- ✅ [Use case 3]
+-  [Use case 1]
+-  [Use case 2]
+-  [Use case 3]
 
 **Standard Pattern:**
 
@@ -67,7 +67,7 @@ const example = "value";
 
 ---
 
-## 🎯 Implementation Patterns
+##  Implementation Patterns
 
 ### Pattern 1: [Pattern Name]
 
@@ -92,7 +92,7 @@ function patternExample() {
 
 ---
 
-## ✅ Quality Gates
+##  Quality Gates
 
 ### Validation Checklist
 
@@ -113,7 +113,7 @@ Implementation meets quality standards when:
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 | Symptom | Root Cause | Solution |
 |---------|-----------|----------|
@@ -123,7 +123,7 @@ Implementation meets quality standards when:
 
 ---
 
-## 🎯 Best Practices
+##  Best Practices
 
 ### Recommended Guidelines
 
@@ -144,7 +144,7 @@ Implementation meets quality standards when:
 
 ---
 
-## 📚 Advanced Topics
+##  Advanced Topics
 
 ### [Advanced Topic 1]
 
@@ -157,12 +157,12 @@ Implementation meets quality standards when:
 ```
 
 **Trade-offs:**
-- ✅ **Pro:** [Advantage]
-- ⚠️ **Con:** [Disadvantage]
+-  **Pro:** [Advantage]
+-  **Con:** [Disadvantage]
 
 ---
 
-## 🔗 Related Skills
+##  Related Skills
 
 - **Prerequisite:** `[related-skill-1]` - [Why needed]
 - **Related:** `[related-skill-2]` - [Connection]
@@ -170,7 +170,7 @@ Implementation meets quality standards when:
 
 ---
 
-## 📖 Further Reading
+##  Further Reading
 
 - [Official Documentation 1](URL)
 - [Official Documentation 2](URL)
@@ -178,7 +178,7 @@ Implementation meets quality standards when:
 
 ---
 
-## 🎯 Success Criteria
+##  Success Criteria
 
 Implementation is complete when:
 - [ ] [Criterion 1 - Observable outcome]
@@ -190,7 +190,7 @@ Implementation is complete when:
 
 ---
 
-## 💡 Key Insights
+##  Key Insights
 
 ### Why This Matters
 

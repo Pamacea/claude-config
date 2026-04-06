@@ -5,7 +5,7 @@
 
 ---
 
-## 📁 Structure
+##  Structure
 
 ```
 rules/
@@ -30,7 +30,7 @@ rules/
 
 ---
 
-## 📊 Contenu
+##  Contenu
 
 ### 00-core.md - Fondamentaux
 
@@ -110,9 +110,9 @@ Pipeline obligatoire avant `git commit` :
 Commit format avec Verification footer :
 ```
 Verification:
-- cargo check: ✅
-- cargo clippy: ✅
-- cargo test: ✅
+- cargo check: 
+- cargo clippy: 
+- cargo test: 
 ```
 
 ### quality-gates.md - Système de Validation
@@ -129,27 +129,27 @@ Critères de validation pour :
 
 ---
 
-## 🎯 Points Clés
+##  Points Clés
 
 ### Ce qui a Changé (v2.0.0)
 
 **Approche Positive :**
-- ✅ Plus de "NEVER", "NO", "PROHIBITED", "INTERDIT"
-- ✅ Standards techniques positifs à la place
-- ✅ Checklists de validation pour auto-contrôle
-- ✅ Quality Gates objectifs pour chaque type de tâche
+-  Plus de "NEVER", "NO", "PROHIBITED", "INTERDIT"
+-  Standards techniques positifs à la place
+-  Checklists de validation pour auto-contrôle
+-  Quality Gates objectifs pour chaque type de tâche
 
 **Nouveaux Fichiers :**
-- ✅ `01-standards.md` (remplace 01-nevers.md)
-- ✅ `quality-gates.md` (nouveau système)
+-  `01-standards.md` (remplace 01-nevers.md)
+-  `quality-gates.md` (nouveau système)
 
 **Fichiers Mis à Jour :**
-- ✅ `00-core.md` - Principes sans négatifs
-- ✅ `02-conventions.md` - Standards d'import
-- ✅ `03-delete-first.md` - Patterns de simplification
-- ✅ `04-react-hooks-limits.md` - Server Components priority
-- ✅ `05-reusability.md` - Patterns de réutilisation
-- ✅ `06-mcp-mandatory.md` - Workflows optimaux
+-  `00-core.md` - Principes sans négatifs
+-  `02-conventions.md` - Standards d'import
+-  `03-delete-first.md` - Patterns de simplification
+-  `04-react-hooks-limits.md` - Server Components priority
+-  `05-reusability.md` - Patterns de réutilisation
+-  `06-mcp-mandatory.md` - Workflows optimaux
 
 ### Économie de Tokens (maintenu)
 
@@ -159,7 +159,7 @@ Critères de validation pour :
 
 ---
 
-## 📚 Skills Disponibles
+##  Skills Disponibles
 
 Les patterns techniques sont maintenant dans **skills/** (chargés à la demande) :
 
@@ -175,7 +175,7 @@ Les patterns techniques sont maintenant dans **skills/** (chargés à la demande
 
 ---
 
-## 🔄 Migration depuis v1.0
+##  Migration depuis v1.0
 
 ### Ancien → Nouveau
 
@@ -207,7 +207,7 @@ mv rules/01-nevers.md rules/legacy/
 
 ---
 
-## 📚 Ressources Externes
+##  Ressources Externes
 
 **Documentation officielle (toujours vérifier) :**
 - Next.js: https://nextjs.org/docs

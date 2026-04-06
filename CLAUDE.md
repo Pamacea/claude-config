@@ -1,11 +1,22 @@
 # CLAUDE CODE - CONFIG
 
-> **Version:** 5.0.0 | **Méthodologie:** TrigMem v1.0 + EPCT + Prompting Avancé
-> **Dernière mise à jour:** 2025-03-18
+> **Version:** 5.1.0 | **Méthodologie:** TrigMem v1.0 + EPCT + PROTOCOL + Prompting Avancé
+> **Dernière mise à jour:** 2025-04-06
 
 ---
 
-## 🎯 PROJECT IDENTITY
+##  CRITICAL - READ FIRST
+
+@PROTOCOL.md - Ce fichier override TOUT en cas de conflit. Règles critiques:
+- **R1:** ZÉRO duplication fichiers (_v2, _new, _backup)
+- **R2:** MAX 2 redémarrages serveur/session
+- **R3:** Communication Cro-Magnon (ANALYSIS → ACTION → RESULT)
+- **R4:** Re-read PROTOCOL toutes les 5 actions
+- **R5:** Context sync nécessaire si confus
+
+---
+
+##  PROJECT IDENTITY
 
 **claude-config** : Configuration optimisée pour Claude Code utilisant **TrigMem** v1.0 pour une gestion optimale des tokens (73% d'économie).
 
@@ -21,7 +32,7 @@
 
 ---
 
-## 🚀 TRIGMEM v1.0
+##  TRIGMEM v1.0
 
 | Catégorie | Stockage | Contenu |
 |-----------|----------|---------|
@@ -36,7 +47,7 @@
 
 ---
 
-## 📖 QUICK START
+##  QUICK START
 
 ```bash
 npm install    # Dependencies
@@ -67,11 +78,11 @@ pnpm run fmt:check              # Vérifier le formatage (CI)
 
 ---
 
-## 🎯 PRINCIPES DE PROMPTING
+##  PRINCIPES DE PROMPTING
 
 ### Spécificité > Vague
 
-| ❌ Mauvais | ✅ Bon |
+|  Mauvais |  Bon |
 |-----------|-------|
 | "Fix the code" | "Fix the type error in src/auth/login.ts at line 45" |
 | "Write a function" | "Write validateEmail with tests: [email protected]=true" |
@@ -98,7 +109,7 @@ pnpm run fmt:check              # Vérifier le formatage (CI)
 
 Claude performe mieux quand il peut vérifier son travail :
 
-| ❌ Avant | ✅ Après |
+|  Avant |  Après |
 |---------|---------|
 | "implement user auth" | "implement auth. verify with: valid login works, invalid fails" |
 | "make the dashboard better" | "[screenshot] implement this design. compare after" |
@@ -106,7 +117,7 @@ Claude performe mieux quand il peut vérifier son travail :
 
 ---
 
-## 🔄 WORKFLOW EPCT
+##  WORKFLOW EPCT
 
 ```
 EXPLORE → PLAN → CODE → TEST
@@ -133,7 +144,7 @@ EXPLORE → PLAN → CODE → TEST
 
 ---
 
-## 🔧 KEY WORKFLOWS
+##  KEY WORKFLOWS
 
 ### Git Flow Master
 ```
@@ -143,8 +154,8 @@ TYPE: PROJECT - vX.Y.Z
 - Change 2
 
 Verification:
-- cargo check: ✅
-- cargo test: ✅
+- cargo check: 
+- cargo test: 
 ```
 
 Types: RELEASE (MAJOR), UPDATE (MINOR), PATCH (FIX)
@@ -163,7 +174,7 @@ Types: RELEASE (MAJOR), UPDATE (MINOR), PATCH (FIX)
 
 ---
 
-## 💬 COMMUNICATION EFFICACE
+##  COMMUNICATION EFFICACE
 
 ### Poser des questions sur le codebase
 
@@ -185,7 +196,7 @@ Then write complete spec to SPEC.md.
 
 ---
 
-## 🚫 PATTERNS D'ÉVITEMENT
+##  PATTERNS D'ÉVITEMENT
 
 | Pattern | Problème | Solution |
 |---------|----------|----------|
@@ -197,7 +208,7 @@ Then write complete spec to SPEC.md.
 
 ---
 
-## 📊 GESTION DU CONTEXTE
+##  GESTION DU CONTEXTE
 
 | Commande | Action |
 |----------|--------|
@@ -221,7 +232,7 @@ export ENABLE_TOOL_SEARCH=auto:5
 
 ---
 
-## 📚 DOCUMENTATION
+##  DOCUMENTATION
 
 ### Skills TrigMem
 - `/trigmem-core` - Concepts fondamentaux EPCT
@@ -242,9 +253,30 @@ export ENABLE_TOOL_SEARCH=auto:5
 
 ---
 
+##  OUTILS PAMACEA (Auto-Active)
+
+| Outil | Usage | Trigger |
+|-------|-------|---------|
+| **@RTK.md** | Token savings (60-90%) | Auto-rewrite git, grep, cat commands |
+| **@AUREUS.md** | Versioned commits | Git flow format: `TYPE: PROJECT - vX.Y.Z` |
+| **@PARRY.md** | Agentic linting | PostWrite validation (Tailwind, imports, React) |
+| **@ARGUS.md** | Memory sentinel | PreToolUse recall, PostToolUse remember |
+| **@PALNIA.md** | Tasks/Events CLI | `palnia tasks`, `palnia events`, `palnia habits` |
+
+**Important:** Ces fichiers sont générés automatiquement par leurs outils respectifs.
+Ne PAS les modifier manuellement.
+
+---
+
+*Version: 5.1.0 | TrigMem + EPCT + PROTOCOL + Prompting Avancé*
+
+**Full documentation:** @PROTOCOL.md + @REFERENCE.md
+
+---
+
 @RTK.md
 @AUREUS.md
-@ARGUS.md
 @PARRY.md
+@ARGUS.md
 
-*Version: 5.0.0 | TrigMem + EPCT + Prompting Avancé*
+@PALNIA.md

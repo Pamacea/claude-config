@@ -2,13 +2,13 @@
 
 > **Version:** 3.0.0 | Minimal Rules → Skills Auto-Activation
 
-## 🎯 Core Principle
+##  Core Principle
 
 **Code not reused is code wasted.**
 
 ---
 
-## 📦 Barrel Exports
+##  Barrel Exports
 
 ```typescript
 // index.ts
@@ -18,7 +18,7 @@ export { Card } from './molecules/Card'
 
 ---
 
-## 🧩 Variant Props
+## � Variant Props
 
 ```typescript
 type ButtonVariant = 'primary' | 'secondary' | 'danger'
@@ -30,7 +30,7 @@ export function Button({ variant, ... }) {
 
 ---
 
-## 🔧 Pure Functions
+##  Pure Functions
 
 ```typescript
 // Generic, reusable utilities
@@ -43,7 +43,7 @@ export function chunk<T>(array: T[], size: number): T[][] {
 
 ---
 
-## 📋 Checklist
+##  Checklist
 
 - [ ] Researché existing?
 - [ ] Can extend vs create new?

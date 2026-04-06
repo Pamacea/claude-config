@@ -5,7 +5,7 @@
 
 ---
 
-## 📋 Table des Matières
+##  Table des Matières
 
 1. [Introduction à Claude Code](#1-introduction-à-claude-code)
 2. [Installation et Configuration](#2-installation-et-configuration)
@@ -541,7 +541,7 @@ CLAUDE_CODE_DISABLE_AUTO_MEMORY=1
 
 Claude performe beaucoup mieux quand il peut vérifier son propre travail :
 
-| ❌ Avant | ✅ Après |
+|  Avant |  Après |
 |---------|---------|
 | "implement a function that validates email addresses" | "write a validateEmail function. example test cases: [email protected] is true, invalid is false. run the tests after implementing" |
 | "make the dashboard look better" | "[paste screenshot] implement this design. take a screenshot and compare" |
@@ -572,7 +572,7 @@ TEST (verify)
 
 ### Fournir du Contexte Spécifique
 
-| ❌ Trop vague | ✅ Spécifique |
+|  Trop vague |  Spécifique |
 |---------------|--------------|
 | "add tests for foo.py" | "write a test for foo.py covering the edge case where user is logged out. avoid mocks" |
 | "why does ExecutionFactory have weird api?" | "look through ExecutionFactory's git history and summarize how its api came to be" |
@@ -792,7 +792,7 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 
 ---
 
-## 📝 Conclusion
+##  Conclusion
 
 Ce guide couvre les fondamentaux de Claude Code Workflow pour les développeurs. L'écosystème évolue rapidement, avec :
 

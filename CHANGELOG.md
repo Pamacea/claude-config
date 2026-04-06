@@ -4,9 +4,64 @@
 
 ---
 
+## [1.5.0] - 2025-04-06
+
+### PROTOCOL Mode - High Strictness
+
+#### Nouveau Fichier PROTOCOL.md
+- **R1** : Zero duplication de fichiers (_v2, _new, _backup interdits)
+- **R2** : Limite de 2 redemarrages serveur par session
+- **R3** : Communication Cro-Magnon (ANALYSIS -> ACTION -> RESULT)
+- **R4** : Boucle de verification des regles (toutes les 5 actions)
+- **R5** : Context sync + NO GHOST CONTEXT
+- **Architecture** : Section UI/CSS avec Atomic Design (max 3 niveaux)
+- **Outils Pamacea** : RTK, Aureus, PARRY, ARGUS, PALNIA documentes
+
+#### CLAUDE.md v5.1.0
+- **@PROTOCOL.md** en premiere position (override tout)
+- **Section outils Pamacea** avec tableau des 5 outils
+- **References** a RTK, AUREUS, PARRY, ARGUS, PALNIA preservees
+
+#### 11 Skills Patterns Crees
+Tous les skills patterns sont maintenant crees avec contenu complet :
+
+| Skill | Contenu |
+|-------|---------|
+| **typescript** | Generics, Utility Types, Type Guards, Branded Types |
+| **tailwind** | Utility-first, Responsive, Dark Mode, Custom config |
+| **tech-decisions** | Framework selection, TR3 framework, Buy vs Build |
+| **tanstack** | useQuery, useMutation, Infinite Scroll, Optimistic updates |
+| **vite** | Config, Aliases, Plugins, Build optimization |
+| **nestjs** | Controllers, Services, Guards, DTOs, Exception filters |
+| **rust** | Handlers, State, Middleware, Error handling, Tokio |
+| **ux-design** | WCAG, Loading states, Empty states, Accessibility |
+| **documentation** | README, API docs, JSDoc, Guides |
+| **wasm** | wasm-bindgen, Exports, Async, WASM GC, SIMD |
+| **nextjs** | Server Components, Server Actions, Streaming, App Router |
+
+#### Rules Legacy
+- **Deplacement** : 01-nevers.md vers rules/legacy/01-nevers.md.bak
+- **Raison** : Remplace par 01-standards.md (approche positive)
+
+#### Documentation
+- **SETTINGS.md** : Configuration optimale settings.json
+- **settings.json.example** : Template a copier dans ~/.claude/
+- **README.md** : Section PROTOCOL ajoutee avec mode 100% automatique
+
+#### Nettoyage Skills
+- **INDEX.md** : Stats mises a jour (12 skills crees)
+- **README.md skills** : Documentation alignee avec la realite
+
+### EMOJIS SUPPRIMES
+- **Suppression** de tous les emojis dans tous les fichiers .md
+- **Raison** : Approche professionnelle, compatibilite maximale
+- **Impact** : README.md, CLAUDE.md, PROTOCOL.md, CHANGELOG.md, skills, rules
+
+---
+
 ## [1.4.1] - 2026-03-18
 
-### 🔧 Rust Full Stack Workspace Structure
+###  Rust Full Stack Workspace Structure
 
 #### Nouveau Skill rust-workspace-structure
 - **Structure Gold Standard** pour monorepo Rust (Axum + Dioxus/Leptos)
@@ -34,7 +89,7 @@
 - **Nouvelle Rule 5** : Project Structure Exclusivity
 - **Cross-references** mises à jour
 
-### 📊 Statistiques v1.4.1
+###  Statistiques v1.4.1
 
 | Métrique | v1.4.0 | v1.4.1 | Δ |
 |----------|--------|--------|---|
@@ -46,7 +101,7 @@
 
 ## [1.4.0] - 2026-03-17
 
-### 🔄 Refactorisation Systémique - Positive Standards
+###  Refactorisation Systémique - Positive Standards
 
 #### Philosophie "Actions Positives"
 - **Éradication du négatif** : Remplacement de tous "NE PAS", "INTERDIT", "NO", "SANS" par des instructions positives
@@ -70,7 +125,7 @@ Tous les 11 skills patterns maintenant avec sections "Quality Gates" :
 
 | Skill | Transformation | Quality Gates Ajoutés |
 |-------|----------------|----------------------|
-| **nextjs-patterns** | ❌ NEVER → ✅ Standards | SC1-SC5, AC1-AC3, SR1-SR3 |
+| **nextjs-patterns** |  NEVER →  Standards | SC1-SC5, AC1-AC3, SR1-SR3 |
 | **rust-axum** | Anti-Patterns → Quality Gates | QM1-QM5, E1-E4, AS1-AS4 |
 | **nestjs-patterns** | Anti-Patterns → Quality Gates | AR1-AR4, CQ1-CQ5, BP1-BP4 |
 | **tanstack-patterns** | Anti-Patterns → Quality Gates | DF1-DF4, SM1-SM4, CQ1-CQ4 |
@@ -83,7 +138,7 @@ Tous les 11 skills patterns maintenant avec sections "Quality Gates" :
 | **tech-decisions** | Anti-Patterns → Quality Gates | RG1-RG4, SC1-SC3, PR1-PR4 |
 
 #### Rules Core mises à jour
-- **00-core.md v2.0** : Sections "❌ NEVER / ✅ ALWAYS" remplacées par workflows positifs
+- **00-core.md v2.0** : Sections " NEVER /  ALWAYS" remplacées par workflows positifs
 - **02-conventions.md** : Préservé (déjà positif)
 - **03-delete-first.md** : Préservé (philosophie positive)
 - **04-react-hooks-limits.md** : Transformé en standards positifs
@@ -92,7 +147,7 @@ Tous les 11 skills patterns maintenant avec sections "Quality Gates" :
 
 #### Format Quality Gates Uniforme
 ```markdown
-## ✅ Quality Gates
+##  Quality Gates
 
 ### Validation Checklist
 - [ ] **XX1** - Standard positif avec critère mesurable
@@ -104,7 +159,7 @@ L'implémentation est conforme quand :
 - **Critère 2** measurable
 ```
 
-### 📊 Statistiques v1.4.0
+###  Statistiques v1.4.0
 
 | Métrique | v1.3.0 | v1.4.0 | Δ |
 |----------|--------|--------|---|
@@ -114,7 +169,7 @@ L'implémentation est conforme quand :
 | **Skills avec QG** | 0/11 | 11/11 | **100%** |
 | **Approche positive** | 60% | 100% | **+40%** |
 
-### 🔧 Méthode de Travail
+###  Méthode de Travail
 
 **Principe Delete-First Apply :**
 1. Lire le fichier existant
@@ -125,26 +180,26 @@ L'implémentation est conforme quand :
 
 **Exemple de transformation :**
 ```markdown
-# AVANT (❌ négatif)
-## ⚠️ Anti-Patterns
-| ❌ NEVER | ✅ ALWAYS |
+# AVANT ( négatif)
+##  Anti-Patterns
+|  NEVER |  ALWAYS |
 |---------|-----------|
 | `@apply` everywhere | Inline utility classes |
 
-# APRÈS (✅ positif)
-## ✅ Quality Gates
+# APRÈS ( positif)
+##  Quality Gates
 ### CSS Usage
 - [ ] **CU1** - Classes utilitaires en ligne (priorité sur `@apply`)
 - [ ] **CU2** - `@apply` limité aux composants réutilisables uniquement
 ```
 
-### 📚 Documentation
+###  Documentation
 
 - **README.md** : Mis à jour pour refléter l'approche positive
 - **GUIDE.md** : Section Quality Gates ajoutée
 - **REFERENCE.md** : Tableau des Quality Gates
 
-### 🎯 Bénéfices
+###  Bénéfices
 
 1. **Clarté** : Standards positifs plus faciles à suivre
 2. **Validation** : Checklists objectives pour compliance
@@ -163,7 +218,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.0] - 2025-03-12
 
-### 🚀 Optimisation Majeure - Team Mode
+###  Optimisation Majeure - Team Mode
 
 #### CLAUDE.md Réduction de 54%
 - **Avant** : 153 lignes (~3,000 tokens)
@@ -203,30 +258,30 @@ Tous les 12 skills patterns sont maintenant entièrement conformes :
 
 #### Nouveau Format Sections Uniformes
 Tous les skills incluent maintenant :
-- 🎯 **Auto-Activation** - Conditions de déclenchement
-- 🚀 **Quick Start** - 3 commandes maximum
-- 📊 **Quick Reference** - Tableau de référence rapide
-- 💻 **Core Concepts** - Concepts fondamentaux
-- 🎯 **Common Patterns** - Patterns courants
-- ⚠️ **Anti-Patterns** - Tableau ❌ NEVER vs ✅ ALWAYS
-- 🔧 **Troubleshooting** - Tableau Problème/Cause/Solution
-- 🎯 **Best Practices** - Checklist + guidelines
-- 🔗 **Related Skills** - Prérequis, reliés, complémentaires
-- 📖 **Further Reading** - Liens documentation officielle
-- 🎯 **Success Criteria** - Checklist de completion
-- 💡 **Key Insights** - Why it matters + Common Pitfalls
+-  **Auto-Activation** - Conditions de déclenchement
+-  **Quick Start** - 3 commandes maximum
+-  **Quick Reference** - Tableau de référence rapide
+-  **Core Concepts** - Concepts fondamentaux
+-  **Common Patterns** - Patterns courants
+-  **Anti-Patterns** - Tableau  NEVER vs  ALWAYS
+-  **Troubleshooting** - Tableau Problème/Cause/Solution
+-  **Best Practices** - Checklist + guidelines
+-  **Related Skills** - Prérequis, reliés, complémentaires
+-  **Further Reading** - Liens documentation officielle
+-  **Success Criteria** - Checklist de completion
+-  **Key Insights** - Why it matters + Common Pitfalls
 
-### 📊 Statistiques v1.3.0
+###  Statistiques v1.3.0
 
 | Métrique | v1.2.0 | v1.3.0 | Δ |
 |----------|--------|--------|---|
 | **CLAUDE.md (lignes)** | 153 | 71 | **-54%** |
 | **CLAUDE.md (tokens)** | ~3,000 | ~1,400 | **-53%** |
 | **Skills 100% conformes** | 5/12 | 12/12 | **+140%** |
-| **Chemins portables** | Non | Oui | ✅ |
+| **Chemins portables** | Non | Oui |  |
 | **Doublons TrigMem** | 6 dossiers | 0 | **-100%** |
 
-### 🔧 Méthode de Travail
+###  Méthode de Travail
 
 Cette version a été développée en **Team Mode** avec 3 agents travaillant en parallèle :
 - **Agent claude-md-optimizer** : Optimisation CLAUDE.md
@@ -248,14 +303,14 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 
 ## [1.1.5] - 2026-02-19
 
-### 🔧 Améliorations Git Flow Master
+###  Améliorations Git Flow Master
 
 #### Type de Commit WIP
 - **Nouveau type** : `WIP` (Work In Progress) pour les commits de refactoring
 - **SemVer** : Marqué comme MAJOR (breaking changes potentiels)
 - **Usage** : Pour les refactors en cours, réorganisations majeures
 
-### 🚀 Refonte Skills TrigMem
+###  Refonte Skills TrigMem
 
 #### Structure en Dossiers
 - **Ancien** : Fichiers `.skill` uniques (trigmem-core.skill, etc.)
@@ -273,7 +328,7 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 - `trigmem-examples/` - Exemples travaillés
 - `trigmem-verification/` - Analyse de sessions
 
-### 🪝 Nouveau Système de Hooks
+### � Nouveau Système de Hooks
 
 #### Hooks Git Flow Master
 - **Installation automatique** des hooks Git Flow Master
@@ -281,14 +336,14 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 - **Suggestion automatique** du type de commit (RELEASE/UPDATE/PATCH/WIP)
 - **Génération de tags** et releases
 
-### 🔌 Pattern Autoloader
+### � Pattern Autoloader
 
 #### Chargement Intelligent
 - **Détection automatique** des patterns nécessaires
 - **Autoloading** basé sur les triggers
 - **Économie de tokens** supplémentaire
 
-### 📊 Statistiques
+###  Statistiques
 
 | Métrique | v1.1.0 | v1.1.5 |
 |----------|-------|-------|
@@ -300,7 +355,7 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 
 ## [1.1.0] - 2026-02-18
 
-### ✨ Nouveaux Skills Patterns
+###  Nouveaux Skills Patterns
 
 #### UX Design Patterns
 - **Atomic Design** - Atomes → Molécules → Organismes
@@ -315,7 +370,7 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 - **JSDoc/TSDoc** - Code documentation patterns
 - **Changelog** - Keep a Changelog format
 
-### 🔧 Nouveaux Skills Opérationnels
+###  Nouveaux Skills Opérationnels
 
 #### MCP Mandatory
 - **Checklist pré-action** - Quand utiliser les MCPs
@@ -324,7 +379,7 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 - **chrome-devtools** - Debugging UI
 - **z-ai** - Analyse images/vidéos
 
-### 📏 Nouvelles Règles
+### � Nouvelles Règles
 
 #### Delete First (rules/03-delete-first.md)
 - YAGNI - You Aren't Gonna Need It
@@ -349,14 +404,14 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 - Pre-action checklist
 - MCP selection flowchart
 
-### 🛠️ Scripts
+###  Scripts
 
 #### analyze-trigmem.sh
 - Analyse history.jsonl pour vérifier l'utilisation des skills TrigMem
 - Rapport de compliance
 - Recommandations d'amélioration
 
-### 📊 Statistiques
+###  Statistiques
 
 | Métrique | v1.0.0 | v1.1.0 |
 |----------|-------|-------|
@@ -370,11 +425,11 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 
 ## [1.0.0] - 2026-02-17
 
-### 🎉 Release Initiale - TrigMem Enhanced
+###  Release Initiale - TrigMem Enhanced
 
 Première version publique de **claude-config** avec la méthodologie TrigMem complète.
 
-### ✨ Nouveautés
+###  Nouveautés
 
 #### TrigMem Integration
 - **Système TrigMem** complet avec 6 catégories
@@ -397,7 +452,7 @@ Première version publique de **claude-config** avec la méthodologie TrigMem co
 - `01-nevers.md` - 40+ règles bloquantes
 - `02-conventions.md` - Git, Docs, Structure
 
-### 📁 Structure
+###  Structure
 
 ```
 .claude/
@@ -408,13 +463,13 @@ Première version publique de **claude-config** avec la méthodologie TrigMem co
 └── CLAUDE.md              # Identité projet
 ```
 
-### 📚 Documentation
+###  Documentation
 - README.md - Quick Start et présentation
 - GUIDE.md - Guide complet d'utilisation
 - REFERENCE.md - Référence rapide
 - CHANGELOG.md - Historique des versions
 
-### 🎯 Triggers de Chargement
+###  Triggers de Chargement
 
 Les patterns sont chargés automatiquement selon les mots-clés :
 - **Next.js**: "Server Action", "RSC", "App Router", "revalidateTag"
@@ -428,7 +483,7 @@ Les patterns sont chargés automatiquement selon les mots-clés :
 
 ---
 
-## 🔄 Migration depuis v5.0.0
+##  Migration depuis v5.0.0
 
 ### Changements
 
@@ -449,7 +504,7 @@ Les patterns sont chargés automatiquement selon les mots-clés :
 
 ---
 
-## 📊 Statistiques v1.0.0
+##  Statistiques v1.0.0
 
 | Métrique | Valeur |
 |----------|-------|
@@ -462,7 +517,7 @@ Les patterns sont chargés automatiquement selon les mots-clés :
 
 ---
 
-## 🔮 Roadmap
+##  Roadmap
 
 ### v1.1.0 (Planifié)
 - [ ] Pattern SolidJS
