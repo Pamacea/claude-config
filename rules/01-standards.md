@@ -32,7 +32,7 @@ Chaque standard technique est maintenant un **skill auto-activable** pour écono
 
 ### workflows/ (Cat 3)
 - `epct-methodology.skill` - Explore, Plan, Code, Test
-- `mcp-workflows.skill` - claude-mem, git-flow, chrome-devtools
+- `mcp-workflows.skill` - claude-mem, git-flow, dev-browser
 
 ### conventions/ (Cat 2)
 - `project-conventions.skill` - Git flow, file structure, naming

@@ -8,14 +8,6 @@
       "env": {
         "ARGUS_PLUGIN_ROOT": "C:/Users/Yanis/.claude/plugins/cache/argus/argus/0.6.0"
       }
-    },
-    "chrome-devtools": {
-      "command": "npx",
-      "args": [
-        "chrome-devtools-mcp@latest",
-        "&quot;--autoConnect",
-        "--channel=beta"
-      ]
     }
   }
 }

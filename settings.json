@@ -107,15 +107,12 @@
     ]
   },
   "language": "French",
+  "permissions": {
+    "allow": [
+      "Bash(dev-browser *)"
+    ]
+  },
   "mcpServers": {
-    "chrome-devtools": {
-      "args": [
-        "chrome-devtools-mcp@latest",
-        "&quot;--autoConnect",
-        "--channel=beta"
-      ],
-      "command": "npx"
-    },
     "sequential-thinking": {
       "args": [
         "-y",

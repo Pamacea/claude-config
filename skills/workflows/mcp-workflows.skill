@@ -12,7 +12,7 @@
 |-----|-------------|------------------|----------|
 | **claude-mem** | Reusing past solutions | "did we", "how did we", "remember" | 1 |
 | **git-flow-master** | Versioned commits | "commit", "release", "update", "patch" | 2 |
-| **chrome-devtools** | UI debugging/testing | "debug UI", "test page", "screenshot" | 3 |
+| **dev-browser** | UI debugging/testing | "debug UI", "test page", "screenshot" | 3 |
 | **web-reader** | Reading documentation | "read URL", "fetch page", "docs" | 4 |
 | **web-search-prime** | Latest info | "latest docs", "current info" | 4 |
 

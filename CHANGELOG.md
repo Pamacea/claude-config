@@ -422,7 +422,7 @@ Cette version a été développée en **Team Mode** avec 3 agents travaillant en
 - **Checklist pré-action** - Quand utiliser les MCPs
 - **claude-mem** - Mémoire persistante
 - **git-flow-master** - Commits versionnés
-- **chrome-devtools** - Debugging UI
+- **dev-browser** - Debugging UI
 - **z-ai** - Analyse images/vidéos
 
 ### � Nouvelles Règles

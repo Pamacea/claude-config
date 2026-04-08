@@ -8,7 +8,7 @@
 |-----|-------|------------------|
 | **claude-mem** | Memory reuse | "did we", "remember" |
 | **git-flow-master** | Versioned commits | "commit", "release" |
-| **chrome-devtools** | UI debugging | "screenshot", "debug UI" |
+| **dev-browser** | UI debugging | "screenshot", "debug UI" |
 | **web-reader** | Docs | "read URL", "docs" |
 
 ---

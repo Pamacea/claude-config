@@ -35,7 +35,7 @@
 # Before any significant action, use:
 1. Check memory?  → claude-mem (search past solutions)
 2. Committing?    → git-flow-master (versioned commits)
-3. UI debugging?  → chrome-devtools (browser tools)
+3. UI debugging?  → dev-browser (browser tools)
 4. Visual?        → z-ai (image/video analysis)
 ```
 
@@ -49,7 +49,7 @@
 |-----|-------------|------------------|----------|
 | **claude-mem** | Reusing past solutions | "did we", "how did we", "remember" | 1 (Memory first) |
 | **git-flow-master** | Versioned commits | "commit", "release", "update", "patch" | 2 (After quality gates) |
-| **chrome-devtools** | UI debugging/testing | "debug UI", "test page", "screenshot" | 3 (When working on UI) |
+| **dev-browser** | UI debugging/testing | "debug UI", "test page", "screenshot" | 3 (When working on UI) |
 | **z-ai** | Visual analysis | "analyze image", "screenshot error", "video" | 4 (Visual content) |
 | **web-reader** | Fetching docs | "read URL", "fetch page", "scrape" | 5 (Before implementing) |
 | **web-search-prime** | Latest info | "latest docs", "current info", "search" | 5 (Before implementing) |
@@ -174,7 +174,7 @@ Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 
 ### Optimal Usage
 
-**Use chrome-devtools when:**
+**Use dev-browser when:**
 -  Debugging layout issues
 -  Testing interactive elements
 -  Taking screenshots for verification
@@ -356,7 +356,7 @@ Git Workflow:
 
 ```
 UI Debugging:
-☐ Navigate to page with chrome-devtools
+☐ Navigate to page with dev-browser
 ☐ Take snapshot for structure
 ☐ Check console for errors
 ☐ Take screenshot for visual check
@@ -378,7 +378,7 @@ UI Debugging:
 ├─────────────────────────────────────────┤
 │ Commit changes with versioning?         │ → git-flow-master
 ├─────────────────────────────────────────┤
-│ Debug/test UI in browser?               │ → chrome-devtools
+│ Debug/test UI in browser?               │ → dev-browser
 ├─────────────────────────────────────────┤
 │ Analyze image/screenshot/video?         │ → z-ai
 ├─────────────────────────────────────────┤
@@ -406,7 +406,7 @@ Git Discipline:
 → "Let me generate a proper versioned commit message"
 
 UI Testing:
-→ "Let me debug this with chrome-devtools"
+→ "Let me debug this with dev-browser"
 → "I should take a screenshot to verify the fix"
 → "Let me check console for errors"
 
@@ -424,7 +424,7 @@ Visual Analysis:
 |----------|------|---------|
 | Search memory first | claude-mem | Reuse past solutions |
 | Versioned commits | git-flow-master | Consistent history |
-| Test in browser | chrome-devtools | Catch visual bugs |
+| Test in browser | dev-browser | Catch visual bugs |
 | Analyze visuals | z-ai | Faster debugging |
 | Check latest docs | web-search-prime | Avoid breaking changes |
 | Save patterns | claude-mem | Continuous improvement |
@@ -464,7 +464,7 @@ Visual Analysis:
 MCP usage is effective when:
 - [ ] Searching claude-mem before implementing
 - [ ] Using git-flow-master for all commits
-- [ ] Using chrome-devtools for UI debugging
+- [ ] Using dev-browser for UI debugging
 - [ ] Using z-ai for visual analysis
 - [ ] Verifying latest docs with web-search-prime
 - [ ] Saving successful patterns to memory

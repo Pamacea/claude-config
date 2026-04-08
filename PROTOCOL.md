@@ -54,7 +54,7 @@ PROTOCOLE ÉCHEC CSS/TURBOPACK/POSTCSS:
 1. STOP - NE PLUS toucher package.json ou supprimer caches
 2. Lire: postcss.config.js et tailwind.config.js
 3. Vérifier: DERNIER fichier modifié (erreur syntaxe?)
-4. MANDATORY: Utiliser sub-agent ou chrome-devtools screenshot pour vérifier
+4. MANDATORY: Utiliser sub-agent ou dev-browser screenshot pour vérifier
 5. THEN fix - PAS de modifications à l'aveugle
 
 INTERDIT:
@@ -148,7 +148,7 @@ Signes de contexte pourri:
 ### Protocole Modification CSS
 ```
 Avant TOUT changement CSS:
-1. Snapshot: chrome-devtools screenshot
+1. Snapshot: dev-browser screenshot
 2. Identifier: EXACTE classe à modifier
 3. Changer: UNE classe à la fois
 4. Vérifier: Nouveau snapshot
