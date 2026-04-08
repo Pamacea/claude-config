@@ -1,6 +1,11 @@
 # GUIDE - Claude Config & TrigMem v2.0
 
-> **Version:** 2.0.0 | **Révolution Positive** | **Dernière mise à jour:** 2025-03-17
+**Type:** reference
+**Summary:** Guide d'installation, usage, patterns loading, customisation et migration depuis v1.x
+**Tags:** #claude-code #setup #installation #guide
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** [settings-reference], [claude-code-optimization]
 
 ---
 

@@ -1,5 +1,12 @@
 # NestJS Patterns
 
+**Type:** knowledge
+**Summary:** Patterns for NestJS development including controllers, services, modules, and dependency injection decorators.
+**Tags:** #nestjs #backend #api
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Intermediate
 > **Auto-Activation:** "nest controller", "nest service", "nest module", "nestjs decorator"
 > **Tags:** [nestjs, backend, typescript, dependency-injection, decorators]

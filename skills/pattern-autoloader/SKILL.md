@@ -1,5 +1,12 @@
 # Pattern Autoloader - Auto-Detection
 
+**Type:** meta
+**Summary:** Meta-skill that auto-detects tech-specific questions and loads the appropriate pattern skill on demand.
+**Tags:** #autoloader #patterns
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 0 (Meta-Skill)
 
 ---

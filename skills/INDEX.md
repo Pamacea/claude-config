@@ -1,399 +1,104 @@
-# Skills Index - Optimized Auto-Activation Map
+# Skills Index — Metadata-Based Routing
 
-> **Version:** 2.0.0 | **Last Updated:** 2025-03-17
-> **Purpose:** Universal skill auto-activation with mutually exclusive triggers
-
----
-
-##  Usage Guide
-
-When a user asks a question:
-1. Extract keywords from the question
-2. Match to **exclusive** trigger keywords in the table below
-3. Auto-load **highest priority** matching skill only
-4. Apply progressive disclosure (Metadata → Instructions → Resources)
-
-**Key Change:** Triggers are now **mutually exclusive** - load only one primary skill.
+> **Version:** 3.0.0 | **Mise à jour:** 2026-04-08
+> **Approche:** Scan des `**Summary:**` + `**Tags:**` au lieu de keyword triggers manuels
 
 ---
 
-##  Master Activation Matrix
+## Comment ça marche
 
-### Priority Rule
+1. Extraire les concepts de la question utilisateur
+2. Scanner les `**Summary:**` et `**Tags:**` des SKILL.md
+3. Charger le skill le plus pertinent (1 seul primaire)
+4. Référencer (pas charger) les skills liés via `**Related:**`
 
-**Load order:**
-1. **Cat 0 (Meta)** → Foundation skills first
-2. **Cat 4 (Patterns)** → Tech-specific skills
-3. **Cat 3 (Operations)** → Tool usage skills
-
-**Within same category:** Lower priority number = Higher precedence
+**Avantage vs keyword triggers:** Pas de maintenance manuelle des conflits. Chaque SKILL.md est auto-descriptif via ses metadata.
 
 ---
 
-### Exclusive Trigger Table
+## Skills Disponibles
 
-| Skill | Primary Trigger | Excludes | Priority | Auto-Load |
-|-------|-----------------|----------|----------|-----------|
-| **Meta Skills (Cat 0)** | | | | |
-| `trigmem-core` | "epct", "methodology", "workflow", "how do you work" | All pattern skills | 1 | Yes |
-| `trigmem-categories` | "where to store", "which category", "trigmem" | Decision/Storage | 2 | Yes |
-| `trigmem-decision` | "choose between", "which approach", "decision" | - | 3 | Context |
-| `trigmem-storage` | "memory config", "storage strategy" | - | 4 | Context |
-| `trigmem-examples` | "show me example", "worked example" | - | 5 | Request |
-| `trigmem-verification` | "verify session", "check quality" | - | 6 | Request |
-| `pattern-autoloader` | [tech names] - See below | - | Auto | Auto |
-| **Frontend Patterns (Cat 4)** | | | | |
-| `nextjs-patterns` | "server component", "app router", "ssr", "nextjs", "next.js" | Other frontend frameworks | 10 | Yes |
-| `tanstack-patterns` | "usequery", "usemutation", "tanstack query", "react query" | - | 11 | Yes |
-| `tailwind-patterns` | "tailwind class", "tailwind config", "@tailwind" | Other CSS frameworks | 12 | Yes |
-| `vite-patterns` | "vite config", "vite plugin", "hmr vite" | Other build tools | 13 | Yes |
-| `typescript-patterns` | "generic type", "utility type", "interface ts" | Other languages | 14 | Yes |
-| `ux-design-patterns` | "ux design", "user experience", "usability test" | - | 15 | Request |
-| `documentation-patterns` | "api documentation", "readme format", "docs pattern" | - | 16 | Request |
-| **Backend Patterns (Cat 4)** | | | | |
-| `rust-axum` | "axum handler", "tokio spawn", "rust ownership" | Other backend frameworks | 20 | Yes |
-| `nestjs-patterns` | "nest controller", "nest service", "nest module" | Other backend frameworks | 21 | Yes |
-| `wasm-rust` | "wasm-bindgen", "rust wasm", "wasmgc", "reference types" | - | 22 | Yes |
-| `rust-fullstack` | "fullstack rust", "type sharing", "server functions" | Other fullstack frameworks | 23 | Yes |
-| `rust-workspace-structure` | "monorepo", "workspace structure", "cargo workspace", "project structure" | Other project structures | 24 | Yes |
-| **Frontend Patterns (Cat 4)** | | | | |
-| `nextjs-patterns` | "server component", "app router", "ssr", "nextjs", "next.js" | Other frontend frameworks | 10 | Yes |
-| `tanstack-patterns` | "usequery", "usemutation", "tanstack query", "react query" | - | 11 | Yes |
-| `tailwind-patterns` | "tailwind class", "tailwind config", "@tailwind" | Other CSS frameworks | 12 | Yes |
-| `vite-patterns` | "vite config", "vite plugin", "hmr vite" | Other build tools | 13 | Yes |
-| `typescript-patterns` | "generic type", "utility type", "interface ts" | Other languages | 14 | Yes |
-| `leptos` | "leptos", "rust ssr", "signals", "view! macro" | Other Rust frontend frameworks | 22 | Yes |
-| `dioxus` | "dioxus", "rust multiplatform", "desktop rust", "rsx" | Other Rust frontend frameworks | 23 | Yes |
-| **Tech Decisions (Cat 4)** | | | | |
-| `tech-decisions` | "which framework", "which database", "tech stack choice" | - | 30 | Request |
-| **Operations (Cat 3)** | | | | |
-| `mcp-mandatory` | "git commit", "version control", "screenshot analysis" | - | 40 | Suggest |
+### Patterns Frontend
+
+| Skill | Tags | Summary |
+|-------|------|---------|
+| [nextjs](patterns/nextjs/SKILL.md) | #nextjs #frontend #react | Next.js 16 — App Router, RSC, Server Actions |
+| [tanstack](patterns/tanstack/SKILL.md) | #tanstack #state #react | TanStack Suite — Query, Router, Form |
+| [tailwind](patterns/tailwind/SKILL.md) | #tailwind #css #frontend | Tailwind CSS — responsive, dark mode, design system |
+| [vite](patterns/vite/SKILL.md) | #vite #build #tooling | Vite — config, plugins, HMR |
+| [typescript](patterns/typescript/SKILL.md) | #typescript #types | TypeScript — generics, utility types, strict mode |
+
+### Patterns Backend
+
+| Skill | Tags | Summary |
+|-------|------|---------|
+| [rust](patterns/rust/SKILL.md) | #rust #backend #axum | Rust — Axum, sqlx, Tower, workspace |
+| [nestjs](patterns/nestjs/SKILL.md) | #nestjs #backend #api | NestJS — DTO, JWT, TypeORM |
+| [wasm](patterns/wasm/SKILL.md) | #wasm #rust #webassembly | WebAssembly — wasm-bindgen, wasm-pack, WasmGC |
+
+### Patterns Transversaux
+
+| Skill | Tags | Summary |
+|-------|------|---------|
+| [tech-decisions](patterns/tech-decisions/SKILL.md) | #decisions #architecture | Choix de stack — comparatifs, critères |
+| [ux-design](patterns/ux-design/SKILL.md) | #ux #design #ui | UX/UI — patterns, accessibilité, design system |
+| [documentation](patterns/documentation/SKILL.md) | #documentation #writing | Documentation — API docs, README, guides |
+
+### Opérations
+
+| Skill | Tags | Summary |
+|-------|------|---------|
+| [mcp-mandatory](operations/mcp-mandatory/SKILL.md) | #mcp #operations | Workflows MCP — git, screenshots, analysis |
+| [pattern-autoloader](pattern-autoloader/SKILL.md) | #autoloader #patterns | Auto-détection des patterns nécessaires |
 
 ---
 
-##  Mutual Exclusivity Rules
+## Règles d'Exclusivité
 
-### Rule 1: Framework Exclusivity
+### Framework (1 seul chargé)
 
-**Only ONE framework pattern loads at a time:**
+| Si détecté | Charger | Exclure |
+|-----------|---------|---------|
+| nextjs, server component, app router | nextjs | Autres frontend frameworks |
+| nestjs, decorator, controller | nestjs | Autres backend frameworks |
+| axum, tokio, actix | rust (backend) | Autres backend frameworks |
 
-| If Detected | Load | Exclude |
-|-------------|------|---------|
-| `nextjs`, `server component`, `app router` | `nextjs-patterns` | All other frontend frameworks |
-| `react`, `useeffect`, `usestate` | Generic React (if no Next.js) | All other frameworks |
-| `vue`, `nuxt`, `composition api` | Vue patterns (if created) | All other frameworks |
-| `svelte`, `sveltekit` | Svelte patterns (if created) | All other frameworks |
+### Langage (1 seul chargé)
 
-### Rule 2: Language Exclusivity
+| Si détecté | Charger | Exclure |
+|-----------|---------|---------|
+| typescript, generic, interface | typescript | Autres langages |
+| rust, cargo, lifetime | rust | Autres langages |
 
-**Only ONE language pattern loads at a time:**
+### Rust Frontend (1 seul chargé)
 
-| If Detected | Load | Exclude |
-|-------------|------|---------|
-| `typescript`, `interface`, `generic` | `typescript-patterns` | Other language patterns |
-| `rust`, `cargo`, `lifetime` | `rust-axum` | Other language patterns |
-| `python`, `django`, `fastapi` | Python patterns (if created) | Other language patterns |
-| `go`, `golang`, `goroutine` | Go patterns (if created) | Other language patterns |
-
-### Rule 3: Backend Framework Exclusivity
-
-**Only ONE backend framework pattern loads:**
-
-| If Detected | Load | Exclude |
-|-------------|------|---------|
-| `nest`, `nestjs`, `decorator` | `nestjs-patterns` | Other backend frameworks |
-| `axum`, `tokio`, `actix` | `rust-axum` | Other backend frameworks |
-| `django`, `flask`, `fastapi` | Python patterns (if created) | Other backend frameworks |
-
-### Rule 3.5: Rust Frontend Framework Exclusivity
-
-**Only ONE Rust frontend framework loads:**
-
-| If Detected | Load | Exclude |
-|-------------|------|---------|
-| `leptos`, `view!`, `create_signal` | `leptos` | Other Rust frontend frameworks |
-| `dioxus`, `rsx!`, `use_signal` | `dioxus` | Other Rust frontend frameworks |
-| `yew`, `html!` | Yew patterns (if created) | Other Rust frontend frameworks |
-| `fullstack rust`, `type sharing` | `rust-fullstack` | Other fullstack frameworks |
-
-### Rule 4: Build Tool Exclusivity
-
-**Only ONE build tool pattern loads:**
-
-| If Detected | Load | Exclude |
-|-------------|------|---------|
-| `vite`, `vite.config`, `hmr` | `vite-patterns` | Other build tools |
-| `webpack`, `webpack.config` | Webpack patterns (if created) | Other build tools |
-| `rollup`, `rollup.config` | Rollup patterns (if created) | Other build tools |
-
-### Rule 5: Project Structure Exclusivity
-
-**Only ONE project structure pattern loads:**
-
-| If Detected | Load | Exclude |
-|-------------|------|---------|
-| `cargo workspace`, `rust monorepo`, `common crate` | `rust-workspace-structure` | Other project structures |
-| `nx workspace`, `turbo repo` | Nx/Turbo patterns (if created) | Other project structures |
-| `next monorepo`, `next workspace` | Next.js workspace patterns (if created) | Other project structures |
+| Si détecté | Charger | Exclure |
+|-----------|---------|---------|
+| leptos, view!, create_signal | leptos (dans rust/) | Dioxus |
+| dioxus, rsx!, use_signal | dioxus (dans rust/) | Leptos |
 
 ---
 
-##  Cross-Reference Matrix
+## Cross-References
 
-### Primary → Secondary Relationships
-
-When a primary skill is loaded, it may **reference** (not load) these skills:
-
-| Primary Skill | May Reference | Relationship |
-|---------------|--------------|--------------|
-| `nextjs-patterns` | `typescript-patterns`, `tailwind-patterns` | Tech stack |
-| `nestjs-patterns` | `typescript-patterns` | Language foundation |
-| `tanstack-patterns` | `typescript-patterns`, `react patterns` | Dependencies |
-| `vite-patterns` | Framework-specific pattern | Build target |
-| `rust-fullstack` | `rust-axum`, `wasm-rust`, `leptos`, `dioxus`, `rust-workspace-structure` | Full stack foundation |
-| `rust-workspace-structure` | `rust-fullstack`, `rust-axum` | Project structure |
-| `leptos` | `rust-axum`, `wasm-rust` | Backend + WASM |
-| `dioxus` | `rust-axum`, `wasm-rust` | Backend + WASM |
-| `rust-axum` | `wasm-rust`, `rust-fullstack` | Full stack option |
-
-**Reference only** - Provide links/mentions, don't auto-load secondary skills.
+| Skill primaire | Référencer (pas charger) |
+|---------------|------------------------|
+| nextjs | typescript, tailwind |
+| nestjs | typescript |
+| tanstack | typescript, nextjs |
+| rust | wasm |
+| rust (fullstack) | rust, wasm |
 
 ---
 
-##  Enhanced Decision Tree
+## Priorité de Chargement
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    User asks question                       │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│              Extract keywords from question                 │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   Check Meta triggers first                 │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │ "epct", "methodology" → trigmem-core                  │  │
-│  │ "where to store" → trigmem-categories                 │  │
-│  │ "choose between" → trigmem-decision                   │  │
-│  └───────────────────────────────────────────────────────┘  │
-│         │ No meta trigger?                                  │
-│         ▼                                                   │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │                   Check Framework triggers            │  │
-│  │  ┌─────────────────────────────────────────────────┐  │  │
-│  │  │ "nextjs", "server component" → nextjs-patterns  │  │  │
-│  │  │ "nestjs", "decorator" → nestjs-patterns         │  │  │
-│  │  │ "axum", "tokio" → rust-axum                     │  │  │
-│  │  └─────────────────────────────────────────────────┘  │  │
-│  │         │ No framework trigger?                        │  │
-│  │         ▼                                             │  │
-│  │  ┌─────────────────────────────────────────────────┐  │  │
-│  │  │              Check Library triggers             │  │  │
-│  │  │  ┌───────────────────────────────────────────┐ │  │  │
-│  │  │  │ "usequery", "tanstack" → tanstack-patterns│ │  │  │
-│  │  │  │ "tailwind", "@tailwind" → tailwind-patterns│ │  │  │
-│  │  │  │ "vite", "hmr" → vite-patterns             │ │  │  │
-│  │  │  └───────────────────────────────────────────┘ │  │  │
-│  │  └─────────────────────────────────────────────────┘  │  │
-│  └───────────────────────────────────────────────────────┘  │
-│         │ No library trigger?                              │
-│         ▼                                                   │
-│  ┌───────────────────────────────────────────────────────┐  │
-│  │              Check Language triggers                 │  │
-│  │  ┌─────────────────────────────────────────────────┐  │  │
-│  │  │ "typescript", "generic" → typescript-patterns  │  │  │
-│  │  │ "rust", "cargo" → rust-axum                    │  │  │
-│  │  └─────────────────────────────────────────────────┘  │  │
-│  └───────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-                    ┌─────────────────┐
-                    │ Load ONE skill   │
-                    │ (highest priority)│
-                    └─────────────────┘
-```
+1. **Meta** (trigmem-core, decision, autoloader)
+2. **Patterns** (frontend > backend > transversal)
+3. **Opérations** (mcp-mandatory)
+
+Au sein de la même catégorie: le skill avec le plus de tags correspondants gagne.
 
 ---
 
-##  Trigger Keyword Optimization
-
-### Next.js Patterns - Refined Triggers
-
-**Primary Keywords (mutually exclusive):**
-```
-"server component"     → Next.js exclusive
-"app router"           → Next.js exclusive
-"server actions"       → Next.js exclusive
-"use cache"            → Next.js exclusive
-"next.config"          → Next.js exclusive
-```
-
-**NOT triggering (ambiguous):**
-```
-"component"            → Too generic
-"router"               → Could be any router
-"cache"                → Too generic
-"config"               → Too generic
-```
-
-### TypeScript Patterns - Refined Triggers
-
-**Primary Keywords (mutually exclusive):**
-```
-"generic type"         → TypeScript exclusive
-"utility type"         → TypeScript exclusive
-"interface ts"         → TypeScript exclusive
-"type inference"       → TypeScript exclusive
-"typescript"           → Explicit mention
-```
-
-**NOT triggering (ambiguous):**
-```
-"type"                 → Too generic
-"interface"            → Could be any language
-"generic"              → Too generic alone
-```
-
-### TanStack Patterns - Refined Triggers
-
-**Primary Keywords (mutually exclusive):**
-```
-"usequery"             → TanStack Query exclusive
-"usemutation"          → TanStack Query exclusive
-"tanstack query"       → Explicit mention
-"tanstack table"       → Explicit mention
-"tanstack form"        → Explicit mention
-```
-
-**NOT triggering (ambiguous):**
-```
-"query"                → Too generic
-"mutation"             → Too generic
-"table"                → Too generic
-"form"                 → Too generic
-```
-
----
-
-##  Maintenance Guidelines
-
-### Adding New Skills
-
-1. **Define exclusive triggers** - Keywords that only match your skill
-2. **Set priority** - Assign appropriate priority number
-3. **Define exclusions** - What should NOT trigger when this loads
-4. **Update matrix** - Add to cross-reference matrix
-5. **Test triggers** - Verify no conflicts with existing skills
-
-### Updating Existing Skills
-
-1. **Review trigger keywords** - Ensure exclusivity
-2. **Check for conflicts** - No overlapping triggers with other skills
-3. **Update exclusions** - Add/remove as needed
-4. **Test activation** - Verify correct skill loads
-
----
-
-##  Validation Checklist
-
-Before committing trigger changes:
-
-- [ ] Triggers are mutually exclusive (no overlap)
-- [ ] Priority numbers are consistent
-- [ ] Exclusions are defined
-- [ ] Cross-references updated
-- [ ] Tested with sample queries
-
----
-
-##  Examples
-
-### Example 1: Clear Next.js Question
-
-```
-User: "How do I implement Server Components in Next.js?"
-
-Analysis:
-├─ "Server Components" → Next.js exclusive trigger
-├─ "Next.js" → Framework explicit mention
-└─ Result: Load nextjs-patterns (Priority 10)
-
-Not loaded:
-├─ typescript-patterns (referenced only)
-├─ tailwind-patterns (referenced only)
-└─ All other patterns (excluded)
-```
-
-### Example 2: Ambiguous Query (Default)
-
-```
-User: "How do I create a component?"
-
-Analysis:
-├─ "component" → Too generic, no exclusive match
-├─ No framework specified
-└─ Result: Ask for clarification
-
-Clarification needed:
-├─ "Which framework? (React, Vue, Svelte, Next.js)"
-└─ "What type of component?"
-```
-
-### Example 3: Multiple Technologies
-
-```
-User: "How to use TanStack Query with TypeScript in Next.js?"
-
-Analysis:
-├─ Keywords: "TanStack Query" + "TypeScript" + "Next.js"
-├─ Priority: Framework (Next.js: 10) > Library (TanStack: 11) > Language (TS: 14)
-└─ Result: Load nextjs-patterns (primary)
-
-References (not loaded):
-├─ "See tanstack-patterns for Query specifics"
-└─ "See typescript-patterns for generic usage"
-```
-
----
-
-##  Statistics
-
-### Current Inventory
-
-- **Total Skills:** 12 (créés) / 15 (total)
-- **Pattern Skills:** 11 ( créés)
-- **Operation Skills:** 1 (mcp-mandatory)
-- **Auto-loader:** 1 (pattern-autoloader)
-- **Foundation Files:** 3 (TEMPLATE, INDEX, README)
-
-### Trigger Coverage
-
-| Category | Skills Created | Status |
-|----------|----------------|--------|
-| Meta Skills | Via CLAUDE.md |  Managed |
-| Frontend Patterns | 3 (Next.js, Tailwind, TanStack, Vite) |  Created |
-| Backend Patterns | 2 (NestJS, Rust/Axum) |  Created |
-| WebAssembly | 1 (WASM) |  Created |
-| Tech Decisions | 1 |  Created |
-| UX Design | 1 |  Created |
-| Documentation | 1 |  Created |
-| Operations | 1 (MCP) |  Complete |
-
----
-
-##  Success Metrics
-
-- [ ] 100% of skills have exclusive triggers
-- [ ] No trigger conflicts between skills
-- [ ] Priority order consistently applied
-- [ ] Cross-references defined for all relationships
-- [ ] Auto-activation works for 95%+ of queries
-
----
-
-*Version: 2.0.0 | Optimized Auto-Activation with Exclusive Triggers*
+*Version: 3.0.0 | Metadata-based routing — pas de keyword triggers manuels*

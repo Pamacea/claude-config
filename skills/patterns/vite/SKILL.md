@@ -1,5 +1,12 @@
 # Vite Patterns
 
+**Type:** knowledge
+**Summary:** Vite build tool patterns covering configuration, plugins, HMR, and bundler optimization.
+**Tags:** #vite #build #tooling
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Intermediate
 > **Auto-Activation:** "vite config", "vite plugin", "hmr vite", "build tool"
 > **Tags:** [vite, build-tool, bundler, hmr, plugins]

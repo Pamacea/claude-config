@@ -1,5 +1,12 @@
 # Rust + Axum Patterns
 
+**Type:** knowledge
+**Summary:** Patterns for Rust backend development with Axum, including async handlers, ownership, and Tokio integration.
+**Tags:** #rust #backend #axum
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Advanced
 > **Auto-Activation:** "axum handler", "tokio spawn", "rust ownership", "rust async"
 > **Tags:** [rust, axum, tokio, async, ownership, types]

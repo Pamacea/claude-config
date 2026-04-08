@@ -1,0 +1,8 @@
+{
+  "attachmentFolderPath": "_wiki/assets",
+  "strictLineBreaks": true,
+  "useMarkdownLinks": false,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "_wiki/_inbox",
+  "alwaysUpdateLinks": true
+}

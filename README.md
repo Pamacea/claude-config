@@ -1,19 +1,19 @@
 # claude-config
 
-> **Configuration optimisée pour Claude Code** | Version 5.1.0
-> **Methodologie:** TrigMem Enhanced + PROTOCOL + Positive Standards + Quality Gates + Pamacea Tools
+> **Configuration Claude Code + LLM Wiki** | Version 6.0.0
+> Outils Pamacea (RTK, Aureus, Parry, Argus) + Base de connaissances persistante
 >
-> **Dernière mise à jour :** 2025-04-06
+> **Dernière mise à jour :** 2026-04-08
 
 ---
 
-##  Quick Start (Ultra-Rapide)
+## Quick Start
 
 ```bash
 # 1. Cloner ce repo
 git clone https://github.com/Pamace/claude-config.git ~/.claude
 
-# 2. C'est tout ! PROTOCOL.md se charge automatiquement via @PROTOCOL.md dans CLAUDE.md
+# 2. C'est tout ! PROTOCOL.md + CLAUDE.md se chargent automatiquement
 
 # 3. Optionnel : Copier les settings recommandés
 cp settings.json.example ~/.claude/settings.json
@@ -21,237 +21,135 @@ cp settings.json.example ~/.claude/settings.json
 
 ---
 
-##  NOUVEAU : PROTOCOL.md (v5.1)
+## Concept
 
-**Problème résolu :** L'IA devient "débile" avec le temps, crée des doublons, boucle sur les serveurs...
+**claude-config** combine deux systèmes :
 
-**Solution AUTOMATIQUE :** `PROTOCOL.md` - Règles critiques qui override TOUT.
+1. **Config Claude Code** — Règles, skills, hooks, outils Pamacea (RTK, Aureus, Parry, Argus)
+2. **LLM Wiki** — Base de connaissances persistante que l'IA construit et maintient au fil du temps
 
-**Chargement 100% automatique** via `@PROTOCOL.md` dans CLAUDE.md - **AUCUNE action requise**.
+Le wiki résout le problème de l'amnésie entre sessions : chaque question, découverte et décision est compilée dans un wiki structuré qui s'enrichit.
+
+---
+
+## Structure
+
+```
+~/.claude/
+├── CLAUDE.md              # Bootstrap (lit PROTOCOL.md + _wiki/_config/config.md)
+├── PROTOCOL.md            # Règles critiques R1-R5 (override tout)
+├── REFERENCE.md           # Quick reference card
+│
+├── rules/                 # Règles runtime (auto-chargées par globs)
+│   ├── 00-core.md         # Principes, EPCT
+│   ├── 01-standards.md    # Standards techniques positifs
+│   ├── 02-conventions.md  # Git flow, structure, imports
+│   └── ...                # (10 fichiers, < 70 lignes chacun)
+│
+├── skills/                # Patterns demand-loaded (metadata tags)
+│   ├── INDEX.md           # Index — routing par metadata
+│   ├── patterns/          # 11 domaines techniques
+│   ├── standards/         # Standards techniques
+│   ├── trigmem/           # TrigMem core (token budget)
+│   └── workflows/         # EPCT, MCP workflows
+│
+├── _wiki/                 # LLM Wiki — base de connaissances
+│   ├── _config/           #   Profil utilisateur, metadata standard
+│   ├── _meta/             #   Instructions (JIT) + templates
+│   │   ├── instructions/  #     6 modules de protocole
+│   │   └── templates/     #     6 templates de contenu
+│   ├── _inbox/            #   Zone de capture frictionless
+│   ├── _sources/          #   Documents originaux (immutable)
+│   ├── 1-Projects/        #   Travaux actifs
+│   ├── 2-Knowledge/       #   Wiki principal (réfs, guides, décisions)
+│   ├── 3-Journal/         #   Réflexions, notes de réunion
+│   ├── 4-Private/         #   Contenu sensible (gitignored)
+│   └── assets/            #   Images et pièces jointes
+│
+├── hooks/                 # Hooks Pamacea (RTK, Aureus, Parry, Argus)
+├── .obsidian/             # Config Obsidian (graph, couleurs)
+│
+├── RTK.md                 # Doc outil — Token savings (60-90%)
+├── AUREUS.md              # Doc outil — Versioned commits
+├── PARRY.md               # Doc outil — Agentic linting
+├── ARGUS.md               # Doc outil — Memory sentinel
+├── PALNIA.md              # Doc outil — Tasks/Events CLI
+│
+├── config.json            # Config Claude Code (plugins, hooks, MCP)
+├── mcp.json               # Définitions serveurs MCP
+├── settings.json          # PreWriteHooks (Parry)
+├── statusline.*           # Custom statusline
+├── WIKI-LOG.md            # Chronologie des actions wiki
+└── CHANGELOG.md           # Historique des versions
+```
+
+---
+
+## Outils Pamacea (Auto-Active)
+
+| Outil | Usage | Trigger |
+|-------|-------|---------|
+| **RTK** | Token savings (60-90%) | Auto-rewrite git, grep, cat |
+| **AUREUS** | Versioned commits | `TYPE: PROJECT - vX.Y.Z` |
+| **PARRY** | Agentic linting | PostWrite validation |
+| **ARGUS** | Memory sentinel | recall/remember patterns |
+| **PALNIA** | Tasks/Events CLI | `palnia tasks`, `palnia events` |
+
+---
+
+## Wiki — Comment ça marche
+
+### Ingestion
+Vous ajoutez une source dans `_wiki/_inbox/`, l'IA la lit, extrait les infos clés, et les intègre dans le wiki — pages mises à jour, cross-references, contradictions flagées.
+
+### Recherche
+Vous posez une question. L'IA scanne les `**Summary:**` des pages, lit les 1-3 plus pertinentes, synthétise une réponse avec citations.
+
+### Lint
+Périodiquement, l'IA vérifie la santé du wiki : contenu stale, metadata manquante, pages orphelines, taille du contexte.
+
+---
+
+## Patterns Techniques (Demand-Loaded)
+
+| Pattern | Tags |
+|---------|------|
+| nextjs | #nextjs #frontend #react |
+| rust | #rust #backend #axum |
+| nestjs | #nestjs #backend #api |
+| tanstack | #tanstack #state #react |
+| tailwind | #tailwind #css #frontend |
+| typescript | #typescript #types |
+| vite | #vite #build #tooling |
+| wasm | #wasm #rust #webassembly |
+| tech-decisions | #decisions #architecture |
+| ux-design | #ux #design #ui |
+| documentation | #documentation #writing |
+
+Chaque skill est chargé automatiquement quand ses tags correspondent au contexte.
+
+---
+
+## Règles Critiques (PROTOCOL.md)
 
 | Règle | Description |
 |-------|-------------|
-| **R1** | ZÉRO duplication fichiers (_v2, _new, _backup) |
-| **R2** | MAX 2 redémarrages serveur/session |
-| **R3** | Communication Cro-Magnon (ANALYSIS → ACTION → RESULT) |
-| **R4** | Re-read PROTOCOL toutes les 5 actions |
-| **R5** | Context sync si confus |
-
-**Documentation complète :**
-- `PROTOCOL.md` - Règles critiques (read FIRST)
-- `SETTINGS.md` - Configuration optimale settings.json
-
----
-
-## Nouveautés v2.0.0 - Revolution Positive
-
-### Approche 100% Positive
-
-**Changement majeur :** Tous les fichiers ont été réécrits pour éliminer les négations :
-
-| Supprimé | Remplacé par |
-|----------|--------------|
-| "NEVER do this" | "Standard : Do this instead" |
-| "BAD practice" | "Recommended pattern" |
-| "PROHIBITED" | "Optimal workflow" |
-| "INTERDIT" | "Guideline" |
-| 40+ règles "NEVER" | Standards techniques + Checklists |
-
-### Nouveau Système de Quality Gates
-
-**Nouveau fichier :** `rules/quality-gates.md`
-
-Critères de validation objectifs pour chaque type de tâche :
-- Feature Development → E1-E5 gates
-- Bug Fix → B1-B5 gates
-- Refactoring → R1-R5 gates
-- Performance → P1-P5 gates
-- Security → S1-S5 gates
-
-### Fichiers Mis a Jour
-
-| Ancien | Nouveau | Description |
-|--------|---------|-------------|
-| `01-nevers.md` | `01-standards.md` | Standards positifs (40+ règles transformées) |
-| N/A | `quality-gates.md` | Système de validation objectif |
-| `00-core.md` | `00-core.md` (v2.0) | Principes sans négatifs |
-| `02-conventions.md` | (v2.0) | Standards d'import positifs |
-| `03-delete-first.md` | (v2.0) | Patterns de simplification |
-| `04-react-hooks-limits.md` | (v2.0) | Server Components priority |
-| `05-reusability.md` | (v2.0) | Patterns de réutilisation |
-| `06-mcp-mandatory.md` | (v2.0) | Workflows MCP optimaux |
-| `rules/README.md` | (v2.0) | Documentation du système |
-
----
-
-## Economie de Tokens
-
-| Metrique | Valeur |
-|----------|--------|
-| Rules essentielles | ~8k tokens |
-| Quality Gates | ~1k tokens |
-| **Total Base** | **~9k tokens** |
-| Economie vs v1.x | ~73% (30k → 9k) |
-
----
-
-## Organisation TrigMem v2.0
-
-Les règles sont organisées selon les 6 catégories TrigMem :
-
-| Categorie | Fichier | Chargement |
-|-----------|---------|------------|
-| **Cat 1** | `CLAUDE.md` | Systematique |
-| **Cat 2** | `rules/02-conventions.md` | Systematique |
-| **Cat 3** | `CLAUDE.md` | Systematique |
-| **Cat 4** | `skills/patterns/*` | **A la demande** |
-| **Cat 5** | `rules/01-standards.md` | Systematique |
-| **Cat 6** | `rules/quality-gates.md` | Systematique |
-
----
-
-## Patterns Disponibles
-
-Les patterns techniques sont chargés **a la demande** selon les triggers :
-
-| Pattern | Trigger | Commande |
-|---------|---------|----------|
-| **tech-decisions** | "Quel stack ?", "X ou Y ?" | `/pattern tech-decisions` |
-| **nextjs** | "Server Component", "RSC", "App Router" | `/pattern nextjs` |
-| **rust** | "Axum", "sqlx", "Tower middleware" | `/pattern rust` |
-| **nestjs** | "DTO", "JWT guard", "TypeORM" | `/pattern nestjs` |
-| **wasm** | "wasm-bindgen", "wasm-pack" | `/pattern wasm` |
-| **typescript** | "generic", "utility type" | `/pattern typescript` |
-| **tanstack** | "useQuery", "router", "form" | `/pattern tanstack` |
-| **tailwind** | "responsive", "dark mode" | `/pattern tailwind` |
-| **ux-design** | "component design", "accessibility" | `/pattern ux-design` |
-| **documentation** | "write docs", "README", "changelog" | `/pattern documentation` |
-
----
-
-## Structure v2.0
-
-```
-.claude/
-├── skills/
-│   ├── TEMPLATE.md           # Template positif v2.0
-│   ├── INDEX.md              # Index avec triggers exclusifs
-│   ├── README.md             # Documentation skills
-│   ├── pattern-autoloader/  # Autoloading intelligent
-│   ├── patterns/             # Patterns a la demande
-│   └── operations/           # MCP workflows
-│       └── mcp-mandatory/
-├── rules/                     # Regles essentielles
-│   ├── 00-core.md           # Principes fondamentaux
-│   ├── 01-standards.md       # Standards techniques (v2.0)
-│   ├── 02-conventions.md     # Git, docs, structure
-│   ├── 03-delete-first.md    # Delete First philosophy
-│   ├── 04-react-hooks-limits.md # Server Components priority
-│   ├── 05-reusability.md     # Reusability patterns
-│   ├── 06-mcp-mandatory.md   # MCP workflows
-│   ├── quality-gates.md      # Quality gates (NOUVEAU)
-│   └── README.md             # Documentation rules
-├── legacy/                    # Anciennes règles (backup)
-│   └── 01-nevers.md.bak      # Version historique
-└── CLAUDE.md                 # Identité projet
-```
+| R1 | ZÉRO duplication fichiers (_v2, _new, _backup) |
+| R2 | MAX 2 redémarrages serveur/session |
+| R3 | Communication Cro-Magnon (ANALYSIS → ACTION → RESULT) |
+| R4 | Re-read PROTOCOL toutes les 5 actions |
+| R5 | Context sync si confus |
 
 ---
 
 ## Documentation
 
-- **[GUIDE.md](./GUIDE.md)** - Guide complet d'utilisation
-- **[REFERENCE.md](./REFERENCE.md)** - Reference rapide
-- **[CHANGELOG.md](./CHANGELOG.md)** - Historique des versions
+- **CLAUDE.md** — Bootstrap (point d'entrée)
+- **PROTOCOL.md** — Règles critiques (read FIRST)
+- **REFERENCE.md** — Quick reference card
+- **CHANGELOG.md** — Historique des versions
+- **_wiki/2-Knowledge/** — Guides et références
 
 ---
 
-## Utilisation
-
-### Commandes Disponibles
-
-```bash
-# Dans Claude Code :
-
-# Patterns techniques (charges a la demande)
-/pattern nextjs     # Charge les patterns Next.js
-/pattern rust        # Charge les patterns Rust
-/pattern typescript  # Charge les patterns TypeScript
-
-# TrigMem (methodologie)
-/trigmem-core       # Concepts fondamentaux
-/trigmem-categories # Classification
-/trigmem-decision   # Guide de décision
-/trigmem-storage    # Configuration stockage
-/trigmem-examples   # Exemples travaillés
-/trigmem-verification # Analyse sessions
-
-# Operations MCP
-/mcp-mandatory      # Checklists pour utiliser les MCPs
-```
-
-### Standards Techniques Positifs
-
-Toutes les règles suivent maintenant une approche positive :
-- Standards techniques explicites
-- Checklists de validation
-- Quality Gates objectifs
-- Workflows recommandés
-- Alternatives constructives
-
-**Exemple de transformation :**
-
-```
-AVANT (negatif) :
-NEVER use grep for searching
-ALWAYS use grepai search first
-
-APRES (positif) :
-Standard : Utiliser grepai search en premier
-Outils recommandés : grepai search → /toolkit search → Grep
-Checklist : [ ] J'ai utilise grepai search en premier
-```
-
----
-
-## Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas a ouvrir une issue ou un PR.
-
-Pour contribuer :
-1. Suivre le TEMPLATE.md pour les nouveaux skills
-2. Utiliser l'approche positive (pas de "NEVER/NO")
-3. Ajouter des Quality Gates pour vos workflows
-
----
-
-**Licence:** MIT | **Auteur:** Pamace | **Version:** 2.0.0 (Positive Revolution)
-
----
-
-## Changelog v2.0.0
-
-### Added
-- `01-standards.md` - Standards techniques positifs
-- `quality-gates.md` - Système de validation objectif
-- Approche 100% positive dans tous les fichiers
-- Triggers mutuellement exclusifs dans INDEX.md
-
-### Changed
-- `00-core.md` - Refactorisé sans négatifs
-- `02-conventions.md` - Standards d'import positifs
-- `03-delete-first.md` - Patterns de simplification
-- `04-react-hooks-limits.md` - Server Components priority
-- `05-reusability.md` - Patterns de réutilisation
-- `06-mcp-mandatory.md` - Workflows optimaux
-- `rules/README.md` - Documentation du système mis a jour
-
-### Removed
-- Approche négative ("NEVER/NO/PROHIBITED")
-- Tableaux "NEVER / ALWAYS"
-- Section "Anti-Patterns" dans TEMPLATE.md
-
-### Migration Notes
-- Les fichiers `01-nevers.md` → déplacés dans `legacy/`
-- Mettre a jour les imports si vous utilisez l'ancien système
-- Les Quality Gates remplacent les anciennes "Anti-Patterns"
+**Licence:** MIT | **Auteur:** Pamace | **Version:** 6.0.0 (Config + LLM Wiki)

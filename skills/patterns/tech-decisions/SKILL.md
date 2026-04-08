@@ -1,5 +1,12 @@
 # Tech Decisions
 
+**Type:** knowledge
+**Summary:** Framework for evaluating and choosing technology stacks, databases, and architecture approaches with tradeoff analysis.
+**Tags:** #decisions #architecture
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Advanced
 > **Auto-Activation:** "which framework", "which database", "tech stack choice", "x or y"
 > **Tags:** [architecture, tech-stack, decision-framework, tradeoffs]

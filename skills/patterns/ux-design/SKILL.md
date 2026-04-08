@@ -1,5 +1,12 @@
 # UX Design Patterns
 
+**Type:** knowledge
+**Summary:** UX design patterns covering user experience, usability testing, accessibility, and design system conventions.
+**Tags:** #ux #design #ui
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Intermediate
 > **Auto-Activation:** "ux design", "user experience", "usability test", "accessibility"
 > **Tags:** [ux, design-system, accessibility, usability, patterns]

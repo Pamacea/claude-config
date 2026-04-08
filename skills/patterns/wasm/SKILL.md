@@ -1,5 +1,12 @@
 # WebAssembly Patterns
 
+**Type:** knowledge
+**Summary:** WebAssembly patterns with Rust covering wasm-bindgen, WasmGC, reference types, and performance optimization.
+**Tags:** #wasm #rust #webassembly
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Advanced
 > **Auto-Activation:** "wasm-bindgen", "rust wasm", "wasmgc", "reference types"
 > **Tags:** [wasm, rust-wasm, webassembly, performance, rust]

@@ -1,5 +1,12 @@
 # Documentation Patterns
 
+**Type:** knowledge
+**Summary:** Documentation patterns for API docs, README formatting, guides, and project documentation standards.
+**Tags:** #documentation #writing
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Beginner
 > **Auto-Activation:** "api documentation", "readme format", "docs pattern"
 > **Tags:** [documentation, readme, api-docs, guides, standards]

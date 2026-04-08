@@ -1,5 +1,12 @@
 # TypeScript Patterns
 
+**Type:** knowledge
+**Summary:** TypeScript patterns including generics, utility types, interfaces, and type inference best practices.
+**Tags:** #typescript #types
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Intermediate
 > **Auto-Activation:** "generic type", "utility type", "interface ts", "typescript", "type inference"
 > **Tags:** [typescript, types, generics, utility-types, interfaces]

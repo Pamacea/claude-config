@@ -1,7 +1,11 @@
 # Claude Code Workflow - Guide Complet des Développeurs
 
-> **Version:** 1.0.0 | **Dernière mise à jour:** 12 Mars 2026
-> **Source:** Documentation officielle Anthropic Claude Code
+**Type:** knowledge
+**Summary:** Guide complet Claude Code — installation, concepts, plugins, skills, subagents, MCP, memory, best practices
+**Tags:** #claude-code #guide #workflow #plugins #mcp #memory
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** [claude-code-optimization], [setup-guide]
 
 ---
 

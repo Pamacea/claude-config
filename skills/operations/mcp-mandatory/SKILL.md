@@ -1,5 +1,12 @@
 # MCP Tools - Optimal Usage Guide
 
+**Type:** knowledge
+**Summary:** Optimal usage patterns for MCP tools including git workflows, debugging, memory, and documentation integrations.
+**Tags:** #mcp #operations
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 3.0.0 | **Category:** Cat 3 (Operational Workflows)
 > **Auto-Activation:** "commit", "git", "debug UI", "screenshot", "analyze image", "docs", "search latest"
 > **Tags:** [mcp, tools, git, debugging, memory, documentation]

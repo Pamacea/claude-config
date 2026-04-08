@@ -1,5 +1,12 @@
 # Next.js Patterns
 
+**Type:** knowledge
+**Summary:** Patterns and conventions for Next.js 16 development including server components, app router, SSR, and server actions.
+**Tags:** #nextjs #frontend #react
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Intermediate
 > **Auto-Activation:** "server component", "app router", "ssr", "nextjs", "next.js"
 > **Tags:** [nextjs, react, ssr, app-router, server-actions]

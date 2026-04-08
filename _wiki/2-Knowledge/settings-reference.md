@@ -1,7 +1,11 @@
 # SETTINGS - Configuration Optimale
 
-> **Settings recommandés pour ~/.claude/settings.json**
-> **MODE AUTOMATIQUE - Tout se charge via @PROTOCOL.md dans CLAUDE.md**
+**Type:** reference
+**Summary:** Configuration settings.json, variables d'environnement, hooks, troubleshooting
+**Tags:** #claude-code #settings #configuration #hooks
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** [setup-guide]
 
 ---
 

@@ -1,282 +1,89 @@
-# CLAUDE CODE - CONFIG
+# CLAUDE.md — Bootstrap
 
-> **Version:** 5.1.0 | **Méthodologie:** TrigMem v1.0 + EPCT + PROTOCOL + Prompting Avancé
-> **Dernière mise à jour:** 2025-04-06
-
----
-
-##  CRITICAL - READ FIRST
-
-@PROTOCOL.md - Ce fichier override TOUT en cas de conflit. Règles critiques:
-- **R1:** ZÉRO duplication fichiers (_v2, _new, _backup)
-- **R2:** MAX 2 redémarrages serveur/session
-- **R3:** Communication Cro-Magnon (ANALYSIS → ACTION → RESULT)
-- **R4:** Re-read PROTOCOL toutes les 5 actions
-- **R5:** Context sync nécessaire si confus
+> **Version:** 6.0.0 | Config Claude Code + LLM Wiki
+> **Lit d'abord:** PROTOCOL.md (règles critiques R1-R5)
+> **Puis:** _wiki/_config/config.md (profil + phase training)
 
 ---
 
-##  PROJECT IDENTITY
-
-**claude-config** : Configuration optimisée pour Claude Code utilisant **TrigMem** v1.0 pour une gestion optimale des tokens (73% d'économie).
-
-### Stack Technique
-- **Frontend:** Next.js 16, React 19.2, TypeScript (strict)
-- **State:** TanStack Suite (Router, Query, Form, Start)
-- **Backend:** Prisma, Supabase, NestJS (occasionnel)
-- **Backend:** Rust (Axum + Dioxus/Leptos, occasions spécifiques)
-- **Tooling:** Oxc (oxc.rs) — Oxfmt (formatter), Oxlint (linter)
-- **Testing:** Vitest, Playwright
-- **CI/CD:** GitHub Actions
-- **Deployment:** Vercel
-
----
-
-##  TRIGMEM v1.0
-
-| Catégorie | Stockage | Contenu |
-|-----------|----------|---------|
-| Cat 1 | CLAUDE.md | Identité projet |
-| Cat 2 | rules/02-conventions.md | Structure codebase |
-| Cat 3 | CLAUDE.md | Workflows opérationnels |
-| Cat 4 | skills/patterns/* | Patterns réutilisables |
-| Cat 5 | rules/02-conventions.md | Guides architecturaux |
-| Cat 6 | rules/quality-gates.md | Corrections itératives |
-
-**Skills auto-activés :** `trigmem-core`, `trigmem-decision`, `trigmem-categories`, `trigmem-storage`, `trigmem-examples`
-
----
-
-##  QUICK START
+## Quick Commands
 
 ```bash
-npm install    # Dependencies
-npm run dev    # Development
-npm run test   # Tests
-npm run build  # Production build
+npm install / dev / test / build    # Projets
+pnpm run fmt / fmt:check            # Oxfmt formatting
 ```
 
-### Oxfmt (Formatter) — Successeur Rust de Prettier
-```bash
-pnpm add -D oxfmt              # Installation
-oxfmt --init                    # Crée .oxfmtrc.json
-pnpm run fmt                    # Formater les fichiers
-pnpm run fmt:check              # Vérifier le formatage (CI)
-```
-
-**package.json scripts :**
-```json
-{
-  "scripts": {
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
-  }
-}
-```
-
-**Pourquoi Oxfmt :** ~30x plus rapide que Prettier, ~2x plus rapide que Biome. Compatible Prettier (95%+ des tests JS/TS passent). Built-in : import sorting, Tailwind class sorting, package.json sorting, embedded formatting (CSS-in-JS, GraphQL). Zéro config nécessaire. Docs : https://oxc.rs/docs/guide/usage/formatter.html
+### Oxfmt (successeur Rust de Prettier)
+~30x plus rapide que Prettier. Built-in: import sorting, Tailwind class sorting, package.json sorting.
+Docs: https://oxc.rs/docs/guide/usage/formatter.html
 
 ---
 
-##  PRINCIPES DE PROMPTING
+## Architecture
 
-### Spécificité > Vague
-
-|  Mauvais |  Bon |
-|-----------|-------|
-| "Fix the code" | "Fix the type error in src/auth/login.ts at line 45" |
-| "Write a function" | "Write validateEmail with tests: [email protected]=true" |
-| "Clean up" | "Remove unused imports from src/components/*.tsx" |
-
-### Structure d'un Prompt Efficace
-
-```markdown
-## Context
-[Background information]
-
-## Task
-[Specific action to take]
-
-## Constraints
-- Constraint 1
-- Constraint 2
-
-## Verification
-[How to verify the solution is correct]
 ```
-
-### Toujours Fournir Vérification
-
-Claude performe mieux quand il peut vérifier son travail :
-
-|  Avant |  Après |
-|---------|---------|
-| "implement user auth" | "implement auth. verify with: valid login works, invalid fails" |
-| "make the dashboard better" | "[screenshot] implement this design. compare after" |
-| "the build is failing" | "build fails with [error]. fix root cause, verify" |
+~/.claude/
+├── rules/              # Règles runtime (auto-chargées par globs)
+├── skills/             # Patterns demand-loaded (metadata tags)
+├── _wiki/              # LLM Wiki — base de connaissances
+│   ├── _config/        #   Brain (profil, metadata standard)
+│   ├── _meta/          #   Moteur (instructions, templates)
+│   ├── _inbox/         #   Zone de capture frictionless
+│   ├── 1-Projects/     #   Travaux actifs
+│   ├── 2-Knowledge/    #   Wiki principal
+│   └── 3-Journal/      #   Réflexions, notes
+├── hooks/              # Hooks Pamacea
+└── .obsidian/          # Config Obsidian
+```
 
 ---
 
-##  WORKFLOW EPCT
+## Outils Pamacea (Auto-Active)
 
-```
-EXPLORE → PLAN → CODE → TEST
-   ↑                    ↓
-   └────────────────────┘
-```
-
-| Phase | Description | Durée |
-|-------|-------------|-------|
-| **EXPLORE** | Recherche sémantique, lecture de patterns | ~5-10 min |
-| **PLAN** | Stratégie, fichiers à modifier, tests | ~3-5 min |
-| **CODE** | Suivre patterns existants, barrel exports | ~15-30 min |
-| **TEST** | Lint, typecheck, tests liés uniquement | ~5 min |
-
-### Matrice de Décision EPCT
-
-| Type de Tâche | Approche |
-|---------------|----------|
-| Tiny fix (typo) | CODE only |
-| Small feature | EXPLORE → CODE |
-| Medium feature | EPCT complet |
-| Complex feature | EPCT + Plan Mode |
-| Architecture | Plan Mode → EPCT |
+| Outil | Usage |
+|-------|-------|
+| **RTK.md** | Token savings (60-90%) — auto-rewrite commands |
+| **AUREUS.md** | Versioned commits — `TYPE: PROJECT - vX.Y.Z` |
+| **PARRY.md** | Agentic linting — PostWrite validation |
+| **ARGUS.md** | Memory sentinel — recall/remember patterns |
+| **PALNIA.md** | Tasks/Events CLI |
 
 ---
 
-##  KEY WORKFLOWS
+## Wiki — Outils
 
-### Git Flow Master
+| Trigger | Module |
+|---------|--------|
+| Session start | `_wiki/_meta/instructions/general.md` (auto) |
+| Création fichiers | `_wiki/_meta/instructions/agent-write.md` |
+| Recherche wiki | `_wiki/_meta/instructions/knowledge-query.md` |
+| Health check | `_wiki/_meta/instructions/knowledge-lint.md` |
+| Complétion | `_wiki/_meta/instructions/definition-of-done.md` |
+| Optimisation | `_wiki/_meta/instructions/optimization-review.md` |
+
+---
+
+## Quality Gates
+
+- [ ] Lint passe
+- [ ] Typecheck passe
+- [ ] Tests passent
+- [ ] Pas de secrets exposés
+- [ ] Commit au format TYPE: PROJECT - vX.Y.Z
+
+---
+
+## Git Flow
+
 ```
 TYPE: PROJECT - vX.Y.Z
 
 - Change 1
 - Change 2
-
-Verification:
-- cargo check: 
-- cargo test: 
 ```
 
 Types: RELEASE (MAJOR), UPDATE (MINOR), PATCH (FIX)
 
-### Testing
-- `npm run test` → Vitest (unit)
-- `npm run test:e2e` → Playwright (E2E)
-- Cible: ≥80% coverage (≥95% critique)
-
-### Quality Gates
-- [ ] Lint passe
-- [ ] Typecheck passe
-- [ ] Tests passent
-- [ ] Pas de secrets exposés
-- [ ] Message au format correct
-
 ---
 
-##  COMMUNICATION EFFICACE
-
-### Poser des questions sur le codebase
-
-- "How does logging work?"
-- "How do I make a new API endpoint?"
-- "What does `async move { ... }` do?"
-- "Why does this code call `foo()` instead of `bar()`?"
-
-### Laisser Claude interviewer
-
-```
-I want to build [brief description]. Interview me in detail.
-
-Ask about: technical implementation, UI/UX, edge cases, concerns.
-Don't ask obvious questions, dig into the hard parts.
-
-Then write complete spec to SPEC.md.
-```
-
----
-
-##  PATTERNS D'ÉVITEMENT
-
-| Pattern | Problème | Solution |
-|---------|----------|----------|
-| **Kitchen sink session** | Context plein d'infos non pertinentes | `/clear` entre tâches non liées |
-| **Correcting over and over** | Context pollué par approches échouées | Après 2 échecs, `/clear` + meilleur prompt |
-| **Over-specified CLAUDE.md** | Claude ignore la moitié | Rester < 200 lignes |
-| **Trust-then-verify gap** | Implémentation plausible mais cassée | Toujours fournir vérification |
-| **Infinite exploration** | Claude lit des centaines de fichiers | Scope narrow ou subagents |
-
----
-
-##  GESTION DU CONTEXTE
-
-| Commande | Action |
-|----------|--------|
-| `/clear` | Réinitialise le contexte entre tâches non liées |
-| `/compact <instructions>` | Compacte avec instructions spécifiques |
-| `/context` | Voir l'utilisation actuelle du contexte |
-| `/memory` | Gérer la mémoire auto |
-
-### Variables d'environnement utiles
-
-```bash
-# Limite output MCP
-export MAX_MCP_OUTPUT_TOKENS=25000
-
-# Désactiver auto memory
-export CLAUDE_CODE_DISABLE_AUTO_MEMORY=1
-
-# Tool search threshold
-export ENABLE_TOOL_SEARCH=auto:5
-```
-
----
-
-##  DOCUMENTATION
-
-### Skills TrigMem
-- `/trigmem-core` - Concepts fondamentaux EPCT
-- `/trigmem-decision` - Guide de décision 2 phases
-- `/trigmem-categories` - Classification automatique (6 types)
-- `/trigmem-storage` - Configuration stockage
-- `/trigmem-examples` - Exemples travaillés
-
-### Patterns Techniques
-- `/pattern [name]` - Charger un pattern technique
-- `skills/patterns/rust/` - Rust Full Stack (Axum + Dioxus/Leptos)
-- `skills/patterns/nextjs/` - Next.js 16 patterns
-- `skills/standards/` - Standards techniques
-
-### Références Externes
-- @docs/claude-code-optimization-masterclass.md
-- @docs/claude-code-workflow-developers-guide.md
-
----
-
-##  OUTILS PAMACEA (Auto-Active)
-
-| Outil | Usage | Trigger |
-|-------|-------|---------|
-| **@RTK.md** | Token savings (60-90%) | Auto-rewrite git, grep, cat commands |
-| **@AUREUS.md** | Versioned commits | Git flow format: `TYPE: PROJECT - vX.Y.Z` |
-| **@PARRY.md** | Agentic linting | PostWrite validation (Tailwind, imports, React) |
-| **@ARGUS.md** | Memory sentinel | PreToolUse recall, PostToolUse remember |
-| **@PALNIA.md** | Tasks/Events CLI | `palnia tasks`, `palnia events`, `palnia habits` |
-
-**Important:** Ces fichiers sont générés automatiquement par leurs outils respectifs.
-Ne PAS les modifier manuellement.
-
----
-
-*Version: 5.1.0 | TrigMem + EPCT + PROTOCOL + Prompting Avancé*
-
-**Full documentation:** @PROTOCOL.md + @REFERENCE.md
-
----
-
-@RTK.md
-@AUREUS.md
-@PARRY.md
-@ARGUS.md
-
-@PALNIA.md
+*Version: 6.0.0 | Config + LLM Wiki unifié*

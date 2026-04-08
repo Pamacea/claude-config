@@ -1,5 +1,12 @@
 # Tailwind CSS Patterns
 
+**Type:** knowledge
+**Summary:** Tailwind CSS utility-first patterns for responsive design, configuration, and design system integration.
+**Tags:** #tailwind #css #frontend
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Beginner
 > **Auto-Activation:** "tailwind class", "tailwind config", "@tailwind", "responsive design"
 > **Tags:** [tailwind, css, utility-first, responsive, design-system]

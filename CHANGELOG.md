@@ -4,6 +4,52 @@
 
 ---
 
+## [2.0.0] - 2026-04-08
+
+### LLM Wiki Integration
+
+#### Nouveau Système Wiki (`_wiki/`)
+- **`_config/config.md`** — Profil utilisateur, système de training adaptatif (3 phases)
+- **`_config/standard.md`** — Standard de métadonnées (bold fields, pas YAML)
+- **`_meta/instructions/`** — 6 modules de protocole chargés JIT (general, agent-write, knowledge-query, knowledge-lint, definition-of-done, optimization-review)
+- **`_meta/templates/`** — 6 templates (knowledge-article, decision, initiative, journal-entry, meeting-notes, inbox-capture)
+- **`_inbox/`** — Zone de capture frictionless
+- **`1-Projects/`**, **`2-Knowledge/`**, **`3-Journal/`**, **`4-Private/`** — Espaces wiki structurés
+- **`.obsidian/`** — Config Obsidian (graph view avec couleurs par tags)
+
+#### Pages migrées vers wiki
+- `docs/claude-code-optimization-masterclass.md` → `_wiki/2-Knowledge/claude-code-optimization.md`
+- `docs/claude-code-workflow-developers-guide.md` → `_wiki/2-Knowledge/claude-code-developer-guide.md`
+- `GUIDE.md` → `_wiki/2-Knowledge/setup-guide.md` + `README.md`
+- `SETTINGS.md` → `_wiki/2-Knowledge/settings-reference.md`
+
+#### Metadata Blocks ajoutés
+- Tous les `SKILL.md` (13 fichiers) reçoivent des metadata blocks (`Type`, `Summary`, `Tags`, `Status`, `Updated`)
+- `skills/INDEX.md` réécrit : routing par metadata tags au lieu de keyword triggers manuels
+
+#### Suppressions
+- `rules/README.md` — Redondant avec les fichiers eux-mêmes
+- `rules/legacy/01-nevers.md.bak` — Fichier mort
+- `docs/trigmem-analysis.md` — Plan de migration complété
+- `skills/trigmem/categories/` — Redondant avec structure wiki
+- `skills/trigmem/storage/` — Redondant avec structure wiki
+- `skills/trigmem/verification/` — Intégré dans knowledge-lint
+- `nul` — Fichier vide/junk
+- Section "Stack" de CLAUDE.md — Stack variable, pas fixe
+
+#### CLAUDE.md v6.0.0
+- Réécrit de ~280 lignes → ~90 lignes (bootstrap slim)
+- Pointe vers `_wiki/_config/config.md` pour le profil + phase training
+- Architecture clarifiée avec structure wiki
+
+#### Métriques
+- Config footprint: ~3,900 lignes → ~650 lignes (règles + bootstrap)
+- Docs de référence: déplacés vers wiki (pas chargés en contexte)
+- Structure wiki: 0 → 6 dossiers + metadata standard
+- Support Obsidian: Non → Oui
+
+---
+
 ## [1.5.0] - 2025-04-06
 
 ### PROTOCOL Mode - High Strictness

@@ -1,5 +1,12 @@
 # TanStack Patterns
 
+**Type:** knowledge
+**Summary:** Patterns for TanStack Suite including Query, Router, and Form for server state management and React integration.
+**Tags:** #tanstack #state #react
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** []
+
 > **Version:** 1.0.0 | **Category:** Cat 4 (Patterns) | **Difficulty:** Intermediate
 > **Auto-Activation:** "usequery", "usemutation", "tanstack query", "react query", "tanstack form"
 > **Tags:** [tanstack, react-query, state-management, server-state, forms]

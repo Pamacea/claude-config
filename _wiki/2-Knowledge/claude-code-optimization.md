@@ -1,7 +1,11 @@
 # Claude Code - Masterclass d'Optimisation
 
-> **Version:** 1.0.0 | **Dernière mise à jour:** 12 Mars 2026
-> **Audience:** Développeurs avancés, créateurs de plugins, power users
+**Type:** knowledge
+**Summary:** Techniques avancées d'optimisation Claude Code — prompting, mémoire, skills, plugins, hooks, MCP
+**Tags:** #claude-code #optimization #prompting #skills #hooks #mcp
+**Status:** active
+**Updated:** 2026-04-08
+**Related:** [claude-code-developer-guide], [setup-guide]
 
 ---
 
