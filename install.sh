@@ -23,6 +23,8 @@ NC='\033[0m' # No Color
 echo -e "${YELLOW}Creating directories...${NC}"
 mkdir -p "$CLAUDE_DIR/rules"
 mkdir -p "$CLAUDE_DIR/skills"
+mkdir -p "$CLAUDE_DIR/hooks"
+mkdir -p "$CLAUDE_DIR/templates/hooks"
 echo -e "${GREEN}  Done${NC}"
 echo ""
 
@@ -88,6 +90,43 @@ else
 fi
 echo ""
 
+# Install context-essentials.md
+echo -e "${YELLOW}Installing context-essentials.md...${NC}"
+if [ -f "$PROJECT_DIR/context-essentials.md" ]; then
+    cp -f "$PROJECT_DIR/context-essentials.md" "$CLAUDE_DIR/context-essentials.md"
+    echo -e "${GREEN}  Done${NC}"
+else
+    echo -e "${GRAY}  Warning: context-essentials.md not found${NC}"
+fi
+echo ""
+
+# Install hook scripts
+echo -e "${YELLOW}Installing hooks...${NC}"
+if [ -d "$PROJECT_DIR/hooks" ]; then
+    HOOK_COUNT=0
+    for hook in "$PROJECT_DIR/hooks"/*.cjs; do
+        if [ -f "$hook" ]; then
+            echo -e "${GRAY}  Copying: $(basename "$hook")${NC}"
+            cp -f "$hook" "$CLAUDE_DIR/hooks/"
+            ((HOOK_COUNT++))
+        fi
+    done
+    echo -e "${GREEN}  Copied $HOOK_COUNT hook script(s)${NC}"
+else
+    echo -e "${GRAY}  No hooks to copy (using existing)${NC}"
+fi
+echo ""
+
+# Install hook templates
+echo -e "${YELLOW}Installing hook templates...${NC}"
+if [ -d "$PROJECT_DIR/templates/hooks" ]; then
+    cp -rf "$PROJECT_DIR/templates/hooks" "$CLAUDE_DIR/templates/"
+    echo -e "${GREEN}  Done${NC}"
+else
+    echo -e "${GRAY}  No templates to copy${NC}"
+fi
+echo ""
+
 # Summary
 echo -e "${CYAN}========================================"
 echo -e "${GREEN}  Installation Complete!"
@@ -96,7 +135,10 @@ echo ""
 echo -e "${NC}Installed files:"
 echo -e "${GRAY}  - Rules: $CLAUDE_DIR/rules/${NC}"
 echo -e "${GRAY}  - Skills: $CLAUDE_DIR/skills/${NC}"
+echo -e "${GRAY}  - Hooks: $CLAUDE_DIR/hooks/${NC}"
+echo -e "${GRAY}  - Templates: $CLAUDE_DIR/templates/hooks/${NC}"
 echo -e "${GRAY}  - Config: $CLAUDE_DIR/CLAUDE.md${NC}"
+echo -e "${GRAY}  - Context: $CLAUDE_DIR/context-essentials.md${NC}"
 echo ""
 echo -e "${NC}Next steps:"
 echo -e "${GRAY}  1. Restart Claude Code${NC}"

@@ -1,0 +1,18 @@
+{
+  "description": "Preserve critical project context before automatic compaction",
+  "hooks": {
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/pre-compact.cjs",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  },
+  "usage": "Ajouté automatiquement. Lit context-essentials.md (projet ou global) et le préserve avant compaction. Créez context-essentials.md avec vos décisions architecturales critiques."
+}

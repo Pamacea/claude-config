@@ -59,6 +59,16 @@
           }
         ],
         "matcher": "Edit|Write|Explore|CreateTeam|Bash"
+      },
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/output-filter.cjs",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Bash|Grep|Glob"
       }
     ],
     "PreToolUse": [
@@ -91,6 +101,40 @@
           }
         ],
         "matcher": "Explore|CreateTeam|Task|Agent|Plan"
+      },
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/protect-files.cjs",
+            "timeout": 3000,
+            "type": "command"
+          }
+        ],
+        "matcher": "Edit|Write"
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/pre-compact.cjs",
+            "timeout": 10000,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/context-reinject.cjs",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "auto"
       }
     ],
     "SessionStart": [
@@ -103,6 +147,16 @@
           }
         ],
         "matcher": "*"
+      },
+      {
+        "hooks": [
+          {
+            "command": "node C:/Users/Yanis/.claude/hooks/context-reinject.cjs",
+            "timeout": 5000,
+            "type": "command"
+          }
+        ],
+        "matcher": "compact"
       }
     ]
   },

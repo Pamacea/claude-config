@@ -1,0 +1,18 @@
+{
+  "description": "Filter large tool outputs to save context window tokens",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Grep|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/output-filter.cjs",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  },
+  "usage": "Ajouté automatiquement. Alerte si output > 10KB (Bash) ou > 50KB (tout outil). Réduit la pollution du contexte."
+}

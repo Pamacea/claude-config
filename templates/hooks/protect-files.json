@@ -1,0 +1,28 @@
+{
+  "description": "Block edits on sensitive files (.env, secrets, credentials, private keys)",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/protect-files.cjs",
+            "timeout": 3000
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/protect-files.cjs",
+            "timeout": 3000
+          }
+        ]
+      }
+    ]
+  },
+  "usage": "Ajouté automatiquement. Bloque edit/write sur .env, credentials, secrets, private keys, .pem, etc."
+}

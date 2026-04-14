@@ -27,6 +27,8 @@ function Copy-WithOverwrite {
 Write-Host "Creating directories..." -ForegroundColor Yellow
 New-Item -ItemType Directory -Force -Path "$CLAUDE_DIR/rules" | Out-Null
 New-Item -ItemType Directory -Force -Path "$CLAUDE_DIR/skills" | Out-Null
+New-Item -ItemType Directory -Force -Path "$CLAUDE_DIR/hooks" | Out-Null
+New-Item -ItemType Directory -Force -Path "$CLAUDE_DIR/templates/hooks" | Out-Null
 Write-Host "  Done" -ForegroundColor Green
 Write-Host ""
 
@@ -87,6 +89,41 @@ if (Test-Path "$PROJECT_DIR\.claudeignore") {
 }
 Write-Host ""
 
+# Installer context-essentials.md
+Write-Host "Installing context-essentials.md..." -ForegroundColor Yellow
+if (Test-Path "$PROJECT_DIR\context-essentials.md") {
+    Copy-WithOverwrite "$PROJECT_DIR\context-essentials.md" "$CLAUDE_DIR\context-essentials.md"
+    Write-Host "  Done" -ForegroundColor Green
+} else {
+    Write-Host "  Warning: context-essentials.md not found" -ForegroundColor Yellow
+}
+Write-Host ""
+
+# Installer hook scripts (si présents dans le repo)
+Write-Host "Installing hooks..." -ForegroundColor Yellow
+if (Test-Path "$PROJECT_DIR\hooks") {
+    $hookCount = 0
+    Get-ChildItem -Path "$PROJECT_DIR\hooks\*.cjs" | ForEach-Object {
+        if (Copy-WithOverwrite $_.FullName "$CLAUDE_DIR\hooks\") {
+            $hookCount++
+        }
+    }
+    Write-Host "  Copied $hookCount hook script(s)" -ForegroundColor Green
+} else {
+    Write-Host "  No hooks to copy (using existing)" -ForegroundColor Gray
+}
+Write-Host ""
+
+# Installer hook templates
+Write-Host "Installing hook templates..." -ForegroundColor Yellow
+if (Test-Path "$PROJECT_DIR\templates\hooks") {
+    Copy-WithOverwrite "$PROJECT_DIR\templates\hooks" "$CLAUDE_DIR\templates\hooks"
+    Write-Host "  Done" -ForegroundColor Green
+} else {
+    Write-Host "  No templates to copy" -ForegroundColor Gray
+}
+Write-Host ""
+
 # Résumé
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "  Installation Complete!" -ForegroundColor Green
@@ -95,7 +132,10 @@ Write-Host ""
 Write-Host "Installed files:" -ForegroundColor White
 Write-Host "  - Rules: $CLAUDE_DIR\rules\" -ForegroundColor Gray
 Write-Host "  - Skills: $CLAUDE_DIR\skills\" -ForegroundColor Gray
+Write-Host "  - Hooks: $CLAUDE_DIR\hooks\" -ForegroundColor Gray
+Write-Host "  - Templates: $CLAUDE_DIR\templates\hooks\" -ForegroundColor Gray
 Write-Host "  - Config: $CLAUDE_DIR\CLAUDE.md" -ForegroundColor Gray
+Write-Host "  - Context: $CLAUDE_DIR\context-essentials.md" -ForegroundColor Gray
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor White
 Write-Host "  1. Restart Claude Code" -ForegroundColor Gray

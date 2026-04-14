@@ -1,0 +1,40 @@
+{
+  "description": "Re-inject essential context after context compaction",
+  "hooks": {
+    "PostCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/context-reinject.cjs",
+            "timeout": 5000
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/context-reinject.cjs",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  },
+  "usage": "Ajouté automatiquement. Re-injecte context-essentials.md après compaction pour maintenir la continuité.",
+  "context_essentials_template": {
+    "description": "Créez context-essentials.md avec cette structure:",
+    "sections": [
+      "# Context Essentials",
+      "## Architecture: Patterns et décisions clés",
+      "## Conventions: Naming, structure, standards",
+      "## Current Tasks: Ce qui est en cours",
+      "## Critical Constraints: Limitations à connaître"
+    ]
+  }
+}
