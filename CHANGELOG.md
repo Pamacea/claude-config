@@ -4,6 +4,58 @@
 
 ---
 
+## [2.2.0] - 2026-10-03
+
+### 🚀 Optimisation Globale — Concision, Skills à la Demande, MiMo v2.6
+
+#### CLAUDE.md v6.1.0 (-58% tokens)
+- **Réécrit ultra-concis** : 7185 → 3012 bytes dans `~/.claude` (source de vérité)
+- **Bloc RTK dupliqué supprimé** (~5 KB) : le hook `bash-pre-tool.cjs` réécrit déjà les commandes → CLAUDE.md ne garde que la golden rule + pointeur vers `RTK.md`
+- **Sections Quality Gates / Git Flow dédupliquées** → pointent vers `rules/`
+- **Table des rules/ complète** ajoutée (index de navigation)
+
+#### rules/ Assainis
+- **`rules/README.md` restauré en version index court** (223 lignes → ~50) : migration history + résumés dupliqués supprimés
+- **`rules/legacy/01-nevers.md`** : migration documentée en v2.0 mais jamais exécutée — fichier désormais réellement déplacé dans `legacy/`
+
+#### Skills — Activation Réelle à la Demande
+- **Frontmatter YAML ajouté aux 19 SKILL.md** (`name` + `description`) — auparavant absent
+- **Applatissement** : `skills/patterns/*` et `skills/operations/*` → racine `skills/`
+  - Claude Code ne découvre que les **enfants directs** de `~/.claude/skills/` → les 13 skills imbriqués n'étaient jamais chargés
+  - Vérifié : les 19 skills sont maintenant enregistrés et invoquables (`/nextjs`, `/rust`, ...)
+- **Références corrigées** : `/pattern x` → `/x` (slash réel), `skills/patterns/` → `skills/` (INDEX.md, pattern-autoloader, trigmem-*, CLAUDE.md, README.md)
+  - Entrées fantômes : `/pattern react` → `/nextjs`, `/pattern prisma` → `/tech-decisions`
+
+#### Endpoints Tiers (MiMo v2.6)
+- **`settings.json.example`** : nouveau modèle sanitizé (`ANTHROPIC_AUTH_TOKEN: "xxx"`)
+- **`settings.json` retiré du repo** (fichier sensible, jamais à publier)
+- **`config.json`** : chemin parry cassé → `C:\Users\Yanis\.cargo\bin\parry.exe --wrap`
+- **`mcp.json`** : chemin argus cassé (plugin-cache absent) → `Projects/-plugins/argus/mcp-server/index.js`
+- **Modèle cohérent** : `mimo-v2.6-flash` partout (`model` + DEFAULT_OPUS/SONNET/HAIKU)
+
+#### Wiki Obsidian — Intégration Réelle
+- **Nouveau hook `hooks/wiki-session.cjs`** (SessionStart) : `_wiki/_meta/instructions/general.md` s'autodéclarait « chargé automatiquement à chaque session » **sans mécanisme** → désormais réellement injecté via `additionalContext` (max 4 KB), testé ✓
+
+#### Hooks — Le dossier `hooks/` rejoint le repo
+- **11 scripts `.cjs` publiés** (bash-pre-tool, parry-post-write, argus-*, protect-files, output-filter, pre-compact, context-reinject, wiki-session) — auparavant seulement décrits dans le README, jamais livrés
+- **Tous les hooks référencés dans settings.json vérifiés présents** (11/11)
+
+#### Cleanup
+- **`cleanup.ps1` réécrit** : chemins absolus (l'ancien ne marchait qu'exécuté depuis `~/.claude`), **rotation `history.jsonl`** (archive zip `backups/history-<stamp>.zip` puis purge, ou élagage `-HistoryKeepLines`), `backups/` protégé de la suppression
+
+### 📊 Statistiques v2.2.0
+
+| Métrique | v2.1.0 | v2.2.0 | Δ |
+|----------|--------|--------|---|
+| **CLAUDE.md** | v6.0.0 | v6.1.0 | -58% tokens (local) |
+| **Skills scopables** | 6 (13 imbriqués invisibles) | 19/19 | +13 |
+| **Frontmatter YAML** | 0/19 | 19/19 | +19 |
+| **Hooks publiés** | 0 .cjs | 11 .cjs | +11 |
+| **Chemins cassés** | 3 (parry, argus, model) | 0 | -3 |
+| **settings.json** | présent (sanitizé) | retiré → `.example` | sécurisé |
+
+---
+
 ## [2.0.0] - 2026-04-08
 
 ### LLM Wiki Integration

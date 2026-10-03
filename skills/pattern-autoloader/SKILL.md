@@ -1,3 +1,8 @@
+---
+name: pattern-autoloader
+description: "Meta-skill that auto-detects tech-specific questions and loads the appropriate pattern skill on demand."
+---
+
 # Pattern Autoloader - Auto-Detection
 
 **Type:** meta
@@ -32,16 +37,16 @@
 
 | Technology | Pattern Skill | Trigger Keywords |
 |------------|---------------|------------------|
-| **Next.js** | `/pattern nextjs` | "next", "ssr", "server components", "app router", "nextjs" |
-| **React** | `/pattern react` | "react", "component", "hook", "useState", "useEffect" |
-| **Rust** | `/pattern rust` | "rust", "cargo", "axum", "tokio", "rustc" |
-| **NestJS** | `/pattern nestjs` | "nest", "nestjs", "controller", "service", "module" |
-| **Prisma** | `/pattern prisma` | "prisma", "schema", "migration", "database" |
-| **TanStack** | `/pattern tanstack` | "tanstack", "react query", "table", "form", "router" |
-| **Tailwind** | `/pattern tailwind` | "tailwind", "css", "styling", "classes" |
-| **TypeScript** | `/pattern typescript` | "typescript", "ts", "interface", "type", "generic" |
-| **Vite** | `/pattern vite` | "vite", "build", "dev server", "hmr" |
-| **WASM** | `/pattern wasm` | "wasm", "webassembly", "rust wasm" |
+| **Next.js** | `/nextjs` | "next", "ssr", "server components", "app router", "nextjs" |
+| **React** | `/nextjs` | "react", "component", "hook", "useState", "useEffect" |
+| **Rust** | `/rust` | "rust", "cargo", "axum", "tokio", "rustc" |
+| **NestJS** | `/nestjs` | "nest", "nestjs", "controller", "service", "module" |
+| **Prisma** | `/tech-decisions` | "prisma", "schema", "migration", "database" |
+| **TanStack** | `/tanstack` | "tanstack", "react query", "table", "form", "router" |
+| **Tailwind** | `/tailwind` | "tailwind", "css", "styling", "classes" |
+| **TypeScript** | `/typescript` | "typescript", "ts", "interface", "type", "generic" |
+| **Vite** | `/vite` | "vite", "build", "dev server", "hmr" |
+| **WASM** | `/wasm` | "wasm", "webassembly", "rust wasm" |
 
 ---
 
@@ -55,7 +60,7 @@ User Question: "How do I implement Server Components in Next.js?"
 Analysis:
 1. Detect: "Server Components" + "Next.js"
 2. Match: Next.js pattern skill
-3. Suggest: /pattern nextjs
+3. Suggest: /nextjs
 4. Locate: Server Components section
 5. Apply: User's project context
 ```
@@ -84,7 +89,7 @@ Question Types → Pattern Categories:
 ```markdown
 "How do I use TanStack Query with Next.js?"
 → Detect: Next.js + TanStack
-→ Suggest: /pattern nextjs OR /pattern tanstack
+→ Suggest: /nextjs OR /tanstack
 → Priority: Next.js (mentioned second, more specific)
 ```
 
@@ -96,7 +101,7 @@ Question Types → Pattern Categories:
 ```markdown
 "How do I use Server Components?"
 → Detect: "Server Components" (Next.js specific)
-→ Suggest: /pattern nextjs
+→ Suggest: /nextjs
 → Context: User likely in Next.js project
 ```
 
@@ -108,8 +113,8 @@ Question Types → Pattern Categories:
 ```markdown
 "How to configure Vite for React?"
 → Detect: Vite + React
-→ Suggest: /pattern vite (primary)
-→ Secondary: /pattern react (if needed)
+→ Suggest: /vite (primary)
+→ Secondary: /nextjs (if needed)
 ```
 
 ### Rule 4: Language-Specific
@@ -120,7 +125,7 @@ Question Types → Pattern Categories:
 ```markdown
 "How to use generics in TypeScript?"
 → Detect: TypeScript + generics
-→ Suggest: /pattern typescript
+→ Suggest: /typescript
 → Locate: Generics section
 ```
 
@@ -152,7 +157,7 @@ Question Types → Pattern Categories:
                     │
                     ▼
 ┌─────────────────────────────────────────┐
-│  Suggest: /pattern [tech]               │
+│  Suggest: /[skill]               │
 │  OR auto-load if appropriate            │
 └─────────────────────────────────────────┘
 ```
@@ -220,14 +225,14 @@ User: "How to use useEffect with dependencies?"
 Detection:
 ├─ Keyword: "useEffect" → React
 ├─ Category: Hooks usage
-├─ Pattern: /pattern react
+├─ Pattern: /nextjs
 └─ Section: useEffect best practices
 
 Auto-Response:
 "I detect you're asking about React hooks.
 Let me load the React pattern skill for accurate guidance."
 
-→ Loads /pattern react
+→ Loads /nextjs
 → Finds useEffect section
 → Provides best practices
 → Shows dependency array rules
@@ -241,14 +246,14 @@ User: "How to implement Server Actions?"
 Detection:
 ├─ Keyword: "Server Actions" → Next.js
 ├─ Category: Feature implementation
-├─ Pattern: /pattern nextjs
+├─ Pattern: /nextjs
 └─ Section: Server Actions
 
 Auto-Response:
 "Server Actions are a Next.js feature.
 Loading Next.js pattern skill..."
 
-→ Loads /pattern nextjs
+→ Loads /nextjs
 → Finds Server Actions section
 → Shows implementation pattern
 → Provides code examples
@@ -262,14 +267,14 @@ User: "How to use TanStack Query in Next.js?"
 Detection:
 ├─ Keywords: "TanStack Query" + "Next.js"
 ├─ Priority: Next.js (framework) + TanStack (library)
-├─ Patterns: /pattern nextjs (primary)
-└─ Secondary: /pattern tanstack
+├─ Patterns: /nextjs (primary)
+└─ Secondary: /tanstack
 
 Auto-Response:
 "I detect this involves both Next.js and TanStack Query.
 Let me load the relevant patterns..."
 
-→ Loads /pattern nextjs
+→ Loads /nextjs
 → Cross-references TanStack Query usage
 → Shows integration pattern
 → Best practices for both
@@ -292,9 +297,9 @@ Example:
 "How to use TanStack Query with TypeScript in Next.js?"
 
 Priority:
-1. Next.js (framework) → /pattern nextjs
-2. TypeScript (language) → /pattern typescript (if needed)
-3. TanStack (library) → /pattern tanstack (if needed)
+1. Next.js (framework) → /nextjs
+2. TypeScript (language) → /typescript (if needed)
+3. TanStack (library) → /tanstack (if needed)
 
 Strategy:
 - Load Next.js pattern first
@@ -392,11 +397,11 @@ Priority:
 └─ Explicit > Implicit
 
 Pattern Skills:
-├─ /pattern nextjs      → Server Components, App Router
-├─ /pattern rust        → Ownership, Traits, Axum
-├─ /pattern tanstack    → Query, Table, Form, Router
-├─ /pattern typescript  → Generics, Types, Interfaces
-└─ /pattern [tech]      → Tech-specific patterns
+├─ /nextjs      → Server Components, App Router
+├─ /rust        → Ownership, Traits, Axum
+├─ /tanstack    → Query, Table, Form, Router
+├─ /typescript  → Generics, Types, Interfaces
+└─ /[skill]      → Tech-specific patterns
 
 Auto-Load When:
 ├─ Explicit tech mentioned

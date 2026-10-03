@@ -1,6 +1,6 @@
 # CLAUDE.md — Bootstrap
 
-> **Version:** 6.0.0 | Config Claude Code + LLM Wiki
+> **Version:** 6.1.0 | Config Claude Code + LLM Wiki
 > **Lit d'abord:** PROTOCOL.md (règles critiques R1-R5)
 > **Puis:** _wiki/_config/config.md (profil + phase training)
 
@@ -13,32 +13,40 @@ npm install / dev / test / build    # Projets
 pnpm run fmt / fmt:check            # Oxfmt formatting
 ```
 
-### Oxfmt (successeur Rust de Prettier)
-~30x plus rapide que Prettier. Built-in: import sorting, Tailwind class sorting, package.json sorting.
-Docs: https://oxc.rs/docs/guide/usage/formatter.html
+---
+
+## RTK — Token Savings
+
+Le hook `hooks/bash-pre-tool.cjs` réécrit automatiquement les commandes
+(`git status` → `rtk git status`, 60-90% d'économie).
+
+**Golden rule:** préfixer manuellement avec `rtk` les commandes non interceptées,
+y compris dans les chaînes `&&` :
+`rtk git add . && rtk git commit -m "msg"`
+
+→ Référence complète: **RTK.md** | Stats: `rtk gain` | Doc: https://github.com/rtk-ai/rtk
 
 ---
 
-## Architecture
+## Rules — rules/ (auto-chargées)
 
-```
-~/.claude/
-├── rules/              # Règles runtime (auto-chargées par globs)
-├── skills/             # Patterns demand-loaded (metadata tags)
-├── _wiki/              # LLM Wiki — base de connaissances
-│   ├── _config/        #   Brain (profil, metadata standard)
-│   ├── _meta/          #   Moteur (instructions, templates)
-│   ├── _inbox/         #   Zone de capture frictionless
-│   ├── 1-Projects/     #   Travaux actifs
-│   ├── 2-Knowledge/    #   Wiki principal
-│   └── 3-Journal/      #   Réflexions, notes
-├── hooks/              # Hooks Pamacea
-└── .obsidian/          # Config Obsidian
-```
+| Fichier | Sujet |
+|---------|-------|
+| `00-core.md` | Principes (Correctness > Completeness > Speed), méthodologie EPCT |
+| `01-standards.md` | Standards techniques positifs (remplace 01-nevers) |
+| `02-conventions.md` | Git flow `TYPE: PROJECT - vX.Y.Z`, structure, naming, imports |
+| `03-delete-first.md` | Simplifier avant d'ajouter — variant props, composition |
+| `04-react-hooks-limits.md` | Server Components en priorité, limites useEffect/useMemo |
+| `05-reusability.md` | Barrel exports, variant props, fonctions pures |
+| `06-mcp-mandatory.md` | Workflows MCP (claude-mem, git-flow, dev-browser) |
+| `07-pre-commit-gates.md` | Pipeline validation avant commit (bloquant) |
+| `08-rust-workspace.md` | Structure workspace Rust full stack |
+| `quality-gates.md` | Critères de validation par type de tâche |
+| `argus.md` | ARGUS — `recall` avant exploration, `remember` après résolution |
 
 ---
 
-## Outils Pamacea (Auto-Active)
+## Outils Pamacea (auto-actifs)
 
 | Outil | Usage |
 |-------|-------|
@@ -50,7 +58,7 @@ Docs: https://oxc.rs/docs/guide/usage/formatter.html
 
 ---
 
-## Wiki — Outils
+## Wiki — _wiki/ (Obsidian)
 
 | Trigger | Module |
 |---------|--------|
@@ -61,29 +69,16 @@ Docs: https://oxc.rs/docs/guide/usage/formatter.html
 | Complétion | `_wiki/_meta/instructions/definition-of-done.md` |
 | Optimisation | `_wiki/_meta/instructions/optimization-review.md` |
 
----
-
-## Quality Gates
-
-- [ ] Lint passe
-- [ ] Typecheck passe
-- [ ] Tests passent
-- [ ] Pas de secrets exposés
-- [ ] Commit au format TYPE: PROJECT - vX.Y.Z
+**Skills patterns:** `skills/INDEX.md` — chargés uniquement à la demande.
 
 ---
 
-## Git Flow
+## Références rapides
 
-```
-TYPE: PROJECT - vX.Y.Z
-
-- Change 1
-- Change 2
-```
-
-Types: RELEASE (MAJOR), UPDATE (MINOR), PATCH (FIX)
+- **Quality Gates** → `rules/quality-gates.md` + `rules/07-pre-commit-gates.md`
+- **Git Flow** → `rules/02-conventions.md` (`TYPE: PROJECT - vX.Y.Z`, types: RELEASE/UPDATE/PATCH)
+- **Architectures** → `rules/` (rust-workspace) | `skills/` (frameworks)
 
 ---
 
-*Version: 6.0.0 | Config + LLM Wiki unifié*
+*Version: 6.1.0 | Ultra-concise — détails dans rules/ et fichiers d'outils*

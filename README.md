@@ -1,9 +1,9 @@
 # claude-config
 
-> **Configuration Claude Code + LLM Wiki** | Version 6.0.0
+> **Configuration Claude Code + LLM Wiki** | Version 6.1.0
 > Outils Pamacea (RTK, Aureus, Parry, Argus) + Base de connaissances persistante
 >
-> **Dernière mise à jour :** 2026-04-08
+> **Dernière mise à jour :** 2026-10-03
 
 ---
 
@@ -11,7 +11,7 @@
 
 ```bash
 # 1. Cloner ce repo
-git clone https://github.com/Pamace/claude-config.git ~/.claude
+git clone https://github.com/Pamacea/claude-config.git ~/.claude
 
 # 2. C'est tout ! PROTOCOL.md + CLAUDE.md se chargent automatiquement
 
@@ -46,11 +46,11 @@ Le wiki résout le problème de l'amnésie entre sessions : chaque question, dé
 │   ├── 02-conventions.md  # Git flow, structure, imports
 │   └── ...                # (10 fichiers, < 70 lignes chacun)
 │
-├── skills/                # Patterns demand-loaded (metadata tags)
+├── skills/                # Patterns demand-loaded (frontmatter YAML, à la racine)
 │   ├── INDEX.md           # Index — routing par metadata
-│   ├── patterns/          # 11 domaines techniques
-│   ├── standards/         # Standards techniques
-│   ├── trigmem/           # TrigMem core (token budget)
+│   ├── nextjs/ rust/ ...  # 19 skills plats (enfants directs = découvrables)
+│   ├── standards/         # Standards techniques (.skill)
+│   ├── trigmem-*/         # TrigMem core (token budget)
 │   └── workflows/         # EPCT, MCP workflows
 │
 ├── _wiki/                 # LLM Wiki — base de connaissances
@@ -77,7 +77,7 @@ Le wiki résout le problème de l'amnésie entre sessions : chaque question, dé
 │
 ├── config.json            # Config Claude Code (plugins, hooks, MCP)
 ├── mcp.json               # Définitions serveurs MCP
-├── settings.json          # PreWriteHooks (Parry)
+├── settings.json.example  # Modèle de settings (token = "xxx", copier avant usage)
 ├── statusline.*           # Custom statusline
 ├── WIKI-LOG.md            # Chronologie des actions wiki
 └── CHANGELOG.md           # Historique des versions
@@ -152,4 +152,4 @@ Chaque skill est chargé automatiquement quand ses tags correspondent au context
 
 ---
 
-**Licence:** MIT | **Auteur:** Pamace | **Version:** 6.0.0 (Config + LLM Wiki)
+**Licence:** MIT | **Auteur:** Pamace | **Version:** 6.1.0 (Config + LLM Wiki)

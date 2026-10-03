@@ -3,11 +3,8 @@
     "argus": {
       "command": "node",
       "args": [
-        "C:\\Users\\Yanis\\.claude\\plugins\\cache\\argus\\argus\\0.6.0\\mcp\\dist\\server.bundle.mjs"
-      ],
-      "env": {
-        "ARGUS_PLUGIN_ROOT": "C:/Users/Yanis/.claude/plugins/cache/argus/argus/0.6.0"
-      }
+        "C:/Users/Yanis/Projects/-plugins/argus/mcp-server/index.js"
+      ]
     }
   }
 }

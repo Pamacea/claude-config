@@ -281,7 +281,7 @@ Total per skill: ~2000-3000 tokens
 
 - **claude-mem:** Save successful patterns
 - **git-flow-master:** Versioned skill updates
-- **dev-browser:** UI skill testing
+- **chrome-devtools:** UI skill testing
 - **z-ai:** Visual skill content
 - **web-reader:** Fetch updated docs
 

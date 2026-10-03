@@ -1,7 +1,7 @@
 {
   "preWriteHooks": [
     {
-      "command": "C:\\Users\\Yanis\\Projects\\plugins\\parry\\target\\release\\parry.exe --wrap",
+      "command": "C:\\Users\\Yanis\\.cargo\\bin\\parry.exe --wrap",
       "enabled": true
     }
   ]

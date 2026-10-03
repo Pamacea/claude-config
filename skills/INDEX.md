@@ -22,33 +22,33 @@
 
 | Skill | Tags | Summary |
 |-------|------|---------|
-| [nextjs](patterns/nextjs/SKILL.md) | #nextjs #frontend #react | Next.js 16 — App Router, RSC, Server Actions |
-| [tanstack](patterns/tanstack/SKILL.md) | #tanstack #state #react | TanStack Suite — Query, Router, Form |
-| [tailwind](patterns/tailwind/SKILL.md) | #tailwind #css #frontend | Tailwind CSS — responsive, dark mode, design system |
-| [vite](patterns/vite/SKILL.md) | #vite #build #tooling | Vite — config, plugins, HMR |
-| [typescript](patterns/typescript/SKILL.md) | #typescript #types | TypeScript — generics, utility types, strict mode |
+| [nextjs](nextjs/SKILL.md) | #nextjs #frontend #react | Next.js 16 — App Router, RSC, Server Actions |
+| [tanstack](tanstack/SKILL.md) | #tanstack #state #react | TanStack Suite — Query, Router, Form |
+| [tailwind](tailwind/SKILL.md) | #tailwind #css #frontend | Tailwind CSS — responsive, dark mode, design system |
+| [vite](vite/SKILL.md) | #vite #build #tooling | Vite — config, plugins, HMR |
+| [typescript](typescript/SKILL.md) | #typescript #types | TypeScript — generics, utility types, strict mode |
 
 ### Patterns Backend
 
 | Skill | Tags | Summary |
 |-------|------|---------|
-| [rust](patterns/rust/SKILL.md) | #rust #backend #axum | Rust — Axum, sqlx, Tower, workspace |
-| [nestjs](patterns/nestjs/SKILL.md) | #nestjs #backend #api | NestJS — DTO, JWT, TypeORM |
-| [wasm](patterns/wasm/SKILL.md) | #wasm #rust #webassembly | WebAssembly — wasm-bindgen, wasm-pack, WasmGC |
+| [rust](rust/SKILL.md) | #rust #backend #axum | Rust — Axum, sqlx, Tower, workspace |
+| [nestjs](nestjs/SKILL.md) | #nestjs #backend #api | NestJS — DTO, JWT, TypeORM |
+| [wasm](wasm/SKILL.md) | #wasm #rust #webassembly | WebAssembly — wasm-bindgen, wasm-pack, WasmGC |
 
 ### Patterns Transversaux
 
 | Skill | Tags | Summary |
 |-------|------|---------|
-| [tech-decisions](patterns/tech-decisions/SKILL.md) | #decisions #architecture | Choix de stack — comparatifs, critères |
-| [ux-design](patterns/ux-design/SKILL.md) | #ux #design #ui | UX/UI — patterns, accessibilité, design system |
-| [documentation](patterns/documentation/SKILL.md) | #documentation #writing | Documentation — API docs, README, guides |
+| [tech-decisions](tech-decisions/SKILL.md) | #decisions #architecture | Choix de stack — comparatifs, critères |
+| [ux-design](ux-design/SKILL.md) | #ux #design #ui | UX/UI — patterns, accessibilité, design system |
+| [documentation](documentation/SKILL.md) | #documentation #writing | Documentation — API docs, README, guides |
 
 ### Opérations
 
 | Skill | Tags | Summary |
 |-------|------|---------|
-| [mcp-mandatory](operations/mcp-mandatory/SKILL.md) | #mcp #operations | Workflows MCP — git, screenshots, analysis |
+| [mcp-mandatory](mcp-mandatory/SKILL.md) | #mcp #operations | Workflows MCP — git, screenshots, analysis |
 | [pattern-autoloader](pattern-autoloader/SKILL.md) | #autoloader #patterns | Auto-détection des patterns nécessaires |
 
 ---
