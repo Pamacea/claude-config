@@ -6,11 +6,13 @@
 
 ## ⚠️ RÈGLE CRITIQUE - OBLIGATOIRE
 
-**AVANT toute action d'exploration (ls, grep, cat, Explore), tu DOIFS impérativement lancer :**
+**AVANT toute action d'exploration (ls, grep, cat, Explore), tu DOIS impérativement lancer :**
 
 ```bash
 C:\Users\Yanis\.cargo\bin\argus.exe recall "<contexte_de_recherche>"
 ```
+
+(ou les outils MCP `argus_recall` / `argus_search` — équivalents directs)
 
 **C'est ton PREMIER RÉFLEXE.** Si tu ne trouves pas la réponse dans ARGUS, seulement alors tu peux explorer le code.
 
@@ -62,6 +64,18 @@ C:\Users\Yanis\.cargo\bin\argus.exe remember "Added Z feature using W pattern"
 Toutes les données sont stockées localement dans `~/.argus/` :
 - `memory.db` → Base de données SQLite (transactions)
 - `index/` → Index de fichiers pour recherche sémantique
+
+---
+
+## 🧭 Frontière ARGUS / Wiki
+
+| Système | Rôle | Exemple |
+|---------|------|---------|
+| **ARGUS** | Mémoire des résolutions (transactions) | "Fixed JWT bug by doing Y" → `remember` |
+| **Wiki `_wiki/`** | Connaissance durable (pages, conventions, protocole) | Convention de nommage, architecture d'un dossier |
+
+**Règle :** une résolution unique → ARGUS uniquement. Une convention réutilisable → wiki uniquement.
+Ne pas dupliquer le même contenu dans les deux systèmes.
 
 ---
 

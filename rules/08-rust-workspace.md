@@ -4,8 +4,6 @@
 
 Structure de monorepo Rust Full Stack (Axum + Dioxus/Leptos).
 
-**Voir:** `rust-workspace-structure.skill`
-
 ---
 
 ##  Quick Structure
@@ -30,7 +28,5 @@ workspace/
 - [ ] Docker compose prêt
 
 ---
-
-**Voir aussi:** `rust-workspace-structure.skill`
 
 *Version: 1.0.0 | Rust Workspace*

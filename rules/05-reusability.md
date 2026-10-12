@@ -52,6 +52,4 @@ export function chunk<T>(array: T[], size: number): T[][] {
 
 ---
 
-**Voir aussi:** `reusability.skill`
-
 *Version: 3.0.0 | Reusability Standards*

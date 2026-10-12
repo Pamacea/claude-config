@@ -105,10 +105,11 @@ To bypass: `git commit --no-verify` or use `aureus commit` directly.
 
 ## Hook File
 
-Hook location: `~/.claude/hooks/aureus-rewrite.cjs`
+Hook location: `~/.claude/hooks/bash-pre-tool.cjs` (section Aureus)
 
-This Node.js module integrates with Claude Code's hook system to transparently
-rewrite git commands to aureus commands.
+Ce hook Claude Code (PreToolUse) réécrit uniquement
+`git commit` → `aureus commit`. (La réécriture RTK est gérée par le hook
+officiel `rtk hook claude` — voir RTK.md.)
 
 ## Token Savings
 

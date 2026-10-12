@@ -1,4 +1,7 @@
 {
+  "models": {
+    "mimo-v2.6-flash": { "context": 1000000 }
+  },
   "vim": {
     "enabled": true,
     "showLabel": true,

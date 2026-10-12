@@ -1,36 +1,36 @@
 #!/usr/bin/env node
 /**
- * Claude Code Enhanced Statusline Script v0.9.0
+ * Claude Code Enhanced Statusline Script v1.0.0
+ *
+ * Input: payload JSON en stdin (officiel Claude Code) — plus de parsing
+ * transcript obligatoire. Le transcript JSONL n'est lu qu'en fallback
+ * (coût cumulé estimé, durée, usage) quand un champ stdin est absent.
  *
  * Features:
- * - Dynamic context window (200k/1M) based on model detection
- * - Support for Claude 4.5/4.6 (Opus, Sonnet, Haiku) + GLM models
- * - Real-time token tracking from current session
- * - Git branch with staged/unstaged changes
- * - Model version display
- * - Cost tracking
- * - Enhanced progress bar
- * - Vim mode indicator
- * - Cache percentage display
+ * - context_window natif : used_percentage, context_window_size (200k/1M)
+ * - current_usage natif : input / output / cache_read / cache_creation
+ * - Coût : cost.total_cost_usd (officiel) + fallback estimation cumulée
+ *   avec pricing cache (read ×0.1, write ×1.25) si modèle connu
+ * - Effort / Thinking / Fast mode (payload effort.level, thinking.enabled,
+ *   fast_mode)
+ * - Badge "1M" quand context_window_size >= 1_000_000
+ * - Vim mode natif (payload.vim.mode) avec fallback env VIM
+ * - Git branch + staged/unstaged + insertions/délétions
+ * - Statusline.config.json honoré (vim, cache, models overrides)
  */
 
 import { execSync } from 'child_process';
 import { readFileSync, existsSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
 
-// Model context window sizes
+// ─── Model tables (fallback si stdin absent / modèle inconnu) ───
+
 const MODEL_CONTEXT_SIZES = {
-  // Claude Opus 4.6 — always 1M
   "claude-opus-4-6": 1000000,
-  // Claude Opus 4.5 — 200k default
   "claude-opus-4-5": 200000,
-  // Claude Sonnet 4.6 — 200k default
   "claude-sonnet-4-6": 200000,
-  // Claude Sonnet 4.5 — 200k
   "claude-sonnet-4-5": 200000,
-  // Claude Haiku 4.5 — 200k
   "claude-haiku-4-5": 200000,
-  // GLM models
   "glm-5": 200000,
   "glm-5-plus": 200000,
   "glm-4": 200000,
@@ -39,35 +39,8 @@ const MODEL_CONTEXT_SIZES = {
   "glm-4.7": 200000,
 };
 
-/**
- * Resolve context window size from model string
- */
-function getContextSizeForModel(modelId) {
-  if (!modelId) return 200000;
-
-  // [1m] suffix always means 1M context
-  if (modelId.includes('[1m]')) return 1000000;
-
-  // Exact match
-  if (MODEL_CONTEXT_SIZES[modelId] !== undefined) return MODEL_CONTEXT_SIZES[modelId];
-
-  // Prefix match (handles date-suffixed IDs like "claude-opus-4-6-20260301")
-  for (const [key, size] of Object.entries(MODEL_CONTEXT_SIZES)) {
-    if (modelId.startsWith(key)) return size;
-  }
-
-  // Pattern-based fallback
-  if (modelId.includes('opus-4-6') || modelId.includes('opus-4.6')) return 1000000;
-  if (modelId.includes('opus-4-5') || modelId.includes('opus-4.5')) return 200000;
-  if (modelId.includes('sonnet')) return 200000;
-  if (modelId.includes('haiku')) return 200000;
-  if (modelId.includes('glm-4-long')) return 1000000;
-  if (modelId.includes('glm')) return 200000;
-
-  return 200000;
-}
-
-// Model pricing (USD per million tokens)
+// Pricing USD/M tokens — AUCUN prix fabriqué pour les modèles custom
+// (mimo-* etc.) : le fallback coût est alors masqué, sauf coût officiel stdin.
 const MODEL_PRICING = {
   "claude-opus-4-6": { input: 15, output: 75 },
   "claude-opus-4-5": { input: 15, output: 75 },
@@ -82,62 +55,60 @@ const MODEL_PRICING = {
   "glm-4.7": { input: 0.5, output: 2 },
 };
 
-function getPricingForModel(modelId) {
-  if (!modelId) return { input: 3, output: 15 };
-  const cleanId = modelId.replace(/\[1m\]/, '');
-  if (MODEL_PRICING[cleanId]) return MODEL_PRICING[cleanId];
-  for (const [key, pricing] of Object.entries(MODEL_PRICING)) {
-    if (modelId.startsWith(key)) return pricing;
-  }
-  if (modelId.includes('opus')) return { input: 15, output: 75 };
-  if (modelId.includes('haiku')) return { input: 0.8, output: 4 };
-  if (modelId.includes('sonnet')) return { input: 3, output: 15 };
-  if (modelId.includes('glm-5-plus')) return { input: 1, output: 4 };
-  if (modelId.includes('glm')) return { input: 0.5, output: 2 };
-  return { input: 3, output: 15 };
-}
+// Multipliers cache vs input price (Anthropic-compatible)
+const CACHE_READ_MULT = 0.1;
+const CACHE_WRITE_MULT = 1.25;
 
-// Configuration
-const CONFIG = {
-  maxTokens: 200000, // default, overridden dynamically per model
+// ─── Config (statusline.config.json, optionnel) ───
+
+const DEFAULT_CONFIG = {
   progressBarWidth: 15,
-  showModel: true,
-  showVimMode: true,
-  showCache: true,
-  colors: {
-    low: 'green',
-    medium: 'yellow',
-    high: 'red'
-  },
+  models: {}, // ex: { "mimo-v2.6-flash": { "context": 200000, "pricing": { "input": 0.3, "output": 1.2 } } }
   vim: {
     enabled: true,
     showLabel: true,
-    activeText: 'vim',
-    inactiveText: 'normal',
-    colorWhenActive: 'green',
-    colorWhenInactive: 'red'
+    activeText: "vim",
+    inactiveText: "normal",
+    colorWhenActive: "green",
+    colorWhenInactive: "red",
   },
   cache: {
     enabled: true,
     showLabel: true,
-    format: 'percentage',
-    prefix: 'C:',
-    progressBar: {
-      enabled: false,
-      length: 10,
-      style: 'filled',
-      color: 'progressive',
-      background: 'none'
-    },
-    colorThresholds: {
-      low: 30,
-      medium: 60,
-      high: 90
-    }
-  }
+    format: "percentage",
+    prefix: "C:",
+    colorThresholds: { low: 30, medium: 60, high: 90 },
+  },
 };
 
-// ANSI Color codes
+function loadConfig() {
+  const homeDir = process.env.HOME || process.env.USERPROFILE;
+  const configPath = join(homeDir, ".claude", "statusline.config.json");
+  try {
+    if (existsSync(configPath)) {
+      const raw = JSON.parse(readFileSync(configPath, "utf-8"));
+      return {
+        ...DEFAULT_CONFIG,
+        ...raw,
+        vim: { ...DEFAULT_CONFIG.vim, ...(raw.vim || {}) },
+        cache: {
+          ...DEFAULT_CONFIG.cache,
+          ...(raw.cache || {}),
+          colorThresholds: {
+            ...DEFAULT_CONFIG.cache.colorThresholds,
+            ...(raw.cache?.colorThresholds || {}),
+          },
+        },
+        models: raw.models || {},
+      };
+    }
+  } catch { /* config invalide → défauts */ }
+  return DEFAULT_CONFIG;
+}
+
+const CONFIG = loadConfig();
+
+// ─── Colors ───
 const COLORS = {
   reset: '\x1b[0m',
   bold: '\x1b[1m',
@@ -150,290 +121,303 @@ const COLORS = {
   white: '\x1b[97m',
   gray: '\x1b[90m',
   orange: '\x1b[38;5;208m',
-  peach: '\x1b[38;5;213m'
+  peach: '\x1b[38;5;213m',
 };
 
-/**
- * Get current session ID and file
- */
-function getCurrentSessionFile() {
+// ─── Stdin payload ───
+
+function readStdin() {
+  return new Promise(resolve => {
+    if (process.stdin.isTTY) return resolve({});
+    let data = '';
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', c => { data += c; });
+    process.stdin.on('end', () => {
+      try { resolve(JSON.parse(data)); } catch { resolve({}); }
+    });
+    // Sécurité : ne jamais bloquer indéfiniment
+    setTimeout(() => resolve(data ? (() => { try { return JSON.parse(data); } catch { return {}; } })() : {}), 2000).unref?.();
+  });
+}
+
+// ─── Model resolution ───
+
+function getContextSize(modelId, contextWindowSize) {
+  // 1. Override config (l'utilisateur prime sur le payload)
+  const override = modelId && CONFIG.models[modelId]?.context;
+  if (override) return override;
+
+  // 2. Source autoritative : payload context_window
+  if (contextWindowSize && contextWindowSize > 0) return contextWindowSize;
+
+  if (!modelId) return 200000;
+
+  // 3. Suffix [1m]
+  if (modelId.includes('[1m]')) return 1000000;
+
+  // 4. Tables
+  if (MODEL_CONTEXT_SIZES[modelId] !== undefined) return MODEL_CONTEXT_SIZES[modelId];
+  for (const [key, size] of Object.entries(MODEL_CONTEXT_SIZES)) {
+    if (modelId.startsWith(key)) return size;
+  }
+
+  // 5. Patterns
+  if (modelId.includes('opus-4-6') || modelId.includes('opus-4.6')) return 1000000;
+  if (modelId.includes('glm-4-long')) return 1000000;
+  if (modelId.includes('opus') || modelId.includes('sonnet') ||
+      modelId.includes('haiku') || modelId.includes('glm')) return 200000;
+
+  return 200000;
+}
+
+function getPricing(modelId) {
+  if (!modelId) return null;
+
+  // Override config (modèles custom : mimo, proxies…)
+  const override = CONFIG.models[modelId]?.pricing;
+  if (override?.input !== undefined && override?.output !== undefined) return override;
+
+  const cleanId = modelId.replace(/\[1m\]/, '');
+  if (MODEL_PRICING[cleanId]) return MODEL_PRICING[cleanId];
+  for (const [key, pricing] of Object.entries(MODEL_PRICING)) {
+    if (modelId.startsWith(key)) return pricing;
+  }
+  if (modelId.includes('opus')) return { input: 15, output: 75 };
+  if (modelId.includes('haiku')) return { input: 0.8, output: 4 };
+  if (modelId.includes('sonnet')) return { input: 3, output: 15 };
+  if (modelId.includes('glm-5-plus')) return { input: 1, output: 4 };
+  if (modelId.includes('glm')) return { input: 0.5, output: 2 };
+
+  // Modèle custom inconnu → aucun prix fabricé
+  return null;
+}
+
+// ─── Transcript fallback ───
+
+function getCurrentSessionFile(payloadTranscriptPath) {
+  if (payloadTranscriptPath && existsSync(payloadTranscriptPath)) {
+    return payloadTranscriptPath;
+  }
   const homeDir = process.env.HOME || process.env.USERPROFILE;
   const projectsDir = join(homeDir, '.claude', 'projects');
-
   try {
-    const cwd = process.cwd();
-    const projectHash = cwd
-      .replace(/:/g, '-')
-      .replace(/[\/\\]/g, '-');
-
+    const projectHash = process.cwd().replace(/:/g, '-').replace(/[\/\\]/g, '-');
     const projectDir = join(projectsDir, projectHash);
-    if (!existsSync(projectDir)) {
-      return null;
-    }
-
+    if (!existsSync(projectDir)) return null;
     const files = readdirSync(projectDir)
       .filter(f => f.endsWith('.jsonl'))
-      .map(f => ({
-        path: join(projectDir, f),
-        mtime: statSync(join(projectDir, f)).mtime.getTime()
-      }))
+      .map(f => ({ path: join(projectDir, f), mtime: statSync(join(projectDir, f)).mtime.getTime() }))
       .sort((a, b) => b.mtime - a.mtime);
-
     return files.length > 0 ? files[0].path : null;
-  } catch (error) {
-    return null;
-  }
+  } catch { return null; }
 }
 
 /**
- * Read session duration from current session file
+ * Analyse le transcript : coût cumulé (avec pricing cache), durée,
+ * dernier usage (fallback contexte).
  */
-function getSessionDuration(sessionFile) {
-  if (!sessionFile || !existsSync(sessionFile)) {
-    return 0;
-  }
+function analyzeTranscript(sessionFile) {
+  const result = {
+    cost: null,
+    duration: 0,
+    lastUsage: null,
+    lastModel: null,
+  };
+  if (!sessionFile || !existsSync(sessionFile)) return result;
 
   try {
-    const content = readFileSync(sessionFile, 'utf-8');
-    const lines = content.trim().split('\n');
-
-    let firstTimestamp = null;
-    let lastTimestamp = null;
+    const lines = readFileSync(sessionFile, 'utf-8').trim().split('\n');
+    let firstTs = null, lastTs = null;
+    let cumCost = null;
 
     for (let i = 0; i < lines.length; i++) {
-      try {
-        const parsed = JSON.parse(lines[i]);
-        if (parsed.timestamp) {
-          if (!firstTimestamp) {
-            firstTimestamp = new Date(parsed.timestamp).getTime();
-          }
-          lastTimestamp = new Date(parsed.timestamp).getTime();
+      let parsed;
+      try { parsed = JSON.parse(lines[i]); } catch { continue; }
+
+      if (parsed.timestamp) {
+        const ts = new Date(parsed.timestamp).getTime();
+        if (!firstTs) firstTs = ts;
+        lastTs = ts;
+      }
+
+      if (parsed.isSidechain === true || parsed.isApiErrorMessage === true) continue;
+      const usage = parsed.message?.usage;
+      if (!usage) continue;
+
+      result.lastUsage = usage;
+      result.lastModel = parsed.message?.model || result.lastModel;
+
+      // Cumul du coût avec multiplicateurs cache (si pricing connu)
+      if (cumCost !== null || getPricing(parsed.message?.model)) {
+        const pricing = getPricing(parsed.message?.model) || getPricing(result.lastModel);
+        if (pricing) {
+          if (cumCost === null) cumCost = 0;
+          cumCost +=
+            ((usage.input_tokens || 0) * pricing.input +
+             (usage.cache_read_input_tokens || 0) * pricing.input * CACHE_READ_MULT +
+             (usage.cache_creation_input_tokens || 0) * pricing.input * CACHE_WRITE_MULT +
+             (usage.output_tokens || 0) * pricing.output) / 1000000;
         }
-      } catch {
-        continue;
       }
     }
 
-    if (firstTimestamp && lastTimestamp) {
-      return lastTimestamp - firstTimestamp;
-    }
-  } catch {
-    // Ignore
-  }
+    result.cost = cumCost;
+    if (firstTs && lastTs) result.duration = lastTs - firstTs;
+  } catch { /* ignore */ }
 
-  return 0;
+  return result;
 }
 
-/**
- * OPTIMIZED: Get latest token usage from transcript
- * Reads from end to find most recent entry faster
- */
-function getSessionTokens() {
-  const sessionFile = getCurrentSessionFile();
+// ─── Data assembly ───
 
-  if (!sessionFile || !existsSync(sessionFile)) {
-    return { current: 0, max: CONFIG.maxTokens, cost: 0, model: 'Claude', duration: 0, inputTokens: 0, cacheReadTokens: 0, cacheCreationTokens: 0 };
+function gatherData(payload) {
+  const modelId = payload.model?.id || '';
+  const modelDisplay = payload.model?.display_name || modelId || 'Claude';
+  const cw = payload.context_window || null;
+
+  let maxTokens = getContextSize(modelId, cw?.context_window_size);
+
+  // Usage courant : stdin d'abord, transcript ensuite
+  let usage = cw?.current_usage || null;
+  let source = cw ? 'stdin' : 'transcript';
+  let transcript = null;
+
+  const needTranscript =
+    !usage ||
+    !(payload.cost?.total_cost_usd > 0) ||
+    !(payload.cost?.total_duration_ms > 0);
+
+  if (needTranscript) {
+    transcript = analyzeTranscript(getCurrentSessionFile(payload.transcript_path));
+    if (!usage) usage = transcript.lastUsage;
   }
 
-  try {
-    const content = readFileSync(sessionFile, 'utf-8');
-    const lines = content.trim().split('\n');
-
-    // OPTIMIZATION: Read from end to find most recent entry with usage
-    let lastData = null;
-    for (let i = lines.length - 1; i >= 0; i--) {
-      try {
-        const parsed = JSON.parse(lines[i]);
-
-        // Skip sidechain and error messages
-        if (parsed.isSidechain === true || parsed.isApiErrorMessage === true) {
-          continue;
-        }
-
-        if (parsed.message?.usage) {
-          lastData = parsed;
-          break; // Found most recent, stop searching
-        }
-      } catch {
-        continue;
-      }
-    }
-
-    if (!lastData || !lastData.message?.usage) {
-      return { current: 0, max: CONFIG.maxTokens, cost: 0, model: 'Claude', duration: getSessionDuration(sessionFile), inputTokens: 0, cacheReadTokens: 0, cacheCreationTokens: 0 };
-    }
-
-    const usage = lastData.message.usage;
-
-    const inputTokens = usage.input_tokens || 0;
-    const cacheReadTokens = usage.cache_read_input_tokens || 0;
-    const cacheCreationTokens = usage.cache_creation_input_tokens || 0;
-    const outputTokens = usage.output_tokens || 0;
-    const totalTokens = inputTokens + cacheReadTokens + cacheCreationTokens; // Input only for context %
-
-    const model = lastData.message.model || 'Claude';
-
-    // Dynamic max tokens based on detected model
-    const maxTokens = getContextSizeForModel(model);
-
-    // Dynamic cost calculation based on model
-    const pricing = getPricingForModel(model);
-    const cost = ((inputTokens * pricing.input) / 1000000) + ((outputTokens * pricing.output) / 1000000);
-
-    return {
-      current: totalTokens,
-      max: maxTokens,
-      cost: cost,
-      model: model,
-      duration: getSessionDuration(sessionFile),
-      inputTokens: inputTokens,
-      cacheReadTokens: cacheReadTokens,
-      cacheCreationTokens: cacheCreationTokens
-    };
-  } catch (error) {
-    return { current: 0, max: CONFIG.maxTokens, cost: 0, model: 'Claude', duration: 0, inputTokens: 0, cacheReadTokens: 0, cacheCreationTokens: 0 };
+  // Contexte utilisé. Le % officiel fait foi ; les tokens affichés en sont
+  // dérivés (total_input_tokens du proxy est cumulé, pas le contexte réel).
+  let current = 0;
+  let usedPct = null;
+  if (cw && cw.used_percentage !== undefined && cw.used_percentage !== null) {
+    usedPct = cw.used_percentage;
+    current = Math.round((usedPct / 100) * maxTokens);
+  } else if (usage) {
+    current = (usage.input_tokens || 0) +
+              (usage.cache_read_input_tokens || 0) +
+              (usage.cache_creation_input_tokens || 0);
+    // Plafond réel des modèles : 200K ou 1M (jamais plus)
+    if (current > maxTokens) maxTokens = 1000000;
   }
+
+  const percentage = usedPct !== null
+    ? Math.min(100, Math.round(usedPct))
+    : Math.min(100, Math.round((current / maxTokens) * 100));
+
+  // Coût : officiel d'abord, estimation ensuite
+  let cost = null;
+  let costSource = null;
+  if (payload.cost?.total_cost_usd > 0) {
+    cost = payload.cost.total_cost_usd;
+    costSource = 'official';
+  } else if (transcript?.cost !== null && transcript?.cost !== undefined) {
+    cost = transcript.cost;
+    costSource = 'estimated';
+  }
+
+  // Durée : officiel d'abord, transcript ensuite
+  const duration = payload.cost?.total_duration_ms > 0
+    ? payload.cost.total_duration_ms
+    : (transcript?.duration || 0);
+
+  return {
+    modelId,
+    modelDisplay,
+    maxTokens,
+    current,
+    percentage,
+    usage: usage || {},
+    cost,
+    costSource,
+    duration,
+    source,
+    fastMode: payload.fast_mode === true,
+    effort: payload.effort?.level || null,
+    thinking: payload.thinking?.enabled === true,
+    vimMode: payload.vim?.mode || null,
+  };
 }
 
-/**
- * Get git information for current directory
- */
+// ─── Git ───
+
 function getGitInfo() {
   try {
     const branch = execSync('git rev-parse --abbrev-ref HEAD 2>nul || echo ""', {
-      cwd: process.cwd(),
-      encoding: 'utf-8',
-      shell: true,
-      windowsHide: true
+      cwd: process.cwd(), encoding: 'utf-8', shell: true, windowsHide: true
     }).trim();
 
     const root = execSync('git rev-parse --show-toplevel 2>nul || echo .', {
-      cwd: process.cwd(),
-      encoding: 'utf-8',
-      shell: true,
-      windowsHide: true
+      cwd: process.cwd(), encoding: 'utf-8', shell: true, windowsHide: true
     }).trim();
 
     const relative = execSync('git rev-parse --show-prefix 2>nul || echo .', {
-      cwd: process.cwd(),
-      encoding: 'utf-8',
-      shell: true,
-      windowsHide: true
+      cwd: process.cwd(), encoding: 'utf-8', shell: true, windowsHide: true
     }).trim().replace(/\\$/, '').replace(/\/$/, '') || '.';
 
     const status = execSync('git status --porcelain 2>nul', {
-      cwd: process.cwd(),
-      encoding: 'utf-8',
-      shell: true,
-      windowsHide: true
+      cwd: process.cwd(), encoding: 'utf-8', shell: true, windowsHide: true
     }).trim();
 
     const dirty = status.length > 0;
+    const lines = status.split('\n').filter(Boolean);
 
-    const stagedFiles = status.split('\n').filter(line =>
-      line && (line.startsWith('M') || line.startsWith('A') || line.startsWith('D') || line.startsWith('R'))
-    ).length;
+    const stagedFiles = lines.filter(l => 'MADR'.includes(l[0])).length;
+    const unstagedFiles = lines.filter(l => l[1] === 'M' || l[1] === 'D' || l.startsWith('??')).length;
 
-    const unstagedFiles = status.split('\n').filter(line =>
-      line && (line[1] === 'M' || line[1] === 'D' || line.startsWith('??'))
-    ).length;
+    const readStat = (cmd) => {
+      try {
+        const stat = execSync(cmd, { cwd: process.cwd(), encoding: 'utf-8', shell: true, windowsHide: true }).trim();
+        return {
+          ins: parseInt(stat.match(/(\d+) insertion/)?.[1] || 0, 10),
+          del: parseInt(stat.match(/(\d+) deletion/)?.[1] || 0, 10),
+        };
+      } catch { return { ins: 0, del: 0 }; }
+    };
 
-    let stagedInsertions = 0;
-    let stagedDeletions = 0;
-    try {
-      const stagedStat = execSync('git diff --staged --shortstat 2>nul', {
-        cwd: process.cwd(),
-        encoding: 'utf-8',
-        shell: true,
-        windowsHide: true
-      }).trim();
-
-      const stagedInsertMatch = stagedStat.match(/(\d+) insertion/);
-      const stagedDeleteMatch = stagedStat.match(/(\d+) deletion/);
-
-      if (stagedInsertMatch) stagedInsertions = parseInt(stagedInsertMatch[1], 10);
-      if (stagedDeleteMatch) stagedDeletions = parseInt(stagedDeleteMatch[1], 10);
-    } catch {
-      // Ignore
-    }
-
-    let unstagedInsertions = 0;
-    let unstagedDeletions = 0;
-    try {
-      const unstagedStat = execSync('git diff --shortstat 2>nul', {
-        cwd: process.cwd(),
-        encoding: 'utf-8',
-        shell: true,
-        windowsHide: true
-      }).trim();
-
-      const unstagedInsertMatch = unstagedStat.match(/(\d+) insertion/);
-      const unstagedDeleteMatch = unstagedStat.match(/(\d+) deletion/);
-
-      if (unstagedInsertMatch) unstagedInsertions = parseInt(unstagedInsertMatch[1], 10);
-      if (unstagedDeleteMatch) unstagedDeletions = parseInt(unstagedDeleteMatch[1], 10);
-    } catch {
-      // Ignore
-    }
+    const stagedStat = readStat('git diff --staged --shortstat 2>nul');
+    const unstagedStat = readStat('git diff --shortstat 2>nul');
 
     return {
-      branch,
-      root,
-      relative,
-      dirty,
-      stagedFiles,
-      unstagedFiles,
-      stagedInsertions,
-      stagedDeletions,
-      unstagedInsertions,
-      unstagedDeletions
+      branch, root, relative, dirty, stagedFiles, unstagedFiles,
+      stagedInsertions: stagedStat.ins, stagedDeletions: stagedStat.del,
+      unstagedInsertions: unstagedStat.ins, unstagedDeletions: unstagedStat.del,
     };
   } catch {
     return {
-      branch: '',
-      root: '.',
-      relative: '.',
-      dirty: false,
-      stagedFiles: 0,
-      unstagedFiles: 0,
-      stagedInsertions: 0,
-      stagedDeletions: 0,
-      unstagedInsertions: 0,
-      unstagedDeletions: 0
+      branch: '', root: '.', relative: '.', dirty: false,
+      stagedFiles: 0, unstagedFiles: 0,
+      stagedInsertions: 0, stagedDeletions: 0,
+      unstagedInsertions: 0, unstagedDeletions: 0,
     };
   }
 }
 
+// ─── Formatters ───
+
 function formatTokenCount(count) {
-  if (count >= 1000000) {
-    return `${(count / 1000000).toFixed(1)}M`;
-  }
-  if (count >= 1000) {
-    return `${(count / 1000).toFixed(0)}K`;
-  }
-  return count.toString();
+  if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
+  if (count >= 1000) return `${(count / 1000).toFixed(0)}K`;
+  return String(count);
 }
 
 function formatDuration(ms) {
   const minutes = Math.floor(ms / 60000);
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
-
-  if (hours > 0) {
-    return mins > 0 ? `${hours}h${mins}m` : `${hours}h`;
-  }
+  if (hours > 0) return mins > 0 ? `${hours}h${mins}m` : `${hours}h`;
   return `${mins}m`;
-}
-
-function extractModelVersion(modelName) {
-  const match = modelName.match(/(\d+\.\d+(?:\.\d+)?)/);
-  return match ? match[1] : null;
 }
 
 function createProgressBar(percentage, width = CONFIG.progressBarWidth) {
   const filled = Math.round((percentage / 100) * width);
   const empty = width - filled;
-
   const bar = '━'.repeat(filled) + (empty > 0 ? '╸' : '') + '─'.repeat(Math.max(0, empty - 1));
 
   let colorCode = '\x1b[92m';
@@ -444,205 +428,146 @@ function createProgressBar(percentage, width = CONFIG.progressBarWidth) {
   return `\x1b[1m${colorCode}[${bar}]\x1b[0m`;
 }
 
-function isVimModeActive() {
-  return !!(process.env.VIM || process.env.VIMRUNTIME);
-}
+function formatCachePercentage(usage) {
+  if (!CONFIG.cache.enabled) return '';
 
-function getCachePercentage(sessionData) {
-  if (!sessionData) {
-    return null;
-  }
+  const cacheRead = usage.cache_read_input_tokens || 0;
+  const cacheCreation = usage.cache_creation_input_tokens || 0;
+  const input = usage.input_tokens || 0;
+  const total = input + cacheRead + cacheCreation;
+  if (total === 0) return '';
 
-  const cacheRead = sessionData.cacheReadTokens || 0;
-  const cacheCreation = sessionData.cacheCreationTokens || 0;
-  const inputTokens = sessionData.inputTokens || 0;
-
-  if (inputTokens === 0 && cacheRead === 0 && cacheCreation === 0) {
-    return 0;
-  }
-
-  const totalTokens = inputTokens + cacheRead + cacheCreation;
-
-  if (totalTokens === 0) {
-    return 0;
-  }
-
-  const percentage = (cacheRead / totalTokens) * 100;
-
-  return percentage;
-}
-
-function formatVimMode(isActive) {
-  if (!CONFIG.vim.enabled) {
-    return '';
-  }
-
-  const activeText = CONFIG.vim.activeText;
-  const inactiveText = CONFIG.vim.inactiveText;
-
-  if (!CONFIG.vim.showLabel && !isActive) {
-    return '';
-  }
-
-  const bold = '\x1b[1m';
-
-  if (isActive) {
-    const colorCode = CONFIG.vim.colorWhenActive === 'green' ? '\x1b[92m' :
-                      CONFIG.vim.colorWhenActive === 'red' ? '\x1b[91m' :
-                      CONFIG.vim.colorWhenActive === 'yellow' ? '\x1b[93m' :
-                      CONFIG.vim.colorWhenActive === 'gray' ? '\x1b[90m' :
-                      '\x1b[92m';
-    return `${bold}${colorCode}${activeText}\x1b[0m`;
-  }
-
-  const colorCode = CONFIG.vim.colorWhenInactive === 'green' ? '\x1b[92m' :
-                    CONFIG.vim.colorWhenInactive === 'red' ? '\x1b[91m' :
-                    CONFIG.vim.colorWhenInactive === 'yellow' ? '\x1b[93m' :
-                    CONFIG.vim.colorWhenInactive === 'gray' ? '\x1b[90m' :
-                    '\x1b[90m';
-  return `${bold}${colorCode}${inactiveText}\x1b[0m`;
-}
-
-function formatCachePercentage(cachePercentage) {
-  if (!CONFIG.cache.enabled || cachePercentage === null || cachePercentage === undefined) {
-    return '';
-  }
+  const pct = (cacheRead / total) * 100;
 
   const parts = [];
-
   if (CONFIG.cache.showLabel) {
     parts.push(`\x1b[1m\x1b[90m${CONFIG.cache.prefix}\x1b[0m`);
   }
 
-  if (CONFIG.cache.format === 'percentage' || CONFIG.cache.format === 'both') {
-    const displayValue = cachePercentage.toFixed(1);
-
-    let colorCode;
-    const thresholds = CONFIG.cache.colorThresholds;
-
-    if (cachePercentage >= thresholds.high) {
-      colorCode = '\x1b[92m';
-    } else if (cachePercentage >= thresholds.medium) {
-      colorCode = '\x1b[93m';
-    } else {
-      colorCode = '\x1b[91m';
-    }
-
-    parts.push(`\x1b[1m${colorCode}${displayValue}%\x1b[0m`);
-  }
-
+  const t = CONFIG.cache.colorThresholds;
+  const colorCode = pct >= t.high ? '\x1b[92m' : pct >= t.medium ? '\x1b[93m' : '\x1b[91m';
+  parts.push(`\x1b[1m${colorCode}${pct.toFixed(1)}%\x1b[0m`);
   return parts.join(' ');
 }
 
 function formatGitChanges(gitInfo) {
   const parts = [];
 
-  if (gitInfo.stagedInsertions > 0 || gitInfo.stagedDeletions > 0 || gitInfo.stagedFiles > 0) {
-    const stagedParts = [];
-    if (gitInfo.stagedInsertions > 0) stagedParts.push(`\x1b[96m+${gitInfo.stagedInsertions}\x1b[0m`);
-    if (gitInfo.stagedDeletions > 0) stagedParts.push(`\x1b[96m-${gitInfo.stagedDeletions}\x1b[0m`);
-    if (gitInfo.stagedFiles > 0) stagedParts.push(`\x1b[96m[${gitInfo.stagedFiles}]\x1b[0m`);
-
-    if (stagedParts.length > 0) {
-      parts.push(stagedParts.join(' '));
-    }
+  if (gitInfo.stagedInsertions || gitInfo.stagedDeletions || gitInfo.stagedFiles) {
+    const p = [];
+    if (gitInfo.stagedInsertions) p.push(`\x1b[96m+${gitInfo.stagedInsertions}\x1b[0m`);
+    if (gitInfo.stagedDeletions) p.push(`\x1b[96m-${gitInfo.stagedDeletions}\x1b[0m`);
+    if (gitInfo.stagedFiles) p.push(`\x1b[96m[${gitInfo.stagedFiles}]\x1b[0m`);
+    if (p.length) parts.push(p.join(' '));
   }
 
-  if (gitInfo.unstagedInsertions > 0 || gitInfo.unstagedDeletions > 0 || gitInfo.unstagedFiles > 0) {
-    const unstagedParts = [];
-    if (gitInfo.unstagedInsertions > 0) unstagedParts.push(`\x1b[92m+${gitInfo.unstagedInsertions}\x1b[0m`);
-    if (gitInfo.unstagedDeletions > 0) unstagedParts.push(`\x1b[91m-${gitInfo.unstagedDeletions}\x1b[0m`);
-    if (gitInfo.unstagedFiles > 0) unstagedParts.push(`\x1b[93m[${gitInfo.unstagedFiles}]\x1b[0m`);
-
-    if (unstagedParts.length > 0) {
-      parts.push(unstagedParts.join(' '));
-    }
+  if (gitInfo.unstagedInsertions || gitInfo.unstagedDeletions || gitInfo.unstagedFiles) {
+    const p = [];
+    if (gitInfo.unstagedInsertions) p.push(`\x1b[92m+${gitInfo.unstagedInsertions}\x1b[0m`);
+    if (gitInfo.unstagedDeletions) p.push(`\x1b[91m-${gitInfo.unstagedDeletions}\x1b[0m`);
+    if (gitInfo.unstagedFiles) p.push(`\x1b[93m[${gitInfo.unstagedFiles}]\x1b[0m`);
+    if (p.length) parts.push(p.join(' '));
   }
 
-  return parts.length > 0 ? ` \x1b[90m▸\x1b[0m ${parts.join(' ')}` : '';
+  return parts.length ? ` \x1b[90m▸\x1b[0m ${parts.join(' ')}` : '';
 }
 
 function getProjectPath(gitInfo) {
-  if (!gitInfo.branch) {
-    return process.cwd().split(/[/\\]/).pop() || '.';
-  }
-
+  if (!gitInfo.branch) return process.cwd().split(/[/\\]/).pop() || '.';
   if (gitInfo.relative === '.' || gitInfo.relative === '') {
     return gitInfo.root.split(/[/\\]/).pop() || '.';
   }
-
-  const projectName = gitInfo.root.split(/[/\\]/).pop() || '.';
-  return `${projectName}/${gitInfo.relative}`;
+  return `${gitInfo.root.split(/[/\\]/).pop() || '.'}/${gitInfo.relative}`;
 }
 
-function main() {
+function formatVim(vimMode) {
+  if (!CONFIG.vim.enabled) return '';
+
+  // Fallback : env VIM (payload absent)
+  const mode = vimMode || ((process.env.VIM || process.env.VIMRUNTIME) ? 'vim' : null);
+  if (!mode && !CONFIG.vim.showLabel) return '';
+
+  const isActive = !!mode;
+  const text = isActive
+    ? (mode !== 'vim' ? mode : CONFIG.vim.activeText)
+    : CONFIG.vim.inactiveText;
+  const colorName = isActive ? CONFIG.vim.colorWhenActive : CONFIG.vim.colorWhenInactive;
+  const colorCode = colorName === 'green' ? '\x1b[92m'
+    : colorName === 'red' ? '\x1b[91m'
+    : colorName === 'yellow' ? '\x1b[93m'
+    : colorName === 'gray' ? '\x1b[90m'
+    : (isActive ? '\x1b[92m' : '\x1b[90m');
+
+  return `\x1b[1m${colorCode}${text}\x1b[0m`;
+}
+
+/** Badges modèles : fast / effort / thinking / 1M */
+function formatModelBadges(data) {
+  const badges = [];
+  if (data.fastMode) badges.push(`\x1b[1m\x1b[96mfast\x1b[0m`);
+  if (data.effort) {
+    const short = data.effort.length > 3 ? data.effort.slice(0, 3) : data.effort;
+    badges.push(`\x1b[1m\x1b[94meff:${short}\x1b[0m`);
+  }
+  if (data.thinking) badges.push(`\x1b[1m\x1b[95mthink\x1b[0m`);
+  return badges;
+}
+
+function formatCost(cost, source) {
+  if (cost === null || cost === undefined || cost <= 0) return '';
+  const value = cost < 0.01 ? cost.toFixed(4) : cost.toFixed(2);
+  // Estimation locale → orange pour distinguer du coût officiel
+  const color = source === 'estimated' ? '\x1b[38;5;208m' : '\x1b[92m';
+  const suffix = source === 'estimated' ? '~' : '';
+  return `\x1b[1m${color}${suffix}$${value}\x1b[0m`;
+}
+
+// ─── Main ───
+
+async function main() {
+  const payload = await readStdin();
+  const data = gatherData(payload);
   const gitInfo = getGitInfo();
-  const sessionData = getSessionTokens();
-  const { current, max, cost, model, duration, inputTokens, cacheReadTokens, cacheCreationTokens } = sessionData;
-  const percentage = Math.min(100, Math.round((current / max) * 100));
 
   const branch = gitInfo.branch || 'no-git';
   const dirtyMarker = gitInfo.dirty ? `\x1b[95m*\x1b[0m` : '';
   const projectPath = getProjectPath(gitInfo);
-  const progressBar = createProgressBar(percentage);
-  const currentDisplay = formatTokenCount(current);
-  const maxDisplay = formatTokenCount(max);
+  const progressBar = createProgressBar(data.percentage);
   const gitChanges = formatGitChanges(gitInfo);
 
-  const modelVersion = extractModelVersion(model);
-  const modelDisplay = modelVersion
-    ? `\x1b[38;5;213m${modelVersion}\x1b[0m`
+  const modelDisplay = `\x1b[38;5;213m${data.modelDisplay}\x1b[0m`;
+  const costDisplay = formatCost(data.cost, data.costSource);
+
+  // Badge 1M uniquement si fenêtre ≥ 1M
+  const contextBadge = data.maxTokens >= 1000000
+    ? ` \x1b[1m\x1b[95m1M\x1b[0m`
     : '';
 
-  let costDisplay = '';
-  if (cost > 0) {
-    if (cost < 0.01) {
-      costDisplay = `\x1b[92m$${cost.toFixed(4)}\x1b[0m`;
-    } else {
-      costDisplay = `\x1b[92m$${cost.toFixed(2)}\x1b[0m`;
-    }
-  }
-
-  const durationDisplay = duration > 0
-    ? `\x1b[90m${formatDuration(duration)}\x1b[0m`
+  const badges = formatModelBadges(data);
+  const cacheDisplay = formatCachePercentage(data.usage);
+  const durationDisplay = data.duration > 0
+    ? `\x1b[90m${formatDuration(data.duration)}\x1b[0m`
     : '';
+  const vimDisplay = formatVim(data.vimMode);
 
-  const vimModeActive = isVimModeActive();
-  const vimDisplay = formatVimMode(vimModeActive);
-
-  const cacheData = {
-    inputTokens: inputTokens,
-    cacheReadTokens: cacheReadTokens,
-    cacheCreationTokens: cacheCreationTokens
-  };
-  const cachePercentage = getCachePercentage(cacheData);
-  const cacheDisplay = formatCachePercentage(cachePercentage);
+  const sep = ` \x1b[90m▸\x1b[0m `;
 
   let statusline =
-    `\x1b[1m\x1b[97m${branch}${dirtyMarker}\x1b[0m` +
-    ` \x1b[90m▸\x1b[0m ` +
+    `\x1b[1m\x1b[97m${branch}${dirtyMarker}\x1b[0m` + sep +
     `\x1b[90m${projectPath}\x1b[0m` +
-    gitChanges +
-    (modelDisplay ? ` \x1b[90m▸\x1b[0m ${modelDisplay}` : '') +
-    (costDisplay ? ` \x1b[90m▸\x1b[0m ${costDisplay}` : '') +
-    ` \x1b[90m▸\x1b[0m ` +
-    progressBar +
-    ` \x1b[90m▸\x1b[0m ` +
-    `\x1b[1m${percentage}% (${currentDisplay}/${maxDisplay})\x1b[0m`;
+    gitChanges + sep +
+    modelDisplay +
+    (costDisplay ? sep + costDisplay : '') +
+    sep + progressBar +
+    sep + `\x1b[1m${data.percentage}% (${formatTokenCount(data.current)}/${formatTokenCount(data.maxTokens)})\x1b[0m${contextBadge}`;
 
-  if (vimDisplay) {
-    statusline += ` \x1b[90m▸\x1b[0m ${vimDisplay}`;
-  }
-
-  if (cacheDisplay) {
-    statusline += ` \x1b[90m▸\x1b[0m ${cacheDisplay}`;
-  }
-
-  if (durationDisplay) {
-    statusline += ` \x1b[90m▸\x1b[0m ${durationDisplay}`;
-  }
+  if (badges.length) statusline += sep + badges.join(' ');
+  if (cacheDisplay) statusline += sep + cacheDisplay;
+  if (vimDisplay) statusline += sep + vimDisplay;
+  if (durationDisplay) statusline += sep + durationDisplay;
 
   console.log(statusline);
+  process.exit(0);
 }
 
 main();

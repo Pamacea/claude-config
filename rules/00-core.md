@@ -21,8 +21,6 @@ C - CODE    │ Suivre patterns exacts
 T - TEST    │ Lint, typecheck, tests ciblés
 ```
 
-**Voir aussi:** `epct-methodology.skill`
-
 ---
 
 ##  Tableau de Décision

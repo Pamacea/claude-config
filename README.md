@@ -1,9 +1,9 @@
 # claude-config
 
-> **Configuration Claude Code + LLM Wiki** | Version 6.1.0
+> **Configuration Claude Code + LLM Wiki** | Version 6.2.0
 > Outils Pamacea (RTK, Aureus, Parry, Argus) + Base de connaissances persistante
 >
-> **Dernière mise à jour :** 2026-10-03
+> **Dernière mise à jour :** 2026-10-12
 
 ---
 
@@ -48,10 +48,8 @@ Le wiki résout le problème de l'amnésie entre sessions : chaque question, dé
 │
 ├── skills/                # Patterns demand-loaded (frontmatter YAML, à la racine)
 │   ├── INDEX.md           # Index — routing par metadata
-│   ├── nextjs/ rust/ ...  # 19 skills plats (enfants directs = découvrables)
-│   ├── standards/         # Standards techniques (.skill)
-│   ├── trigmem-*/         # TrigMem core (token budget)
-│   └── workflows/         # EPCT, MCP workflows
+│   ├── nextjs/ rust/ ...  # 14 skills plats (enfants directs = découvrables)
+│   ├── graphify/          # Knowledge graph — /graphify
 │
 ├── _wiki/                 # LLM Wiki — base de connaissances
 │   ├── _config/           #   Profil utilisateur, metadata standard
@@ -152,4 +150,4 @@ Chaque skill est chargé automatiquement quand ses tags correspondent au context
 
 ---
 
-**Licence:** MIT | **Auteur:** Pamace | **Version:** 6.1.0 (Config + LLM Wiki)
+**Licence:** MIT | **Auteur:** Pamace | **Version:** 6.2.0 (Config + LLM Wiki)

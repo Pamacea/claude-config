@@ -46,6 +46,4 @@ grepai search "similar functionality"
 
 ---
 
-**Voir aussi:** `delete-first.skill`
-
 *Version: 3.0.0 | Delete First Philosophy*

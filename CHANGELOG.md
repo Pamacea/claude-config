@@ -4,6 +4,34 @@
 
 ---
 
+## [2.3.0] - 2026-10-12
+
+### 🔄 Reset Config v6.2.0 — Plugins modernisés, statusline v1.0.0
+
+#### CLAUDE.md v6.2.0
+- **Reset global** : purge skills/rules legacy (trigmem, `.skill`, quality-gates fusionné dans `07-pre-commit-gates.md`)
+- **Frontière mémoire documentée** : ARGUS = résolutions (transactions), `_wiki/` = connaissance durable
+- **Plugins actifs** : ponytail, agent-skills, typescript-lsp, pyright-lsp, graphify + smite/strike conservés
+- **Hook RTK officiel** (`rtk hook claude`) à la place de la table de réécriture maison
+- **`MAX_THINKING_TOKENS=10000`** ajouté aux env
+
+#### Hooks
+- **`bash-pre-tool.cjs` réécrit** (137 → 70 lignes) : ne gère plus que la réécriture Aureus (`git commit` → `aureus commit`), RTK géré par le hook officiel
+- **Supprimés** : `pre-compact.cjs`, `context-reinject.cjs`, `mcp.json`
+
+#### Statusline v1.0.0
+- **Payload stdin officiel** lu en priorité (`context_window`, `cost`, `fast_mode`, `effort.level`, `thinking.enabled`, `vim.mode`), fallback transcript seulement si un champ est absent
+- **Coût** : officiel `$X` (vert) / estimé `~$X` (orange) avec pricing cache (read ×0.1, write ×1.25) ; aucun prix fabricé pour les modèles custom
+- **Badges** : `fast`, `eff:xxx`, `think`, `1M` (fenêtre ≥ 1M) ; `statusline.config.json` honorée (section `models` pour overrides context/pricing)
+- **Plafond modèles 200K/1M** : `used_percentage` fait foi, tokens affichés dérivés (`% × fenêtre`)
+
+#### Repo
+- **`settings.json.example` régénéré** depuis la config v6.2.0 (token masqué `xxx`)
+- **Skills** : `graphify` ajouté ; trigmem, standards, workflows, conventions supprimés (14 skills restants)
+- **README** : v6.2.0, arborescence à jour
+
+---
+
 ## [2.2.0] - 2026-10-03
 
 ### 🚀 Optimisation Globale — Concision, Skills à la Demande, MiMo v2.6

@@ -38,6 +38,26 @@ Verification:
 
 ---
 
+##  Gates par Type de Tâche
+
+| Type | Gates |
+|------|--------|
+| Feature | E1-E5 complétés |
+| Bug Fix | B1-B5 complétés |
+| Refactor | R1-R5 complétés |
+| Performance | P1-P5 complétés |
+| Security | S1-S5 complétés |
+
+### Universal Gates
+
+- [ ] Code compiles
+- [ ] Type checks pass
+- [ ] Lint passes
+- [ ] Tests pass
+- [ ] No regressions
+
+---
+
 ##  Checklist
 
 - [ ] Lint OK
@@ -49,6 +69,4 @@ Verification:
 
 ---
 
-**Voir aussi:** `quality-validation.skill`
-
-*Version: 3.0.0 | Pre-Commit Gates*
+*Version: 3.1.0 | Pre-Commit Gates (fusion quality-gates)*

@@ -45,6 +45,4 @@ src/
 
 ---
 
-**Voir aussi:** `project-conventions.skill`
-
 *Version: 3.0.0 | Project Conventions*

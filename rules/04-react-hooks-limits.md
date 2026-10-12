@@ -36,6 +36,4 @@ Over-engineered:      5+ hooks (refactor!)
 
 ---
 
-**Voir aussi:** `react-hooks.skill`
-
 *Version: 3.0.0 | React Hooks Standards*
